@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PLinkage.Models
+{
+    internal class Skill
+    {
+        public string SkillName { get; set; } = string.Empty;
+        public string SkillDescription { get; set; } = string.Empty;
+        public int SkillLevel { get; set; } = 0; // 0-5
+        public DateTime TimeAcquired { get; set; } = DateTime.Now;
+        public string OrganizationInvolved { get; set; } = string.Empty;
+        public int YearsOfExperience { get; set; } = 0;
+    }
+}
