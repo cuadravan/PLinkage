@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkage.Models
+namespace PLinkage.Domain.Models
 {
-    internal class Education
+    public class Education
     {
         public string CourseName { get; set; } = string.Empty;
         public string SchoolAttended { get; set; } = string.Empty;

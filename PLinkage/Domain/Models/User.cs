@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 
-namespace PLinkage.Models
+namespace PLinkage.Domain.Models
 {
-    internal class User
+    public class User
     {
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string UserName { get; set; } = string.Empty;
@@ -19,7 +19,7 @@ namespace PLinkage.Models
         public string UserGender { get; set; } = string.Empty;
         public string UserRole { get; set; } = string.Empty;
         public string UserStatus { get; set; } = string.Empty;
-        public List<Guid> OfferApplicationId { get; set; } = new List<Guid>;
+        public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
 
         // For Skill Providers
         public List<Education> Educations { get; set; } = new List<Education>();

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkage.Models
+namespace PLinkage.Domain.Models
 {
-    internal class Message
+    public class Message
     {
         public Guid MessageId { get; set; } = Guid.NewGuid();
         public Guid SenderId { get; set; } = Guid.Empty;

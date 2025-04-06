@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkage.Models
+namespace PLinkage.Domain.Models
 {
-    internal class Skill
+    public class Skill
     {
         public string SkillName { get; set; } = string.Empty;
         public string SkillDescription { get; set; } = string.Empty;

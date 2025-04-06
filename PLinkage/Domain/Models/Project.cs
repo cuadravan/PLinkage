@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkage.Models
+namespace PLinkage.Domain.Models
 {
-    internal class Project
+    public class Project
     {
         public Guid ProjectId { get; set; } = Guid.NewGuid();
         public Guid ProjectOwnerId { get; set; } = Guid.Empty;

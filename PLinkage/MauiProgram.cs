@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using PLinkage.Infrastructure.Services;
+using PLinkage.Domain.Interfaces;
+using PLinkage.ApplicationLayer.ViewModels;
 
 namespace PLinkage;
 
@@ -15,8 +18,15 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+        // Register services and viewmodels for DI
+        builder.Services.AddSingleton<ISessionService, SessionService>();
+        builder.Services.AddSingleton<AppShellViewModel>();
+
+        // Register your AppShell (so DI works there too)
+        builder.Services.AddSingleton<AppShell>();
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();

@@ -7,9 +7,41 @@
     Shell.FlyoutBehavior="Flyout"
     Title="PLinkage">
 
+    <!-- Flyout Header -->
+    <Shell.FlyoutHeader>
+        <StackLayout Padding="10">
+            <Label Text="Hello!" FontAttributes="Bold" FontSize="16"/>
+        </StackLayout>
+    </Shell.FlyoutHeader>
+
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" 
+        FlyoutItemIsVisible="False"/>
+
+    <!-- Admin Menu -->
+    <FlyoutItem Title="Admin Menu" IsVisible="{Binding IsAdmin}">
+        <ShellContent Route="MainPage" />        
+    </FlyoutItem>
+
+    <!-- Project Owner Menu -->
+    <FlyoutItem Title="Project Owner Menu" IsVisible="{Binding IsProjectOwner}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Project Owner Browse" IsVisible="{Binding IsProjectOwner}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <!-- Skill Provider Menu -->
+    <FlyoutItem Title="Skill Provider Menu" IsVisible="{Binding IsSkillProvider}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <!-- Common Menu -->
+    <FlyoutItem Title="Common Menu">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
 
 </Shell>

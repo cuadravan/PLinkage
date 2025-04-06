@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkage.Models
+namespace PLinkage.Domain.Models
 {
-    internal class OfferApplication
+    public class OfferApplication
     {
         public Guid OfferApplicationId { get; set; } = Guid.NewGuid();
         public Guid ProjectId { get; set; } = Guid.Empty;
