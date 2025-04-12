@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.RegisterPage"
+             Title="Register"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout 
+            Padding="10"
+            Spacing="20"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+
+            <Border 
+                StrokeThickness="2"
+                Stroke="#5A5A5A"
+                BackgroundColor="#5A5A5A"
+                Padding="10"
+                StrokeShape="Rectangle 20"
+                HorizontalOptions="Fill"
+                WidthRequest="700">
+
+                <VerticalStackLayout Spacing="20" Padding="10">
+
+                    <Label 
+                        Text="Register" 
+                        FontSize="24" 
+                        FontAttributes="Bold" 
+                        TextColor="White"
+                        HorizontalOptions="Center"/>
+
+                    <Grid ColumnDefinitions="*,*" RowSpacing="20" ColumnSpacing="20">
+                
+                        <VerticalStackLayout Grid.Column="0" Spacing="15" Margin="0,59,0,0">
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="First Name"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Last Name"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Email Address" Keyboard="Email"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Password" IsPassword="True"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Confirm Password" IsPassword="True"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="15">
+                            <Button Text="Upload Profile Photo" BackgroundColor="Gray" TextColor="White"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Birthdate"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Gender"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Location"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Mobile Number" Keyboard="Telephone"/>
+                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Role (Skill Provider or Project Owner)"/>
+                        </VerticalStackLayout>
+
+                    </Grid>
+
+                    <Button 
+                        Text="Register" 
+                        BackgroundColor="#007BFF" 
+                        TextColor="White" 
+                        HeightRequest="50"
+                        CornerRadius="10"
+                        HorizontalOptions="Center"
+                        WidthRequest="200"
+                        Clicked="OnBtnRegisterButtonClicked"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
