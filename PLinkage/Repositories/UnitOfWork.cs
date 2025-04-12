@@ -39,5 +39,18 @@ namespace PLinkage.Repositories
             await Messages.SaveChangesAsync();
             await OfferApplications.SaveChangesAsync();
         }
+
+        public async Task ReloadAsync()
+        {
+            Admin.Reload();
+            SkillProvider.Reload();
+            ProjectOwner.Reload();
+            Projects.Reload();
+            Messages.Reload();
+            OfferApplications.Reload();
+
+            await Task.CompletedTask;
+        }
+
     }
 }

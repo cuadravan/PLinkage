@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using PLinkage.Interfaces;
 
 namespace PLinkage.ViewModels
 {
-    public class AppShellViewModel : INotifyPropertyChanged
+    public partial class AppShellViewModel : ObservableObject
     {
         private readonly ISessionService _sessionService;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public AppShellViewModel(ISessionService sessionService)
         {
@@ -16,49 +13,20 @@ namespace PLinkage.ViewModels
             UpdateRoleProperties();
         }
 
-        private bool _isAdmin;
-        public bool IsAdmin
-        {
-            get => _isAdmin;
-            set
-            {
-                _isAdmin = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private string welcomeMessage;
 
-        private bool _isProjectOwner;
-        public bool IsProjectOwner
-        {
-            get => _isProjectOwner;
-            set
-            {
-                _isProjectOwner = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private bool isAdmin;
 
-        private bool _isSkillProvider;
-        public bool IsSkillProvider
-        {
-            get => _isSkillProvider;
-            set
-            {
-                _isSkillProvider = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private bool isProjectOwner;
 
-        private bool _isNotLoggedIn;
-        public bool IsNotLoggedIn
-        {
-            get => _isNotLoggedIn;
-            set
-            {
-                _isNotLoggedIn = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private bool isSkillProvider;
+
+        [ObservableProperty]
+        private bool isNotLoggedIn;
 
         public void UpdateRoleProperties()
         {
@@ -69,12 +37,16 @@ namespace PLinkage.ViewModels
             IsSkillProvider = role == UserRole.SkillProvider;
             IsNotLoggedIn = role == null;
 
-        }
+            if (IsNotLoggedIn)
+            {
+                WelcomeMessage = "Welcome to PLinkage!";
+            }
+            else
+            {
+                var user = _sessionService.GetCurrentUser();
+                WelcomeMessage = $"Welcome to PLinkage, {user?.UserFirstName}!";
+            }
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
-

@@ -1,9 +1,13 @@
-﻿namespace PLinkage.Interfaces
+﻿using PLinkage.Models;
+
+namespace PLinkage.Interfaces
 {
     public interface IUser
     {
         Guid UserId { get; }
+        string UserFirstName { get; }
         UserRole UserRole { get; }
+        CebuLocation? UserLocation { get; }
     }
 }
 

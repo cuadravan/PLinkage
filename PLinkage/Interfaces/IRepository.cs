@@ -8,6 +8,8 @@
         Task UpdateAsync(T entity);
         Task DeleteAsync(Guid id);
         Task SaveChangesAsync();
+
+        Task Reload();
     }
 
 

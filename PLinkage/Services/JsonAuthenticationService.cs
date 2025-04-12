@@ -5,27 +5,20 @@ namespace PLinkage.Services
 {
     public class JsonAuthenticationService : IAuthenticationService
     {
-        private readonly IRepository<SkillProvider> _skillProviderRepo;
-        private readonly IRepository<ProjectOwner> _projectOwnerRepo;
-        private readonly IRepository<Admin> _adminRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
 
-        public JsonAuthenticationService(
-            IRepository<SkillProvider> skillProviderRepo,
-            IRepository<ProjectOwner> projectOwnerRepo,
-            IRepository<Admin> adminRepo,
-            ISessionService sessionService)
+        public JsonAuthenticationService(IUnitOfWork unitOfWork, ISessionService sessionService)
         {
-            _skillProviderRepo = skillProviderRepo;
-            _projectOwnerRepo = projectOwnerRepo;
-            _adminRepo = adminRepo;
+            _unitOfWork = unitOfWork;
             _sessionService = sessionService;
         }
 
         public async Task<IUser?> LoginAsync(string email, string password)
         {
-            // Try SkillProvider
-            var skillProviders = await _skillProviderRepo.GetAllAsync();
+            await _unitOfWork.ReloadAsync();
+
+            var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
             var skillProvider = skillProviders
                 .FirstOrDefault(u => u.UserEmail == email && u.UserPassword == password);
 
@@ -36,7 +29,7 @@ namespace PLinkage.Services
             }
 
             // Try ProjectOwner
-            var projectOwners = await _projectOwnerRepo.GetAllAsync();
+            var projectOwners = await _unitOfWork.ProjectOwner.GetAllAsync();
             var projectOwner = projectOwners
                 .FirstOrDefault(u => u.UserEmail == email && u.UserPassword == password);
 
@@ -47,7 +40,7 @@ namespace PLinkage.Services
             }
 
             // Try Admin
-            var admins = await _adminRepo.GetAllAsync();
+            var admins = await _unitOfWork.Admin.GetAllAsync();
             var admin = admins
                 .FirstOrDefault(u => u.UserEmail == email && u.UserPassword == password);
 

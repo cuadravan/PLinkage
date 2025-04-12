@@ -13,6 +13,12 @@ namespace PLinkage.Services
 
         public async Task NavigateToAsync(string route, IDictionary<string, object>? parameters = null)
         {
+            if (!route.StartsWith("/") && !route.StartsWith("///"))
+            {
+                // Assume it's a Shell visual element if declared in XAML
+                route = "///" + route;
+            }
+
             if (parameters == null)
                 await Shell.Current.GoToAsync(route);
             else

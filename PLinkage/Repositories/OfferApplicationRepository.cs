@@ -13,11 +13,27 @@ namespace PLinkage.Repositories
         {
             string projectPath = AppDomain.CurrentDomain.BaseDirectory;
             string jsonFolderPath = Path.GetFullPath(Path.Combine(projectPath, @"..\..\..\..\..\json"));
+            // Ensure the directory exists
+            Directory.CreateDirectory(jsonFolderPath);
+
             _filePath = Path.Combine(jsonFolderPath, "OfferApplications.txt");
 
-            _data = File.Exists(_filePath)
-                ? JsonConvert.DeserializeObject<List<OfferApplication>>(File.ReadAllText(_filePath)) ?? new()
-                : new();
+            // Ensure file exists, if not, create it with an empty array
+            if (!File.Exists(_filePath))
+            {
+                File.WriteAllText(_filePath, "[]");
+            }
+
+            // Try to deserialize
+            try
+            {
+                var json = File.ReadAllText(_filePath);
+                _data = JsonConvert.DeserializeObject<List<OfferApplication>>(json) ?? new List<OfferApplication>();
+            }
+            catch
+            {
+                _data = new List<OfferApplication>(); // fallback on corruption
+            }
         }
 
         public Task<List<OfferApplication>> GetAllAsync()
@@ -59,6 +75,15 @@ namespace PLinkage.Repositories
         {
             var json = JsonConvert.SerializeObject(_data, Formatting.Indented);
             await File.WriteAllTextAsync(_filePath, json);
+        }
+
+        public async Task Reload()
+        {
+            if (File.Exists(_filePath))
+            {
+                var json = File.ReadAllText(_filePath);
+                _data = JsonConvert.DeserializeObject<List<OfferApplication>>(json) ?? new();
+            }
         }
     }
 }

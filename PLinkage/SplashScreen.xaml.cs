@@ -26,7 +26,7 @@ namespace PLinkage
 
             await Task.Delay(100);
 
-            await Shell.Current.GoToAsync(nameof(LoginView));
+            await Shell.Current.GoToAsync("//LoginView");
         }
     }
 }

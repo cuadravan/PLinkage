@@ -15,36 +15,49 @@
             <Border 
                 StrokeThickness="2"
                 Stroke="#5A5A5A" 
-                BackgroundColor="#5A5A5A" 
+                BackgroundColor="#F8F8F8" 
                 Padding="25" 
                 StrokeShape="Rectangle 20"
                 HorizontalOptions="Fill"
-                WidthRequest="300">
-                <VerticalStackLayout 
-                    Spacing="20">
+                WidthRequest="350">
+
+                <VerticalStackLayout Spacing="25">
 
                     <Label
-                        Text="Sign in"
-                        FontSize="26"
+                        Text="Sign In"
+                        FontSize="28"
                         FontAttributes="Bold"
-                        TextColor="White"
-                        HorizontalTextAlignment="Center"/>
+                        TextColor="#333"
+                        HorizontalOptions="Center" />
 
                     <Entry
                         x:Name="EmailEntry"
                         Placeholder="Email Address"
                         Keyboard="Email"
                         BackgroundColor="White"
-                        HeightRequest="55"  
-                        FontSize="14"/>
+                        HeightRequest="50"  
+                        FontSize="14"
+                        HorizontalOptions="Fill" 
+                        Text="{Binding Email}"/>
 
                     <Entry
                         x:Name="PasswordEntry"
                         Placeholder="Password"
                         IsPassword="True"
                         BackgroundColor="White"
-                        HeightRequest="55"
-                        FontSize="14"/>
+                        HeightRequest="50"
+                        FontSize="14"
+                        HorizontalOptions="Fill" 
+                        Text="{Binding Password}"/>
+
+                    <!-- Error Message Label -->
+                    <Label
+                        Text="{Binding ErrorMessage}"
+                        TextColor="Red"
+                        FontSize="13"
+                        FontAttributes="Italic"
+                        HorizontalOptions="Start" />
+
 
                     <Button
                         Text="Login"
@@ -52,16 +65,21 @@
                         TextColor="White"
                         HeightRequest="50"
                         CornerRadius="10"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        Command="{Binding LoginCommand}"
+                        HorizontalOptions="Fill" />
 
                     <Button
                         Text="Register"
                         Command="{Binding GoToRegisterCommand}"
-                        BackgroundColor="Gray"
+                        BackgroundColor="#6C757D"
                         TextColor="White"
                         HeightRequest="50"
                         CornerRadius="10"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Fill" />
 
                 </VerticalStackLayout>
             </Border>

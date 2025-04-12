@@ -12,5 +12,6 @@ namespace PLinkage.Interfaces
         IRepository<OfferApplication> OfferApplications { get; }
 
         Task SaveChangesAsync();
+        Task ReloadAsync();
     }
 }

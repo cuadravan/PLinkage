@@ -1,0 +1,20 @@
+[
+  {
+    "UserId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "UserFirstName": "Van",
+    "UserLastName": "Cuadra",
+    "UserEmail": "vancuadra@gmail.com",
+    "UserPassword": "87654321",
+    "UserPhone": "09177805163",
+    "UserLocation": 27,
+    "UserBirthDate": "2025-04-12T00:00:00+08:00",
+    "UserGender": "Male",
+    "UserRole": 0,
+    "UserStatus": "",
+    "OfferApplicationId": [],
+    "Educations": [],
+    "Skills": [],
+    "UserRating": 0.0,
+    "JoinedOn": "2025-04-12T15:08:13.3629424+08:00"
+  }
+]

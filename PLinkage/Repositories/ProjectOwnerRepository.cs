@@ -13,11 +13,27 @@ namespace PLinkage.Repositories
         {
             string projectPath = AppDomain.CurrentDomain.BaseDirectory;
             string jsonFolderPath = Path.GetFullPath(Path.Combine(projectPath, @"..\..\..\..\..\json"));
-            _filePath = Path.Combine(jsonFolderPath, "Users.txt");
+            // Ensure the directory exists
+            Directory.CreateDirectory(jsonFolderPath);
 
-            _data = File.Exists(_filePath)
-                ? JsonConvert.DeserializeObject<List<ProjectOwner>>(File.ReadAllText(_filePath)) ?? new()
-                : new();
+            _filePath = Path.Combine(jsonFolderPath, "ProjectOwner.txt");
+
+            // Ensure file exists, if not, create it with an empty array
+            if (!File.Exists(_filePath))
+            {
+                File.WriteAllText(_filePath, "[]");
+            }
+
+            // Try to deserialize
+            try
+            {
+                var json = File.ReadAllText(_filePath);
+                _data = JsonConvert.DeserializeObject<List<ProjectOwner>>(json) ?? new List<ProjectOwner>();
+            }
+            catch
+            {
+                _data = new List<ProjectOwner>(); // fallback on corruption
+            }
         }
 
         public Task<List<ProjectOwner>> GetAllAsync() => Task.FromResult(_data);
@@ -49,6 +65,15 @@ namespace PLinkage.Repositories
         {
             var json = JsonConvert.SerializeObject(_data, Formatting.Indented);
             await File.WriteAllTextAsync(_filePath, json);
+        }
+
+        public async Task Reload()
+        {
+            if (File.Exists(_filePath))
+            {
+                var json = File.ReadAllText(_filePath);
+                _data = JsonConvert.DeserializeObject<List<ProjectOwner>>(json) ?? new();
+            }
         }
     }
 }
