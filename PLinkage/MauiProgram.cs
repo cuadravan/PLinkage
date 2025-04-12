@@ -26,12 +26,6 @@ public static class MauiProgram
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
         builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
 		builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddTransient<IRepository<Admin>, AdminRepository>();
-        builder.Services.AddTransient<IRepository<ProjectOwner>, ProjectOwnerRepository>();
-        builder.Services.AddTransient<IRepository<SkillProvider>, SkillProviderRepository>();
-        builder.Services.AddTransient<IRepository<Project>, ProjectRepository>();
-        builder.Services.AddTransient<IRepository<Message>, MessageRepository>();
-        builder.Services.AddTransient<IRepository<OfferApplication>, OfferApplicationRepository>();
 
 
 

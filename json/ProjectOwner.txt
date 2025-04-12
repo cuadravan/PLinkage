@@ -52,5 +52,23 @@
     "EmployedProjectId": [],
     "OwnedProjectId": [],
     "UserMessagesId": []
+  },
+  {
+    "UserId": "0ae26d04-7c7a-4fff-a354-f65803e9f5ef",
+    "UserFirstName": "Van",
+    "UserLastName": "Cuadra",
+    "UserEmail": "cuadrakristian@gmail.com",
+    "UserPassword": "12345678",
+    "UserPhone": "09177805163",
+    "UserLocation": 30,
+    "UserBirthDate": "2025-04-12T00:00:00+08:00",
+    "UserGender": "Male",
+    "UserRole": 1,
+    "UserStatus": "",
+    "JoinedOn": "2025-04-12T15:42:36.8430959+08:00",
+    "OfferApplicationId": [],
+    "EmployedProjectId": [],
+    "OwnedProjectId": [],
+    "UserMessagesId": []
   }
 ]

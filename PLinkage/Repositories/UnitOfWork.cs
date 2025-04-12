@@ -12,29 +12,21 @@ namespace PLinkage.Repositories
         public IRepository<Message> Messages { get; }
         public IRepository<OfferApplication> OfferApplications { get; }
 
-        public UnitOfWork(
-            IRepository<Admin> admin,
-            IRepository<ProjectOwner> projectOwner,
-            IRepository<SkillProvider> skillProvider,
-            IRepository<Project> projects,
-            IRepository<Message> messages,
-            IRepository<OfferApplication> offerApplications)
+        public UnitOfWork()
         {
-            Admin = admin;
-            ProjectOwner = projectOwner;
-            SkillProvider = skillProvider;
-            Projects = projects;
-            Messages = messages;
-            OfferApplications = offerApplications;
+            Admin = new JsonRepository<Admin>("Admin");
+            ProjectOwner = new JsonRepository<ProjectOwner>("ProjectOwner");
+            SkillProvider = new JsonRepository<SkillProvider>("SkillProvider");
+            Projects = new JsonRepository<Project>("Projects");
+            Messages = new JsonRepository<Message>("Messages");
+            OfferApplications = new JsonRepository<OfferApplication>("OfferApplications");
         }
 
         public async Task SaveChangesAsync()
         {
-            // Optional: If your repos buffer changes, commit here.
-            // For now, call SaveChangesAsync on each in case they need it.
             await Admin.SaveChangesAsync();
-            await SkillProvider.SaveChangesAsync();
             await ProjectOwner.SaveChangesAsync();
+            await SkillProvider.SaveChangesAsync();
             await Projects.SaveChangesAsync();
             await Messages.SaveChangesAsync();
             await OfferApplications.SaveChangesAsync();
@@ -43,14 +35,13 @@ namespace PLinkage.Repositories
         public async Task ReloadAsync()
         {
             Admin.Reload();
-            SkillProvider.Reload();
             ProjectOwner.Reload();
+            SkillProvider.Reload();
             Projects.Reload();
             Messages.Reload();
             OfferApplications.Reload();
 
             await Task.CompletedTask;
         }
-
     }
 }
