@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using Microsoft.Maui.Controls;
+using PLinkage.Views;
 
 namespace PLinkage
 {
@@ -19,9 +20,13 @@ namespace PLinkage
             await LogoImage.ScaleTo(1.0, 300);
             await Tagline.FadeTo(1, 800);
             await Task.Delay(2000);
+            await this.FadeTo(0, 400); // fade out splash
 
-            // Swap to AppShell
-            Application.Current.MainPage = App.ServiceProvider.GetService<AppShell>();
+            Application.Current.MainPage = App.ServiceProvider.GetRequiredService<AppShell>();
+
+            await Task.Delay(100);
+
+            await Shell.Current.GoToAsync(nameof(LoginView));
         }
     }
 }

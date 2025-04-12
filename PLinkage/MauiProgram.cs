@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using PLinkage.Interfaces;
 using PLinkage.Services;
 using PLinkage.ViewModels;
@@ -12,18 +13,22 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+			.UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-        // Register services and viewmodels for DI
         builder.Services.AddSingleton<ISessionService, SessionService>();
-        builder.Services.AddSingleton<AppShellViewModel>();
+		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
+        
 
-        // Register your AppShell (so DI works there too)
+        builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
+
+        builder.Services.AddSingleton<AppShellViewModel>();
+        builder.Services.AddTransient<LoginViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

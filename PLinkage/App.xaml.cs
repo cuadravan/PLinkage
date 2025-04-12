@@ -12,7 +12,6 @@
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            // Return a temporary window with the splash screen
             return new Window(new SplashScreenPage());
         }
     }

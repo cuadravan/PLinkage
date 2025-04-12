@@ -3,7 +3,7 @@
     x:Class="PLinkage.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:PLinkage"
+    xmlns:views="clr-namespace:PLinkage.Views;assembly=PLinkage"
     Shell.FlyoutBehavior="Flyout"
     Title="PLinkage">
 
@@ -16,11 +16,11 @@
     </Shell.FlyoutHeader>
 
     <ShellContent
-        Title="LandingPage"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" 
-        FlyoutItemIsVisible="False"/>
-
+        Title="Invisible"
+        ContentTemplate="{DataTemplate views:BlankPage}"
+        Route="Startup"
+        FlyoutItemIsVisible="False" />
+    
     <!-- Admin Menu -->
     <FlyoutItem Title="Admin Menu" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="MainPage" />        

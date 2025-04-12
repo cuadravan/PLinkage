@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.RegisterPage"
-             Title="Register"
+             x:Class="PLinkage.Views.RegisterView"
+             Title="Register Page"
              BackgroundColor="White">
 
     <ScrollView>
@@ -58,8 +58,7 @@
                         HeightRequest="50"
                         CornerRadius="10"
                         HorizontalOptions="Center"
-                        WidthRequest="200"
-                        Clicked="OnBtnRegisterButtonClicked"/>
+                        WidthRequest="200"/>
 
                 </VerticalStackLayout>
             </Border>
