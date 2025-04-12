@@ -2,14 +2,18 @@
 {
     public partial class App : Application
     {
-        public App()
+        public static IServiceProvider ServiceProvider { get; private set; }
+
+        public App(IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            ServiceProvider = serviceProvider;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            // Return a temporary window with the splash screen
+            return new Window(new SplashScreenPage());
         }
     }
 }
