@@ -1,5 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
-using PLinkage.ApplicationLayer.ViewModels;
+using PLinkage.ViewModels;
 
 namespace PLinkage
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using PLinkage.Infrastructure.Services;
-using PLinkage.Domain.Interfaces;
-using PLinkage.ApplicationLayer.ViewModels;
+using PLinkage.Interfaces;
+using PLinkage.Services;
+using PLinkage.ViewModels;
 
 namespace PLinkage;
 

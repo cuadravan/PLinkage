@@ -66,9 +66,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ApplicationLayer\Services\" />
-	  <Folder Include="Domain\Services\" />
-	  <Folder Include="Presentation\Views\" />
+	  <Folder Include="Views\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="SplashScreen.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

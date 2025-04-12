@@ -10,12 +10,13 @@
     <!-- Flyout Header -->
     <Shell.FlyoutHeader>
         <StackLayout Padding="10">
-            <Label Text="Hello!" FontAttributes="Bold" FontSize="16"/>
+            <Image Source="plinkage_logo.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+            <Label Text="Welcome to PLinkage!" FontAttributes="Bold" FontSize="16"/>
         </StackLayout>
     </Shell.FlyoutHeader>
 
     <ShellContent
-        Title="Home"
+        Title="LandingPage"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" 
         FlyoutItemIsVisible="False"/>
@@ -26,21 +27,53 @@
     </FlyoutItem>
 
     <!-- Project Owner Menu -->
-    <FlyoutItem Title="Project Owner Menu" IsVisible="{Binding IsProjectOwner}">
+    <FlyoutItem Title="Home" IsVisible="{Binding IsProjectOwner}">
         <ShellContent Route="MainPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Project Owner Browse" IsVisible="{Binding IsProjectOwner}">
+    <FlyoutItem Title="My Profile" IsVisible="{Binding IsProjectOwner}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsProjectOwner}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Sent Applications and Offers" IsVisible="{Binding IsProjectOwner}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="My Messages" IsVisible="{Binding IsProjectOwner}">
         <ShellContent Route="MainPage" />
     </FlyoutItem>
 
     <!-- Skill Provider Menu -->
-    <FlyoutItem Title="Skill Provider Menu" IsVisible="{Binding IsSkillProvider}">
+    <FlyoutItem Title="Home" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="MainPage" />
     </FlyoutItem>
 
-    <!-- Common Menu -->
-    <FlyoutItem Title="Common Menu">
+    <FlyoutItem Title="My Profile" IsVisible="{Binding IsSkillProvider}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Browse Projects" IsVisible="{Binding IsSkillProvider}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="My Applications and Offers" IsVisible="{Binding IsSkillProvider}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="My Messages" IsVisible="{Binding IsSkillProvider}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <!-- Not Logged In -->
+    <FlyoutItem Title="Login" IsVisible="{Binding IsNotLoggedIn}">
+        <ShellContent Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Register" IsVisible="{Binding IsNotLoggedIn}">
         <ShellContent Route="MainPage" />
     </FlyoutItem>
 
