@@ -15,12 +15,17 @@
         </StackLayout>
     </Shell.FlyoutHeader>
 
-    <ShellContent
-        Title="Invisible"
-        ContentTemplate="{DataTemplate views:BlankPage}"
-        Route="Startup"
-        FlyoutItemIsVisible="False" />
-    
+    <!-- Not Logged In -->
+    <FlyoutItem Title="Main Menu" IsVisible="{Binding IsNotLoggedIn}">
+        <ShellContent Route="LoginView" 
+                  ContentTemplate="{DataTemplate views:LoginView}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Register" IsVisible="{Binding IsNotLoggedIn}">
+        <ShellContent Route="RegisterView" 
+                  ContentTemplate="{DataTemplate views:RegisterView}" />
+    </FlyoutItem>
+
     <!-- Admin Menu -->
     <FlyoutItem Title="Admin Menu" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="MainPage" />        
@@ -77,16 +82,5 @@
         <ShellContent Route="SkillProviderHomeView" 
         ContentTemplate="{DataTemplate views:SkillProviderHomeView}" />
     </FlyoutItem>-->
-
-    <!-- Not Logged In -->
-    <FlyoutItem Title="Login" IsVisible="{Binding IsNotLoggedIn}">
-        <ShellContent Route="LoginView" 
-                      ContentTemplate="{DataTemplate views:LoginView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Register" IsVisible="{Binding IsNotLoggedIn}">
-        <ShellContent Route="RegisterView" 
-                      ContentTemplate="{DataTemplate views:RegisterView}" />
-    </FlyoutItem>
 
 </Shell>

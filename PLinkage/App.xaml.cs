@@ -1,18 +1,21 @@
-﻿namespace PLinkage
+﻿using PLinkage.Interfaces;
+
+namespace PLinkage
 {
     public partial class App : Application
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
+        private readonly AppShell _appShell;
 
-        public App(IServiceProvider serviceProvider)
+        public App(AppShell appShell)
         {
             InitializeComponent();
-            ServiceProvider = serviceProvider;
+            _appShell = appShell;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new SplashScreenPage());
+            return new Window(_appShell);
         }
     }
+
 }

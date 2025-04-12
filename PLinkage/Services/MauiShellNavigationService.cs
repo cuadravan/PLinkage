@@ -10,12 +10,14 @@ namespace PLinkage.Services
         {
             _sessionService = sessionService;
         }
-
+        // The reason why we use 3 dash is because the route is instantiated in the shell and in separate
+        // To cater to times when a back button is needed, we will need to hardcode it
+        // Idea: Remember previous and current page to always know which page to go back to
+        // Also remember: previousProject, previousSkillProvider
         public async Task NavigateToAsync(string route, IDictionary<string, object>? parameters = null)
         {
             if (!route.StartsWith("/") && !route.StartsWith("///"))
             {
-                // Assume it's a Shell visual element if declared in XAML
                 route = "///" + route;
             }
 

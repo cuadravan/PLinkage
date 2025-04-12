@@ -26,10 +26,9 @@ public static class MauiProgram
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
         builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
 		builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+		builder.Services.AddTransient<IStartupService, StartupService>();
 
-
-
-
+        builder.Services.AddTransient<SplashScreenPage>();
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransient<LoginView>();
