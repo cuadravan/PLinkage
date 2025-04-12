@@ -4,11 +4,6 @@ namespace PLinkage.Views
 {
     public partial class LoginView : ContentPage
     {
-        public LoginView() : this(App.ServiceProvider.GetRequiredService<LoginViewModel>())
-
-        {
-        }
-
         public LoginView(LoginViewModel vm)
         {
             InitializeComponent();

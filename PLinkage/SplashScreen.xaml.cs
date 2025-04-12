@@ -26,7 +26,9 @@ namespace PLinkage
 
             await Task.Delay(100);
 
-            await Shell.Current.GoToAsync("//LoginView");
+            await Shell.Current.Navigation.PushAsync(App.ServiceProvider.GetRequiredService<LoginView>());
+
+
         }
     }
 }

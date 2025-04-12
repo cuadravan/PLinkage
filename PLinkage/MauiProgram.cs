@@ -4,7 +4,7 @@ using PLinkage.Interfaces;
 using PLinkage.Services;
 using PLinkage.ViewModels;
 using PLinkage.Repositories;
-using PLinkage.Models;
+using PLinkage.Views;
 
 namespace PLinkage;
 
@@ -32,6 +32,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
+        builder.Services.AddTransient<LoginView>();
+
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

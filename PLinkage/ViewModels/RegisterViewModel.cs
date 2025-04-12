@@ -4,11 +4,12 @@ using PLinkage.Interfaces;
 using PLinkage.Models;
 using PLinkage.Views;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace PLinkage.ViewModels
 {
-    public partial class RegisterViewModel : ObservableObject
+    public partial class RegisterViewModel : ObservableValidator
     {
         private readonly INavigationService _navigationService;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,21 +18,50 @@ namespace PLinkage.ViewModels
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
+
+            ValidateAllProperties();
         }
 
-        [ObservableProperty] private string firstName;
-        [ObservableProperty] private string lastName;
-        [ObservableProperty] private string email;
-        [ObservableProperty] private string password;
-        [ObservableProperty] private string confirmPassword;
-        [ObservableProperty] private DateTime birthdate = DateTime.Now;
-        [ObservableProperty] private bool isMale;
-        [ObservableProperty] private bool isFemale;
-        [ObservableProperty] private string mobileNumber;
-        [ObservableProperty] private CebuLocation? selectedLocation;
-        [ObservableProperty] private string selectedRole;
+        [ObservableProperty, Required(ErrorMessage = "First Name is required"),
+         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
+        private string firstName;
 
-        [ObservableProperty] private string errorMessage; // 👈 error display
+        [ObservableProperty, Required(ErrorMessage = "Last Name is required"),
+         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid Last Name.")]
+        private string lastName;
+
+        [ObservableProperty, Required(ErrorMessage = "Email is required"),
+         EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
+        private string email;
+
+        [ObservableProperty, Required(ErrorMessage = "Password is required"),
+         MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
+        private string password;
+
+        [ObservableProperty, Required(ErrorMessage = "Confirm Password is required")]
+        private string confirmPassword;
+
+        [ObservableProperty]
+        private DateTime birthdate = DateTime.Now;
+
+        [ObservableProperty]
+        private bool isMale;
+
+        [ObservableProperty]
+        private bool isFemale;
+
+        [ObservableProperty,
+         RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
+        private string mobileNumber;
+
+        [ObservableProperty]
+        private CebuLocation? selectedLocation;
+
+        [ObservableProperty, Required(ErrorMessage = "Please select a role.")]
+        private string selectedRole;
+
+        [ObservableProperty]
+        private string errorMessage;
 
         public ObservableCollection<CebuLocation> CebuLocations { get; } =
             new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
@@ -44,19 +74,20 @@ namespace PLinkage.ViewModels
 
         private bool ValidateForm()
         {
-            ErrorMessage = string.Empty; // Reset message
+            ErrorMessage = string.Empty;
+            ValidateAllProperties();
 
-            if (!Regex.IsMatch(FirstName ?? "", @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
-                return SetError("Please enter a valid First Name.");
+            if (HasErrors)
+            {
+                var firstError = GetErrors()
+                    .OfType<ValidationResult>()
+                    .FirstOrDefault();
 
-            if (!Regex.IsMatch(LastName ?? "", @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
-                return SetError("Please enter a valid Last Name.");
+                if (firstError != null)
+                    ErrorMessage = firstError.ErrorMessage;
 
-            if (!Regex.IsMatch(Email ?? "", @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
-                return SetError("Please enter a valid Email Address.");
-
-            if (!Regex.IsMatch(Password ?? "", @"^.{8,}$"))
-                return SetError("Password must be at least 8 characters.");
+                return false;
+            }
 
             if (Password != ConfirmPassword)
                 return SetError("Passwords do not match.");
@@ -67,14 +98,10 @@ namespace PLinkage.ViewModels
             if (!SelectedLocation.HasValue)
                 return SetError("Please select a location.");
 
-            if (string.IsNullOrWhiteSpace(SelectedRole))
-                return SetError("Please select a role.");
-
-            if (!string.IsNullOrWhiteSpace(MobileNumber) && !Regex.IsMatch(MobileNumber, @"^\d{10,11}$"))
-                return SetError("Mobile number must be 10–11 digits.");
-
             return true;
         }
+
+
 
         private bool SetError(string message)
         {
@@ -144,6 +171,7 @@ namespace PLinkage.ViewModels
             SelectedRole = null;
             Birthdate = DateTime.Now;
             ErrorMessage = string.Empty;
+
         }
     }
 }
