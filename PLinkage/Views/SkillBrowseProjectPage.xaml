@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillBrowseProjectPage"
+             Title="Browse Projecsts"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80" WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+
+            <Button x:Name="homeBtn" Text="Home" BackgroundColor="White" Clicked="OnHomeClicked" />
+            <Button x:Name="profileBtn" Text="Profile" BackgroundColor="White" Clicked="OnProfileClicked" />
+            <Button x:Name="browseBtn" Text="Browse Projects" BackgroundColor="#D0E8FF" Clicked="OnBrowseClicked" />
+            <Button x:Name="appsBtn" Text="Applications and Offers" BackgroundColor="White" Clicked="OnApplicationsClicked" />
+            <Button x:Name="messagesBtn" Text="Messages" BackgroundColor="White" Clicked="OnMessagesClicked" />
+        </StackLayout>
+
+        <ScrollView Grid.Column="1" Padding="30">
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Browse Projects" FontSize="24" FontAttributes="Bold" TextColor="Black" />
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: Mobile App UI Revamp" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnProfileTapped" NumberOfTapsRequired="1"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 3" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                Clicked="OnViewClicked" Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: Internal Dashboard Dev" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnProfileTapped" NumberOfTapsRequired="1"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 2" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                Clicked="OnViewClicked" Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: AI Chatbot Integration" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnProfileTapped" NumberOfTapsRequired="1"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="Location: Lapu-Lapu City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 4" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                Clicked="OnViewClicked" Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: HR Automation System" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnProfileTapped" NumberOfTapsRequired="1"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="Location: Talisay City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 1" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                Clicked="OnViewClicked" Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

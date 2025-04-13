@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.AdminSkillProvidersPage"
+             Title="Admin - Skill Providers"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- Sidebar -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80"
+               WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+
+            <!-- Home -->
+            <Frame x:Name="homeFrame"
+               BackgroundColor="White"
+               CornerRadius="6"
+               Padding="8"
+               HasShadow="True"
+               BorderColor="LightGray">
+                <Button Text="Home"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    HorizontalOptions="Start"
+                    Padding="0"
+                    Clicked="OnHomeClicked" />
+            </Frame>
+
+            <!-- Browse Skill Providers -->
+            <Frame x:Name="skillFrame"
+               BackgroundColor="White"
+               CornerRadius="6"
+               Padding="8"
+               HasShadow="True"
+               BorderColor="LightGray">
+                <Button Text="Browse Skill Providers"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    HorizontalOptions="Start"
+                    Padding="0"
+                    Clicked="OnBrowseSkillProvidersClicked" />
+            </Frame>
+
+            <!-- Browse Projects -->
+            <Frame x:Name="projectFrame"
+               BackgroundColor="White"
+               CornerRadius="6"
+               Padding="8"
+               HasShadow="True"
+               BorderColor="LightGray">
+                <Button Text="Browse Projects"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    HorizontalOptions="Start"
+                    Padding="0"
+                    Clicked="OnBrowseProjectsClicked" />
+            </Frame>
+
+        </StackLayout>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Header -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Browse Skill Providers" FontSize="18" TextColor="Black" />
+                </Frame>
+
+                <!-- Skill Provider Cards -->
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Card 1 -->
+                    <Frame BackgroundColor="#F9F9F9"
+                       CornerRadius="10"
+                       Padding="12"
+                       BorderColor="LightGray"
+                       HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnProviderTapped" />
+                        </Frame.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="80,*,80">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                 VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                                <Label Text="Juan Dela Cruz" FontAttributes="Bold" TextColor="Black" />
+                                <Label Text="Rating: ★★★★☆" FontSize="12" TextColor="Black" />
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black" />
+                            </VerticalStackLayout>
+                            <Label Text="View ➤"
+                               Grid.Column="2"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="End"
+                               FontAttributes="Bold"
+                               TextColor="#0072b1" />
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

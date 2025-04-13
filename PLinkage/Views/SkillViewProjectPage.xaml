@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillViewProjectPage"
+             Title="View Project"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png" HeightRequest="80" WidthRequest="80" BackgroundColor="Gray" HorizontalOptions="Center"/>
+            <Button Text="Home" BackgroundColor="White" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Projects" BackgroundColor="#D0E8FF" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Project Info -->
+                <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="black"/>
+                        <Label Text="Location" FontSize="14" TextColor="black"/>
+                        <Editor Text="Project Description" HeightRequest="100" BackgroundColor="White" TextColor="black"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Dates + Priority/Status + Resources -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="20">
+                    <!-- Start/End Dates -->
+                    <Frame Grid.Column="0" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Start Date" FontAttributes="Bold" TextColor="black"/>
+                            <Frame Padding="0" HasShadow="False" BorderColor="LightGray" BackgroundColor="White">
+                                <DatePicker TextColor="black"/>
+                            </Frame>
+                            <Label Text="End Date" FontAttributes="Bold" TextColor="black"/>
+                            <Frame Padding="0" HasShadow="False" BorderColor="LightGray" BackgroundColor="White">
+                                <DatePicker TextColor="black"/>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Priority & Status -->
+                    <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Priority" FontAttributes="Bold" TextColor="black"/>
+                            <Picker x:Name="PriorityPicker"
+                                Title="Select Priority"
+                                BackgroundColor="White"
+                                TextColor="#444"
+                                TitleColor="#555555"
+                                SelectedIndexChanged="OnPriorityChanged"/>
+                            <Label Text="Status" FontAttributes="Bold" TextColor="black"/>
+                            <Picker x:Name="StatusPicker"
+                                Title="Select Status"
+                                BackgroundColor="White"
+                                TextColor="#444"
+                                TitleColor="#555555"
+                                SelectedIndexChanged="OnStatusChanged"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Resources -->
+                    <Frame Grid.Column="2" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Number of Resources" FontAttributes="Bold" TextColor="black"/>
+                            <Entry BackgroundColor="White" TextColor="black"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Employed Skill Providers & Required Skills -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                    <!-- Employed Providers -->
+                    <Frame Grid.Column="0" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Employed Skill Providers" FontAttributes="Bold" FontSize="14" TextColor="black"/>
+                            <VerticalStackLayout Spacing="6">
+                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="John Doe" VerticalOptions="Center" TextColor="Black"/>
+                                    </Grid>
+                                </Frame>
+                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Jane Smith" VerticalOptions="Center" TextColor="Black"/>
+                                    </Grid>
+                                </Frame>
+                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Carlos Rivera" VerticalOptions="Center" TextColor="Black"/>
+                                    </Grid>
+                                </Frame>
+                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Emily Cruz" VerticalOptions="Center" TextColor="Black"/>
+                                    </Grid>
+                                </Frame>
+                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="Leo Tan" VerticalOptions="Center" TextColor="Black"/>
+                                    </Grid>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Required Skills -->
+                    <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Required Skills:" FontAttributes="Bold" TextColor="black"/>
+                            <FlexLayout Wrap="Wrap" Direction="Row">
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" Margin="4">
+                                    <Label Text="Python" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" Margin="4">
+                                    <Label Text="JavaScript" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" Margin="4">
+                                    <Label Text="SQL" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Apply Button -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,10,0,20">
+                    <Button Text="Apply" BackgroundColor="#A5D6A7" TextColor="Black"
+                        Padding="14,6" CornerRadius="8" Clicked="OnApplyClicked"/>
+                </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

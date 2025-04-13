@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerPage"
+             Title="Project Owner"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- Sidebar -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80"
+               WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+
+            <Button x:Name="homeBtn"
+                Text="Home"
+                BackgroundColor="#D0E8FF"
+                TextColor="Black"
+                Clicked="OnHomeClicked"
+                Padding="12"
+                CornerRadius="6"
+                BorderColor="LightGray"
+                BorderWidth="1"/>
+
+            <Button x:Name="profileBtn"
+                Text="Profile"
+                BackgroundColor="White"
+                TextColor="Black"
+                Clicked="OnProfileClicked"
+                Padding="12"
+                CornerRadius="6"
+                BorderColor="LightGray"
+                BorderWidth="1"/>
+
+            <Button x:Name="browseBtn"
+                Text="Browse Skill Providers"
+                BackgroundColor="White"
+                TextColor="Black"
+                Clicked="OnBrowseSkillProvidersClicked"
+                Padding="12"
+                CornerRadius="6"
+                BorderColor="LightGray"
+                BorderWidth="1"/>
+
+            <Button x:Name="appsBtn"
+                Text="Applications and Offers"
+                BackgroundColor="White"
+                TextColor="Black"
+                Clicked="OnApplicationsClicked"
+                Padding="12"
+                CornerRadius="6"
+                BorderColor="LightGray"
+                BorderWidth="1"/>
+
+            <Button x:Name="messagesBtn"
+                Text="Messages"
+                BackgroundColor="White"
+                TextColor="Black"
+                Clicked="OnMessagesClicked"
+                Padding="12"
+                CornerRadius="6"
+                BorderColor="LightGray"
+                BorderWidth="1"/>
+        </StackLayout>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="16">
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Welcome back, Van!" FontSize="18" TextColor="Black"/>
+                </Frame>
+
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Suggested for you" FontSize="16" TextColor="Black"/>
+                </Frame>
+
+                <!-- Suggestion Cards -->
+                <VerticalStackLayout Spacing="12">
+
+                    <Frame BackgroundColor="White" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,80">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                                <Label Text="Name" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="Rating: ★★★★☆" FontSize="12" TextColor="Black"/>
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="White" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,80">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                                <Label Text="Name" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="Rating: ★★★☆☆" FontSize="12" TextColor="Black"/>
+                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

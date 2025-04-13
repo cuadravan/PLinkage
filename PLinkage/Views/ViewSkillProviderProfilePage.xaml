@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ViewSkillProviderProfilePage"
+             Title="Skill Provider Profile"
+             BackgroundColor="White">
+
+
+    <Grid ColumnDefinitions="240,*">
+
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80" WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center"/>
+            <Button Text="Home" BackgroundColor="White" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Skill Providers" BackgroundColor="White" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Header Info -->
+                <Frame BackgroundColor="#E0E0E0" Padding="15" BorderColor="LightGray">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <!-- Profile Overview -->
+                        <HorizontalStackLayout Spacing="12">
+                            <BoxView Color="Gray" WidthRequest="60" HeightRequest="60" CornerRadius="8"/>
+                            <VerticalStackLayout>
+                                <Label Text="John Doe" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="★★★★★" FontSize="14" TextColor="Gold"/>
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Joined: March 2023" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- Buttons -->
+                        <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Spacing="10">
+                            <Button Text="Send Offer"
+                                BackgroundColor="#A1D490"
+                                TextColor="Black"
+                                Padding="10,4"
+                                CornerRadius="6"
+                                Clicked="OnSendOfferClicked"/>
+                            <Button Text="Message"
+                                BackgroundColor="#D0E8FF"
+                                TextColor="Black"
+                                Padding="10,4"
+                                CornerRadius="6"
+                                Clicked="OnMessageClicked"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Basic Information -->
+                <Frame BackgroundColor="#E0E0E0" Padding="15" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Information" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Label Text="Gender: Male" FontSize="13" TextColor="Black"/>
+                        <Label Text="Email: john.doe@example.com" FontSize="13" TextColor="Black"/>
+                        <Label Text="Mobile: 09123456789" FontSize="13" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Education -->
+                <Frame BackgroundColor="#E0E0E0" Padding="15" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Education" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Frame Padding="10" BackgroundColor="White" HasShadow="False" CornerRadius="6">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="School: University of San Jose-Recoletos" FontSize="13" TextColor="Black"/>
+                                <Label Text="Course: BSIT" FontSize="13" TextColor="Black"/>
+                                <Label Text="Year Graduated: 2022" FontSize="13" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Skills -->
+                <Frame BackgroundColor="#E0E0E0" Padding="15" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Skills" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Frame Padding="10" BackgroundColor="White" HasShadow="False" CornerRadius="6">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Skill: Web Development" FontSize="13" TextColor="Black"/>
+                                <Label Text="Organization: Freelance" FontSize="13" TextColor="Black"/>
+                                <Label Text="Experience: 3 years" FontSize="13" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Projects -->
+                <Frame BackgroundColor="#E0E0E0" Padding="15" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Projects" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Label Text="• Inventory System for ABC Corp" FontSize="13" TextColor="Black"/>
+                        <Label Text="• Freelance: POS system using MAUI" FontSize="13" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

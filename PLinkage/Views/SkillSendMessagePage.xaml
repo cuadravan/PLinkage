@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillSendMessagePage"
+             Title="Send Message"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80" WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+            <Button Text="Home" BackgroundColor="White" TextColor="Black" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" TextColor="Black" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Projects" BackgroundColor="White" TextColor="Black" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" TextColor="Black" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" TextColor="Black" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="1" Padding="30">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Header -->
+                <Border BackgroundColor="#D0D0D0" StrokeShape="RoundRectangle 6" Padding="10">
+                    <Label Text="Send Message" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+                </Border>
+
+                <!-- Message Form -->
+                <Border BackgroundColor="#F5F5F5" StrokeShape="RoundRectangle 6" Padding="15" StrokeThickness="1">
+                    <VerticalStackLayout Spacing="15">
+
+                        <Border BackgroundColor="White" StrokeShape="RoundRectangle 4" Padding="10">
+                            <Label x:Name="recipientNameLabel" Text="Juan Dela Cruz" FontAttributes="Bold" TextColor="Black"/>
+                        </Border>
+
+                        <Border BackgroundColor="White" StrokeShape="RoundRectangle 4" Padding="0">
+                            <Editor x:Name="messageEditor"
+                                Placeholder="Type your message here..."
+                                HeightRequest="150"
+                                BackgroundColor="White"
+                                TextColor="Black"/>
+                        </Border>
+
+                        <Button Text="Send Message"
+                            HorizontalOptions="Center"
+                            BackgroundColor="#D0E8FF"
+                            TextColor="Black"
+                            Padding="10,5"
+                            CornerRadius="8"
+                            Clicked="OnSendMessageClicked"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ViewSkillProfilePage"
+             Title="Skill Provider Profile"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80" WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+            <Button Text="Home" BackgroundColor="White" TextColor="Black" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" TextColor="Black" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Projects" BackgroundColor="White" TextColor="Black" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" TextColor="Black" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" TextColor="Black" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Top Profile Info -->
+                <Border BackgroundColor="#F0F0F0" StrokeShape="RoundRectangle 8" Padding="15">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Name: John Doe" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
+                            <Label Text="Location: Cebu City" FontSize="14" TextColor="Black"/>
+                            <Label Text="Joined on: Jan 2024" FontSize="14" TextColor="Black"/>
+                        </VerticalStackLayout>
+                        <Button Text="Message" BackgroundColor="#D0E8FF" TextColor="Black"
+                            CornerRadius="6" Padding="10,5"
+                            Clicked="OnMessageClicked" Grid.Column="1" VerticalOptions="Start"/>
+                    </Grid>
+                </Border>
+
+                <!-- Info Section -->
+                <Border BackgroundColor="#F7F7F7" StrokeShape="RoundRectangle 6" Padding="15">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Information" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                        <Label Text="Gender: Male" TextColor="Black"/>
+                        <Label Text="Email: john@example.com" TextColor="Black"/>
+                        <Label Text="Mobile: 09123456789" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- List of Projects -->
+                <Border BackgroundColor="#F7F7F7" StrokeShape="RoundRectangle 6" Padding="15">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="List of Projects" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+
+                        <!-- Sort Picker -->
+                        <Picker x:Name="sortPicker"
+                            Title="Sort Options"
+                            TextColor="Black"
+                            BackgroundColor="White"
+                            TitleColor="#555555"
+                            SelectedIndexChanged="OnSortOptionChanged">
+                            <Picker.Items>
+                                <x:String>Newest First</x:String>
+                                <x:String>Oldest First</x:String>
+                                <x:String>Status: Ongoing</x:String>
+                                <x:String>Status: Completed</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <!-- Project Cards -->
+                        <Border BackgroundColor="#EEEEEE" StrokeShape="RoundRectangle 6" Padding="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="Project: Web App Redesign" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="Status: Ongoing" TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <Button Text="View" BackgroundColor="#D0E8FF" TextColor="Black"
+                                    Padding="8,4" CornerRadius="6"
+                                    Clicked="OnViewProjectClicked"
+                                    Grid.Column="1" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border BackgroundColor="#EEEEEE" StrokeShape="RoundRectangle 6" Padding="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="Project: Inventory System" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="Status: Completed" TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <Button Text="View" BackgroundColor="#D0E8FF" TextColor="Black"
+                                    Padding="8,4" CornerRadius="6"
+                                    Clicked="OnViewProjectClicked"
+                                    Grid.Column="1" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border BackgroundColor="#EEEEEE" StrokeShape="RoundRectangle 6" Padding="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="Project: E-Commerce Platform" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="Status: Ongoing" TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <Button Text="View" BackgroundColor="#D0E8FF" TextColor="Black"
+                                    Padding="8,4" CornerRadius="6"
+                                    Clicked="OnViewProjectClicked"
+                                    Grid.Column="1" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border BackgroundColor="#EEEEEE" StrokeShape="RoundRectangle 6" Padding="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="Project: Data Analytics Dashboard" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="Status: Completed" TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <Button Text="View" BackgroundColor="#D0E8FF" TextColor="Black"
+                                    Padding="8,4" CornerRadius="6"
+                                    Clicked="OnViewProjectClicked"
+                                    Grid.Column="1" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

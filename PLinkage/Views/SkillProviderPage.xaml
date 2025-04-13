@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderPage"
+             Title="Skill Provider"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- Sidebar -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80"
+               WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+            <Button x:Name="homeBtn" Text="Home" BackgroundColor="White" TextColor="Black" Clicked="OnHomeClicked"/>
+            <Button x:Name="profileBtn" Text="Profile" BackgroundColor="White" TextColor="Black" Clicked="OnProfileClicked"/>
+            <Button x:Name="browseBtn" Text="Browse Projects" BackgroundColor="White" TextColor="Black" Clicked="OnBrowseClicked"/>
+            <Button x:Name="appsBtn" Text="Applications and Offers" BackgroundColor="White" TextColor="Black" Clicked="OnApplicationsClicked"/>
+            <Button x:Name="messagesBtn" Text="Messages" BackgroundColor="White" TextColor="Black" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Welcome Frame -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Welcome back, Van!" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                </Frame>
+
+                <!-- Suggested Header -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Suggested for you" FontSize="16" FontAttributes="Bold" TextColor="Black" />
+                </Frame>
+
+                <!-- Suggested Projects -->
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Project Card 1 -->
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                 VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black" />
+                                <Label Text="Open Slots: 3" FontSize="12" TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                Clicked="OnViewProfileClicked"
+                                Padding="10,4" CornerRadius="6"
+                                VerticalOptions="Center" TextColor="Black" />
+                        </Grid>
+                    </Frame>
+
+                    <!-- Project Card 2 -->
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                 VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black" />
+                                <Label Text="Open Slots: 2" FontSize="12" TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                Clicked="OnViewProfileClicked"
+                                Padding="10,4" CornerRadius="6"
+                                VerticalOptions="Center" TextColor="Black" />
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

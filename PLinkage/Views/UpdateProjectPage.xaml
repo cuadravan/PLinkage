@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.UpdateProjectPage"
+             Title="Update Project"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png" HeightRequest="80" WidthRequest="80" BackgroundColor="Gray" HorizontalOptions="Center"/>
+            <Button Text="Home" BackgroundColor="White" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Skill Providers" BackgroundColor="White" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Project Description -->
+                <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Project Description" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Editor x:Name="ProjectDescriptionEditor" HeightRequest="100" BackgroundColor="White" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Start/Time Frame + Priority/Status aligned horizontally -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+
+                    <!-- Frame 1: Start Date + Projected Time Frame -->
+                    <Frame Grid.Column="0" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                            <VerticalStackLayout Grid.Column="0" Spacing="10">
+                                <Label Text="Start Date" FontAttributes="Bold" TextColor="Black"/>
+                                <DatePicker x:Name="StartDatePicker" BackgroundColor="White" TextColor="Black"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                                <Label Text="Projected Time Frame" FontAttributes="Bold" TextColor="Black"/>
+                                <Picker x:Name="TimeFramePicker" Title="Select Time Frame" BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Frame 2: Priority + Status -->
+                    <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                            <VerticalStackLayout Grid.Column="0" Spacing="10">
+                                <Label Text="Priority" FontAttributes="Bold" TextColor="Black"/>
+                                <Picker x:Name="PriorityPicker" Title="Select Priority" BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                                <Label Text="Status" FontAttributes="Bold" TextColor="Black"/>
+                                <Picker x:Name="StatusPicker" Title="Select Status" BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+
+                </Grid>
+
+                <!-- Resources + Completion Details VS Skill Set -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+
+                    <!-- LEFT: Resources + Completion Details -->
+                    <Frame Grid.Column="0" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="20">
+                            <VerticalStackLayout>
+                                <Label Text="Number of Resources" FontAttributes="Bold" TextColor="Black"/>
+                                <Entry x:Name="ResourcesEntry" Keyboard="Numeric" BackgroundColor="White" TextColor="Black"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="Actual Project Completion Details" FontAttributes="Bold" TextColor="Black"/>
+                                <Editor x:Name="CompletionDetailsEditor" HeightRequest="100" BackgroundColor="White" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- RIGHT: Skill Set -->
+                    <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Skill Set" FontAttributes="Bold" TextColor="Black"/>
+                            <Picker x:Name="SkillSetPicker" Title="Select Skill" BackgroundColor="White" TextColor="Black"/>
+                            <Label Text="Selected Skills:" FontAttributes="Bold" TextColor="Black"/>
+                            <FlexLayout x:Name="SelectedSkillsLayout" Wrap="Wrap" Direction="Row" JustifyContent="Start">
+                                <!-- Sample Skills -->
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" HasShadow="False" Margin="4">
+                                    <Label Text="Python" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" HasShadow="False" Margin="4">
+                                    <Label Text="JavaScript" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" HasShadow="False" Margin="4">
+                                    <Label Text="SQL" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" HasShadow="False" Margin="4">
+                                    <Label Text="HTML" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" CornerRadius="6" HasShadow="False" Margin="4">
+                                    <Label Text="CSS" FontSize="12" TextColor="Black"/>
+                                </Frame>
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Action Buttons -->
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                    <Button Text="Save Changes" BackgroundColor="#A1D490" TextColor="Black" Padding="10,4" Clicked="OnSaveClicked"/>
+                    <Button Text="Cancel" BackgroundColor="#F28B82" TextColor="Black" Padding="10,4" Clicked="OnCancelClicked"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

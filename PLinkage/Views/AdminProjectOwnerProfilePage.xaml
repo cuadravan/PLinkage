@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.AdminProjectOwnerProfilePage"
+             Title="Project Owner Profile"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- Sidebar -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80"
+               WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+
+            <Frame x:Name="homeFrame" Padding="8" HasShadow="True" BorderColor="LightGray" CornerRadius="6" BackgroundColor="White">
+                <Button Text="Home" BackgroundColor="Transparent" Padding="0" Clicked="OnHomeClicked" TextColor="Black"/>
+            </Frame>
+
+            <Frame x:Name="skillFrame" Padding="8" HasShadow="True" BorderColor="LightGray" CornerRadius="6" BackgroundColor="White">
+                <Button Text="Browse Skill Providers" BackgroundColor="Transparent" Padding="0" Clicked="OnBrowseSkillProvidersClicked" TextColor="Black"/>
+            </Frame>
+
+            <Frame x:Name="projectFrame" Padding="8" HasShadow="True" BorderColor="LightGray" CornerRadius="6" BackgroundColor="#D0E8FF">
+                <Button Text="Browse Projects" BackgroundColor="Transparent" Padding="0" Clicked="OnBrowseProjectsClicked" TextColor="Black"/>
+            </Frame>
+        </StackLayout>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Header with Deactivate -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <HorizontalStackLayout Spacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"/>
+                            <VerticalStackLayout>
+                                <Label Text="Jane Villanueva" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
+                                <Label Text="Location: Davao City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Joined on: February 10, 2024" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                        <Button Text="Deactivate" BackgroundColor="Red" TextColor="White" CornerRadius="8" Padding="10,5" Grid.Column="1"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Info Section -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <VerticalStackLayout>
+                        <Label Text="Information" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Label Text="Gender: Female" FontSize="12" TextColor="Black"/>
+                        <Label Text="Email: jane@email.com" FontSize="12" TextColor="Black"/>
+                        <Label Text="Mobile: 09123456789" FontSize="12" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- List of Projects -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <VerticalStackLayout>
+                        <Label Text="List of Projects" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                        <Label Text="Sort By" FontSize="12" Margin="0,8,0,0" TextColor="Black"/>
+
+                        <!-- Project Card 1 -->
+                        <Frame BackgroundColor="White" CornerRadius="6" Padding="10" BorderColor="LightGray">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="Mobile App Revamp" FontAttributes="Bold" FontSize="12" TextColor="Black"/>
+                                    <Label Text="Status: Ongoing" FontSize="12" TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <Button Text="View" Grid.Column="1" BackgroundColor="#007AFF" TextColor="White" CornerRadius="10" Padding="10,5"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Project Card 2 -->
+                        <Frame BackgroundColor="White" CornerRadius="6" Padding="10" BorderColor="LightGray">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="Inventory Migration" FontAttributes="Bold" FontSize="12" TextColor="Black"/>
+                                    <Label Text="Status: Completed" FontSize="12" TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <Button Text="View" Grid.Column="1" BackgroundColor="#007AFF" TextColor="White" CornerRadius="10" Padding="10,5"/>
+                            </Grid>
+                        </Frame>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

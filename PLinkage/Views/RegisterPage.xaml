@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.RegisterPage"
+             Title="Register"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <Grid Padding="20" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Frame BackgroundColor="#2D2D2D"
+               CornerRadius="12"
+               Padding="24"
+               HasShadow="True"
+               WidthRequest="800"
+               MaximumWidthRequest="800"
+               VerticalOptions="Center"
+               HorizontalOptions="Center">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="Register"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Start"
+                       TextColor="White" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="20" RowSpacing="15">
+
+                        <!-- Row 0: Upload Photo -->
+                        <Frame Grid.ColumnSpan="2"
+                           HeightRequest="120"
+                           WidthRequest="200"
+                           CornerRadius="12"
+                           BackgroundColor="White"
+                           BorderColor="LightGray"
+                           HorizontalOptions="End"
+                           VerticalOptions="End"
+                           HasShadow="False">
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                                <Label Text="📸"
+                                   FontSize="32"
+                                   HorizontalOptions="Center" />
+                                <Label Text="Upload Photo"
+                                   FontSize="12"
+                                   TextColor="Gray"
+                                   HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Row 1 -->
+                        <Entry Placeholder="First Name"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+                        <Entry Placeholder="Birthdate"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+
+                        <!-- Row 2 -->
+                        <Entry Placeholder="Last Name"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+                        <Entry Placeholder="Gender"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+
+                        <!-- Row 3 -->
+                        <Entry Placeholder="Email Address"
+                           Grid.Row="3"
+                           Grid.Column="0"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+                        <Entry Placeholder="Location"
+                           Grid.Row="3"
+                           Grid.Column="1"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+
+                        <!-- Row 4 -->
+                        <Entry Placeholder="Password"
+                           IsPassword="True"
+                           Grid.Row="4"
+                           Grid.Column="0"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+                        <Entry Placeholder="Mobile Number"
+                           Grid.Row="4"
+                           Grid.Column="1"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+
+                        <!-- Row 5 -->
+                        <Entry Placeholder="Confirm Password"
+                           IsPassword="True"
+                           Grid.Row="5"
+                           Grid.Column="0"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+                        <Entry Placeholder="Role of Choice (Skill Provider or Project Creator)"
+                           Grid.Row="5"
+                           Grid.Column="1"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           HeightRequest="48" />
+
+                    </Grid>
+
+                    <!-- Register Button -->
+                    <Button Text="Register"
+                        BackgroundColor="#0072b1"
+                        BorderColor="Blue"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="48"
+                        Margin="0,20,0,0" />
+
+                    <!-- Back to Login Button -->
+                    <Button Text="Back to Login"
+                        BackgroundColor="DimGray"
+                        TextColor="White"
+                        BorderColor="Grey"
+                        BorderWidth="1"
+                        CornerRadius="8"
+                        HeightRequest="48"
+                        Clicked="OnBtnBackToLoginClicked" />
+
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </ScrollView>
+</ContentPage>

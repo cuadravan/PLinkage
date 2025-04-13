@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.UpdateSkillPage"
+             Title="Update Skill"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80"
+               WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+
+            <Button Text="Home" BackgroundColor="White" TextColor="Black" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" TextColor="Black" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Projects" BackgroundColor="White" TextColor="Black" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" TextColor="Black" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" TextColor="Black" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN CONTENT -->
+        <VerticalStackLayout Grid.Column="1" Padding="40" Spacing="30" VerticalOptions="Center">
+            <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
+                <VerticalStackLayout Spacing="20">
+                    <Entry x:Name="skillNameEntry" Placeholder="Skill Name" BackgroundColor="White" TextColor="Black"/>
+                    <Entry x:Name="experienceEntry" Placeholder="Years of Experience" Keyboard="Numeric" BackgroundColor="White" TextColor="Black"/>
+                    <Entry x:Name="organizationEntry" Placeholder="Organization" BackgroundColor="White" TextColor="Black"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+                <Button Text="Save Changes" BackgroundColor="#A5D6A7" TextColor="Black" Clicked="OnSaveChangesClicked" Padding="14,6" CornerRadius="8"/>
+                <Button Text="Cancel" BackgroundColor="LightGray" TextColor="Black" Clicked="OnCancelClicked" Padding="14,6" CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

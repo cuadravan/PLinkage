@@ -1,15 +1,149 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<!-- AppShell.xaml -->
 <Shell
-    x:Class="PLinkage.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:PLinkage"
-    Shell.FlyoutBehavior="Flyout"
-    Title="PLinkage">
+    xmlns:views="clr-namespace:PLinkage.Views"
+    x:Class="PLinkage.AppShell">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent Title="Login" 
+              Route="LoginPage"
+              ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <ShellContent Title="Register" 
+              Route="RegisterPage"
+          ContentTemplate="{DataTemplate views:RegisterPage}" />
+
+    <ShellContent Title="Project Owner" 
+              Route="ProjectOwnerPage"
+          ContentTemplate="{DataTemplate views:ProjectOwnerPage}" />
+
+    <ShellContent Title="Skill Provider" 
+              Route="SkillProviderPage"
+          ContentTemplate="{DataTemplate views:SkillProviderPage}" />
+
+    <ShellContent Title="Admin" 
+              Route="AdminPage"
+          ContentTemplate="{DataTemplate views:AdminPage}" />
+
+    <ShellContent Title="AdminSkillProvidersPage" 
+              Route="AdminSkillProvidersPage"
+          ContentTemplate="{DataTemplate views:AdminSkillProvidersPage}" />
+
+    <ShellContent Title="AdminProjectsPage" 
+              Route="AdminProjectsPage"
+              ContentTemplate="{DataTemplate views:AdminProjectsPage}" />
+
+    <ShellContent Title="AdminSkillProviderProfilePage"
+          Route="AdminSkillProviderProfilePage"
+          ContentTemplate="{DataTemplate views:AdminSkillProviderProfilePage}" />
+
+    <ShellContent Title="AdminProjectDetailPage"
+          Route="AdminProjectDetailPage"
+          ContentTemplate="{DataTemplate views:AdminProjectDetailPage}" />
+
+    <ShellContent Title="AdminProjectOwnerProfilePage"
+          Route="AdminProjectOwnerProfilePage"
+          ContentTemplate="{DataTemplate views:AdminProjectOwnerProfilePage}" />
+
+    <ShellContent Title="ProjectOwnerProfilePage"
+          Route="ProjectOwnerProfilePage"
+          ContentTemplate="{DataTemplate views:ProjectOwnerProfilePage}" />
+
+    <ShellContent Title="BrowseSkillProvidersPage"
+          Route="BrowseSkillProvidersPage"
+          ContentTemplate="{DataTemplate views:BrowseSkillProvidersPage}" />
+
+    <ShellContent Title="ApplicationsAndOffersPage"
+          Route="ApplicationsAndOffersPage"
+          ContentTemplate="{DataTemplate views:ApplicationsAndOffersPage}" />
+
+    <ShellContent Title="MessagesPage"
+          Route="MessagesPage"
+          ContentTemplate="{DataTemplate views:MessagesPage}" />
+
+    <ShellContent Title="ProjectDetailsPage"
+              Route="EditProjectOwnerProfilePage"
+              ContentTemplate="{DataTemplate views:EditProjectOwnerProfilePage}" />
+
+    <ShellContent Title="CreateProjectPage"
+              Route="CreateProjectPage"
+              ContentTemplate="{DataTemplate views:CreateProjectPage}" />
+
+    <ShellContent Title="ViewProjectPage"
+                Route="ViewProjectPage"
+                ContentTemplate="{DataTemplate views:ViewProjectPage}" />
+
+    <ShellContent Title="UpdateProjectPage"
+                Route="UpdateProjectPage"
+                ContentTemplate="{DataTemplate views:UpdateProjectPage}" />
+
+    <ShellContent Title="RateSkillProvidersPage"
+                Route="RateSkillProvidersPage"
+                ContentTemplate="{DataTemplate views:RateSkillProvidersPage}" />
+
+    <ShellContent Title="ViewSkillProviderProfilePage"
+                Route="ViewSkillProviderProfilePage"
+                ContentTemplate="{DataTemplate views:ViewSkillProviderProfilePage}" />
+
+    <ShellContent Title="SendOfferPage"
+              Route="SendOfferPage"
+              ContentTemplate="{DataTemplate views:SendOfferPage}" />
+
+    <ShellContent Title="SendMessagePage"
+              Route="SendMessagePage"
+              ContentTemplate="{DataTemplate views:SendMessagePage}" />
+
+    <ShellContent Title="SkillProviderProfilePage"
+              Route="SkillProviderProfilePage"
+              ContentTemplate="{DataTemplate views:SkillProviderProfilePage}" />
+
+    <ShellContent Title="SkillBrowseProjectPage"
+              Route="SkillBrowseProjectPage"
+              ContentTemplate="{DataTemplate views:SkillBrowseProjectPage}" />
+
+    <ShellContent Title="SkillViewProjectPage"
+              Route="SkillViewProjectPage"
+              ContentTemplate="{DataTemplate views:SkillViewProjectPage}" />
+
+    <ShellContent Title="SkillUpdateProviderProfilePage"
+              Route="SkillUpdateProviderProfilePage"
+                ContentTemplate="{DataTemplate views:SkillUpdateProviderProfilePage}" />
+
+    <ShellContent Title="AddEducationPage"
+              Route="AddEducationPage"
+                ContentTemplate="{DataTemplate views:AddEducationPage}" />
+
+    <ShellContent Title="UpdateEducationPage"
+              Route="UpdateEducationPage"
+              ContentTemplate="{DataTemplate views:UpdateEducationPage}" />
+
+    <ShellContent Title="AddSkillPage"
+              Route="AddSkillPage"
+              ContentTemplate="{DataTemplate views:AddSkillPage}" />
+
+    <ShellContent Title="UpdateSkillPage"
+              Route="UpdateSkillPage"
+              ContentTemplate="{DataTemplate views:UpdateSkillPage}" />
+
+    <ShellContent Title="ApplySkillPage"
+              Route="ApplySkillPage"
+              ContentTemplate="{DataTemplate views:ApplySkillPage}" />
+
+    <ShellContent Title="SkillApplicationsAndOffersPage"
+              Route="SkillApplicationsAndOffersPage"
+              ContentTemplate="{DataTemplate views:SkillApplicationsAndOffersPage}" />
+
+    <ShellContent Title="SkillMessagesPage"
+              Route="SkillMessagesPage"
+              ContentTemplate="{DataTemplate views:SkillMessagesPage}" />
+
+
+    <ShellContent Title="ViewSkillProfilePage"
+              Route="ViewSkillProfilePage"
+              ContentTemplate="{DataTemplate views:ViewSkillProfilePage}" />
+
+    <ShellContent Title="SkillSendMessagePage"
+              Route="SkillSendMessagePage"
+              ContentTemplate="{DataTemplate views:SkillSendMessagePage}" />
 
 </Shell>

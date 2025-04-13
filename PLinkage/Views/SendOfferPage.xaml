@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SendOfferPage"
+             Title="Send Offer"
+             BackgroundColor="White">
+
+    <Grid ColumnDefinitions="240,*">
+        <!-- SIDEBAR -->
+        <StackLayout BackgroundColor="#F0F0F0" Padding="20" Spacing="20">
+            <Image Source="logo_placeholder.png"
+               HeightRequest="80" WidthRequest="80"
+               BackgroundColor="Gray"
+               HorizontalOptions="Center" />
+
+            <Button Text="Home" BackgroundColor="White" TextColor="Black" Clicked="OnHomeClicked"/>
+            <Button Text="Profile" BackgroundColor="White" TextColor="Black" Clicked="OnProfileClicked"/>
+            <Button Text="Browse Skill Providers" BackgroundColor="White" TextColor="Black" Clicked="OnBrowseClicked"/>
+            <Button Text="Applications and Offers" BackgroundColor="White" TextColor="Black" Clicked="OnApplicationsClicked"/>
+            <Button Text="Messages" BackgroundColor="White" TextColor="Black" Clicked="OnMessagesClicked"/>
+        </StackLayout>
+
+        <!-- MAIN FORM -->
+        <ScrollView Grid.Column="1" Padding="40,20">
+            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="30" BorderColor="LightGray" HorizontalOptions="Center" WidthRequest="400">
+                <VerticalStackLayout Spacing="20">
+
+                    <Label Text="Select Project:" FontAttributes="Bold" TextColor="Black"/>
+                    <Picker x:Name="ProjectPicker" Title="Choose Project" BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
+
+                    <Label Text="Select Skill Provider:" FontAttributes="Bold" TextColor="Black"/>
+                    <Picker x:Name="ProviderPicker" Title="Choose Provider" BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
+
+                    <Label Text="Rate (₱):" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry x:Name="RateEntry" Placeholder="Enter rate" Keyboard="Numeric" BackgroundColor="White" TextColor="Black" />
+
+                    <Label Text="Timeframe (Days/Weeks/Months):" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry x:Name="TimeframeEntry" Placeholder="e.g., 2 Weeks" BackgroundColor="White" TextColor="Black"/>
+
+                    <Button Text="Send" Padding="12,6" BackgroundColor="#A1D490" TextColor="Black"
+                        HorizontalOptions="Center" Clicked="OnSendClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+        </ScrollView>
+    </Grid>
+</ContentPage>
