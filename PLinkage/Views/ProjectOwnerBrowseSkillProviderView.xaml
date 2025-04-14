@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerBrowseSkillProviderView"
+             Title="ProjectOwnerBrowseSkillProviderView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Page Header -->
+                <Frame Padding="10" BackgroundColor="#D9D9D9" HasShadow="False">
+                    <Label Text="Browse Skill Providers"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Black" />
+                </Frame>
+
+                <!-- Scrollable List -->
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- Skill Provider Card (Sample 1) -->
+                    <Frame BackgroundColor="White" BorderColor="#D9D9D9" CornerRadius="8" Padding="10" HasShadow="False">
+                        <Grid ColumnDefinitions="60,*,80" VerticalOptions="Center" Padding="5">
+                            <BoxView Color="#B0B0B0" WidthRequest="50" HeightRequest="50" CornerRadius="4" VerticalOptions="Center" Margin="5" />
+
+                            <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Name: John Doe" FontSize="14" TextColor="Black" />
+                                <Label Text="Rating: ★★★★☆" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Cebu City" FontSize="14" TextColor="Black" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center">
+                                <Button Text="View" WidthRequest="60" BackgroundColor="#B49AE2" TextColor="Black" CornerRadius="12" Padding="5,2"  />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Skill Provider Card (Sample 2) -->
+                    <Frame BackgroundColor="White" BorderColor="#D9D9D9" CornerRadius="8" Padding="10" HasShadow="False">
+                        <Grid ColumnDefinitions="60,*,80" VerticalOptions="Center" Padding="5">
+                            <BoxView Color="#B0B0B0" WidthRequest="50" HeightRequest="50" CornerRadius="4" VerticalOptions="Center" Margin="5" />
+
+                            <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Name: Jane Smith" FontSize="14" TextColor="Black" />
+                                <Label Text="Rating: ★★★★★" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Davao City" FontSize="14" TextColor="Black" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center">
+                                <Button Text="View" WidthRequest="60" BackgroundColor="#B49AE2" TextColor="Black" CornerRadius="12" Padding="5,2"  />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Skill Provider Card (Sample 3) -->
+                    <Frame BackgroundColor="White" BorderColor="#D9D9D9" CornerRadius="8" Padding="10" HasShadow="False">
+                        <Grid ColumnDefinitions="60,*,80" VerticalOptions="Center" Padding="5">
+                            <BoxView Color="#B0B0B0" WidthRequest="50" HeightRequest="50" CornerRadius="4" VerticalOptions="Center" Margin="5" />
+
+                            <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Name: Carlos Rivera" FontSize="14" TextColor="Black" />
+                                <Label Text="Rating: ★★★☆☆" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Iloilo City" FontSize="14" TextColor="Black" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center">
+                                <Button Text="View" WidthRequest="60" BackgroundColor="#B49AE2" TextColor="Black" CornerRadius="12" Padding="5,2"  />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerRateSkillProviderView"
+             Title="ProjectOwnerRateSkillProviderView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Project Name Header -->
+                <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                    <Label Text="Project Name" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                </Frame>
+
+                <!-- Rating Table -->
+                <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto,2*"
+                      ColumnSpacing="10" RowSpacing="10">
+
+                        <!-- Header Row -->
+                        <Label Grid.Row="0" Grid.Column="0" Text="Name" FontAttributes="Bold" TextColor="Black"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="Rating" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" Margin="-200,0,0,0"/>
+                        <Label Grid.Row="0" Grid.Column="2" Text="Feedback" FontAttributes="Bold" TextColor="Black"/>
+
+                        <!-- Sample Rows -->
+                        <Label Grid.Row="1" Grid.Column="0" Text="John Doe" TextColor="Black"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="★★★★★" TextColor="Gold" HorizontalOptions="Center" Margin="-200,0,0,0"/>
+                        <Editor Grid.Row="1" Grid.Column="2" Placeholder="Enter feedback..." BackgroundColor="White" TextColor="Black"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Jane Smith" TextColor="Black"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="★★★★☆" TextColor="Gold" HorizontalOptions="Center" Margin="-200,0,0,0"/>
+                        <Editor Grid.Row="2" Grid.Column="2" Placeholder="Enter feedback..." BackgroundColor="White" TextColor="Black"/>
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="Carlos Rivera" TextColor="Black"/>
+                        <Label Grid.Row="3" Grid.Column="1" Text="★★★☆☆" TextColor="Gold" HorizontalOptions="Center" Margin="-200,0,0,0"/>
+                        <Editor Grid.Row="3" Grid.Column="2" Placeholder="Enter feedback..." BackgroundColor="White" TextColor="Black"/>
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="Emily Cruz" TextColor="Black"/>
+                        <Label Grid.Row="4" Grid.Column="1" Text="★★★★☆" TextColor="Gold" HorizontalOptions="Center" Margin="-200,0,0,0"/>
+                        <Editor Grid.Row="4" Grid.Column="2" Placeholder="Enter feedback..." BackgroundColor="White" TextColor="Black"/>
+
+                    </Grid>
+                </Frame>
+
+                <!-- Submit Button -->
+                <HorizontalStackLayout HorizontalOptions="Center" Padding="10">
+                    <Button Text="Submit Rating" Padding="12,6" BackgroundColor="#A1D490" TextColor="Black"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

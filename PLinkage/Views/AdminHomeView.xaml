@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.AdminHomeView"
+             Title="AdminHomeView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="1" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Welcome -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Welcome back, Van!" FontSize="18" TextColor="Black" />
+                </Frame>
+
+                <!-- Statistics Header -->
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Statistics and Reportings" FontSize="16" TextColor="Black" />
+                </Frame>
+
+                <!-- Stats Frame -->
+                <Frame BackgroundColor="White"
+                   BorderColor="LightGray"
+                   CornerRadius="12"
+                   Padding="16"
+                   HasShadow="True">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <!-- Stat 1 -->
+                        <Frame BackgroundColor="#E0E0E0" CornerRadius="8" Padding="12">
+                            <Grid ColumnDefinitions="*,100">
+                                <Label Text="Number of Active Projects"
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+                                <Frame Grid.Column="1"
+                                   BackgroundColor="White"
+                                   CornerRadius="4"
+                                   Padding="4"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center">
+                                    <Label Text="12" FontSize="14" FontAttributes="Bold" TextColor="Black" />
+                                </Frame>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Stat 2 -->
+                        <Frame BackgroundColor="#E0E0E0" CornerRadius="8" Padding="12">
+                            <Grid ColumnDefinitions="*,100">
+                                <Label Text="Number of Employed and Unemployed Skill Providers"
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+                                <Frame Grid.Column="1"
+                                   BackgroundColor="White"
+                                   CornerRadius="4"
+                                   Padding="4"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center">
+                                    <Label Text="45 / 10" FontSize="14" FontAttributes="Bold" TextColor="Black" />
+                                </Frame>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Stat 3 -->
+                        <Frame BackgroundColor="#E0E0E0" CornerRadius="8" Padding="12">
+                            <Grid ColumnDefinitions="*,100">
+                                <Label Text="Number of Completed Projects"
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+                                <Frame Grid.Column="1"
+                                   BackgroundColor="White"
+                                   CornerRadius="4"
+                                   Padding="4"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center">
+                                    <Label Text="23" FontSize="14" FontAttributes="Bold" TextColor="Black" />
+                                </Frame>
+                            </Grid>
+                        </Frame>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

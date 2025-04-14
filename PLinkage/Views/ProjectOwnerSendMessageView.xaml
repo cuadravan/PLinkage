@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerSendMessageView"
+             Title="ProjectOwnerSendMessageView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Header -->
+                <Frame Padding="10" BackgroundColor="#E0E0E0" BorderColor="LightGray">
+                    <Label Text="Send Message"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Black"/>
+                </Frame>
+
+                <!-- Message Form -->
+                <Frame BackgroundColor="#E0E0E0" Padding="15" BorderColor="LightGray">
+                    <VerticalStackLayout Spacing="12">
+
+                        <!-- Name -->
+                        <Label Text="To:" FontSize="14" FontAttributes="Bold" TextColor="Black"/>
+                        <Entry x:Name="RecipientNameEntry"
+                           Placeholder="Recipient Name"
+                           BackgroundColor="White"
+                           TextColor="Black"/>
+
+                        <!-- Message -->
+                        <Label Text="Message:" FontSize="14" FontAttributes="Bold" TextColor="Black"/>
+                        <Editor x:Name="MessageEditor"
+                            Placeholder="Type your message here..."
+                            BackgroundColor="White"
+                            TextColor="Black"
+                            HeightRequest="150"/>
+
+                        <!-- Send Button -->
+                        <Button Text="Send Message"
+                            BackgroundColor="#A1D490"
+                            TextColor="Black"
+                            Padding="12,6"
+                            HorizontalOptions="Center"
+                            />
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

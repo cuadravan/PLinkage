@@ -60,7 +60,11 @@ namespace PLinkage.ViewModels
             {
                 await _navigationService.NavigateToAsync(nameof(ProjectOwnerHomeView)); // replace with your real root
             }
-                
+            else if (_sessionService.GetCurrentUserType() == UserRole.Admin)
+            {
+                await _navigationService.NavigateToAsync(nameof(AdminHomeView)); // replace with your real root
+            }
+
         }
 
         [RelayCommand]

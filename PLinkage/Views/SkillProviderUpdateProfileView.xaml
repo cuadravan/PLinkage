@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderUpdateProfileView"
+             Title="SkillProviderUpdateProfileView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <VerticalStackLayout Grid.Column="0" Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <Frame BackgroundColor="#D9D9D9" Padding="12" HasShadow="False">
+                <Label Text="Update Profile" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+            </Frame>
+
+            <!-- Form Grid with Frames -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="15" ColumnSpacing="20">
+                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent">
+                    <Entry x:Name="firstNameEntry" Placeholder="First Name" BackgroundColor="White" TextColor="Black" />
+                </Frame>
+                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="0" Grid.Column="1" BackgroundColor="Transparent">
+                    <Entry x:Name="genderEntry" Placeholder="Gender" BackgroundColor="White" TextColor="Black" />
+                </Frame>
+
+                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent">
+                    <Entry x:Name="lastNameEntry" Placeholder="Last Name" BackgroundColor="White" TextColor="Black" />
+                </Frame>
+                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent">
+                    <Entry x:Name="locationEntry" Placeholder="Location" BackgroundColor="White" TextColor="Black" />
+                </Frame>
+
+                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="2" Grid.Column="0" BackgroundColor="Transparent">
+                    <DatePicker x:Name="birthdatePicker" TextColor="Black" BackgroundColor="White" />
+                </Frame>
+                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="2" Grid.Column="1" BackgroundColor="Transparent">
+                    <Entry x:Name="mobileNumberEntry" Placeholder="Mobile Number" Keyboard="Telephone" BackgroundColor="White" TextColor="Black" />
+                </Frame>
+            </Grid>
+
+            <!-- Upload Button -->
+            <Button Text="Upload Profile Photo"
+                HorizontalOptions="Center"
+                BackgroundColor="#DDDDDD"
+                TextColor="Black"
+                
+                CornerRadius="6"
+                Padding="10,5"/>
+
+            <!-- Action Buttons -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                <Button Text="Reset"
+                    BackgroundColor="White"
+                    BorderColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="6"
+                    
+                    Padding="10,5" />
+                <Button Text="Apply Changes"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="6"
+                    
+                    Padding="10,5" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

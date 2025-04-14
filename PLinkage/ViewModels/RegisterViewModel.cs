@@ -115,6 +115,22 @@ namespace PLinkage.ViewModels
             if (!ValidateForm())
                 return;
 
+            // Load all existing users from both repositories
+            var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
+            var projectOwners = await _unitOfWork.ProjectOwner.GetAllAsync();
+
+            // Check if email already exists in either list
+            bool emailExists = skillProviders.Any(sp =>
+                                    (string?)sp.GetType().GetProperty("UserEmail")?.GetValue(sp) == Email)
+                            || projectOwners.Any(po =>
+                                    (string?)po.GetType().GetProperty("UserEmail")?.GetValue(po) == Email);
+
+            if (emailExists)
+            {
+                ErrorMessage = "Email is already registered. Please use a different email.";
+                return;
+            }
+
             if (SelectedRole == "Skill Provider")
             {
                 var skillProvider = new SkillProvider
@@ -155,6 +171,7 @@ namespace PLinkage.ViewModels
 
             await _navigationService.NavigateToAsync(nameof(LoginView));
         }
+
 
         [RelayCommand]
         private async Task Clear()

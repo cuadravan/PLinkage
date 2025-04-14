@@ -3,10 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.ProjectOwnerHomeView"
              Title="ProjectOwnerHomeView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome Project Owner!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid ColumnDefinitions="*">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="16">
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Welcome back, Van!" FontSize="18" TextColor="Black"/>
+                </Frame>
+
+                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
+                    <Label Text="Suggested for you" FontSize="16" TextColor="Black"/>
+                </Frame>
+
+                <!-- Suggestion Cards -->
+                <VerticalStackLayout Spacing="12">
+
+                    <Frame BackgroundColor="White" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,80">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                                <Label Text="Name" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="Rating: ★★★★☆" FontSize="12" TextColor="Black"/>
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="White" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,80">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                                <Label Text="Name" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="Rating: ★★★☆☆" FontSize="12" TextColor="Black"/>
+                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>
