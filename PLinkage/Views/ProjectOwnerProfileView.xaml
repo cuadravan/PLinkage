@@ -75,7 +75,8 @@
                                         <Grid ColumnDefinitions="*,Auto">
                                             <VerticalStackLayout>
                                                 <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                                                <Label Text="{Binding Status, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
+                                                <Label Text="{Binding ProjectDescription}" FontSize="14" TextColor="Black" />
+                                                <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
                                             </VerticalStackLayout>
                                             <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
                                                 <Button Text="View" BackgroundColor="LightBlue" />
