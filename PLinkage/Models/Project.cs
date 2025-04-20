@@ -5,6 +5,7 @@
         public Guid ProjectId { get; set; } = Guid.NewGuid();
         public Guid ProjectOwnerId { get; set; } = Guid.Empty;
         public string ProjectName { get; set; } = string.Empty;
+        public CebuLocation? ProjectLocation { get; set; } = null;
         public string ProjectDescription { get; set; } = string.Empty;
         public DateTime ProjectStartDate { get; set; } = DateTime.Now;
         public DateTime ProjectEndDate { get; set; } = DateTime.Now;

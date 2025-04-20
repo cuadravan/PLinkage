@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              x:Class="PLinkage.Views.ProjectOwnerProfileView"
-             x:DataType="viewmodels:ProjectOwnerProfileViewModel"
              Title="ProjectOwnerProfileView">
 
     <Grid ColumnDefinitions="*">

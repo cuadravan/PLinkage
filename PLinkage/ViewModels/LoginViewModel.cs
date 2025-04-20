@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkage.Interfaces;
-using PLinkage.Views;
 
 namespace PLinkage.ViewModels
 {
@@ -54,15 +53,15 @@ namespace PLinkage.ViewModels
             // Navigate to default home/root page
             if(_sessionService.GetCurrentUserType() == UserRole.SkillProvider)
             {
-                await _navigationService.NavigateToAsync(nameof(SkillProviderHomeView)); // replace with your real root
+                await _navigationService.NavigateToAsync("SkillProviderHomeView"); // replace with your real root
             }
             else if (_sessionService.GetCurrentUserType() == UserRole.ProjectOwner)
             {
-                await _navigationService.NavigateToAsync(nameof(ProjectOwnerHomeView)); // replace with your real root
+                await _navigationService.NavigateToAsync("ProjectOwnerHomeView"); // replace with your real root
             }
             else if (_sessionService.GetCurrentUserType() == UserRole.Admin)
             {
-                await _navigationService.NavigateToAsync(nameof(AdminHomeView)); // replace with your real root
+                await _navigationService.NavigateToAsync("AdminHomeView"); // replace with your real root
             }
 
         }
@@ -70,7 +69,7 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task GoToRegister()
         {
-            await _navigationService.NavigateToAsync(nameof(RegisterView));
+            await _navigationService.NavigateToAsync("RegisterView");
         }
     }
 }

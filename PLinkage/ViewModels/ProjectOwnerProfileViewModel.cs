@@ -1,10 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using PLinkage.Interfaces;
 using PLinkage.Models;
-using PLinkage.Views;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace PLinkage.ViewModels
 {
@@ -98,9 +96,9 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        public void AddProject()
+        public async Task AddProject()
         {
-            // Add project logic
+            await _navigationService.NavigateToAsync("ProjectOwnerAddProjectView");
         }
     }
 }

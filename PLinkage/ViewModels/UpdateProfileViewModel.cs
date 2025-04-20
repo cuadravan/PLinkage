@@ -1,34 +1,30 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkage.Interfaces;
-using PLinkage.Models;
-using PLinkage.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using PLinkage.Interfaces;
+using PLinkage.Models;
 
 namespace PLinkage.ViewModels
 {
-    public partial class UpdateProfileViewModel: ObservableValidator
+    public partial class UpdateProfileViewModel : ObservableValidator
     {
-        [ObservableProperty, Required(ErrorMessage = "First Name is required"),
-         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
+        [ObservableProperty, Required(ErrorMessage = "First Name is required")]
+        [RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
         private string firstName;
 
-        [ObservableProperty, Required(ErrorMessage = "Last Name is required"),
-         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid Last Name.")]
+        [ObservableProperty, Required(ErrorMessage = "Last Name is required")]
+        [RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid Last Name.")]
         private string lastName;
 
         [ObservableProperty]
         private DateTime birthdate = DateTime.Now;
 
         [ObservableProperty]
-        private bool isMale;
+        private bool isMale, isFemale;
 
         [ObservableProperty]
-        private bool isFemale;
-
-        [ObservableProperty,
-         RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
+        [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
         private string mobileNumber;
 
         [ObservableProperty]
@@ -49,19 +45,21 @@ namespace PLinkage.ViewModels
             _unitOfWork = unitOfWork;
             _navigationService = navigationService;
             _sessionService = sessionService;
+
             LoadCurrentProfile();
         }
 
         private async Task LoadCurrentProfile()
         {
             var user = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+
             FirstName = user.UserFirstName;
             LastName = user.UserLastName;
-            IsMale = user.UserGender == "Male" ? true : false;
-            IsFemale = user.UserGender == "Female" ? true : false;
             Birthdate = user.UserBirthDate;
             MobileNumber = user.UserPhone;
             SelectedLocation = user.UserLocation;
+            IsMale = user.UserGender == "Male";
+            IsFemale = user.UserGender == "Female";
         }
 
         private bool ValidateForm()
@@ -71,13 +69,9 @@ namespace PLinkage.ViewModels
 
             if (HasErrors)
             {
-                var firstError = GetErrors()
+                ErrorMessage = GetErrors()
                     .OfType<ValidationResult>()
-                    .FirstOrDefault();
-
-                if (firstError != null)
-                    ErrorMessage = firstError.ErrorMessage;
-
+                    .FirstOrDefault()?.ErrorMessage ?? "Validation failed.";
                 return false;
             }
 
@@ -90,8 +84,6 @@ namespace PLinkage.ViewModels
             return true;
         }
 
-
-
         private bool SetError(string message)
         {
             ErrorMessage = message;
@@ -101,12 +93,7 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task Update()
         {
-            if (!ValidateForm())
-                return;
-
-            // Load all existing users from both repositories
-            var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var projectOwners = await _unitOfWork.ProjectOwner.GetAllAsync();
+            if (!ValidateForm()) return;
 
             var user = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
 
@@ -116,30 +103,20 @@ namespace PLinkage.ViewModels
             user.UserGender = IsMale ? "Male" : "Female";
             user.UserPhone = MobileNumber;
             user.UserLocation = SelectedLocation;
-            
-            await _unitOfWork.ProjectOwner.UpdateAsync(user);
 
+            await _unitOfWork.ProjectOwner.UpdateAsync(user);
             await _unitOfWork.SaveChangesAsync();
-            ErrorMessage = string.Empty;
 
             _sessionService.SetCurrentUser(user);
+            ErrorMessage = string.Empty;
 
-            await _navigationService.NavigateToAsync(nameof(ProjectOwnerProfileView));
-        }
-
-
-        [RelayCommand]
-        private async Task Clear()
-        {
-            await LoadCurrentProfile();
-
+            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
         }
 
         [RelayCommand]
-        private async Task BackToProfile()
-        {
-            await _navigationService.NavigateToAsync(nameof(ProjectOwnerProfileView));
-        }
-    
+        private Task Clear() => LoadCurrentProfile();
+
+        [RelayCommand]
+        private Task BackToProfile() => _navigationService.NavigateToAsync("ProjectOwnerProfileView");
     }
 }

@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkage.Interfaces;
-using PLinkage.Models;
-using PLinkage.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+using PLinkage.Interfaces;
+using PLinkage.Models;
 
 namespace PLinkage.ViewModels
 {
@@ -169,7 +167,7 @@ namespace PLinkage.ViewModels
             await _unitOfWork.SaveChangesAsync();
             ErrorMessage = string.Empty;
 
-            await _navigationService.NavigateToAsync(nameof(LoginView));
+            await _navigationService.NavigateToAsync("LoginView");
         }
 
 
@@ -194,7 +192,7 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task BackToLogin()
         {
-            await _navigationService.NavigateToAsync(nameof(LoginView));
+            await _navigationService.NavigateToAsync("LoginView");
         }
     }
 }
