@@ -11,5 +11,8 @@ namespace PLinkage.Interfaces
         void ClearSession();
         bool IsLoggedIn();
         UserRole? GetCurrentUserType();
+        Guid VisitingProjectOwnerID { get; set; }
+        Guid VisitingSkillProviderID { get; set; }
+        Guid VisitingProjectID { get; set; }
     }
 }

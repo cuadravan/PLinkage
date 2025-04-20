@@ -12,6 +12,15 @@
             HorizontalOptions="Center"
             VerticalOptions="Center">
 
+            <!-- 🟡 Back to Login Button -->
+            <Button Text="← Back to Login"
+            HorizontalOptions="Start"
+            VerticalOptions="Start"
+            BackgroundColor="Transparent"
+            TextColor="#007BFF"
+            FontAttributes="Bold"
+            Command="{Binding BackToLoginCommand}" />
+            
             <Border 
                 StrokeThickness="2"
                 Stroke="#5A5A5A"

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              x:Class="PLinkage.Views.ProjectOwnerProfileView"
+             x:DataType="viewmodels:ProjectOwnerProfileViewModel"
              Title="ProjectOwnerProfileView">
-    <Grid ColumnDefinitions="*">
 
+    <Grid ColumnDefinitions="*">
         <!-- MAIN CONTENT -->
         <ScrollView Grid.Column="0" Padding="20">
             <VerticalStackLayout Spacing="16">
@@ -15,14 +17,15 @@
                         <HorizontalStackLayout Spacing="12">
                             <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" />
                             <VerticalStackLayout>
-                                <Label Text="Jane Villanueva" FontAttributes="Bold" FontSize="16" TextColor="Black" />
-                                <Label Text="Location: Davao City" FontSize="12" TextColor="Black" />
-                                <Label Text="Joined on: February 10, 2024" FontSize="12" TextColor="Black" />
+                                <Label Text="{Binding UserName}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                                <Label Text="{Binding UserLocation, StringFormat='Location: {0}'}" FontSize="12" TextColor="Black" />
+                                <Label Text="{Binding DateJoined, StringFormat='Joined on: {0:MMMM dd, yyyy}'}" FontSize="12" TextColor="Black" />
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
                         <Button Text="Update Profile"
-                            BackgroundColor="LightGray" Padding="10,4" CornerRadius="6"
-                            HorizontalOptions="End" />
+                                BackgroundColor="Salmon" Padding="10,4" CornerRadius="6"
+                                Command="{Binding UpdateProfileCommand}"
+                                HorizontalOptions="End" />
                     </Grid>
                 </Frame>
 
@@ -30,9 +33,9 @@
                 <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
                     <VerticalStackLayout>
                         <Label Text="Information" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                        <Label Text="Gender: Female" FontSize="12" TextColor="Black" />
-                        <Label Text="Email: jane@email.com" FontSize="12" TextColor="Black" />
-                        <Label Text="Mobile: 09123456789" FontSize="12" TextColor="Black" />
+                        <Label Text="{Binding UserGender, StringFormat='Gender: {0}'}" FontSize="12" TextColor="Black" />
+                        <Label Text="{Binding UserEmail, StringFormat='Email: {0}'}" FontSize="12" TextColor="Black" />
+                        <Label Text="{Binding UserPhone, StringFormat='Mobile: {0}'}" FontSize="12" TextColor="Black" />
                     </VerticalStackLayout>
                 </Frame>
 
@@ -44,55 +47,49 @@
                         <Grid ColumnDefinitions="*,Auto">
                             <VerticalStackLayout>
                                 <Label Text="Sort By" TextColor="Black" FontSize="14" FontAttributes="Bold" Margin="0,0,0,4" />
-
                                 <Frame BackgroundColor="White" BorderColor="LightGray" CornerRadius="6"
-                                   HeightRequest="40" WidthRequest="200" Padding="0" HasShadow="False"
-                                   HorizontalOptions="Start" VerticalOptions="Center">
+                                       HeightRequest="40" WidthRequest="200" Padding="0" HasShadow="False"
+                                       HorizontalOptions="Start" VerticalOptions="Center">
                                     <Grid>
-                                        <Picker x:Name="SortPicker" Title="Select Status"
-                                            TextColor="Black" FontSize="14" TitleColor="DarkGray"
-                                            BackgroundColor="Transparent"
-                                            HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                            Margin="0,-15,0,0" HeightRequest="75" />
+                                        <Picker Title="Select Status"
+                                                ItemsSource="{Binding SortOptions}"
+                                                SelectedItem="{Binding SortSelection}"
+                                                TextColor="Black" FontSize="14" TitleColor="DarkGray"
+                                                BackgroundColor="Transparent"
+                                                HorizontalOptions="FillAndExpand" VerticalOptions="Center"
+                                                Margin="0,-15,0,0" HeightRequest="75" />
                                     </Grid>
                                 </Frame>
                             </VerticalStackLayout>
 
                             <Button Text="Create Project"
-                                BackgroundColor="LightGray" Padding="10,4" CornerRadius="6"
-                                HorizontalOptions="End" VerticalOptions="End" />
+                                    BackgroundColor="ForestGreen" Padding="10,4" CornerRadius="6"
+                                    Command="{Binding AddProjectCommand}"
+                                    HorizontalOptions="End" VerticalOptions="End" />
                         </Grid>
 
                         <!-- PROJECT CARDS -->
-                        <Frame BorderColor="LightGray" Padding="10" CornerRadius="6" BackgroundColor="White">
-                            <Grid ColumnDefinitions="*,Auto">
-                                <VerticalStackLayout>
-                                    <Label Text="Mobile App Revamp" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                                    <Label Text="Status: Active" FontSize="12" TextColor="Black" />
-                                </VerticalStackLayout>
-                                <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
-                                    <Button Text="View" BackgroundColor="LightBlue" />
-                                    <Button Text="Update" BackgroundColor="LightGray" />
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Frame>
-
-                        <Frame BorderColor="LightGray" Padding="10" CornerRadius="6" BackgroundColor="White">
-                            <Grid ColumnDefinitions="*,Auto">
-                                <VerticalStackLayout>
-                                    <Label Text="Inventory Migration" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                                    <Label Text="Status: Completed" FontSize="12" TextColor="Black" />
-                                </VerticalStackLayout>
-                                <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
-                                    <Button Text="View" BackgroundColor="LightBlue"  />
-                                    <Button Text="Update" BackgroundColor="LightGray" />
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Frame>
+                        <CollectionView ItemsSource="{Binding OwnedProjects}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="LightGray" Padding="10" CornerRadius="6" BackgroundColor="White">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                                                <Label Text="{Binding Status, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
+                                                <Button Text="View" BackgroundColor="LightBlue" />
+                                                <Button Text="Update" BackgroundColor="LightGray" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
 
                     </VerticalStackLayout>
                 </Frame>
-
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

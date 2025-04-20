@@ -17,8 +17,6 @@ namespace PLinkage.Models
         public string UserStatus { get; set; } = string.Empty;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
-
-        public List<Guid> EmployedProjectId { get; set; } = new List<Guid>();
         public List<Guid> OwnedProjectId { get; set; } = new List<Guid>();
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
     }

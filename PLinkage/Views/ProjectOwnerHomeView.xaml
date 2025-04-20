@@ -1,49 +1,87 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             xmlns:models="clr-namespace:PLinkage.Models"
              x:Class="PLinkage.Views.ProjectOwnerHomeView"
-             Title="ProjectOwnerHomeView">
-    <Grid ColumnDefinitions="*">
+             Title="ProjectOwnerHomeView"
+             BackgroundColor="White">
 
-        <!-- Main Content -->
+
+    <Grid ColumnDefinitions="*">
         <ScrollView Grid.Column="0" Padding="20">
             <VerticalStackLayout Spacing="16">
-                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
-                    <Label Text="Welcome back, Van!" FontSize="18" TextColor="Black"/>
-                </Frame>
 
-                <Frame BackgroundColor="#E0E0E0" Padding="16" CornerRadius="8">
-                    <Label Text="Suggested for you" FontSize="16" TextColor="Black"/>
-                </Frame>
+                <!-- Welcome Banner -->
+                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+                        Padding="16" StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding UserName, StringFormat='Welcome back, {0}!'}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="Black" />
 
-                <!-- Suggestion Cards -->
-                <VerticalStackLayout Spacing="12">
+                        <Label Text="{Binding SummaryText}"
+                           FontSize="14"
+                           TextColor="Black"/>
 
-                    <Frame BackgroundColor="White" CornerRadius="8" Padding="12" BorderColor="LightGray">
-                        <Grid ColumnDefinitions="80,*,80">
-                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
-                                <Label Text="Name" FontAttributes="Bold" TextColor="Black"/>
-                                <Label Text="Rating: ★★★★☆" FontSize="12" TextColor="Black"/>
-                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black"/>
-                            </VerticalStackLayout>
-                            <Button Text="View" Grid.Column="2" VerticalOptions="Center"/>
-                        </Grid>
-                    </Frame>
+                    </VerticalStackLayout>
+                </Border>
 
-                    <Frame BackgroundColor="White" CornerRadius="8" Padding="12" BorderColor="LightGray">
-                        <Grid ColumnDefinitions="80,*,80">
-                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <VerticalStackLayout Grid.Column="1" Padding="10,0">
-                                <Label Text="Name" FontAttributes="Bold" TextColor="Black"/>
-                                <Label Text="Rating: ★★★☆☆" FontSize="12" TextColor="Black"/>
-                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black"/>
-                            </VerticalStackLayout>
-                            <Button Text="View" Grid.Column="2" VerticalOptions="Center"/>
-                        </Grid>
-                    </Frame>
+                <!-- Suggested Header and Sort Picker -->
+                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+                        Padding="16" StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Suggested for you"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="Black" />
 
-                </VerticalStackLayout>
+                        <!-- Sort Options Picker -->
+                        <Picker Title="Sort by"
+                                ItemsSource="{Binding SortOptions}"
+                                SelectedItem="{Binding SortSelection}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Suggested Projects List -->
+                <CollectionView ItemsSource="{Binding SuggestedSkillProviders}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
+                                    Padding="12" StrokeShape="RoundRectangle 10">
+                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                    <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                             VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding UserFirstName}"
+                                               FontAttributes="Bold"
+                                               FontSize="14"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding UserRating, StringFormat='{0} star/s'}"
+                                               FontSize="12"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding UserLocation}"
+                                               FontSize="12"
+                                               TextColor="Black"/>
+                                    </VerticalStackLayout>
+
+                                    <Button Text="View"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerHomeViewModel}}, Path=ViewSkillProviderCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Grid.Column="2"
+                                    BackgroundColor="#D0E8FF"
+                                    Padding="10,4"
+                                    CornerRadius="6"
+                                    VerticalOptions="Center"
+                                    TextColor="Black"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

@@ -190,5 +190,11 @@ namespace PLinkage.ViewModels
             ErrorMessage = string.Empty;
 
         }
+
+        [RelayCommand]
+        private async Task BackToLogin()
+        {
+            await _navigationService.NavigateToAsync(nameof(LoginView));
+        }
     }
 }

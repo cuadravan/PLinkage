@@ -8,7 +8,7 @@
         public string ProjectDescription { get; set; } = string.Empty;
         public DateTime ProjectStartDate { get; set; } = DateTime.Now;
         public DateTime ProjectEndDate { get; set; } = DateTime.Now;
-        public string ProjectStatus { get; set; } = string.Empty;
+        public ProjectStatus? ProjectStatus { get; set; } = null;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
         public List<Guid> ProjectMembersId { get; set; } = new List<Guid>();
         public string ProjectPriority { get; set; } = string.Empty;
@@ -16,4 +16,11 @@
         public DateTime ProjectDateCreated { get; set; } = DateTime.Now;
         public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
     }
+}
+
+public enum ProjectStatus
+{
+    Active,
+    Completed,
+    Deactivated,
 }

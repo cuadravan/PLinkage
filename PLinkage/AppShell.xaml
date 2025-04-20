@@ -7,24 +7,32 @@
     Shell.FlyoutBehavior="Flyout"
     Title="PLinkage">
 
-    <!-- Flyout Header -->
     <Shell.FlyoutHeader>
-        <StackLayout Padding="10">
+        <StackLayout Padding="10" Spacing="10">
             <Image Source="plinkage_logo.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
-            <Label Text="{Binding WelcomeMessage}" FontAttributes="Bold" FontSize="16"/>
+            <Label Text="{Binding WelcomeMessage}" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" />
+            <Label Text="{Binding UserRoleMessage}" FontSize="14" HorizontalOptions="Center" />
+
+            <Button Text="Logout"
+                Command="{Binding LogoutCommand}"
+                IsVisible="{Binding IsLoggedIn}"
+                BackgroundColor="Red"
+                TextColor="White"
+                HorizontalOptions="Center"
+                WidthRequest="100"
+                CornerRadius="10"/>
         </StackLayout>
     </Shell.FlyoutHeader>
 
-    <!-- Not Logged In -->
-    <FlyoutItem Title="Login">
-        <ShellContent Route="LoginView" 
-                  ContentTemplate="{DataTemplate views:LoginView}" />
-    </FlyoutItem>
+    <ShellContent
+    Route="LoginView"
+    ContentTemplate="{DataTemplate views:LoginView}"
+    FlyoutItemIsVisible="False" />
 
-    <FlyoutItem Title="Register" IsVisible="{Binding IsNotLoggedIn}">
-        <ShellContent Route="RegisterView" 
-                  ContentTemplate="{DataTemplate views:RegisterView}" />
-    </FlyoutItem>
+    <ShellContent
+    Route="RegisterView"
+    ContentTemplate="{DataTemplate views:RegisterView}"
+    FlyoutItemIsVisible="False" />
 
     <!-- Admin Menu -->
     <FlyoutItem Title="Home" IsVisible="{Binding IsAdmin}">

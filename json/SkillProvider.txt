@@ -15,6 +15,26 @@
     "Educations": [],
     "Skills": [],
     "UserRating": 0.0,
+    "UserRatingCount": 0,
     "JoinedOn": "2025-04-12T15:08:13.3629424+08:00"
+  },
+  {
+    "UserId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "UserFirstName": "Cristal",
+    "UserLastName": "Tabotabo",
+    "UserEmail": "tabotabo@gmail.com",
+    "UserPassword": "12345678",
+    "UserPhone": "09177805163",
+    "UserLocation": 24,
+    "UserBirthDate": "2025-04-01T00:00:00",
+    "UserGender": "Female",
+    "UserRole": 0,
+    "UserStatus": "",
+    "OfferApplicationId": [],
+    "Educations": [],
+    "Skills": [],
+    "UserRating": 0.0,
+    "UserRatingCount": 0,
+    "JoinedOn": "2025-04-16T10:03:24.8777466+08:00"
   }
 ]
