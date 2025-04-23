@@ -67,31 +67,6 @@ namespace PLinkage.ViewModels
 
         public IAsyncRelayCommand OnAppearingCommand { get; }
 
-        private void UpdateDurationSummary()
-        {
-            if (ProjectEndDate >= ProjectStartDate)
-            {
-                var duration = ProjectEndDate - ProjectStartDate;
-                var days = duration.TotalDays;
-                var weeks = Math.Floor(days / 7);
-                var months = Math.Floor(days / 30);
-
-                DurationSummary = $"{(int)days} days | {weeks} weeks | {months} months";
-            }
-            else
-            {
-                DurationSummary = "Invalid date range";
-            }
-        }
-
-        [RelayCommand]
-        private async Task Back()
-        {
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView"); // This will need a stack based system
-            // ProjectOwner can view their own project and then navigate back to profile of projectowner
-            // Skill Provider can view project and then go back to either home, browse projects, or a project owner profile
-        }
-
         public async Task OnAppearing()
         {
             _projectId = _sessionService.VisitingProjectID;
@@ -122,6 +97,22 @@ namespace PLinkage.ViewModels
             await LoadEmployedSkillProviders();
         }
 
+        private void UpdateDurationSummary()
+        {
+            if (ProjectEndDate >= ProjectStartDate)
+            {
+                var duration = ProjectEndDate - ProjectStartDate;
+                var days = duration.TotalDays;
+                var weeks = Math.Floor(days / 7);
+                var months = Math.Floor(days / 30);
+
+                DurationSummary = $"{(int)days} days | {weeks} weeks | {months} months";
+            }
+            else
+            {
+                DurationSummary = "Invalid date range";
+            }
+        }
         private async Task LoadEmployedSkillProviders()
         {
             var employedSkillProvidersList = await _unitOfWork.SkillProvider.GetAllAsync();
@@ -131,6 +122,12 @@ namespace PLinkage.ViewModels
             EmployedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
         }
 
-
+        [RelayCommand]
+        private async Task Back()
+        {
+            await _navigationService.NavigateToAsync("ProjectOwnerProfileView"); // This will need a stack based system
+            // ProjectOwner can view their own project and then navigate back to profile of projectowner
+            // Skill Provider can view project and then go back to either home, browse projects, or a project owner profile
+        }
     }
 }

@@ -17,7 +17,6 @@ namespace PLinkage.ViewModels
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
             _sessionService = sessionService;
-
             OnAppearingCommand = new AsyncRelayCommand(OnAppearing);
         }
 
@@ -35,8 +34,6 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private int activeProjects;
         [ObservableProperty] private string summaryText;
 
-        public IAsyncRelayCommand OnAppearingCommand { get; }
-
         private string sortSelection = "All";
 
         public string SortSelection
@@ -46,23 +43,19 @@ namespace PLinkage.ViewModels
             {
                 if (SetProperty(ref sortSelection, value))
                 {
-                    // Trigger the filtering when the selection changes
                     LoadSuggestedSkillProviders();
                 }
             }
         }
 
+        public IAsyncRelayCommand OnAppearingCommand { get; }
         public async Task OnAppearing()
         {
             await _unitOfWork.ReloadAsync();
             UserName = _sessionService.GetCurrentUser()?.UserFirstName ?? string.Empty;
 
             await LoadSuggestedSkillProviders();
-            await CountSentApplications();
-            await CountReceivedOffers();
-            await CountActiveProjects();
-
-            SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent applications, and {ReceivedOfferCount} received offers.";
+            await CountProjectOwnerProjectsOffersApplication();      
         }
 
         private async Task LoadSuggestedSkillProviders()
@@ -102,41 +95,28 @@ namespace PLinkage.ViewModels
         }
 
 
-        private async Task CountSentApplications()
+        private async Task CountProjectOwnerProjectsOffersApplication()
         {
             var currentUser = _sessionService.GetCurrentUser();
             if (currentUser == null) return;
 
             var allApplications = await _unitOfWork.OfferApplications.GetAllAsync();
             SentApplicationCount = allApplications.Count(app => app.SenderId == currentUser.UserId);
-        }
-
-        private async Task CountReceivedOffers()
-        {
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
 
             var allOffers = await _unitOfWork.OfferApplications.GetAllAsync();
             ReceivedOfferCount = allOffers.Count(offer => offer.ReceiverId == currentUser.UserId);
-        }
-
-        private async Task CountActiveProjects()
-        {
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
 
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
             ActiveProjects = allProjects.Count(p => p.ProjectOwnerId == currentUser.UserId && p.ProjectStatus == ProjectStatus.Active);
+
+            SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent applications, and {ReceivedOfferCount} received offers.";
         }
 
         [RelayCommand]
         private void ViewSkillProvider(SkillProvider skillProvider)
         {
-            // This runs when the button is clicked
             Application.Current.MainPage.DisplayAlert("Project", $"You selected: {skillProvider.UserFirstName}", "OK");
         }
-
-
 
         private double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)
         {
@@ -155,6 +135,5 @@ namespace PLinkage.ViewModels
 
             return EarthRadius * c;
         }
-
     }
 }
