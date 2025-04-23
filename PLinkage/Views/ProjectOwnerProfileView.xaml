@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             xmlns:models="clr-namespace:PLinkage.Models"
              x:Class="PLinkage.Views.ProjectOwnerProfileView"
              Title="ProjectOwnerProfileView">
 
@@ -79,8 +80,10 @@
                                                 <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
                                             </VerticalStackLayout>
                                             <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
-                                                <Button Text="View" BackgroundColor="LightBlue" />
-                                                <Button Text="Update" BackgroundColor="LightGray" />
+                                                <Button Text="View"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewProjectCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="LightBlue"/>
                                             </VerticalStackLayout>
                                         </Grid>
                                     </Frame>

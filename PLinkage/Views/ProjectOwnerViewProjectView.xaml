@@ -12,9 +12,9 @@
                 <!-- Project Info -->
                 <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="black"/>
-                        <Label Text="Location" FontSize="14" TextColor="black"/>
-                        <Editor Text="Project Description" HeightRequest="100" BackgroundColor="White" TextColor="black"/>
+                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="black"/>
+                        <Label Text="{Binding ProjectLocation}" FontSize="14" TextColor="black"/>
+                        <Label Text="{Binding ProjectDescription}" HeightRequest="100" BackgroundColor="White" TextColor="black"/>
                     </VerticalStackLayout>
                 </Frame>
 
@@ -26,11 +26,11 @@
                         <VerticalStackLayout Spacing="10">
                             <Label Text="Start Date" FontAttributes="Bold" TextColor="black"/>
                             <Frame Padding="0" HasShadow="False" BorderColor="LightGray" BackgroundColor="White">
-                                <DatePicker TextColor="black"/>
+                                <DatePicker Date="{Binding ProjectStartDate}" TextColor="black" IsEnabled="False"/>
                             </Frame>
                             <Label Text="End Date" FontAttributes="Bold" TextColor="black"/>
                             <Frame Padding="0" HasShadow="False" BorderColor="LightGray" BackgroundColor="White">
-                                <DatePicker TextColor="black"/>
+                                <DatePicker Date="{Binding ProjectEndDate}" TextColor="black" IsEnabled="False"/>
                             </Frame>
                         </VerticalStackLayout>
                     </Frame>
@@ -39,18 +39,16 @@
                     <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
                         <VerticalStackLayout Spacing="10">
                             <Label Text="Priority" FontAttributes="Bold" TextColor="black"/>
-                            <Picker x:Name="PriorityPicker"
-                                Title="Select Priority"
+                            <Label Text="{Binding ProjectPriority}"
                                 BackgroundColor="White"
                                 TextColor="#444"
-                                TitleColor="#555555"
+                                
                                 />
                             <Label Text="Status" FontAttributes="Bold" TextColor="black"/>
-                            <Picker x:Name="StatusPicker"
-                                Title="Select Status"
+                            <Label Text="{Binding ProjectStatus}"
                                 BackgroundColor="White"
                                 TextColor="#444"
-                                TitleColor="#555555"
+                                
                                 />
                         </VerticalStackLayout>
                     </Frame>
@@ -59,7 +57,7 @@
                     <Frame Grid.Column="2" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
                         <VerticalStackLayout Spacing="5">
                             <Label Text="Number of Resources" FontAttributes="Bold" TextColor="black"/>
-                            <Entry BackgroundColor="White" TextColor="black"/>
+                            <Label Text="{Binding ProjectResourcesNeeded}" BackgroundColor="White" TextColor="black"/>
                         </VerticalStackLayout>
                     </Frame>
                 </Grid>
@@ -69,82 +67,48 @@
 
                     <!-- Employed Skill Providers -->
                     <Frame Grid.Column="0" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
-                        <VerticalStackLayout Spacing="10">
-                            <Label Text="Employed Skill Providers" FontAttributes="Bold" FontSize="14" TextColor="black"/>
-                            <VerticalStackLayout Spacing="6">
-
-                                <!-- Repeated Card -->
-                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label Text="John Doe" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
-                                        <Button Text="Remove" FontSize="12" Padding="6,2" WidthRequest="70"
-                                            BackgroundColor="#F28B82" TextColor="Black"
-                                            
-                                            HorizontalOptions="End"/>
-                                    </Grid>
-                                </Frame>
-
-                                <!-- Add 4 more similar blocks -->
-                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label Text="Jane Smith" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
-                                        <Button Text="Remove" FontSize="12" Padding="6,2" WidthRequest="70"
-                                            BackgroundColor="#F28B82" TextColor="Black"
-                                            
-                                            HorizontalOptions="End"/>
-                                    </Grid>
-                                </Frame>
-
-                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label Text="Carlos Rivera" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
-                                        <Button Text="Remove" FontSize="12" Padding="6,2" WidthRequest="70"
-                                            BackgroundColor="#F28B82" TextColor="Black"
-                                            
-                                            HorizontalOptions="End"/>
-                                    </Grid>
-                                </Frame>
-
-                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label Text="Emily Cruz" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
-                                        <Button Text="Remove" FontSize="12" Padding="6,2" WidthRequest="70"
-                                            BackgroundColor="#F28B82" TextColor="Black"
-                                            
-                                            HorizontalOptions="End"/>
-                                    </Grid>
-                                </Frame>
-
-                                <Frame Padding="10" BackgroundColor="#D6D6D6" HasShadow="False" CornerRadius="6">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label Text="Leo Tan" FontSize="14" TextColor="Black" VerticalOptions="Center"/>
-                                        <Button Text="Remove" FontSize="12" Padding="6,2" WidthRequest="70"
-                                            BackgroundColor="#F28B82" TextColor="Black"
-                                            
-                                            HorizontalOptions="End"/>
-                                    </Grid>
-                                </Frame>
-
-                            </VerticalStackLayout>
-                        </VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding EmployedSkillProviders}"
+                                HeightRequest="150">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="6,3" Margin="2"
+                                        BackgroundColor="#DDEEFF"
+                                        BorderColor="LightGray"
+                                        HasShadow="False"
+                                        CornerRadius="10">      
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding UserFirstName}" TextColor="Black"/>
+                                            <Label Text="{Binding UserLastName}" TextColor="Black"/>
+                                            <Button Text="Remove Skill Provider"
+                                                FontSize="12"
+                                                BackgroundColor="Red"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSkillProviderCommand}"
+                                                CommandParameter="{Binding .}" />   
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Frame>
 
                     <!-- Required Skills -->
                     <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
-                        <VerticalStackLayout Spacing="10">
-                            <Label Text="Required Skills:" FontAttributes="Bold" TextColor="black"/>
-                            <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Start">
-                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" HasShadow="False" CornerRadius="6" Margin="4">
-                                    <Label Text="Python" FontSize="12" TextColor="black"/>
-                                </Frame>
-                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" HasShadow="False" CornerRadius="6" Margin="4">
-                                    <Label Text="JavaScript" FontSize="12" TextColor="black"/>
-                                </Frame>
-                                <Frame Padding="6,2" BackgroundColor="#E6E6E6" HasShadow="False" CornerRadius="6" Margin="4">
-                                    <Label Text="SQL" FontSize="12" TextColor="black"/>
-                                </Frame>
-                            </FlexLayout>
-                        </VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding ProjectSkillsRequired}"
+                            HeightRequest="150">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="6,3" Margin="2"
+                                            BackgroundColor="#DDEEFF"
+                                            BorderColor="LightGray"
+                                            HasShadow="False"
+                                            CornerRadius="10">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding .}" TextColor="Black"/>
+                                        </HorizontalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Frame>
                 </Grid>
 

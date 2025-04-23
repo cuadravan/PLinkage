@@ -18,7 +18,7 @@ namespace PLinkage.ViewModels
             _unitOfWork = unitOfWork;
             _sessionService = sessionService;
 
-            LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
+            OnAppearingCommand = new AsyncRelayCommand(OnAppearing);
         }
 
         public ObservableCollection<string> SortOptions { get; } = new()
@@ -35,7 +35,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private int activeProjects;
         [ObservableProperty] private string summaryText;
 
-        public IAsyncRelayCommand LoadDashboardDataCommand { get; }
+        public IAsyncRelayCommand OnAppearingCommand { get; }
 
         private string sortSelection = "All";
 
@@ -52,7 +52,7 @@ namespace PLinkage.ViewModels
             }
         }
 
-        private async Task LoadDashboardData()
+        public async Task OnAppearing()
         {
             await _unitOfWork.ReloadAsync();
             UserName = _sessionService.GetCurrentUser()?.UserFirstName ?? string.Empty;
@@ -127,12 +127,6 @@ namespace PLinkage.ViewModels
 
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
             ActiveProjects = allProjects.Count(p => p.ProjectOwnerId == currentUser.UserId && p.ProjectStatus == ProjectStatus.Active);
-        }
-
-        [RelayCommand]
-        private async Task Refresh()
-        {
-            await LoadDashboardData();
         }
 
         [RelayCommand]

@@ -15,7 +15,7 @@ public partial class ProjectOwnerHomeView : ContentPage
         base.OnAppearing();
 
         if (BindingContext is ProjectOwnerHomeViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+            await vm.OnAppearingCommand.ExecuteAsync(null);
     }
 
 }

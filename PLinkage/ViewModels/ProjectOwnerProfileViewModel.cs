@@ -100,5 +100,12 @@ namespace PLinkage.ViewModels
         {
             await _navigationService.NavigateToAsync("ProjectOwnerAddProjectView");
         }
+
+        [RelayCommand]
+        private async Task ViewProject(Project project)
+        {
+            _sessionService.VisitingProjectID = project.ProjectId;
+            await _navigationService.NavigateToAsync("ProjectOwnerViewProjectView");
+        }
     }
 }
