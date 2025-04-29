@@ -8,28 +8,34 @@ namespace PLinkage.ViewModels
 {
     public partial class ProjectOwnerProfileViewModel : ObservableObject
     {
-        private Guid _projectOwnerId;
-
+        // Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
-        public IAsyncRelayCommand OnViewAppearingCommand { get; }
 
-        public ProjectOwnerProfileViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
-        {
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
-            _navigationService = navigationService;
-            OnViewAppearingCommand = new AsyncRelayCommand(OnViewAppearing);
-        }
+        private Guid _projectOwnerId;
 
+        // Properties
         [ObservableProperty] private string userName;
         [ObservableProperty] private string userLocation;
         [ObservableProperty] private DateTime dateJoined;
         [ObservableProperty] private string userGender;
         [ObservableProperty] private string userEmail;
         [ObservableProperty] private string userPhone;
-        [ObservableProperty] private ObservableCollection<Project> ownedProjects;
+        [ObservableProperty] private ObservableCollection<Project> ownedProjects = new();
+
+        public IAsyncRelayCommand OnViewAppearingCommand { get; }
+
+        private string sortSelection = "All";
+        public string SortSelection
+        {
+            get => sortSelection;
+            set
+            {
+                if (SetProperty(ref sortSelection, value))
+                    _ = LoadProjectsAsync();
+            }
+        }
 
         public ObservableCollection<string> SortOptions { get; } = new()
         {
@@ -39,26 +45,22 @@ namespace PLinkage.ViewModels
             "All"
         };
 
-        private string sortSelection = "All";
-        public string SortSelection
+        // Constructor
+        public ProjectOwnerProfileViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
         {
-            get => sortSelection;
-            set
-            {
-                if (SetProperty(ref sortSelection, value))
-                {
-                    LoadProjectsAsync();
-                }
-            }
+            _unitOfWork = unitOfWork;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+            OnViewAppearingCommand = new AsyncRelayCommand(OnViewAppearing);
         }
 
+        // Core Methods
         public async Task OnViewAppearing()
         {
             _projectOwnerId = _sessionService.VisitingProjectOwnerID;
             if (_projectOwnerId == Guid.Empty)
-            {
                 _projectOwnerId = _sessionService.GetCurrentUser().UserId;
-            }
+
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
             await LoadProjectsAsync();
@@ -66,39 +68,43 @@ namespace PLinkage.ViewModels
 
         private async Task LoadProfileAsync()
         {
-            var projectOwnerProfile = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
-            UserName = $"{projectOwnerProfile.UserFirstName} {projectOwnerProfile.UserLastName}";
-            UserLocation = projectOwnerProfile.UserLocation?.ToString() ?? "Not specified";
-            DateJoined = projectOwnerProfile.JoinedOn;
-            UserGender = projectOwnerProfile.UserGender;
-            UserEmail = projectOwnerProfile.UserEmail;
-            UserPhone = projectOwnerProfile.UserPhone;
+            var profile = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
+            if (profile == null) return;
+
+            UserName = $"{profile.UserFirstName} {profile.UserLastName}";
+            UserLocation = profile.UserLocation?.ToString() ?? "Not specified";
+            DateJoined = profile.JoinedOn;
+            UserGender = profile.UserGender;
+            UserEmail = profile.UserEmail;
+            UserPhone = profile.UserPhone;
         }
 
         private async Task LoadProjectsAsync()
         {
             var projects = await _unitOfWork.Projects.GetAllAsync();
-            var ownedProjects = projects.Where(p => p.ProjectOwnerId == _projectOwnerId).ToList();
+            var owned = projects.Where(p => p.ProjectOwnerId == _projectOwnerId);
 
             OwnedProjects = SortSelection switch
             {
-                "Active" => new ObservableCollection<Project>(ownedProjects.Where(p => p.ProjectStatus == ProjectStatus.Active)),
-                "Completed" => new ObservableCollection<Project>(ownedProjects.Where(p => p.ProjectStatus == ProjectStatus.Completed)),
-                "Deactivated" => new ObservableCollection<Project>(ownedProjects.Where(p => p.ProjectStatus == ProjectStatus.Deactivated)),
-                _ => new ObservableCollection<Project>(ownedProjects),
+                "Active" => new ObservableCollection<Project>(owned.Where(p => p.ProjectStatus == ProjectStatus.Active)),
+                "Completed" => new ObservableCollection<Project>(owned.Where(p => p.ProjectStatus == ProjectStatus.Completed)),
+                "Deactivated" => new ObservableCollection<Project>(owned.Where(p => p.ProjectStatus == ProjectStatus.Deactivated)),
+                _ => new ObservableCollection<Project>(owned)
             };
         }
 
+        // Commands
         [RelayCommand]
-        public async Task UpdateProfile()
-        {
-            await _navigationService.NavigateToAsync("ProjectOwnerUpdateProfileView");
-        }
+        private async Task UpdateProfile() => await _navigationService.NavigateToAsync("ProjectOwnerUpdateProfileView");
 
         [RelayCommand]
-        public async Task AddProject()
+        private async Task AddProject() => await _navigationService.NavigateToAsync("ProjectOwnerAddProjectView");
+
+        [RelayCommand]
+        private async Task ViewProject(Project project)
         {
-            await _navigationService.NavigateToAsync("ProjectOwnerAddProjectView");
+            _sessionService.VisitingProjectID = project.ProjectId;
+            await _navigationService.NavigateToAsync("ProjectOwnerViewProjectView");
         }
     }
 }

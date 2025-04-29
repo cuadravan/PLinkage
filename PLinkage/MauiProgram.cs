@@ -41,6 +41,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<ProjectOwnerProfileViewModel>();
 		builder.Services.AddTransient<UpdateProfileViewModel>();
 		builder.Services.AddTransient<AddProjectViewModel>();
+		builder.Services.AddTransient<ViewProjectViewModel>();
+		builder.Services.AddTransient<UpdateProjectViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

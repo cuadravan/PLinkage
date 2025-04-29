@@ -9,49 +9,50 @@ namespace PLinkage.ViewModels
 {
     public partial class UpdateProfileViewModel : ObservableValidator
     {
-        [ObservableProperty, Required(ErrorMessage = "First Name is required")]
-        [RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
+        // Services
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly INavigationService _navigationService;
+        private readonly ISessionService _sessionService;
+        
+
+        // Fields
+        [ObservableProperty, Required(ErrorMessage = "First Name is required"),
+         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
         private string firstName;
 
-        [ObservableProperty, Required(ErrorMessage = "Last Name is required")]
-        [RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid Last Name.")]
+        [ObservableProperty, Required(ErrorMessage = "Last Name is required"),
+         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid Last Name.")]
         private string lastName;
 
-        [ObservableProperty]
-        private DateTime birthdate = DateTime.Now;
+        [ObservableProperty] private DateTime birthdate = DateTime.Now;
+        [ObservableProperty] private bool isMale;
+        [ObservableProperty] private bool isFemale;
 
-        [ObservableProperty]
-        private bool isMale, isFemale;
-
-        [ObservableProperty]
-        [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
+        [ObservableProperty,
+         RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
         private string mobileNumber;
 
-        [ObservableProperty]
-        private CebuLocation? selectedLocation;
-
-        [ObservableProperty]
-        private string errorMessage;
+        [ObservableProperty] private CebuLocation? selectedLocation;
+        [ObservableProperty] private string errorMessage;
 
         public ObservableCollection<CebuLocation> CebuLocations { get; } =
             new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
 
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INavigationService _navigationService;
-        private readonly ISessionService _sessionService;
-
+        // Constructor
         public UpdateProfileViewModel(IUnitOfWork unitOfWork, INavigationService navigationService, ISessionService sessionService)
         {
             _unitOfWork = unitOfWork;
             _navigationService = navigationService;
             _sessionService = sessionService;
 
-            LoadCurrentProfile();
+            _ = LoadCurrentProfile();
         }
 
+        // Core Methods
         private async Task LoadCurrentProfile()
         {
             var user = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+            if (user == null) return;
 
             FirstName = user.UserFirstName;
             LastName = user.UserLastName;
@@ -90,12 +91,14 @@ namespace PLinkage.ViewModels
             return false;
         }
 
+        // Commands
         [RelayCommand]
         private async Task Update()
         {
             if (!ValidateForm()) return;
 
             var user = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+            if (user == null) return;
 
             user.UserFirstName = FirstName;
             user.UserLastName = LastName;

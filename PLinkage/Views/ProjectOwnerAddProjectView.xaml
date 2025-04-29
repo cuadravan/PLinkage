@@ -18,7 +18,7 @@
                         <Label Text="Location" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
                         <Picker ItemsSource="{Binding CebuLocations}"
                                 ItemDisplayBinding="{Binding .}"
-                                SelectedItem="{Binding SelectedLocation}" 
+                                SelectedItem="{Binding ProjectLocationSelected}" 
                                 Title="Select Location"
                                 BackgroundColor="White"
                                 TextColor="Black"/>
@@ -62,13 +62,13 @@
                             <Label Text="Priority" FontAttributes="Bold" FontSize="14"/>
                             <Picker Title="Select Priority"
                                     ItemsSource="{Binding PriorityOptions}"
-                                    SelectedItem="{Binding ProjectPriority}"
+                                    SelectedItem="{Binding ProjectPrioritySelected}"
                                     BackgroundColor="White"
                                     TextColor="Black" />
 
                             <Label Text="Status" FontAttributes="Bold" FontSize="14"/>
                             <Picker ItemsSource="{Binding StatusOptions}"
-                                    SelectedItem="{Binding ProjectStatus}"
+                                    SelectedItem="{Binding ProjectStatusSelected}"
                                     BackgroundColor="White"
                                     TextColor="Black"/>
                         </VerticalStackLayout>
@@ -136,6 +136,14 @@
                         </VerticalStackLayout>
                     </Frame>
                 </Grid>
+                <!-- Error Message -->
+                <Label Text="{Binding ErrorMessage}"
+               TextColor="Red"
+               FontAttributes="Bold"
+               FontSize="14"
+               IsVisible="{Binding HasError}"
+               HorizontalOptions="Center"
+               Margin="0,10,0,0"/>
 
                 <!-- Submit -->
                 <Button Text="Create Project"

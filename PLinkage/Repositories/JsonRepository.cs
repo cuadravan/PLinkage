@@ -38,7 +38,7 @@ namespace PLinkage.Repositories
 
         public Task<T?> GetByIdAsync(Guid id)
         {
-            var prop = typeof(T).GetProperty("UserId") ?? typeof(T).GetProperty("Id");
+            var prop = typeof(T).GetProperty("UserId") ?? typeof(T).GetProperty("ProjectId");
             var entity = _data.FirstOrDefault(item => (Guid?)prop?.GetValue(item) == id);
             return Task.FromResult(entity);
         }
