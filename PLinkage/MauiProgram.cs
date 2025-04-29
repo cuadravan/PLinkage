@@ -43,6 +43,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<AddProjectViewModel>();
 		builder.Services.AddTransient<ViewProjectViewModel>();
 		builder.Services.AddTransient<UpdateProjectViewModel>();
+		builder.Services.AddTransient<RateSkillProviderViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

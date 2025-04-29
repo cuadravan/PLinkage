@@ -69,23 +69,35 @@ namespace PLinkage.ViewModels
 
         private async Task LoadSuggestedSkillProviders()
         {
-            var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var currentUser = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
-            if (currentUser == null || !currentUser.UserLocation.HasValue) return;
+            // fetch all and exclude deactivated users
+            var skillProviders = (await _unitOfWork.SkillProvider.GetAllAsync())
+                .Where(sp => !string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            var currentUser = await _unitOfWork.ProjectOwner
+                .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+            if (currentUser == null || !currentUser.UserLocation.HasValue)
+                return;
 
             var ownerCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
+
             IEnumerable<SkillProvider> filtered = SortSelection switch
             {
-                "Same Place as Me" => skillProviders.Where(sp => sp.UserLocation == currentUser.UserLocation),
-                "Near Me" => skillProviders.Where(sp =>
-                    sp.UserLocation.HasValue &&
-                    CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
-                    CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 50),
+                "Same Place as Me" => skillProviders
+                    .Where(sp => sp.UserLocation == currentUser.UserLocation),
+
+                "Near Me" => skillProviders
+                    .Where(sp =>
+                        sp.UserLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
+                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 50),
+
                 _ => skillProviders
             };
 
             SuggestedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
         }
+
 
         private async Task CountSentApplications(Guid userId)
         {

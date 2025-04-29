@@ -19,7 +19,9 @@ namespace PLinkage.Models
         public List<Education> Educations { get; set; } = new List<Education>();
         public List<Skill> Skills { get; set; } = new List<Skill>();
         public double UserRating { get; set; } = 0.0;
+        public double UserRatingTotal { get; set; } = 0.0;
         public int UserRatingCount { get; set; } = 0;
+        public double TempRating { get; set; } = 0.0;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
     }
 }

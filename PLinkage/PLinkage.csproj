@@ -128,7 +128,7 @@
 	  <MauiXaml Update="Views\ProjectOwnerProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerRateSkillProviderView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerRateSkillProviderView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views To use\ProjectOwnerSendMessageView.xaml">

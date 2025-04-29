@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.ProjectOwnerViewProjectView"
              Title="ProjectOwnerViewProjectView">
+
     <Grid ColumnDefinitions="*">
 
         <!-- MAIN CONTENT -->
@@ -39,17 +40,9 @@
                     <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
                         <VerticalStackLayout Spacing="10">
                             <Label Text="Priority" FontAttributes="Bold" TextColor="black"/>
-                            <Label Text="{Binding ProjectPriority}"
-                                BackgroundColor="White"
-                                TextColor="#444"
-                                
-                                />
+                            <Label Text="{Binding ProjectPriority}" BackgroundColor="White" TextColor="#444"/>
                             <Label Text="Status" FontAttributes="Bold" TextColor="black"/>
-                            <Label Text="{Binding ProjectStatus}"
-                                BackgroundColor="White"
-                                TextColor="#444"
-                                
-                                />
+                            <Label Text="{Binding ProjectStatus}" BackgroundColor="White" TextColor="#444"/>
                         </VerticalStackLayout>
                     </Frame>
 
@@ -67,23 +60,21 @@
 
                     <!-- Employed Skill Providers -->
                     <Frame Grid.Column="0" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
-                        <CollectionView ItemsSource="{Binding EmployedSkillProviders}"
-                                HeightRequest="150">
+                        <CollectionView ItemsSource="{Binding EmployedSkillProviders}" HeightRequest="150">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Padding="6,3" Margin="2"
-                                        BackgroundColor="#DDEEFF"
-                                        BorderColor="LightGray"
-                                        HasShadow="False"
-                                        CornerRadius="10">
+                                    <Frame Padding="6,3" Margin="2" BackgroundColor="#DDEEFF" BorderColor="LightGray" HasShadow="False" CornerRadius="10">
                                         <HorizontalStackLayout Spacing="8">
-                                            <Label Text="{Binding UserFirstName}" TextColor="Black"/>
-                                            <Label Text="{Binding UserLastName}" TextColor="Black"/>
-                                            <Button Text="Remove Skill Provider"
-                                                FontSize="12"
-                                                BackgroundColor="Red"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSkillProviderCommand}"
-                                                CommandParameter="{Binding .}" />
+                                            <Label TextColor="Black">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding UserFirstName}" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding UserLastName}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
                                         </HorizontalStackLayout>
                                     </Frame>
                                 </DataTemplate>
@@ -93,15 +84,10 @@
 
                     <!-- Required Skills -->
                     <Frame Grid.Column="1" BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
-                        <CollectionView ItemsSource="{Binding ProjectSkillsRequired}"
-                            HeightRequest="150">
+                        <CollectionView ItemsSource="{Binding ProjectSkillsRequired}" HeightRequest="150">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Padding="6,3" Margin="2"
-                                            BackgroundColor="#DDEEFF"
-                                            BorderColor="LightGray"
-                                            HasShadow="False"
-                                            CornerRadius="10">
+                                    <Frame Padding="6,3" Margin="2" BackgroundColor="#DDEEFF" BorderColor="LightGray" HasShadow="False" CornerRadius="10">
                                         <HorizontalStackLayout Spacing="8">
                                             <Label Text="{Binding .}" TextColor="Black"/>
                                         </HorizontalStackLayout>
@@ -112,7 +98,25 @@
                     </Frame>
                 </Grid>
 
+                <!-- Buttons -->
+                <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" Margin="0,20,0,0">
+                    <Button Text="Update Project"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="12,6"
+                            Command="{Binding UpdateProjectCommand}"/>
+
+                    <Button Text="Back"
+                            BackgroundColor="#757575"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="12,6"
+                            Command="{Binding BackCommand}"/>
+                </HorizontalStackLayout>
+
             </VerticalStackLayout>
         </ScrollView>
+
     </Grid>
 </ContentPage>

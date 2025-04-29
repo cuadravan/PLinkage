@@ -9,4 +9,9 @@ public partial class ProjectOwnerUpdateProjectView : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ((UpdateProjectViewModel)BindingContext).OnAppearingCommand.Execute(null);
+    }
 }

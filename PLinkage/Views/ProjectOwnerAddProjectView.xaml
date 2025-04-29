@@ -8,7 +8,12 @@
     <Grid ColumnDefinitions="*">
         <ScrollView Grid.Column="0" Padding="20">
             <VerticalStackLayout Spacing="20">
-
+                <Button
+                  Text="← Back"
+                  Command="{Binding CancelCommand}"
+                  HorizontalOptions="Start"
+                  BackgroundColor="Transparent"
+                  TextColor="Black"/>
                 <!-- Project Info -->
                 <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
                     <VerticalStackLayout Spacing="10">

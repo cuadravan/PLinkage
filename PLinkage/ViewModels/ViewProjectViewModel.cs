@@ -96,14 +96,16 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task Update()
+        private async Task UpdateProject()
         {
+            _sessionService.VisitingProjectID = _projectId;
             await _navigationService.NavigateToAsync("ProjectOwnerUpdateProjectView");
         }
 
         [RelayCommand]
         private async Task Back()
         {
+            _sessionService.VisitingProjectID = Guid.Empty;
             await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
         }
     }

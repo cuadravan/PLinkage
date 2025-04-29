@@ -120,6 +120,10 @@ namespace PLinkage.ViewModels
         private Task Clear() => LoadCurrentProfile();
 
         [RelayCommand]
-        private Task BackToProfile() => _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+        private async Task BackToProfile()
+        {
+            _sessionService.VisitingProjectID = Guid.Empty;
+            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+        }
     }
 }

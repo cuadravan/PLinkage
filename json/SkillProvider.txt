@@ -10,12 +10,14 @@
     "UserBirthDate": "2025-04-12T00:00:00+08:00",
     "UserGender": "Male",
     "UserRole": 0,
-    "UserStatus": "",
+    "UserStatus": "Active",
     "OfferApplicationId": [],
     "Educations": [],
     "Skills": [],
-    "UserRating": 0.0,
-    "UserRatingCount": 0,
+    "UserRating": 3.4,
+    "UserRatingTotal": 17.0,
+    "UserRatingCount": 5,
+    "TempRating": 4.0,
     "JoinedOn": "2025-04-12T15:08:13.3629424+08:00"
   },
   {
@@ -29,12 +31,14 @@
     "UserBirthDate": "2025-04-01T00:00:00",
     "UserGender": "Female",
     "UserRole": 0,
-    "UserStatus": "",
+    "UserStatus": "Active",
     "OfferApplicationId": [],
     "Educations": [],
     "Skills": [],
-    "UserRating": 0.0,
-    "UserRatingCount": 0,
+    "UserRating": 2.8,
+    "UserRatingTotal": 14.0,
+    "UserRatingCount": 5,
+    "TempRating": 3.0,
     "JoinedOn": "2025-04-16T10:03:24.8777466+08:00"
   }
 ]
