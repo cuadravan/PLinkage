@@ -13,19 +13,19 @@
             <VerticalStackLayout Spacing="20">
 
                 <!-- Project Name Header -->
-                <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
                     <Label
-            Text="{Binding ProjectName}"
-            FontSize="18"
-            FontAttributes="Bold"
-            TextColor="Black" />
-                </Frame>
+                        Text="{Binding ProjectName}"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="Black" />
+                </Border>
 
                 <!-- Rating Table -->
-                <Frame BackgroundColor="#E0E0E0" Padding="10" BorderColor="LightGray">
+                <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
                     <CollectionView
-        ItemsSource="{Binding SkillProvidersToRate}"
-        SelectionMode="None">
+                        ItemsSource="{Binding SkillProvidersToRate}"
+                        SelectionMode="None">
 
                         <CollectionView.Header>
                             <Grid ColumnSpacing="10" Padding="0,0,0,5">
@@ -35,17 +35,17 @@
 
                                 <HorizontalStackLayout>
                                     <Label 
-                        Text="Name" 
-                        FontAttributes="Bold" 
-                        TextColor="Black"
-                        VerticalOptions="Center" />
+                                        Text="Name" 
+                                        FontAttributes="Bold" 
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
 
                                     <Label 
-                        Text="Rating"
-                        FontAttributes="Bold"
-                        TextColor="Black"
-                        VerticalOptions="Center"
-                        Margin="20,0,0,0" />
+                                        Text="Rating"
+                                        FontAttributes="Bold"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        Margin="20,0,0,0" />
                                     <!-- slight left margin to separate -->
                                 </HorizontalStackLayout>
                             </Grid>
@@ -54,8 +54,8 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid
-                    RowDefinitions="Auto"
-                    Padding="0,5">
+                                    RowDefinitions="Auto"
+                                    Padding="0,5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -63,16 +63,16 @@
                                     <HorizontalStackLayout Spacing="20">
                                         <!-- Full Name -->
                                         <Label
-                            Text="{Binding UserFirstName}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
+                                            Text="{Binding UserFirstName}"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
 
                                         <!-- Rating control -->
                                         <toolkit:RatingView
-                            Rating="{Binding TempRating, Mode=TwoWay}"
-                            MaximumRating="5"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center" />
+                                            Rating="{Binding TempRating, Mode=TwoWay}"
+                                            MaximumRating="5"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
                                     </HorizontalStackLayout>
 
                                 </Grid>
@@ -80,19 +80,16 @@
                         </CollectionView.ItemTemplate>
 
                     </CollectionView>
-                </Frame>
-
-
-
+                </Border>
 
                 <!-- Submit Button -->
                 <HorizontalStackLayout HorizontalOptions="Center" Padding="10">
                     <Button
-            Text="Submit Rating"
-            Padding="12,6"
-            BackgroundColor="#A1D490"
-            TextColor="Black"
-            Command="{Binding SubmitRatingsCommand}" />
+                        Text="Submit Rating"
+                        Padding="12,6"
+                        BackgroundColor="#A1D490"
+                        TextColor="Black"
+                        Command="{Binding SubmitRatingsCommand}" />
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>

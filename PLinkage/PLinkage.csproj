@@ -74,7 +74,7 @@
 	  <Compile Update="Views\LoginView.xaml.cs">
 	    <DependentUpon>LoginView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views To use\ProjectOwnerBrowseSkillProviderView.xaml.cs">
+	  <Compile Update="Views\ProjectOwnerBrowseSkillProviderView.xaml.cs">
 	    <DependentUpon>ProjectOwnerBrowseSkillProviderView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\RegisterView.xaml.cs">
@@ -113,7 +113,7 @@
 	  <MauiXaml Update="Views\ProjectOwnerAddProjectView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerBrowseSkillProviderView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerBrowseSkillProviderView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProjectOwnerHomeView.xaml">
@@ -122,7 +122,7 @@
 	  <MauiXaml Update="Views To use\ProjectOwnerMessagesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerOffersAndApplicationsView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerOffersAndApplicationsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProjectOwnerProfileView.xaml">
@@ -134,7 +134,7 @@
 	  <MauiXaml Update="Views To use\ProjectOwnerSendMessageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerSendOfferView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerSendOfferView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProjectOwnerUpdateProfileView.xaml">
@@ -146,7 +146,7 @@
 	  <MauiXaml Update="Views\ProjectOwnerViewProjectView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerViewSkillProviderProfileView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerViewSkillProviderProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

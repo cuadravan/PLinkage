@@ -34,12 +34,12 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string projectPriority;
         [ObservableProperty] private ProjectStatus? projectStatus;
         [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
-        [ObservableProperty] private List<Guid> projectMembersId = new();
+        [ObservableProperty] private List<ProjectMemberDetail> projectMembers = new();
         [ObservableProperty] private int projectResourcesNeeded;
         [ObservableProperty] private DateTime projectDateCreated;
         [ObservableProperty] private DateTime projectDateUpdated;
         [ObservableProperty] private string durationSummary;
-        [ObservableProperty] private ObservableCollection<SkillProvider> employedSkillProviders = new();
+        [ObservableProperty] private ObservableCollection<EmployedSkillProviderWrapper> employedSkillProviders = new();
 
         public IAsyncRelayCommand OnAppearingCommand { get; }
 
@@ -66,7 +66,7 @@ namespace PLinkage.ViewModels
             ProjectPriority = project.ProjectPriority;
             ProjectStatus = project.ProjectStatus;
             ProjectSkillsRequired = new ObservableCollection<string>(project.ProjectSkillsRequired);
-            ProjectMembersId = project.ProjectMembersId;
+            ProjectMembers = project.ProjectMembers;
             ProjectResourcesNeeded = project.ProjectResourcesNeeded;
             ProjectDateCreated = project.ProjectDateCreated;
             ProjectDateUpdated = project.ProjectDateUpdated;
@@ -78,8 +78,19 @@ namespace PLinkage.ViewModels
         private async Task LoadEmployedSkillProviders()
         {
             var allSkillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var filtered = allSkillProviders.Where(sp => ProjectMembersId.Contains(sp.UserId));
-            EmployedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
+            EmployedSkillProviders = new ObservableCollection<EmployedSkillProviderWrapper>(
+        ProjectMembers.Select(pm =>
+        {
+            var sp = allSkillProviders.FirstOrDefault(s => s.UserId == pm.MemberId);
+            return new EmployedSkillProviderWrapper
+            {
+                MemberId = pm.MemberId,
+                FullName = sp != null ? $"{sp.UserFirstName} {sp.UserLastName}" : "Unknown",
+                Email = sp?.UserEmail ?? "Unknown",
+                Rate = pm.Rate,
+                TimeFrame = pm.TimeFrame
+            };
+        }));
         }
 
         private void UpdateDurationSummary()
@@ -109,4 +120,13 @@ namespace PLinkage.ViewModels
             await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
         }
     }
+}
+
+public class EmployedSkillProviderWrapper
+{
+    public Guid MemberId { get; set; }
+    public string FullName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public decimal Rate { get; set; }
+    public int TimeFrame { get; set; }
 }

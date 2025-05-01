@@ -38,9 +38,13 @@ namespace PLinkage.Repositories
 
         public Task<T?> GetByIdAsync(Guid id)
         {
-            var prop = typeof(T).GetProperty("UserId") ?? typeof(T).GetProperty("ProjectId");
-            var entity = _data.FirstOrDefault(item => (Guid?)prop?.GetValue(item) == id);
-            return Task.FromResult(entity);
+            var prop = GetIdProperty();
+            if (prop == null) return Task.FromResult<T?>(null);
+
+            var match = _data.FirstOrDefault(item =>
+                prop.GetValue(item) is Guid value && value == id);
+
+            return Task.FromResult(match);
         }
 
         public Task AddAsync(T entity)
@@ -51,21 +55,36 @@ namespace PLinkage.Repositories
 
         public Task UpdateAsync(T entity)
         {
-            var prop = typeof(T).GetProperty("UserId") ?? typeof(T).GetProperty("Id");
+            var prop = GetIdProperty();
             if (prop == null) return Task.CompletedTask;
 
-            var id = (Guid?)prop.GetValue(entity);
-            var index = _data.FindIndex(item => (Guid?)prop.GetValue(item) == id);
-            if (index >= 0) _data[index] = entity;
+            var id = prop.GetValue(entity) as Guid?;
+            if (id == null) return Task.CompletedTask;
+
+            var index = _data.FindIndex(item =>
+                prop.GetValue(item) is Guid value && value == id);
+
+            if (index >= 0)
+            {
+                _data[index] = entity;
+            }
 
             return Task.CompletedTask;
         }
 
         public Task DeleteAsync(Guid id)
         {
-            var prop = typeof(T).GetProperty("UserId") ?? typeof(T).GetProperty("Id");
-            var entity = _data.FirstOrDefault(item => (Guid?)prop?.GetValue(item) == id);
-            if (entity != null) _data.Remove(entity);
+            var prop = GetIdProperty();
+            if (prop == null) return Task.CompletedTask;
+
+            var entity = _data.FirstOrDefault(item =>
+                prop.GetValue(item) is Guid value && value == id);
+
+            if (entity != null)
+            {
+                _data.Remove(entity);
+            }
+
             return Task.CompletedTask;
         }
 
@@ -84,6 +103,14 @@ namespace PLinkage.Repositories
             }
 
             return Task.CompletedTask;
+        }
+
+        // ✅ Private helper to generalize ID detection
+        private PropertyInfo? GetIdProperty()
+        {
+            return typeof(T).GetProperties()
+                .FirstOrDefault(p => p.Name.EndsWith("Id", StringComparison.OrdinalIgnoreCase)
+                                  && p.PropertyType == typeof(Guid));
         }
     }
 }

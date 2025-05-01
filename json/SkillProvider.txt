@@ -3,7 +3,7 @@
     "UserId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
     "UserFirstName": "Van",
     "UserLastName": "Cuadra",
-    "UserEmail": "vancuadra@gmail.com",
+    "UserEmail": "cuadra@gmail.com",
     "UserPassword": "87654321",
     "UserPhone": "09177805163",
     "UserLocation": 27,
@@ -11,9 +11,62 @@
     "UserGender": "Male",
     "UserRole": 0,
     "UserStatus": "Active",
-    "OfferApplicationId": [],
-    "Educations": [],
-    "Skills": [],
+    "OfferApplicationId": [
+      "607fb4e9-2cab-4839-89f6-068dae9eb1f9",
+      "22222222-2222-2222-2222-222222222222"
+    ],
+    "Educations": [
+      {
+        "CourseName": "Bachelor of Science in Geodetic Engineering",
+        "SchoolAttended": "University of the Philippines Diliman",
+        "TimeGraduated": "2021-06-30T00:00:00"
+      },
+      {
+        "CourseName": "Master of Science in Environmental Planning",
+        "SchoolAttended": "University of San Carlos",
+        "TimeGraduated": "2023-05-15T00:00:00"
+      },
+      {
+        "CourseName": "Certificate in Remote Sensing Applications",
+        "SchoolAttended": "Phil-LiDAR Training Center",
+        "TimeGraduated": "2020-12-10T00:00:00"
+      }
+    ],
+    "Skills": [
+      {
+        "SkillName": "GIS Analysis",
+        "SkillDescription": "Ability to process and analyze spatial data using GIS software.",
+        "SkillLevel": 4,
+        "TimeAcquired": "2022-06-15T00:00:00",
+        "OrganizationInvolved": "Naga City Planning Office",
+        "YearsOfExperience": 3
+      },
+      {
+        "SkillName": "Remote Sensing",
+        "SkillDescription": "Interpret and analyze satellite imagery for environmental monitoring.",
+        "SkillLevel": 5,
+        "TimeAcquired": "2021-04-10T00:00:00",
+        "OrganizationInvolved": "DENR Regional Office",
+        "YearsOfExperience": 4
+      },
+      {
+        "SkillName": "Python Programming",
+        "SkillDescription": "Develop automation scripts for geospatial and data analysis tasks.",
+        "SkillLevel": 3,
+        "TimeAcquired": "2023-01-20T00:00:00",
+        "OrganizationInvolved": "Self-Learning / Online Courses",
+        "YearsOfExperience": 2
+      },
+      {
+        "SkillName": "Project Management",
+        "SkillDescription": "Lead teams in planning, executing, and delivering GIS-related projects.",
+        "SkillLevel": 4,
+        "TimeAcquired": "2020-08-01T00:00:00",
+        "OrganizationInvolved": "Naga City Development Authority",
+        "YearsOfExperience": 5
+      }
+    ],
+    "EmployedProjects": [],
     "UserRating": 3.4,
     "UserRatingTotal": 17.0,
     "UserRatingCount": 5,
@@ -32,9 +85,12 @@
     "UserGender": "Female",
     "UserRole": 0,
     "UserStatus": "Active",
-    "OfferApplicationId": [],
+    "OfferApplicationId": [
+      "b85e12d1-bcaf-496e-b5c4-5ef84464424d"
+    ],
     "Educations": [],
     "Skills": [],
+    "EmployedProjects": [],
     "UserRating": 2.8,
     "UserRatingTotal": 14.0,
     "UserRatingCount": 5,

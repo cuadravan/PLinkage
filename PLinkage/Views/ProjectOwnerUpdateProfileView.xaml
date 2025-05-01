@@ -11,51 +11,51 @@
         <VerticalStackLayout Grid.Column="0" Padding="20" Spacing="20">
 
             <!-- Header -->
-            <Frame BackgroundColor="#D9D9D9" Padding="12" HasShadow="False">
+            <Border Background="#D9D9D9" Padding="12" StrokeThickness="0" StrokeShape="RoundRectangle 5">
                 <Label Text="Update Profile" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
-            </Frame>
+            </Border>
 
             <!-- Form Grid -->
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15" ColumnSpacing="20">
 
                 <!-- First Name -->
-                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent">
+                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="0" Grid.Column="0" Background="Transparent">
                     <Entry Placeholder="First Name" Text="{Binding FirstName}" BackgroundColor="White" TextColor="Black" />
-                </Frame>
+                </Border>
 
                 <!-- Last Name -->
-                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent">
+                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="1" Grid.Column="0" Background="Transparent">
                     <Entry Placeholder="Last Name" Text="{Binding LastName}" BackgroundColor="White" TextColor="Black" />
-                </Frame>
+                </Border>
 
                 <!-- Gender RadioButtons -->
-                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="0" Grid.Column="1" BackgroundColor="Transparent">
+                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="0" Grid.Column="1" Background="Transparent">
                     <HorizontalStackLayout Spacing="10">
                         <Label Text="Gender:" VerticalOptions="Center"/>
                         <RadioButton Content="Male" IsChecked="{Binding IsMale}" GroupName="Gender"/>
                         <RadioButton Content="Female" IsChecked="{Binding IsFemale}" GroupName="Gender"/>
                     </HorizontalStackLayout>
-                </Frame>
+                </Border>
 
                 <!-- Location Picker -->
-                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent">
+                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="1" Grid.Column="1" Background="Transparent">
                     <Picker ItemsSource="{Binding CebuLocations}"
                             ItemDisplayBinding="{Binding .}"
                             SelectedItem="{Binding SelectedLocation}" 
                             Title="Select Location"
                             BackgroundColor="White"
                             TextColor="Black"/>
-                </Frame>
+                </Border>
 
                 <!-- Birthdate -->
-                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="2" Grid.Column="0" BackgroundColor="Transparent">
+                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="2" Grid.Column="0" Background="Transparent">
                     <DatePicker Date="{Binding Birthdate}" TextColor="Black" BackgroundColor="White" />
-                </Frame>
+                </Border>
 
                 <!-- Mobile Number -->
-                <Frame BorderColor="LightGray" CornerRadius="6" Padding="5" Grid.Row="2" Grid.Column="1" BackgroundColor="Transparent">
+                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="2" Grid.Column="1" Background="Transparent">
                     <Entry Placeholder="Mobile Number" Text="{Binding MobileNumber}" Keyboard="Telephone" BackgroundColor="White" TextColor="Black" />
-                </Frame>
+                </Border>
 
                 <!-- Error Message -->
                 <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" TextColor="Red" FontAttributes="Italic"/>

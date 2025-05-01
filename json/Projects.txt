@@ -4,22 +4,44 @@
     "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "ProjectName": "Happy Fishing",
     "ProjectLocation": 27,
-    "ProjectDescription": "Let us fish",
+    "ProjectDescription": "Let us fishfbdfbd",
     "ProjectStartDate": "2025-04-20T22:51:13.9775959+08:00",
     "ProjectEndDate": "2025-06-19T00:00:00",
-    "ProjectStatus": 1,
+    "ProjectStatus": 0,
     "ProjectSkillsRequired": [
       "Fishing",
       "Reeling"
     ],
-    "ProjectMembersId": [
-      "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-      "d758722e-df65-46b8-9d3c-2a20d6d8562d"
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": null,
+        "UserLastName": null,
+        "Email": null,
+        "Rate": 1000.0,
+        "TimeFrame": 50
+      },
+      {
+        "MemberId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+        "UserFirstName": null,
+        "UserLastName": null,
+        "Email": null,
+        "Rate": 1000.0,
+        "TimeFrame": 50
+      },
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 7500.0,
+        "TimeFrame": 60
+      }
     ],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 5,
     "ProjectDateCreated": "2025-04-20T22:51:13.984137+08:00",
-    "ProjectDateUpdated": "2025-04-29T15:11:42.1618386+08:00"
+    "ProjectDateUpdated": "2025-05-01T14:38:49.6371986+08:00"
   },
   {
     "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
@@ -31,11 +53,11 @@
     "ProjectEndDate": "2025-05-01T00:00:00",
     "ProjectStatus": 0,
     "ProjectSkillsRequired": [],
-    "ProjectMembersId": [],
+    "ProjectMembers": [],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 1,
     "ProjectDateCreated": "2025-04-29T12:05:48.9326344+08:00",
-    "ProjectDateUpdated": "2025-04-29T15:09:06.8026001+08:00"
+    "ProjectDateUpdated": "2025-05-01T12:09:13.9533581+08:00"
   },
   {
     "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
@@ -45,15 +67,15 @@
     "ProjectDescription": "Hello let us bring drumsticks",
     "ProjectStartDate": "2025-04-29T12:05:48.9253457+08:00",
     "ProjectEndDate": "2025-05-01T00:00:00",
-    "ProjectStatus": 2,
+    "ProjectStatus": 0,
     "ProjectSkillsRequired": [
       "Drumming",
       "Clapping"
     ],
-    "ProjectMembersId": [],
+    "ProjectMembers": [],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 2,
     "ProjectDateCreated": "2025-04-29T12:05:48.9326344+08:00",
-    "ProjectDateUpdated": "2025-04-29T15:06:21.9933859+08:00"
+    "ProjectDateUpdated": "2025-05-01T13:00:41.9876508+08:00"
   }
 ]

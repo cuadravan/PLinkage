@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:PLinkage.Models"
+             x:Class="PLinkage.Views.ProjectOwnerViewSkillProviderProfileView"
+             Title="Skill Provider Profile"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             x:DataType="viewmodels:SkillProviderProfileViewModel">
+
+    <Grid ColumnDefinitions="*">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Profile Summary -->
+                <Border Background="#E0E0E0" Padding="16" StrokeShape="RoundRectangle 8" StrokeThickness="0">
+                    <Grid ColumnDefinitions="80,*,Auto">
+                        <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                 VerticalOptions="Start" HorizontalOptions="Center" />
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="{Binding UserName}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                            <Label Text="{Binding UserRating, StringFormat='Rating: {0:F1}'}" FontSize="12" TextColor="Black" />
+                            <Label Text="{Binding UserLocation, StringFormat='Location: {0}'}" FontSize="12" TextColor="Black" />
+                            <Label Text="{Binding DateJoined, StringFormat='Joined on: {0:MMMM dd, yyyy}'}" FontSize="12" TextColor="Black" />
+                        </VerticalStackLayout>
+
+                        <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Start">
+
+                            <!-- Visible if Project Owner -->
+                            <Button Text="Send Offer"
+                                    BackgroundColor="#1976D2" TextColor="White"
+                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
+                                    IsVisible="{Binding IsProjectOwner}" 
+                                    Command="{Binding SendOfferCommand}"/>
+
+                            <Button Text="Message"
+                                    BackgroundColor="#388E3C" TextColor="White"
+                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
+                                    IsVisible="{Binding IsProjectOwner}" />
+
+                            <!-- Visible if Skill Provider -->
+                            <Button Text="Update Profile"
+                                    BackgroundColor="#F9A825" TextColor="White"
+                                    CornerRadius="6" Padding="10,5" WidthRequest="120"
+                                    IsVisible="{Binding IsOwner}" />
+
+                            <!-- Visible if Admin -->
+                            <Button Text="Deactivate"
+                                    BackgroundColor="#D32F2F" TextColor="White"
+                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
+                                    IsVisible="{Binding IsAdmin}" />
+
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Contact Info -->
+                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Information" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                        <Label Text="{Binding UserGender, StringFormat='Gender: {0}'}" FontSize="12" TextColor="Black" />
+                        <Label Text="{Binding UserEmail, StringFormat='Email: {0}'}" FontSize="12" TextColor="Black" />
+                        <Label Text="{Binding UserPhone, StringFormat='Mobile: {0}'}" FontSize="12" TextColor="Black" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Education -->
+                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Education" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                        <Button Text="Add Education"
+                                BackgroundColor="#00796B" TextColor="White"
+                                CornerRadius="6" Padding="8,4" WidthRequest="140"
+                                HorizontalOptions="End" 
+                                IsVisible="{Binding IsOwner}"/>
+
+                        <CollectionView ItemsSource="{Binding Educations}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Education">
+                                    <Border Background="White"
+                                            Stroke="LightGray"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 4"
+                                            Padding="10"
+                                            Margin="0,4">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding SchoolAttended, StringFormat='School: {0}'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding CourseName, StringFormat='Course: {0}'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding TimeGraduated, StringFormat='Graduated: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Skills -->
+                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Skills" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                        <Button Text="Add Skill"
+                                BackgroundColor="#00796B" TextColor="White"
+                                CornerRadius="6" Padding="8,4" WidthRequest="140"
+                                HorizontalOptions="End" 
+                                IsVisible="{Binding IsOwner}"/>
+
+                        <CollectionView ItemsSource="{Binding Skills}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Skill">
+                                    <Border Background="White"
+                                            Stroke="LightGray"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 4"
+                                            Padding="10"
+                                            Margin="0,4">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding SkillName, StringFormat='Skill: {0}'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding SkillDescription, StringFormat='Description: {0}'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding SkillLevel, StringFormat='Level: {0}/5'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding TimeAcquired, StringFormat='Acquired: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding OrganizationInvolved, StringFormat='Organization: {0}'}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding YearsOfExperience, StringFormat='Experience: {0} years'}" FontSize="12" TextColor="Black" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Employed Projects -->
+                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Employed Projects" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                        <CollectionView ItemsSource="{Binding EmployedProjects}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Project">
+                                    <Border Background="White"
+                                            Stroke="LightGray"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 4"
+                                            Padding="10"
+                                            Margin="0,4">           
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding ProjectName}" FontSize="12" FontAttributes="Bold" TextColor="Black" />
+                                            <Label Text="{Binding ProjectDescription}" FontSize="12" TextColor="Black" />
+                                            <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Gray" />
+                                            <Label Text="{Binding ProjectStartDate, StringFormat='Start: {0:MMM dd, yyyy}'}" FontSize="12" TextColor="Gray" />
+                                            <Label Text="{Binding ProjectEndDate, StringFormat='End: {0:MMM dd, yyyy}'}" FontSize="12" TextColor="Gray" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

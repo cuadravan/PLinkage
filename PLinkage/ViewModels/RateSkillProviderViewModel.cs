@@ -63,7 +63,7 @@ namespace PLinkage.ViewModels
             if (project == null) return;
 
             ProjectName = project.ProjectName;
-            _projectMembersIdList = project.ProjectMembersId;
+            _projectMembersIdList = project.ProjectMembers.Select(pm => pm.MemberId).ToList();
             await LoadEmployedSkillProviders();
         }
 

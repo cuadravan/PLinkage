@@ -11,7 +11,7 @@
         public DateTime ProjectEndDate { get; set; } = DateTime.Now;
         public ProjectStatus? ProjectStatus { get; set; } = null;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
-        public List<Guid> ProjectMembersId { get; set; } = new List<Guid>();
+        public List<ProjectMemberDetail> ProjectMembers { get; set; } = new List<ProjectMemberDetail>();
         public string ProjectPriority { get; set; } = string.Empty;
         public int ProjectResourcesNeeded { get; set; } = 0;
         public DateTime ProjectDateCreated { get; set; } = DateTime.Now;
@@ -24,4 +24,14 @@ public enum ProjectStatus
     Active,
     Completed,
     Deactivated,
+}
+
+public class ProjectMemberDetail
+{
+    public Guid MemberId { get; set; }
+    public string UserFirstName { get; set; } // From SkillProvider
+    public string UserLastName { get; set; } // From SkillProvider
+    public string Email { get; set; } // From SkillProvider
+    public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
+    public int TimeFrame { get; set; } = 0; // Hours
 }

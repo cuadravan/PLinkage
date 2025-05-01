@@ -38,7 +38,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private DateTime projectEndDate;
         [ObservableProperty, Required(ErrorMessage = "Project status is required.")] private ProjectStatus? projectStatusSelected;
         [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
-        [ObservableProperty] private List<Guid> projectMembersId = new();
+        [ObservableProperty] private List<ProjectMemberDetail> projectMembers = new();
         [ObservableProperty, Required(ErrorMessage = "Priority is required.")] private string projectPrioritySelected;
         [ObservableProperty, Range(1, int.MaxValue, ErrorMessage = "Resources needed must be at least 1.")] private int projectResourcesNeeded;
         [ObservableProperty] private DateTime projectDateCreated;
@@ -97,7 +97,7 @@ namespace PLinkage.ViewModels
             ProjectPrioritySelected = project.ProjectPriority;
             ProjectStatusSelected = project.ProjectStatus;
             ProjectSkillsRequired = new ObservableCollection<string>(project.ProjectSkillsRequired);
-            ProjectMembersId = new List<Guid>(project.ProjectMembersId);
+            ProjectMembers = project.ProjectMembers;
             ProjectResourcesNeeded = project.ProjectResourcesNeeded;
             ProjectDateCreated = project.ProjectDateCreated;
             ProjectDateUpdated = project.ProjectDateUpdated;
@@ -108,7 +108,8 @@ namespace PLinkage.ViewModels
         private async Task LoadEmployedSkillProviders()
         {
             var allSkillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var filtered = allSkillProviders.Where(sp => ProjectMembersId.Contains(sp.UserId));
+            var memberIds = ProjectMembers.Select(pm => pm.MemberId);
+            var filtered = allSkillProviders.Where(sp => memberIds.Contains(sp.UserId));
             EmployedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
         }
 
@@ -134,7 +135,7 @@ namespace PLinkage.ViewModels
                 ErrorMessage = "Please ensure all required fields are correctly filled.";
                 return false;
             }
-            if (ProjectResourcesNeeded < ProjectMembersId.Count)
+            if (ProjectResourcesNeeded < ProjectMembers.Count)
             {
                 ErrorMessage = "Resources needed cannot be less than the number of currently employed members.";
                 return false;
@@ -226,7 +227,7 @@ namespace PLinkage.ViewModels
             if(EmployedSkillProviders.Contains(skillProvider))
             {
                 EmployedSkillProviders.Remove(skillProvider);
-                ProjectMembersId.Remove(skillProvider.UserId);
+                ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
             }
         }
     }

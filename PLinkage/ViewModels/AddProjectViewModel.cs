@@ -32,7 +32,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private DateTime projectEndDate = DateTime.Now;
         [ObservableProperty, Required(ErrorMessage = "Project status is required.")] private ProjectStatus? projectStatusSelected;
         [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
-        [ObservableProperty] private List<Guid> projectMembersId = new();
+        [ObservableProperty] private List<ProjectMemberDetail> projectMemberDetails = new();
         [ObservableProperty, Required(ErrorMessage = "Priority is required.")] private string projectPrioritySelected;
         [ObservableProperty, Range(1, int.MaxValue, ErrorMessage = "Resources needed must be at least 1.")] private int projectResourcesNeeded;
         [ObservableProperty] private DateTime projectDateCreated;
@@ -108,7 +108,7 @@ namespace PLinkage.ViewModels
                 ProjectEndDate = ProjectEndDate,
                 ProjectStatus = ProjectStatusSelected,
                 ProjectSkillsRequired = ProjectSkillsRequired.ToList(),
-                ProjectMembersId = ProjectMembersId,
+                ProjectMembers = projectMemberDetails,
                 ProjectPriority = ProjectPrioritySelected,
                 ProjectResourcesNeeded = ProjectResourcesNeeded,
                 ProjectDateCreated = ProjectDateCreated,

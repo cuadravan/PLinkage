@@ -18,6 +18,7 @@ namespace PLinkage.Models
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
         public List<Education> Educations { get; set; } = new List<Education>();
         public List<Skill> Skills { get; set; } = new List<Skill>();
+        public List <Guid> EmployedProjects { get; set; } = new List<Guid>();
         public double UserRating { get; set; } = 0.0;
         public double UserRatingTotal { get; set; } = 0.0;
         public int UserRatingCount { get; set; } = 0;

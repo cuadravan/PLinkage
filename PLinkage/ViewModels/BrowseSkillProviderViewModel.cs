@@ -1,26 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkage.Interfaces;
 using PLinkage.Models;
-
+using PLinkage.Interfaces;
+using CommunityToolkit.Mvvm.Input;
 namespace PLinkage.ViewModels
 {
-    public partial class ProjectOwnerHomeViewModel : ObservableObject
+    public partial class BrowseSkillProviderViewModel: ObservableObject
     {
+        [ObservableProperty]
+        private CebuLocation? selectedLocation = null;
+
+        public ObservableCollection<CebuLocation> CebuLocations { get; } = new(
+            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+
         // Services
         private readonly INavigationService _navigationService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
 
-
-        // Properties
-        [ObservableProperty] private string userName;
         [ObservableProperty] private ObservableCollection<SkillProvider> suggestedSkillProviders = new();
-        [ObservableProperty] private int sentOfferCount;
-        [ObservableProperty] private int receivedApplicationCount;
-        [ObservableProperty] private int activeProjects;
-        [ObservableProperty] private string summaryText;
 
         public IAsyncRelayCommand LoadDashboardDataCommand { get; }
 
@@ -39,11 +37,12 @@ namespace PLinkage.ViewModels
         {
             "All",
             "Same Place as Me",
-            "Near Me"
+            "Near Me",
+            "By Specific Location"
         };
 
         // Constructor
-        public ProjectOwnerHomeViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
+        public BrowseSkillProviderViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
@@ -58,13 +57,7 @@ namespace PLinkage.ViewModels
             var currentUser = _sessionService.GetCurrentUser();
             if (currentUser == null) return;
 
-            UserName = currentUser.UserFirstName ?? string.Empty;
             await LoadSuggestedSkillProviders();
-            await CountSentOffers(currentUser.UserId);
-            await CountReceivedApplications(currentUser.UserId);
-            await CountActiveProjects(currentUser.UserId);
-
-            SummaryText = $"You have {ActiveProjects} active projects, {SentOfferCount} pending sent applications, and {receivedApplicationCount} received offers.";
         }
 
         private async Task LoadSuggestedSkillProviders()
@@ -92,30 +85,22 @@ namespace PLinkage.ViewModels
                         CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
                         CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 50),
 
+                "By Specific Location" when SelectedLocation.HasValue => skillProviders
+                    .Where(sp => sp.UserLocation == SelectedLocation),
+
                 _ => skillProviders
             };
+
 
             SuggestedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
         }
 
-
-        private async Task CountSentOffers(Guid userId)
+        partial void OnSelectedLocationChanged(CebuLocation? value)
         {
-            var allOffers = await _unitOfWork.OfferApplications.GetAllAsync();
-            SentOfferCount = allOffers.Count(offer => offer.SenderId == userId && offer.OfferApplicationStatus == "Pending");
+            if (SortSelection == "By Specific Location")
+                _ = LoadSuggestedSkillProviders();
         }
 
-        private async Task CountReceivedApplications(Guid userId)
-        {
-            var allApplications = await _unitOfWork.OfferApplications.GetAllAsync();
-            ReceivedApplicationCount = allApplications.Count(app => app.ReceiverId == userId && app.OfferApplicationStatus == "Pending");
-        }
-
-        private async Task CountActiveProjects(Guid userId)
-        {
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
-            ActiveProjects = allProjects.Count(p => p.ProjectOwnerId == userId && p.ProjectStatus == ProjectStatus.Active);
-        }
 
         [RelayCommand]
         private async Task Refresh() => await LoadDashboardData();
