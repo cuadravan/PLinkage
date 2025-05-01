@@ -67,10 +67,10 @@
       }
     ],
     "EmployedProjects": [],
-    "UserRating": 3.4,
-    "UserRatingTotal": 17.0,
-    "UserRatingCount": 5,
-    "TempRating": 4.0,
+    "UserRating": 3.0,
+    "UserRatingTotal": 18.0,
+    "UserRatingCount": 6,
+    "TempRating": 1.0,
     "JoinedOn": "2025-04-12T15:08:13.3629424+08:00"
   },
   {

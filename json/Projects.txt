@@ -4,31 +4,15 @@
     "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "ProjectName": "Happy Fishing",
     "ProjectLocation": 27,
-    "ProjectDescription": "Let us fishfbdfbd",
+    "ProjectDescription": "Let us fish",
     "ProjectStartDate": "2025-04-20T22:51:13.9775959+08:00",
     "ProjectEndDate": "2025-06-19T00:00:00",
-    "ProjectStatus": 0,
+    "ProjectStatus": 1,
     "ProjectSkillsRequired": [
       "Fishing",
       "Reeling"
     ],
     "ProjectMembers": [
-      {
-        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-        "UserFirstName": null,
-        "UserLastName": null,
-        "Email": null,
-        "Rate": 1000.0,
-        "TimeFrame": 50
-      },
-      {
-        "MemberId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
-        "UserFirstName": null,
-        "UserLastName": null,
-        "Email": null,
-        "Rate": 1000.0,
-        "TimeFrame": 50
-      },
       {
         "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
         "UserFirstName": "Van",
@@ -41,7 +25,7 @@
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 5,
     "ProjectDateCreated": "2025-04-20T22:51:13.984137+08:00",
-    "ProjectDateUpdated": "2025-05-01T14:38:49.6371986+08:00"
+    "ProjectDateUpdated": "2025-05-01T14:45:45.1317135+08:00"
   },
   {
     "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
