@@ -5,6 +5,25 @@ namespace PLinkage.Services
     public class SessionService : ISessionService
     {
         private IUser? _currentUser;
+        private Guid visitingProjectOwnerID = Guid.Empty;
+        private Guid visitingSkillProviderID = Guid.Empty;
+        private Guid visitingProjectID = Guid.Empty;
+
+        public Guid VisitingProjectOwnerID
+        {
+            get => visitingProjectOwnerID;
+            set => visitingProjectOwnerID = value;
+        }
+        public Guid VisitingSkillProviderID
+        {
+            get => visitingSkillProviderID;
+            set => visitingSkillProviderID = value;
+        }
+        public Guid VisitingProjectID
+        {
+            get => visitingProjectID;
+            set => visitingProjectID = value;
+        }
 
         public void SetCurrentUser(IUser user)
         {

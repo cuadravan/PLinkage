@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderBrowseProjectsView"
+             Title="SkillProviderBrowseProjectsView">
+    <Grid ColumnDefinitions="*">
+
+        <ScrollView Grid.Column="0" Padding="30">
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Browse Projects" FontSize="24" FontAttributes="Bold" TextColor="Black" />
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: Mobile App UI Revamp" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                </Label>
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 3" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                 Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: Internal Dashboard Dev" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                </Label>
+                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 2" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                 Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: AI Chatbot Integration" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                </Label>
+                                <Label Text="Location: Lapu-Lapu City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 4" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                 Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#F9F9F9" CornerRadius="8" Padding="12" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Project: HR Automation System" FontAttributes="Bold" FontSize="14" TextColor="Black">
+                                </Label>
+                                <Label Text="Location: Talisay City" FontSize="12" TextColor="Black"/>
+                                <Label Text="Open Slots: 1" FontSize="12" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                 Padding="10,4"
+                                CornerRadius="6" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

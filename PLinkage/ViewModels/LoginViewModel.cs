@@ -1,17 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkage.Interfaces;
-using PLinkage.Views;
 
 namespace PLinkage.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
+        // Services
         private readonly INavigationService _navigationService;
         private readonly IAuthenticationService _authenticationService;
         private readonly AppShellViewModel _appShellViewModel;
         private readonly ISessionService _sessionService;
 
+        // Constructor
         public LoginViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
@@ -24,10 +25,12 @@ namespace PLinkage.ViewModels
             _sessionService = sessionService;
         }
 
+        // Properties
         [ObservableProperty] private string email;
         [ObservableProperty] private string password;
         [ObservableProperty] private string errorMessage;
 
+        // Commands
         [RelayCommand]
         private async Task Login()
         {
@@ -46,27 +49,30 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // Update shell view model so visibility changes immediately
+            // Successful login
+            _sessionService.SetCurrentUser(user);
             _appShellViewModel.UpdateRoleProperties();
+            ErrorMessage = string.Empty;
 
-            ErrorMessage = "Successful login.";
-
-            // Navigate to default home/root page
-            if(_sessionService.GetCurrentUserType() == UserRole.SkillProvider)
+            // Navigate to role-specific home
+            switch (_sessionService.GetCurrentUserType())
             {
-                await _navigationService.NavigateToAsync(nameof(SkillProviderHomeView)); // replace with your real root
+                case UserRole.SkillProvider:
+                    await _navigationService.NavigateToAsync("SkillProviderHomeView");
+                    break;
+                case UserRole.ProjectOwner:
+                    await _navigationService.NavigateToAsync("ProjectOwnerHomeView");
+                    break;
+                case UserRole.Admin:
+                    await _navigationService.NavigateToAsync("AdminHomeView");
+                    break;
+                default:
+                    ErrorMessage = "Unknown user role.";
+                    break;
             }
-            else if (_sessionService.GetCurrentUserType() == UserRole.ProjectOwner)
-            {
-                await _navigationService.NavigateToAsync(nameof(ProjectOwnerHomeView)); // replace with your real root
-            }
-                
         }
 
         [RelayCommand]
-        private async Task GoToRegister()
-        {
-            await _navigationService.NavigateToAsync(nameof(RegisterView));
-        }
+        private async Task GoToRegister() => await _navigationService.NavigateToAsync("RegisterView");
     }
 }

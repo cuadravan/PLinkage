@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerSendOfferView"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             xmlns:models="clr-namespace:PLinkage.Models"
+             Title="Send Offer">
+
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN FORM -->
+        <ScrollView Grid.Column="0" Padding="40,20">
+            <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="30" HorizontalOptions="Center" WidthRequest="400">
+                <VerticalStackLayout Spacing="20">
+
+                    <Label Text="Select Project:" FontAttributes="Bold" TextColor="Black"/>
+                    <Picker Title="Choose Project"
+                            ItemsSource="{Binding OwnedProjects}"
+                            ItemDisplayBinding="{Binding ProjectName}"
+                            SelectedItem="{Binding SelectedProject}"
+                            BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
+
+                    <Label Text="Skill Provider:" FontAttributes="Bold" TextColor="Black"/>
+                    <Label Text="{Binding SkillProviderFullName}" BackgroundColor="White"
+                           TextColor="Black" Padding="8,4" />
+
+                    <Label Text="Rate per hour (₱):" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry Placeholder="e.g., 500"
+                           Text="{Binding RateOffered}"
+                           Keyboard="Numeric"
+                           BackgroundColor="White" TextColor="Black"/>
+
+                    <Label Text="Timeframe (Hour):" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry Placeholder="e.g., 2"
+                           Text="{Binding TimeFrameOffered}"
+                           BackgroundColor="White" TextColor="Black"/>
+
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Button Text="Send"
+                                Command="{Binding SendOfferCommand}"
+                                Padding="12,6"
+                                BackgroundColor="#A1D490"
+                                TextColor="Black"
+                                WidthRequest="120" />
+
+                        <Button Text="Go Back"
+                                Command="{Binding GoBackCommand}"
+                                Padding="12,6"
+                                BackgroundColor="#B0BEC5"
+                                TextColor="Black"
+                                WidthRequest="120" />
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+        </ScrollView>
+    </Grid>
+</ContentPage>

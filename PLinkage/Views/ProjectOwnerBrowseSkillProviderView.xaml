@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerBrowseSkillProviderView"
+             Title="ProjectOwnerBrowseSkillProviderView"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             xmlns:models="clr-namespace:PLinkage.Models"
+             xmlns:local="clr-namespace:PLinkage.Converters">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:SortToVisibilityConverter x:Key="SortToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Page Header -->
+                <Border Padding="10" Background="#D9D9D9" StrokeThickness="0" StrokeShape="RoundRectangle 5">
+                    <VerticalStackLayout>
+                        <Label Text="Browse Skill Providers"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="Black" />
+                        <!-- Sort Options Picker -->
+                        <Picker
+                            Title="Sort By"
+                            ItemsSource="{Binding SortOptions}"
+                            SelectedItem="{Binding SortSelection}" />
+
+                        <Picker
+                            IsVisible="{Binding SortSelection, Converter={StaticResource SortToVisibilityConverter}}"
+                            Title="Select Location"
+                            ItemsSource="{Binding CebuLocations}"
+                            SelectedItem="{Binding SelectedLocation}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <CollectionView ItemsSource="{Binding SuggestedSkillProviders}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
+                                    Padding="12" StrokeShape="RoundRectangle 10">
+                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                    <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                             VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding UserFirstName}"
+                                               FontAttributes="Bold"
+                                               FontSize="14"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding UserRating, StringFormat='{0} star/s'}"
+                                               FontSize="12"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding UserLocation}"
+                                               FontSize="12"
+                                               TextColor="Black"/>
+                                    </VerticalStackLayout>
+
+                                    <Button Text="View"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseSkillProviderViewModel}}, Path=ViewSkillProviderCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="2"
+                                            BackgroundColor="#D0E8FF"
+                                            Padding="10,4"
+                                            CornerRadius="6"
+                                            VerticalOptions="Center"
+                                            TextColor="Black"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

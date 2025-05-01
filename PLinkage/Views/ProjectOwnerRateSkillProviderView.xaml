@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="PLinkage.Views.ProjectOwnerRateSkillProviderView"
+    xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+    xmlns:models="clr-namespace:PLinkage.Models"
+    Title="ProjectOwnerRateSkillProviderView">
+
+    <Grid Padding="20">
+        <ScrollView>
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Project Name Header -->
+                <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
+                    <Label
+                        Text="{Binding ProjectName}"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="Black" />
+                </Border>
+
+                <!-- Rating Table -->
+                <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
+                    <CollectionView
+                        ItemsSource="{Binding SkillProvidersToRate}"
+                        SelectionMode="None">
+
+                        <CollectionView.Header>
+                            <Grid ColumnSpacing="10" Padding="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <HorizontalStackLayout>
+                                    <Label 
+                                        Text="Name" 
+                                        FontAttributes="Bold" 
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+
+                                    <Label 
+                                        Text="Rating"
+                                        FontAttributes="Bold"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        Margin="20,0,0,0" />
+                                    <!-- slight left margin to separate -->
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </CollectionView.Header>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    RowDefinitions="Auto"
+                                    Padding="0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <HorizontalStackLayout Spacing="20">
+                                        <!-- Full Name -->
+                                        <Label
+                                            Text="{Binding UserFirstName}"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
+
+                                        <!-- Rating control -->
+                                        <toolkit:RatingView
+                                            Rating="{Binding TempRating, Mode=TwoWay}"
+                                            MaximumRating="5"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                </Border>
+
+                <!-- Submit Button -->
+                <HorizontalStackLayout HorizontalOptions="Center" Padding="10">
+                    <Button
+                        Text="Submit Rating"
+                        Padding="12,6"
+                        BackgroundColor="#A1D490"
+                        TextColor="Black"
+                        Command="{Binding SubmitRatingsCommand}" />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

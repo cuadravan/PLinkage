@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderAddEducationView"
+             Title="SkillProviderAddEducationView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
+            <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
+                <VerticalStackLayout Spacing="20">
+                    <Entry x:Name="courseEntry" Placeholder="Course Name" BackgroundColor="White" TextColor="Black"/>
+                    <Entry x:Name="schoolEntry" Placeholder="School" BackgroundColor="White" TextColor="Black"/>
+                    <Entry x:Name="yearGraduatedEntry" Placeholder="Year Graduated" Keyboard="Numeric" BackgroundColor="White" TextColor="Black"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+                <Button Text="Save" BackgroundColor="#A5D6A7" TextColor="Black"  Padding="14,6" CornerRadius="8"/>
+                <Button Text="Cancel" BackgroundColor="LightGray" TextColor="Black"  Padding="14,6" CornerRadius="8"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderApplyView"
+             Title="SkillProviderApplyView">
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="20" VerticalOptions="Center">
+            <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Select Project:" TextColor="Black"/>
+                    <Picker x:Name="projectPicker" Title="Choose Project" BackgroundColor="White" TextColor="Black" />
+
+                    <Label Text="Select Skill Provider:" TextColor="Black"/>
+                    <Picker x:Name="providerPicker" Title="Choose Provider" BackgroundColor="White" TextColor="Black" />
+
+                    <Label Text="Rate (₱):" TextColor="Black"/>
+                    <Entry x:Name="rateEntry" Placeholder="Enter your rate" Keyboard="Numeric" BackgroundColor="White" TextColor="Black"/>
+
+                    <Label Text="Timeframe (Days/Weeks/Months):" TextColor="Black"/>
+                    <Entry x:Name="timeframeEntry" Placeholder="e.g. 2 Weeks" BackgroundColor="White" TextColor="Black"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Send" BackgroundColor="#A5D6A7" TextColor="Black"  Padding="12,6" CornerRadius="8" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

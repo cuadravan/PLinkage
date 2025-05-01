@@ -3,10 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.SkillProviderHomeView"
              Title="SkillProviderHomeView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome Skill Provider!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid ColumnDefinitions="*">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Welcome Frame -->
+                <Border Background="#E0E0E0" Padding="16" StrokeShape="RoundRectangle 8" StrokeThickness="0">
+                    <Label Text="Welcome back, Van!" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                </Border>
+
+                <!-- Suggested Header -->
+                <Border Background="#E0E0E0" Padding="16" StrokeShape="RoundRectangle 8" StrokeThickness="0">
+                    <Label Text="Suggested for you" FontSize="16" FontAttributes="Bold" TextColor="Black" />
+                </Border>
+
+                <!-- Suggested Projects -->
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Project Card 1 -->
+                    <Border Background="#F9F9F9" Padding="12" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                     VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Cebu City" FontSize="12" TextColor="Black" />
+                                <Label Text="Open Slots: 3" FontSize="12" TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                    Padding="10,4" CornerRadius="6"
+                                    VerticalOptions="Center" TextColor="Black" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Project Card 2 -->
+                    <Border Background="#F9F9F9" Padding="12" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                            <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                     VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                                <Label Text="Location: Mandaue City" FontSize="12" TextColor="Black" />
+                                <Label Text="Open Slots: 2" FontSize="12" TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <Button Text="View" Grid.Column="2" BackgroundColor="#D0E8FF"
+                                    Padding="10,4" CornerRadius="6"
+                                    VerticalOptions="Center" TextColor="Black" />
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

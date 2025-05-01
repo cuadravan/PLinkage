@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.ProjectOwnerViewProjectView"
+             Title="ProjectOwnerViewProjectView">
+
+    <Grid ColumnDefinitions="*">
+
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Column="0" Padding="20">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Project Info -->
+                <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="black"/>
+                        <Label Text="{Binding ProjectLocation}" FontSize="14" TextColor="black"/>
+                        <Label Text="{Binding ProjectDescription}" HeightRequest="100" BackgroundColor="White" TextColor="black"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Start/End Date + Priority/Status + Resources -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="20">
+
+                    <!-- Start & End Dates -->
+                    <Border Grid.Column="0" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Start Date" FontAttributes="Bold" TextColor="black"/>
+                            <Border Padding="0" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" Background="White">
+                                <DatePicker Date="{Binding ProjectStartDate}" TextColor="black" IsEnabled="False"/>
+                            </Border>
+                            <Label Text="End Date" FontAttributes="Bold" TextColor="black"/>
+                            <Border Padding="0" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" Background="White">
+                                <DatePicker Date="{Binding ProjectEndDate}" TextColor="black" IsEnabled="False"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Priority & Status -->
+                    <Border Grid.Column="1" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Priority" FontAttributes="Bold" TextColor="black"/>
+                            <Label Text="{Binding ProjectPriority}" BackgroundColor="White" TextColor="#444"/>
+                            <Label Text="Status" FontAttributes="Bold" TextColor="black"/>
+                            <Label Text="{Binding ProjectStatus}" BackgroundColor="White" TextColor="#444"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Number of Resources -->
+                    <Border Grid.Column="2" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Number of Resources" FontAttributes="Bold" TextColor="black"/>
+                            <Label Text="{Binding ProjectResourcesNeeded}" BackgroundColor="White" TextColor="black"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Employed Skill Providers & Required Skills -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+
+                    <!-- Employed Skill Providers -->
+                    <Border Grid.Column="0" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <CollectionView ItemsSource="{Binding EmployedSkillProviders}" HeightRequest="200">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="6,3" Margin="2" Background="#DDEEFF" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label TextColor="Black" FontAttributes="Bold">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding FullName}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Label Text="{Binding Email}" TextColor="Gray" FontSize="12"/>
+
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label Text="{Binding Rate, StringFormat='₱{0:N2} per hour'}" TextColor="Black" />
+                                                <Label Text="{Binding TimeFrame, StringFormat='{}{0} hours'}" TextColor="Black" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Border>
+
+                    <!-- Required Skills -->
+                    <Border Grid.Column="1" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <CollectionView ItemsSource="{Binding ProjectSkillsRequired}" HeightRequest="150">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="6,3" Margin="2" Background="#DDEEFF" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding .}" TextColor="Black"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Border>
+                </Grid>
+
+                <!-- Buttons -->
+                <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" Margin="0,20,0,0">
+                    <Button Text="Update Project"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="12,6"
+                            Command="{Binding UpdateProjectCommand}"/>
+
+                    <Button Text="Back"
+                            BackgroundColor="#757575"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="12,6"
+                            Command="{Binding BackCommand}"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

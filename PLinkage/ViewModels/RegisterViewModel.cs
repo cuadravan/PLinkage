@@ -1,27 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkage.Interfaces;
-using PLinkage.Models;
-using PLinkage.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+using PLinkage.Interfaces;
+using PLinkage.Models;
 
 namespace PLinkage.ViewModels
 {
     public partial class RegisterViewModel : ObservableValidator
     {
+        // Services
         private readonly INavigationService _navigationService;
         private readonly IUnitOfWork _unitOfWork;
 
+
+        // Constructor
         public RegisterViewModel(INavigationService navigationService, IUnitOfWork unitOfWork)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
-
             ValidateAllProperties();
         }
 
+        // Form fields
         [ObservableProperty, Required(ErrorMessage = "First Name is required"),
          RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
         private string firstName;
@@ -41,27 +42,17 @@ namespace PLinkage.ViewModels
         [ObservableProperty, Required(ErrorMessage = "Confirm Password is required")]
         private string confirmPassword;
 
-        [ObservableProperty]
-        private DateTime birthdate = DateTime.Now;
-
-        [ObservableProperty]
-        private bool isMale;
-
-        [ObservableProperty]
-        private bool isFemale;
+        [ObservableProperty] private DateTime birthdate = DateTime.Now;
+        [ObservableProperty] private bool isMale;
+        [ObservableProperty] private bool isFemale;
 
         [ObservableProperty,
          RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
         private string mobileNumber;
 
-        [ObservableProperty]
-        private CebuLocation? selectedLocation;
-
-        [ObservableProperty, Required(ErrorMessage = "Please select a role.")]
-        private string selectedRole;
-
-        [ObservableProperty]
-        private string errorMessage;
+        [ObservableProperty] private CebuLocation? selectedLocation;
+        [ObservableProperty, Required(ErrorMessage = "Please select a role.")] private string selectedRole;
+        [ObservableProperty] private string errorMessage;
 
         public ObservableCollection<CebuLocation> CebuLocations { get; } =
             new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
@@ -72,6 +63,7 @@ namespace PLinkage.ViewModels
             "Project Owner"
         };
 
+        // Validation
         private bool ValidateForm()
         {
             ErrorMessage = string.Empty;
@@ -79,13 +71,9 @@ namespace PLinkage.ViewModels
 
             if (HasErrors)
             {
-                var firstError = GetErrors()
+                ErrorMessage = GetErrors()
                     .OfType<ValidationResult>()
-                    .FirstOrDefault();
-
-                if (firstError != null)
-                    ErrorMessage = firstError.ErrorMessage;
-
+                    .FirstOrDefault()?.ErrorMessage;
                 return false;
             }
 
@@ -101,19 +89,31 @@ namespace PLinkage.ViewModels
             return true;
         }
 
-
-
         private bool SetError(string message)
         {
             ErrorMessage = message;
             return false;
         }
 
+        // Commands
         [RelayCommand]
         private async Task Register()
         {
-            if (!ValidateForm())
+            if (!ValidateForm()) return;
+
+            var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
+            var projectOwners = await _unitOfWork.ProjectOwner.GetAllAsync();
+
+            bool emailExists = skillProviders.Any(sp =>
+                                    (string?)sp.GetType().GetProperty("UserEmail")?.GetValue(sp) == Email)
+                            || projectOwners.Any(po =>
+                                    (string?)po.GetType().GetProperty("UserEmail")?.GetValue(po) == Email);
+
+            if (emailExists)
+            {
+                ErrorMessage = "Email is already registered. Please use a different email.";
                 return;
+            }
 
             if (SelectedRole == "Skill Provider")
             {
@@ -125,11 +125,11 @@ namespace PLinkage.ViewModels
                     UserPassword = Password,
                     UserBirthDate = Birthdate.Date,
                     UserGender = IsMale ? "Male" : "Female",
+                    UserStatus = "Active",
                     UserPhone = MobileNumber,
                     UserLocation = SelectedLocation,
                     JoinedOn = DateTime.Now,
                 };
-
                 await _unitOfWork.SkillProvider.AddAsync(skillProvider);
             }
             else if (SelectedRole == "Project Owner")
@@ -142,36 +142,30 @@ namespace PLinkage.ViewModels
                     UserPassword = Password,
                     UserBirthDate = Birthdate.Date,
                     UserGender = IsMale ? "Male" : "Female",
+                    UserStatus = "Active",
                     UserPhone = MobileNumber,
                     UserLocation = SelectedLocation,
                     JoinedOn = DateTime.Now,
                 };
-
                 await _unitOfWork.ProjectOwner.AddAsync(projectOwner);
             }
 
             await _unitOfWork.SaveChangesAsync();
             ErrorMessage = string.Empty;
-
-            await _navigationService.NavigateToAsync(nameof(LoginView));
+            await _navigationService.NavigateToAsync("LoginView");
         }
 
         [RelayCommand]
-        private async Task Clear()
+        private Task Clear()
         {
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            Email = string.Empty;
-            Password = string.Empty;
-            ConfirmPassword = string.Empty;
-            IsFemale = false;
-            IsMale = false;
+            FirstName = LastName = Email = Password = ConfirmPassword = MobileNumber = SelectedRole = ErrorMessage = string.Empty;
+            IsMale = IsFemale = false;
             SelectedLocation = null;
-            MobileNumber = string.Empty;
-            SelectedRole = null;
             Birthdate = DateTime.Now;
-            ErrorMessage = string.Empty;
-
+            return Task.CompletedTask;
         }
+
+        [RelayCommand]
+        private async Task BackToLogin() => await _navigationService.NavigateToAsync("LoginView");
     }
 }
