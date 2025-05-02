@@ -114,5 +114,12 @@ namespace PLinkage.ViewModels
             _sessionService.VisitingSkillProviderID = _skillProviderId;
             await _navigationService.NavigateToAsync("ProjectOwnerSendOfferView");
         }
+
+        [RelayCommand]
+        private async Task SendMessage()
+        {
+            _sessionService.VisitingReceiverID = _skillProviderId;
+            await _navigationService.NavigateToAsync("ProjectOwnerSendMessageView");
+        }
     }
 }

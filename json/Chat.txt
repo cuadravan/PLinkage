@@ -1,0 +1,74 @@
+[
+  {
+    "ChatId": "b016ce02-58ba-4d32-8676-dc8c3c8fd0f5",
+    "MessengerId": [
+      "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+      "bdbfdf21-02a5-47a5-805c-a2ca294591e7"
+    ],
+    "Messages": [
+      {
+        "MessageId": "ee0c5f38-ff8f-4f0d-b991-c0304bfbdcce",
+        "MessageOrder": 1,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "Hello!",
+        "MessageDate": "2025-05-02T15:44:22.3672677+08:00",
+        "IsRead": false
+      },
+      {
+        "MessageId": "5f495d69-d03a-452a-94ab-5473006b374a",
+        "MessageOrder": 2,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "Can you work now?",
+        "MessageDate": "2025-05-02T15:44:48.2781235+08:00",
+        "IsRead": false
+      },
+      {
+        "MessageId": "a320067f-6d2b-48cc-a81c-f418d4c1999a",
+        "MessageOrder": 3,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "I'm looking for a fisherman",
+        "MessageDate": "2025-05-02T16:09:02.0029531+08:00",
+        "IsRead": false
+      },
+      {
+        "MessageId": "61bc257d-5e0f-4797-8189-1f6e15df8c99",
+        "MessageOrder": 4,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "I'll pay you 100 pesos for every fish",
+        "MessageDate": "2025-05-02T16:10:40.8554685+08:00",
+        "IsRead": false
+      },
+      {
+        "MessageId": "4b5d9f4d-545a-455d-b457-44022361b0c7",
+        "MessageOrder": 5,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "Please reply",
+        "MessageDate": "2025-05-02T16:15:36.096835+08:00",
+        "IsRead": false
+      }
+    ]
+  },
+  {
+    "ChatId": "3315a76c-b44c-4b2a-ace2-a320a33ab762",
+    "MessengerId": [
+      "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+      "d758722e-df65-46b8-9d3c-2a20d6d8562d"
+    ],
+    "Messages": [
+      {
+        "MessageId": "c0d6b992-e7e9-47e7-8ef0-442a2958ad81",
+        "MessageOrder": 1,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+        "MessageContent": "Are you interested in my project? Check my profile",
+        "MessageDate": "2025-05-02T16:16:10.5468593+08:00",
+        "IsRead": false
+      }
+    ]
+  }
+]
