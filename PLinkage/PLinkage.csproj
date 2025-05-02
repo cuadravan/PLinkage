@@ -119,7 +119,7 @@
 	  <MauiXaml Update="Views\ProjectOwnerHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerMessagesView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerMessagesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProjectOwnerOffersAndApplicationsView.xaml">
@@ -131,7 +131,7 @@
 	  <MauiXaml Update="Views\ProjectOwnerRateSkillProviderView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\ProjectOwnerSendMessageView.xaml">
+	  <MauiXaml Update="Views\ProjectOwnerSendMessageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProjectOwnerSendOfferView.xaml">

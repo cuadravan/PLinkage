@@ -81,10 +81,10 @@
       ContentTemplate="{DataTemplate views:ProjectOwnerOffersAndApplicationsView}" />
     </FlyoutItem>
 
-    <!--<FlyoutItem Title="My Messages" IsVisible="{Binding IsProjectOwner}">
+    <FlyoutItem Title="My Messages" IsVisible="{Binding IsProjectOwner}">
         <ShellContent Route="ProjectOwnerMessagesView" 
         ContentTemplate="{DataTemplate views:ProjectOwnerMessagesView}" />
-    </FlyoutItem>-->
+    </FlyoutItem>
 
     <FlyoutItem Title="[DEBUG] Update Profile" IsVisible="{Binding IsProjectOwner}">
         <ShellContent Route="ProjectOwnerUpdateProfileView" 
@@ -116,10 +116,10 @@
     ContentTemplate="{DataTemplate views:ProjectOwnerSendOfferView}" />
     </FlyoutItem>
 
-    <!--<FlyoutItem Title="[DEBUG] Send Message" IsVisible="{Binding IsProjectOwner}">
+    <FlyoutItem Title="[DEBUG] Send Message" IsVisible="{Binding IsProjectOwner}">
         <ShellContent Route="ProjectOwnerSendMessageView" 
     ContentTemplate="{DataTemplate views:ProjectOwnerSendMessageView}" />
-    </FlyoutItem>-->
+    </FlyoutItem>
 
     <FlyoutItem Title="[DEBUG] View Skill Provider Profile" IsVisible="{Binding IsProjectOwner}">
         <ShellContent Route="ProjectOwnerViewSkillProviderProfileView" 

@@ -9,7 +9,7 @@ namespace PLinkage.Repositories
         public IRepository<ProjectOwner> ProjectOwner { get; }
         public IRepository<SkillProvider> SkillProvider { get; }
         public IRepository<Project> Projects { get; }
-        public IRepository<Message> Messages { get; }
+        public IRepository<Chat> Chat { get; }
         public IRepository<OfferApplication> OfferApplications { get; }
 
         public UnitOfWork()
@@ -18,7 +18,7 @@ namespace PLinkage.Repositories
             ProjectOwner = new JsonRepository<ProjectOwner>("ProjectOwner");
             SkillProvider = new JsonRepository<SkillProvider>("SkillProvider");
             Projects = new JsonRepository<Project>("Projects");
-            Messages = new JsonRepository<Message>("Messages");
+            Chat = new JsonRepository<Chat>("Chat");
             OfferApplications = new JsonRepository<OfferApplication>("OfferApplications");
         }
 
@@ -28,7 +28,7 @@ namespace PLinkage.Repositories
             await ProjectOwner.SaveChangesAsync();
             await SkillProvider.SaveChangesAsync();
             await Projects.SaveChangesAsync();
-            await Messages.SaveChangesAsync();
+            await Chat.SaveChangesAsync();
             await OfferApplications.SaveChangesAsync();
         }
 
@@ -38,7 +38,7 @@ namespace PLinkage.Repositories
             ProjectOwner.Reload();
             SkillProvider.Reload();
             Projects.Reload();
-            Messages.Reload();
+            Chat.Reload();
             OfferApplications.Reload();
 
             await Task.CompletedTask;

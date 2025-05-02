@@ -8,6 +8,7 @@ namespace PLinkage.Services
         private Guid visitingProjectOwnerID = Guid.Empty;
         private Guid visitingSkillProviderID = Guid.Empty;
         private Guid visitingProjectID = Guid.Empty;
+        private Guid visitingReceiverID = Guid.Empty;
 
         public Guid VisitingProjectOwnerID
         {
@@ -23,6 +24,12 @@ namespace PLinkage.Services
         {
             get => visitingProjectID;
             set => visitingProjectID = value;
+        }
+
+        public Guid VisitingReceiverID
+        {
+            get => visitingReceiverID;
+            set => visitingReceiverID = value;
         }
 
         public void SetCurrentUser(IUser user)

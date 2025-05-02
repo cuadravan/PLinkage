@@ -6,6 +6,7 @@ namespace PLinkage.Interfaces
     {
         Guid UserId { get; }
         string UserFirstName { get; }
+        string UserLastName { get; }
         UserRole UserRole { get; }
         CebuLocation? UserLocation { get; }
     }

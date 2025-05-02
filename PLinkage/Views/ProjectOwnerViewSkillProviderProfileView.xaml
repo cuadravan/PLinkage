@@ -38,7 +38,8 @@
                             <Button Text="Message"
                                     BackgroundColor="#388E3C" TextColor="White"
                                     CornerRadius="6" Padding="10,5" WidthRequest="100"
-                                    IsVisible="{Binding IsProjectOwner}" />
+                                    IsVisible="{Binding IsProjectOwner}" 
+                                    Command="{Binding SendMessageCommand}"/>
 
                             <!-- Visible if Skill Provider -->
                             <Button Text="Update Profile"

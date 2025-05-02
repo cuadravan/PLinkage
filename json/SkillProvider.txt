@@ -71,7 +71,10 @@
     "UserRatingTotal": 18.0,
     "UserRatingCount": 6,
     "TempRating": 1.0,
-    "JoinedOn": "2025-04-12T15:08:13.3629424+08:00"
+    "JoinedOn": "2025-04-12T15:08:13.3629424+08:00",
+    "UserMessagesId": [
+      "b016ce02-58ba-4d32-8676-dc8c3c8fd0f5"
+    ]
   },
   {
     "UserId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
@@ -95,6 +98,9 @@
     "UserRatingTotal": 14.0,
     "UserRatingCount": 5,
     "TempRating": 3.0,
-    "JoinedOn": "2025-04-16T10:03:24.8777466+08:00"
+    "JoinedOn": "2025-04-16T10:03:24.8777466+08:00",
+    "UserMessagesId": [
+      "3315a76c-b44c-4b2a-ace2-a320a33ab762"
+    ]
   }
 ]

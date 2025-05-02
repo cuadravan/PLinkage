@@ -24,5 +24,6 @@ namespace PLinkage.Models
         public int UserRatingCount { get; set; } = 0;
         public double TempRating { get; set; } = 0.0;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
+        public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
     }
 }

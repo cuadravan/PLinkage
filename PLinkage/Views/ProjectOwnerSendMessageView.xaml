@@ -26,7 +26,9 @@
                         <Entry x:Name="RecipientNameEntry"
                            Placeholder="Recipient Name"
                            BackgroundColor="White"
-                           TextColor="Black"/>
+                           TextColor="Black"
+                           Text="{Binding ReceiverFullName}"
+                           IsEnabled="False"/>
 
                         <!-- Message -->
                         <Label Text="Message:" FontSize="14" FontAttributes="Bold" TextColor="Black"/>
@@ -34,15 +36,23 @@
                             Placeholder="Type your message here..."
                             BackgroundColor="White"
                             TextColor="Black"
-                            HeightRequest="150"/>
+                            HeightRequest="150"
+                            Text="{Binding MessageContent}"/>
 
                         <!-- Send Button -->
-                        <Button Text="Send Message"
-                            BackgroundColor="#A1D490"
-                            TextColor="Black"
-                            Padding="12,6"
-                            HorizontalOptions="Center"
-                            />
+                        <HorizontalStackLayout>
+                            <Button Text="Send Message"
+                                    BackgroundColor="#A1D490"
+                                    TextColor="Black"
+                                    Padding="12,6"
+                                    HorizontalOptions="Center"
+                                    Command="{Binding SendMessageCommand}"
+                                    />
+                            <Button Text="Cancel"
+                                    BackgroundColor="Red"
+                                    Command="{Binding GoBackCommand}"/>
+                        </HorizontalStackLayout>
+                        
                     </VerticalStackLayout>
                 </Frame>
 
