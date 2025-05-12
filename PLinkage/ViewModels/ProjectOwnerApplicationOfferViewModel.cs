@@ -158,6 +158,7 @@ namespace PLinkage.ViewModels
 
             project.ProjectMembers.Add(member);
             project.ProjectDateUpdated = DateTime.Now;
+            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
 
             await _unitOfWork.Projects.UpdateAsync(project);
             await _unitOfWork.SaveChangesAsync();

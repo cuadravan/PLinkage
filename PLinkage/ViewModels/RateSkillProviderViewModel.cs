@@ -107,7 +107,7 @@ namespace PLinkage.ViewModels
             }
 
             await _unitOfWork.SaveChangesAsync();
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
 
 

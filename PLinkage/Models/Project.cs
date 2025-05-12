@@ -14,6 +14,7 @@
         public List<ProjectMemberDetail> ProjectMembers { get; set; } = new List<ProjectMemberDetail>();
         public string ProjectPriority { get; set; } = string.Empty;
         public int ProjectResourcesNeeded { get; set; } = 0;
+        public int ProjectResourcesAvailable { get; set; } = 0;
         public DateTime ProjectDateCreated { get; set; } = DateTime.Now;
         public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
     }

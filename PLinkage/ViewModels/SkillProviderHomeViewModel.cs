@@ -6,7 +6,7 @@ using PLinkage.Models;
 
 namespace PLinkage.ViewModels
 {
-    public partial class ProjectOwnerHomeViewModel : ObservableObject
+    public partial class SkillProviderHomeViewModel : ObservableObject
     {
         // Services
         private readonly INavigationService _navigationService;
@@ -16,9 +16,9 @@ namespace PLinkage.ViewModels
 
         // Properties
         [ObservableProperty] private string userName;
-        [ObservableProperty] private ObservableCollection<SkillProvider> suggestedSkillProviders = new();
-        [ObservableProperty] private int sentOfferCount;
-        [ObservableProperty] private int receivedApplicationCount;
+        [ObservableProperty] private ObservableCollection<Project> suggestedProjects = new();
+        [ObservableProperty] private int receivedOfferCount;
+        [ObservableProperty] private int sentApplicationCount;
         [ObservableProperty] private int activeProjects;
         [ObservableProperty] private string summaryText;
 
@@ -31,7 +31,7 @@ namespace PLinkage.ViewModels
             set
             {
                 if (SetProperty(ref sortSelection, value))
-                    _ = LoadSuggestedSkillProviders();
+                    _ = LoadSuggestedProjects();
             }
         }
 
@@ -43,7 +43,7 @@ namespace PLinkage.ViewModels
         };
 
         // Constructor
-        public ProjectOwnerHomeViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
+        public SkillProviderHomeViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
@@ -59,72 +59,76 @@ namespace PLinkage.ViewModels
             if (currentUser == null) return;
 
             UserName = currentUser.UserFirstName ?? string.Empty;
-            await LoadSuggestedSkillProviders();
-            await CountSentOffers(currentUser.UserId);
-            await CountReceivedApplications(currentUser.UserId);
+            await LoadSuggestedProjects();
+            await CountReceivedOffers(currentUser.UserId);
+            await CountSentApplications(currentUser.UserId);
             await CountActiveProjects(currentUser.UserId);
 
-            SummaryText = $"You have {ActiveProjects} active projects, {SentOfferCount} pending sent applications, and {receivedApplicationCount} received offers.";
+            SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent application, and {ReceivedOfferCount} received offers.";
         }
 
-        private async Task LoadSuggestedSkillProviders()
+        private async Task LoadSuggestedProjects()
         {
             // fetch all and exclude deactivated users
-            var skillProviders = (await _unitOfWork.SkillProvider.GetAllAsync())
-                .Where(sp => !string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase))
+            var projects = (await _unitOfWork.Projects.GetAllAsync())
+                .Where(p => p.ProjectStatus != ProjectStatus.Deactivated)
                 .ToList();
 
-            var currentUser = await _unitOfWork.ProjectOwner
+            var currentUser = await _unitOfWork.SkillProvider
                 .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;
 
             var ownerCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
 
-            IEnumerable<SkillProvider> filtered = SortSelection switch
+            IEnumerable<Project> filtered = SortSelection switch
             {
-                "Same Place as Me" => skillProviders
-                    .Where(sp => sp.UserLocation == currentUser.UserLocation),
+                "Same Place as Me" => projects
+                    .Where(p => p.ProjectLocation == currentUser.UserLocation),
 
-                "Near Me" => skillProviders
-                    .Where(sp =>
-                        sp.UserLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
-                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 50),
+                "Near Me" => projects
+                    .Where(p =>
+                        p.ProjectLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
+                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 50),
 
-                _ => skillProviders
+                _ => projects
             };
 
-            SuggestedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
+            SuggestedProjects = new ObservableCollection<Project>(filtered);
         }
 
 
-        private async Task CountSentOffers(Guid userId)
+        private async Task CountReceivedOffers(Guid userId)
         {
             var allOffers = await _unitOfWork.OfferApplications.GetAllAsync();
-            SentOfferCount = allOffers.Count(offer => offer.SenderId == userId && offer.OfferApplicationStatus == "Pending");
+            ReceivedOfferCount = allOffers.Count(offer => offer.ReceiverId == userId && offer.OfferApplicationStatus == "Pending");
         }
 
-        private async Task CountReceivedApplications(Guid userId)
+        private async Task CountSentApplications(Guid userId)
         {
             var allApplications = await _unitOfWork.OfferApplications.GetAllAsync();
-            ReceivedApplicationCount = allApplications.Count(app => app.ReceiverId == userId && app.OfferApplicationStatus == "Pending");
+            SentApplicationCount = allApplications.Count(app => app.SenderId == userId && app.OfferApplicationStatus == "Pending");
         }
 
         private async Task CountActiveProjects(Guid userId)
         {
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
-            ActiveProjects = allProjects.Count(p => p.ProjectOwnerId == userId && p.ProjectStatus == ProjectStatus.Active);
+            ActiveProjects = allProjects.Count(
+                p => p.ProjectMembers.Any(m => m.MemberId == userId)
+                && p.ProjectStatus == ProjectStatus.Active
+                );
+
         }
 
         [RelayCommand]
         private async Task Refresh() => await LoadDashboardData();
 
         [RelayCommand]
-        private async Task ViewSkillProvider(SkillProvider skillProvider)
+        private async Task ViewProject(Project project)
         {
-            _sessionService.VisitingSkillProviderID = skillProvider.UserId;
-            await _navigationService.NavigateToAsync("/ProjectOwnerViewSkillProviderProfileView");
+            _sessionService.VisitingProjectID = project.ProjectId;
+            await _navigationService.NavigateToAsync("ProjectOwnerViewProjectView");
         }
 
         private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)

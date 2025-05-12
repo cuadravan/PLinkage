@@ -165,6 +165,7 @@ namespace PLinkage.ViewModels
             project.ProjectStartDate = ProjectStartDate;
             project.ProjectSkillsRequired = ProjectSkillsRequired.ToList();
             project.ProjectResourcesNeeded = ProjectResourcesNeeded;
+            project.ProjectResourcesAvailable = ProjectResourcesNeeded - ProjectMembers.Count;
             project.ProjectStatus = ProjectStatusSelected;
             project.ProjectDateUpdated = DateTime.Now;
 
@@ -174,7 +175,7 @@ namespace PLinkage.ViewModels
                 await _unitOfWork.Projects.UpdateAsync(project);
                 await _unitOfWork.SaveChangesAsync();
                 ErrorMessage = string.Empty;
-                await _navigationService.NavigateToAsync("ProjectOwnerRateSkillProviderView");
+                await _navigationService.NavigateToAsync("/ProjectOwnerRateSkillProviderView");
             }
             else
             {
@@ -183,7 +184,7 @@ namespace PLinkage.ViewModels
                 ErrorMessage = string.Empty;
 
                 await Shell.Current.DisplayAlert("Success", "Project updated successfully!", "OK");
-                await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+                await _navigationService.GoBackAsync();
             }
                 
         }
@@ -200,7 +201,7 @@ namespace PLinkage.ViewModels
             var result = await Shell.Current.DisplayAlert("Cancel", "Are you sure you want to cancel?", "Yes", "No");
             if (result)
             {
-                await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+                await _navigationService.GoBackAsync();
             }
         }
 

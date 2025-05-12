@@ -15,7 +15,7 @@
     "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
     "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
-    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationStatus": "Pending",
     "OfferApplicationRate": 7500.0,
     "OfferApplicationTimeFrame": 60
   },

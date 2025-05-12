@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.ProjectOwnerViewProjectView"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+            xmlns:models="clr-namespace:PLinkage.Models"
              Title="ProjectOwnerViewProjectView">
 
     <Grid ColumnDefinitions="*">
@@ -78,6 +80,15 @@
                                             <HorizontalStackLayout Spacing="10">
                                                 <Label Text="{Binding Rate, StringFormat='₱{0:N2} per hour'}" TextColor="Black" />
                                                 <Label Text="{Binding TimeFrame, StringFormat='{}{0} hours'}" TextColor="Black" />
+                                                <Button Text="View"
+        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=ViewSkillProviderCommand}"
+        CommandParameter="{Binding .}"
+        Grid.Column="2"
+        BackgroundColor="#D0E8FF"
+        Padding="10,4"
+        CornerRadius="6"
+        VerticalOptions="Center"
+        TextColor="Black"/>
                                             </HorizontalStackLayout>
                                         </VerticalStackLayout>
                                     </Border>
@@ -104,12 +115,6 @@
 
                 <!-- Buttons -->
                 <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" Margin="0,20,0,0">
-                    <Button Text="Update Project"
-                            BackgroundColor="#4CAF50"
-                            TextColor="White"
-                            CornerRadius="8"
-                            Padding="12,6"
-                            Command="{Binding UpdateProjectCommand}"/>
 
                     <Button Text="Back"
                             BackgroundColor="#757575"

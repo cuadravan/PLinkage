@@ -159,7 +159,7 @@ namespace PLinkage.ViewModels
             await _unitOfWork.SaveChangesAsync();
 
             await Shell.Current.DisplayAlert("✅ Success", "Offer successfully sent!", "OK");
-            await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+            await _navigationService.GoBackAsync();
         }
 
 
@@ -168,7 +168,7 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+            await _navigationService.GoBackAsync();
         }
 
     }

@@ -113,7 +113,7 @@ namespace PLinkage.ViewModels
             _sessionService.SetCurrentUser(user);
             ErrorMessage = string.Empty;
 
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
 
         [RelayCommand]
@@ -123,7 +123,7 @@ namespace PLinkage.ViewModels
         private async Task BackToProfile()
         {
             _sessionService.VisitingProjectID = Guid.Empty;
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
     }
 }

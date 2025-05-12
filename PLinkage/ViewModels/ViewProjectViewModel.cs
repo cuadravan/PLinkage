@@ -107,17 +107,17 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task UpdateProject()
+        private async Task ViewSkillProvider(EmployedSkillProviderWrapper skillProvider)
         {
-            _sessionService.VisitingProjectID = _projectId;
-            await _navigationService.NavigateToAsync("ProjectOwnerUpdateProjectView");
+            _sessionService.VisitingSkillProviderID = skillProvider.MemberId;
+            await _navigationService.NavigateToAsync("/ProjectOwnerViewSkillProviderProfileView");
         }
 
         [RelayCommand]
         private async Task Back()
         {
             _sessionService.VisitingProjectID = Guid.Empty;
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
     }
 }

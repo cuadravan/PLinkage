@@ -166,16 +166,17 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            if(receiver.UserRole == UserRole.SkillProvider)
-            {
-                _sessionService.VisitingSkillProviderID = receiver.UserId;
-                await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
-            }
-            else if (receiver.UserRole == UserRole.ProjectOwner)
-            {
-                _sessionService.VisitingProjectOwnerID = receiver.UserId;
-                await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
-            }
+            //if(receiver.UserRole == UserRole.SkillProvider)
+            //{
+            //    _sessionService.VisitingSkillProviderID = receiver.UserId;
+            //    await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+            //}
+            //else if (receiver.UserRole == UserRole.ProjectOwner)
+            //{
+            //    _sessionService.VisitingProjectOwnerID = receiver.UserId;
+            //    await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            //}
+            await _navigationService.GoBackAsync();
         }
     }
 }
