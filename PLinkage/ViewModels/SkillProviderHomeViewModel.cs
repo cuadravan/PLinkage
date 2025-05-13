@@ -128,7 +128,7 @@ namespace PLinkage.ViewModels
         private async Task ViewProject(Project project)
         {
             _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("ProjectOwnerViewProjectView");
+            await _navigationService.NavigateToAsync("/ViewProjectView");
         }
 
         private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)

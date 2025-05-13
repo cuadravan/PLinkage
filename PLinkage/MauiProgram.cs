@@ -33,7 +33,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransient<LoginView>();
 
-
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<RegisterViewModel>();
@@ -45,12 +44,20 @@ public static class MauiProgram
 		builder.Services.AddTransient<UpdateProjectViewModel>();
 		builder.Services.AddTransient<RateSkillProviderViewModel>();
 		builder.Services.AddTransient<BrowseSkillProviderViewModel>();
-        builder.Services.AddTransient<SkillProviderProfileViewModel>();
+        builder.Services.AddTransient<ViewSkillProviderProfileViewModel>();
 		builder.Services.AddTransient<SendOfferViewModel>();
         builder.Services.AddTransient<ProjectOwnerApplicationOfferViewModel>();
 		builder.Services.AddTransient<SendMessageViewModel>();
         builder.Services.AddTransient<ViewMessagesViewModel>();
         builder.Services.AddTransient<SkillProviderHomeViewModel>();
+		builder.Services.AddTransient<SkillProviderProfileViewModel>();
+        builder.Services.AddTransient<AddEducationViewModel>();
+        builder.Services.AddTransient<UpdateEducationViewModel>();
+        builder.Services.AddTransient<AddSkillViewModel>();
+        builder.Services.AddTransient<UpdateSkillViewModel>();
+		builder.Services.AddTransient<BrowseProjectViewModel>();
+        builder.Services.AddTransient<SendApplicationViewModel>();
+        builder.Services.AddTransient<ViewProjectOwnerProfileViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

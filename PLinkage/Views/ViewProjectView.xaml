@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.Views.ProjectOwnerViewProjectView"
+             x:Class="PLinkage.Views.ViewProjectView"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
             xmlns:models="clr-namespace:PLinkage.Models"
              Title="ProjectOwnerViewProjectView">
@@ -16,6 +16,12 @@
                 <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="black"/>
+                        <Label Text="{Binding ProjectOwnerFullName}" FontAttributes="Bold" FontSize="13" TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding ViewProjectOwnerCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
                         <Label Text="{Binding ProjectLocation}" FontSize="14" TextColor="black"/>
                         <Label Text="{Binding ProjectDescription}" HeightRequest="100" BackgroundColor="White" TextColor="black"/>
                     </VerticalStackLayout>
@@ -115,6 +121,13 @@
 
                 <!-- Buttons -->
                 <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" Margin="0,20,0,0">
+                    <Button Text="Apply"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="12,6"
+                            IsVisible="{Binding IsSkillProvider}"
+                            Command="{Binding ApplyCommand}" />
 
                     <Button Text="Back"
                             BackgroundColor="#757575"

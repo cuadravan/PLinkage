@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderProfileView"
+             Title="SkillProviderProfileView"
              xmlns:models="clr-namespace:PLinkage.Models"
-             x:Class="PLinkage.Views.ProjectOwnerViewSkillProviderProfileView"
-             Title="Skill Provider Profile"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             x:DataType="viewmodels:SkillProviderProfileViewModel">
-
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels">
     <Grid ColumnDefinitions="*">
 
         <!-- Main Content -->
@@ -28,30 +26,11 @@
 
                         <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Start">
 
-                            <!-- Visible if Project Owner -->
-                            <Button Text="Send Offer"
-                                    BackgroundColor="#1976D2" TextColor="White"
-                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
-                                    IsVisible="{Binding IsProjectOwner}" 
-                                    Command="{Binding SendOfferCommand}"/>
-
-                            <Button Text="Message"
-                                    BackgroundColor="#388E3C" TextColor="White"
-                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
-                                    IsVisible="{Binding IsProjectOwner}" 
-                                    Command="{Binding SendMessageCommand}"/>
-
                             <!-- Visible if Skill Provider -->
                             <Button Text="Update Profile"
                                     BackgroundColor="#F9A825" TextColor="White"
                                     CornerRadius="6" Padding="10,5" WidthRequest="120"
-                                    IsVisible="{Binding IsOwner}" />
-
-                            <!-- Visible if Admin -->
-                            <Button Text="Deactivate"
-                                    BackgroundColor="#D32F2F" TextColor="White"
-                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
-                                    IsVisible="{Binding IsAdmin}" />
+                                    Command="{Binding UpdateProfileCommand}" />
 
                         </HorizontalStackLayout>
                     </Grid>
@@ -74,8 +53,8 @@
                         <Button Text="Add Education"
                                 BackgroundColor="#00796B" TextColor="White"
                                 CornerRadius="6" Padding="8,4" WidthRequest="140"
-                                HorizontalOptions="End" 
-                                IsVisible="{Binding IsOwner}"/>
+                                HorizontalOptions="End"
+                                Command="{Binding AddEducationCommand}"/>
 
                         <CollectionView ItemsSource="{Binding Educations}">
                             <CollectionView.ItemTemplate>
@@ -90,6 +69,13 @@
                                             <Label Text="{Binding SchoolAttended, StringFormat='School: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding CourseName, StringFormat='Course: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding TimeGraduated, StringFormat='Graduated: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
+                                            <Button Text="Update Education"
+                                                            BackgroundColor="#0288D1" TextColor="White"
+                                                            CornerRadius="6" Padding="8,4"
+                                                            FontSize="12"
+                                                            HorizontalOptions="End"           
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateEducationCommand}"
+                                                            CommandParameter="{Binding .}" />
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -106,7 +92,7 @@
                                 BackgroundColor="#00796B" TextColor="White"
                                 CornerRadius="6" Padding="8,4" WidthRequest="140"
                                 HorizontalOptions="End" 
-                                IsVisible="{Binding IsOwner}"/>
+                                Command="{Binding AddSkillCommand}"/>
 
                         <CollectionView ItemsSource="{Binding Skills}">
                             <CollectionView.ItemTemplate>
@@ -124,6 +110,14 @@
                                             <Label Text="{Binding TimeAcquired, StringFormat='Acquired: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding OrganizationInvolved, StringFormat='Organization: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding YearsOfExperience, StringFormat='Experience: {0} years'}" FontSize="12" TextColor="Black" />
+                                            <!-- Update Skill Button -->
+                                            <Button Text="Update Skill"
+                                                        BackgroundColor="#0288D1" TextColor="White"
+                                                        CornerRadius="6" Padding="8,4"
+                                                        FontSize="12"
+                                                        HorizontalOptions="End"           
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateSkillCommand}"
+                                                        CommandParameter="{Binding .}" />
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -144,7 +138,7 @@
                                             StrokeThickness="1"
                                             StrokeShape="RoundRectangle 4"
                                             Padding="10"
-                                            Margin="0,4">           
+                                            Margin="0,4">
                                         <VerticalStackLayout>
                                             <Label Text="{Binding ProjectName}" FontSize="12" FontAttributes="Bold" TextColor="Black" />
                                             <Label Text="{Binding ProjectDescription}" FontSize="12" TextColor="Black" />

@@ -15,5 +15,6 @@ namespace PLinkage.Interfaces
         Guid VisitingSkillProviderID { get; set; }
         Guid VisitingProjectID { get; set; }
         Guid VisitingReceiverID { get; set; }
+        int VisitingSkillEducationID { get; set; }
     }
 }

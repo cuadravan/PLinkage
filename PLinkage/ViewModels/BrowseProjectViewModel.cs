@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using PLinkage.Models;
 using PLinkage.Interfaces;
-using CommunityToolkit.Mvvm.Input;
+
 namespace PLinkage.ViewModels
 {
-    public partial class BrowseSkillProviderViewModel: ObservableObject
+    public partial class BrowseProjectViewModel : ObservableObject
     {
         [ObservableProperty]
         private CebuLocation? selectedLocation = null;
@@ -13,12 +14,12 @@ namespace PLinkage.ViewModels
         public ObservableCollection<CebuLocation> CebuLocations { get; } = new(
             Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
 
-        // Services
         private readonly INavigationService _navigationService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
 
-        [ObservableProperty] private ObservableCollection<SkillProvider> suggestedSkillProviders = new();
+        [ObservableProperty]
+        private ObservableCollection<Project> suggestedProjects = new();
 
         public IAsyncRelayCommand LoadDashboardDataCommand { get; }
 
@@ -29,7 +30,7 @@ namespace PLinkage.ViewModels
             set
             {
                 if (SetProperty(ref sortSelection, value))
-                    _ = LoadSuggestedSkillProviders();
+                    _ = LoadSuggestedProjects();
             }
         }
 
@@ -41,8 +42,7 @@ namespace PLinkage.ViewModels
             "By Specific Location"
         };
 
-        // Constructor
-        public BrowseSkillProviderViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
+        public BrowseProjectViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
@@ -50,71 +50,68 @@ namespace PLinkage.ViewModels
             LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
         }
 
-        // Core Methods
         private async Task LoadDashboardData()
         {
             await _unitOfWork.ReloadAsync();
             var currentUser = _sessionService.GetCurrentUser();
             if (currentUser == null) return;
 
-            await LoadSuggestedSkillProviders();
+            await LoadSuggestedProjects();
         }
 
-        private async Task LoadSuggestedSkillProviders()
+        private async Task LoadSuggestedProjects()
         {
-            // fetch all and exclude deactivated users
-            var skillProviders = (await _unitOfWork.SkillProvider.GetAllAsync())
-                .Where(sp => !string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase))
+            var projects = (await _unitOfWork.Projects.GetAllAsync())
+                .Where(p => p.ProjectStatus != ProjectStatus.Deactivated)
                 .ToList();
 
-            var currentUser = await _unitOfWork.ProjectOwner
+            var currentUser = await _unitOfWork.SkillProvider
                 .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;
 
-            var ownerCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
+            var userCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
 
-            IEnumerable<SkillProvider> filtered = SortSelection switch
+            IEnumerable<Project> filtered = SortSelection switch
             {
-                "Same Place as Me" => skillProviders
-                    .Where(sp => sp.UserLocation == currentUser.UserLocation),
+                "Same Place as Me" => projects
+                    .Where(p => p.ProjectLocation == currentUser.UserLocation),
 
-                "Near Me" => skillProviders
-                    .Where(sp =>
-                        sp.UserLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
-                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 50),
+                "Near Me" => projects
+                    .Where(p =>
+                        p.ProjectLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
+                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 50),
 
-                "By Specific Location" when SelectedLocation.HasValue => skillProviders
-                    .Where(sp => sp.UserLocation == SelectedLocation),
+                "By Specific Location" when SelectedLocation.HasValue => projects
+                    .Where(p => p.ProjectLocation == SelectedLocation),
 
-                _ => skillProviders
+                _ => projects
             };
 
-
-            SuggestedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
+            SuggestedProjects = new ObservableCollection<Project>(filtered);
         }
 
         partial void OnSelectedLocationChanged(CebuLocation? value)
         {
             if (SortSelection == "By Specific Location")
-                _ = LoadSuggestedSkillProviders();
+                _ = LoadSuggestedProjects();
         }
-
 
         [RelayCommand]
         private async Task Refresh() => await LoadDashboardData();
 
         [RelayCommand]
-        private async Task ViewSkillProvider(SkillProvider skillProvider)
+        private async Task ViewProject(Project project)
         {
-            _sessionService.VisitingSkillProviderID = skillProvider.UserId;
-            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
+            _sessionService.VisitingProjectID = project.ProjectId;
+            await _navigationService.NavigateToAsync("/ViewProjectView");
         }
 
         private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)
         {
-            const double EarthRadius = 6371; // km
+            const double EarthRadius = 6371;
 
             double lat1Rad = Math.PI * coord1.Latitude / 180;
             double lat2Rad = Math.PI * coord2.Latitude / 180;

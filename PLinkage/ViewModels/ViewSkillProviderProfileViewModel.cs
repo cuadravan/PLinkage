@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace PLinkage.ViewModels
 {
-    public partial class SkillProviderProfileViewModel : ObservableObject
+    public partial class ViewSkillProviderProfileViewModel : ObservableObject
     {
         // Services
         private readonly IUnitOfWork _unitOfWork;
@@ -25,6 +25,12 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string userPhone;
         [ObservableProperty] private double userRating;
 
+        // Role Flags
+        [ObservableProperty] private bool isProjectOwner;
+        [ObservableProperty] private bool isSkillProvider;
+        [ObservableProperty] private bool isAdmin;
+        [ObservableProperty]private bool isOwner;
+
 
         // Data Collections
         [ObservableProperty] private ObservableCollection<Skill> skills = new();
@@ -33,7 +39,7 @@ namespace PLinkage.ViewModels
 
         public IAsyncRelayCommand OnViewAppearingCommand { get; }
 
-        public SkillProviderProfileViewModel(
+        public ViewSkillProviderProfileViewModel(
             IUnitOfWork unitOfWork,
             ISessionService sessionService,
             INavigationService navigationService)
@@ -46,16 +52,34 @@ namespace PLinkage.ViewModels
 
         public async Task OnViewAppearing()
         {
+            SetRoleFlags();
+
             _skillProviderId = _sessionService.VisitingSkillProviderID;
             var currentUser = _sessionService.GetCurrentUser();
             if (_skillProviderId == Guid.Empty && currentUser != null)
                 _skillProviderId = currentUser.UserId;
 
+            // Check if the current user is viewing their own profile
+            IsOwner = currentUser != null && currentUser.UserId == _skillProviderId;
+
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
             await LoadEmployedProjectsAsync();
+
+            if (IsOwner)
+            {
+                await Shell.Current.DisplayAlert("View Mode", "You are currently viewing your profile as a visitor.", "OK");
+            }
         }
 
+
+        private void SetRoleFlags()
+        {
+            var role = _sessionService.GetCurrentUserType();
+            IsProjectOwner = role == UserRole.ProjectOwner;
+            IsSkillProvider = role == UserRole.SkillProvider;
+            IsAdmin = role == UserRole.Admin;
+        }
 
         private async Task LoadProfileAsync()
         {
@@ -90,45 +114,19 @@ namespace PLinkage.ViewModels
 
         // Commands
         [RelayCommand]
-        private async Task AddEducation ()
+        private async Task SendOffer()
         {
-            await _navigationService.NavigateToAsync("/SkillProviderAddEducationView");
-        }
-        [RelayCommand]
-        private async Task UpdateEducation(Education education)
-        {
-            if (education == null || Educations == null) return;
-
-            int index = Educations.IndexOf(education);
-            if (index >= 0)
-            {
-                _sessionService.VisitingSkillEducationID = index;
-                await _navigationService.NavigateToAsync("/SkillProviderUpdateEducationView");
-            }
+            _sessionService.VisitingSkillProviderID = _skillProviderId;
+            await _navigationService.NavigateToAsync("/ProjectOwnerSendOfferView");
         }
 
         [RelayCommand]
-        private async Task AddSkill ()
+        private async Task SendMessage()
         {
-            await _navigationService.NavigateToAsync("/SkillProviderAddSkillView");
+            _sessionService.VisitingReceiverID = _skillProviderId;
+            await _navigationService.NavigateToAsync("/ProjectOwnerSendMessageView");
         }
-        [RelayCommand]
-        private async Task UpdateSkill (Skill skill)
-        {
-            if (skill == null || Skills == null) return;
 
-            int index = Skills.IndexOf(skill);
-            if (index >= 0)
-            {
-                _sessionService.VisitingSkillEducationID = index;
-                await _navigationService.NavigateToAsync("/SkillProviderUpdateSkillView");
-            }
-        }
-        [RelayCommand]
-        private async Task UpdateProfile()
-        {
-            await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProfileView");
-        }
         [RelayCommand]
         private async Task ViewProject(Project project)
         {

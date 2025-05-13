@@ -2,9 +2,9 @@ using PLinkage.ViewModels;
 
 namespace PLinkage.Views;
 
-public partial class ProjectOwnerViewProjectView : ContentPage
+public partial class ViewProjectView : ContentPage
 {
-	public ProjectOwnerViewProjectView(ViewProjectViewModel viewModel)
+	public ViewProjectView(ViewProjectViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;

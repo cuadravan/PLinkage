@@ -3,10 +3,11 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using PLinkage.Interfaces;
 using PLinkage.Models;
+using System.Globalization;
 
 namespace PLinkage.ViewModels
 {
-    public partial class ProjectOwnerProfileViewModel : ObservableObject
+    public partial class ViewProjectOwnerProfileViewModel : ObservableObject
     {
         // Services
         private readonly IUnitOfWork _unitOfWork;
@@ -23,6 +24,10 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string userEmail;
         [ObservableProperty] private string userPhone;
         [ObservableProperty] private ObservableCollection<Project> ownedProjects = new();
+
+        // Role Flags
+        [ObservableProperty] private bool isSkillProvider;
+        [ObservableProperty] private bool isOwner;
 
         public IAsyncRelayCommand OnViewAppearingCommand { get; }
 
@@ -45,8 +50,10 @@ namespace PLinkage.ViewModels
             "All"
         };
 
-        // Constructor
-        public ProjectOwnerProfileViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
+        public ViewProjectOwnerProfileViewModel(
+            IUnitOfWork unitOfWork,
+            ISessionService sessionService,
+            INavigationService navigationService)
         {
             _unitOfWork = unitOfWork;
             _sessionService = sessionService;
@@ -54,16 +61,31 @@ namespace PLinkage.ViewModels
             OnViewAppearingCommand = new AsyncRelayCommand(OnViewAppearing);
         }
 
-        // Core Methods
         public async Task OnViewAppearing()
         {
+            SetRoleFlags();
+
             _projectOwnerId = _sessionService.VisitingProjectOwnerID;
-            if (_projectOwnerId == Guid.Empty)
-                _projectOwnerId = _sessionService.GetCurrentUser().UserId;
+            var currentUser = _sessionService.GetCurrentUser();
+            if (_projectOwnerId == Guid.Empty && currentUser != null)
+                _projectOwnerId = currentUser.UserId;
+
+            // ✅ Check ownership
+            IsOwner = currentUser != null && currentUser.UserId == _projectOwnerId;
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
             await LoadProjectsAsync();
+            if (IsOwner)
+            {
+                await Shell.Current.DisplayAlert("View Mode", "You are currently viewing your profile as a visitor.", "OK");
+            }
+        }
+
+        private void SetRoleFlags()
+        {
+            var role = _sessionService.GetCurrentUserType();
+            IsSkillProvider = role == UserRole.SkillProvider;
         }
 
         private async Task LoadProfileAsync()
@@ -93,13 +115,6 @@ namespace PLinkage.ViewModels
             };
         }
 
-        // Commands
-        [RelayCommand]
-        private async Task UpdateProfile() => await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProfileView");
-
-        [RelayCommand]
-        private async Task AddProject() => await _navigationService.NavigateToAsync("/ProjectOwnerAddProjectView");
-
         [RelayCommand]
         private async Task ViewProject(Project project)
         {
@@ -108,10 +123,10 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task UpdateProject(Project project)
+        private async Task SendMessage()
         {
-            _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProjectView");
+            _sessionService.VisitingReceiverID = _projectOwnerId;
+            await _navigationService.NavigateToAsync("/ProjectOwnerSendMessageView");
         }
     }
 }

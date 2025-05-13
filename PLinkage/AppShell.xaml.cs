@@ -17,11 +17,17 @@ namespace PLinkage
             Routing.RegisterRoute("ProjectOwnerUpdateProfileView", typeof(ProjectOwnerUpdateProfileView));
             Routing.RegisterRoute("ProjectOwnerAddProjectView", typeof(ProjectOwnerAddProjectView));
             Routing.RegisterRoute("ProjectOwnerUpdateProjectView", typeof(ProjectOwnerUpdateProjectView));
-            Routing.RegisterRoute("ProjectOwnerViewProjectView", typeof(ProjectOwnerViewProjectView));
+            Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
             Routing.RegisterRoute("ProjectOwnerRateSkillProviderView", typeof(ProjectOwnerRateSkillProviderView));
             Routing.RegisterRoute("ProjectOwnerSendOfferView", typeof(ProjectOwnerSendOfferView));
             Routing.RegisterRoute("ProjectOwnerSendMessageView", typeof(ProjectOwnerSendMessageView));
-            Routing.RegisterRoute("ProjectOwnerViewSkillProviderProfileView", typeof(ProjectOwnerViewSkillProviderProfileView));
+            Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
+            Routing.RegisterRoute("SkillProviderAddEducationView", typeof(SkillProviderAddEducationView));
+            Routing.RegisterRoute("SkillProviderUpdateEducationView", typeof(SkillProviderUpdateEducationView));
+            Routing.RegisterRoute("SkillProviderAddSkillView", typeof(SkillProviderAddSkillView));
+            Routing.RegisterRoute("SkillProviderUpdateSkillView", typeof(SkillProviderUpdateSkillView));
+            Routing.RegisterRoute("SkillProviderSendApplicationView", typeof(SkillProviderSendApplicationView));
+            Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
             _startupService = startupService;
             BindingContext = viewModel;
         }

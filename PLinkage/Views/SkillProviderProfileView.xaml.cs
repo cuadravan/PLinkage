@@ -2,13 +2,13 @@ using PLinkage.ViewModels;
 
 namespace PLinkage.Views;
 
-public partial class ProjectOwnerViewSkillProviderProfileView : ContentPage
+public partial class SkillProviderProfileView : ContentPage
 {
-	public ProjectOwnerViewSkillProviderProfileView(SkillProviderProfileViewModel viewModel)
+	public SkillProviderProfileView(SkillProviderProfileViewModel viewModel)
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
-	}
+        BindingContext = viewModel;
+    }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
