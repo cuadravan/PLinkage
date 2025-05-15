@@ -117,7 +117,6 @@ namespace PLinkage.ViewModels
             }
 
             var allowedHours = (projectEnd - projectStart).TotalHours;
-
             if (hours > allowedHours)
             {
                 await Shell.Current.DisplayAlert("❗ Timeframe Too Long",
@@ -125,7 +124,7 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // ——— NEW CHECK: prevent offering to someone already on this project ———
+            // Prevent offering to someone already on this project
             if (SelectedProject.ProjectMembers.Any(m => m.MemberId == _skillProviderId))
             {
                 await Shell.Current.DisplayAlert(
@@ -134,7 +133,23 @@ namespace PLinkage.ViewModels
                     "OK");
                 return;
             }
-            // ————————————————————————————————————————————————————————————————
+
+            // ——— NEW CHECK: is the project full? ———
+            var project = await _unitOfWork.Projects.GetByIdAsync(SelectedProject.ProjectId);
+            if (project == null)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Project not found.", "OK");
+                return;
+            }
+            if (project.ProjectResourcesAvailable <= 0)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Project Full",
+                    "This project has reached its maximum number of members and is no longer accepting offers.",
+                    "OK");
+                return;
+            }
+            // —————————————————————————————————————
 
             // ✅ Create and save OfferApplication
             var offer = new OfferApplication
@@ -172,6 +187,7 @@ namespace PLinkage.ViewModels
             await Shell.Current.DisplayAlert("✅ Success", "Offer successfully sent!", "OK");
             await _navigationService.GoBackAsync();
         }
+
 
 
 

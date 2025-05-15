@@ -56,10 +56,8 @@ namespace PLinkage.ViewModels
 
         // Core Methods
         public async Task OnViewAppearing()
-        {
-            _projectOwnerId = _sessionService.VisitingProjectOwnerID;
-            if (_projectOwnerId == Guid.Empty)
-                _projectOwnerId = _sessionService.GetCurrentUser().UserId;
+        { 
+            _projectOwnerId = _sessionService.GetCurrentUser().UserId;
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();

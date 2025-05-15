@@ -31,19 +31,19 @@
     "ProjectSkillsRequired": [],
     "ProjectMembers": [
       {
-        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-        "UserFirstName": "Van",
-        "UserLastName": "Cuadra",
-        "Email": "cuadra@gmail.com",
-        "Rate": 20.0,
-        "TimeFrame": 20
+        "MemberId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+        "UserFirstName": "Cristal",
+        "UserLastName": "Tabotabo",
+        "Email": "tabotabo@gmail.com",
+        "Rate": 1.0,
+        "TimeFrame": 1
       }
     ],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 1,
     "ProjectResourcesAvailable": 0,
     "ProjectDateCreated": "2025-04-29T12:05:48.9326344+08:00",
-    "ProjectDateUpdated": "2025-05-15T09:23:05.1231293+08:00"
+    "ProjectDateUpdated": "2025-05-15T11:34:25.1499051+08:00"
   },
   {
     "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
@@ -58,20 +58,11 @@
       "Drumming",
       "Clapping"
     ],
-    "ProjectMembers": [
-      {
-        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-        "UserFirstName": "Van",
-        "UserLastName": "Cuadra",
-        "Email": "cuadra@gmail.com",
-        "Rate": 1.0,
-        "TimeFrame": 1
-      }
-    ],
+    "ProjectMembers": [],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 2,
-    "ProjectResourcesAvailable": 1,
+    "ProjectResourcesAvailable": 2,
     "ProjectDateCreated": "2025-04-29T12:05:48.9326344+08:00",
-    "ProjectDateUpdated": "2025-05-15T09:22:40.0100305+08:00"
+    "ProjectDateUpdated": "2025-05-15T11:38:26.2727393+08:00"
   }
 ]

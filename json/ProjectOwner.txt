@@ -56,7 +56,7 @@
     "UserLastName": "Cuadra",
     "UserEmail": "cuadravan@gmail.com",
     "UserPassword": "12345678",
-    "UserPhone": "09177805161",
+    "UserPhone": "09177805163",
     "UserLocation": 1,
     "UserBirthDate": "2025-05-03T00:00:00",
     "UserGender": "Male",
@@ -74,7 +74,13 @@
       "24af4220-3fea-4a9b-98b2-84e02764729d",
       "1539b4fd-f6c8-4519-be6c-552a54459aff",
       "79159e0c-9294-4449-924c-38cdf805f878",
-      "14655408-ae18-478f-976c-df3117ab58b7"
+      "14655408-ae18-478f-976c-df3117ab58b7",
+      "55f4c5b2-7656-490b-ac36-c526a43da6ad",
+      "3ae57e79-4d21-4d52-b3de-5981c5831837",
+      "08fe6539-8101-4b0b-8d09-f9d3e794db5b",
+      "7c6f8c93-02e6-4eb7-a9f1-3a865e59d16e",
+      "51553243-2922-4bb8-99f1-fc65b8993848",
+      "04982060-ac4e-4943-8c63-bc55b635db36"
     ],
     "OwnedProjectId": [],
     "UserMessagesId": [

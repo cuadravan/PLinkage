@@ -108,5 +108,65 @@
     "OfferApplicationStatus": "Pending",
     "OfferApplicationRate": 1.0,
     "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "55f4c5b2-7656-490b-ac36-c526a43da6ad",
+    "OfferApplicationType": "Application",
+    "SenderId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Pending",
+    "OfferApplicationRate": 2.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "3ae57e79-4d21-4d52-b3de-5981c5831837",
+    "OfferApplicationType": "Application",
+    "SenderId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "08fe6539-8101-4b0b-8d09-f9d3e794db5b",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "7c6f8c93-02e6-4eb7-a9f1-3a865e59d16e",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Pending",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "51553243-2922-4bb8-99f1-fc65b8993848",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Pending",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "04982060-ac4e-4943-8c63-bc55b635db36",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Pending",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
   }
 ]

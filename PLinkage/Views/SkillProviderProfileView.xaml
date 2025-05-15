@@ -153,6 +153,14 @@
                             HorizontalOptions="End"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
                             CommandParameter="{Binding .}" />
+                                            <Button Text="Resign Project"
+BackgroundColor="Red"
+TextColor="White"
+Padding="8,4"
+CornerRadius="6"
+HorizontalOptions="End"
+Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ResignProjectCommand}"
+CommandParameter="{Binding .}" />
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>

@@ -149,6 +149,22 @@ namespace PLinkage.ViewModels
                 return;
             }
 
+            // ——— NEW: check if the project has any available slots ———
+            var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
+            if (project == null)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Project not found.", "OK");
+                return;
+            }
+            if (project.ProjectResourcesAvailable <= 0)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Project Full",
+                    "This project has reached its maximum number of members and is no longer accepting applications.",
+                    "OK");
+                return;
+            }
+
             if (skillProvider.EmployedProjects.Contains(_projectId))
             {
                 await Shell.Current.DisplayAlert("⚠️ Already Employed", "You are already a member of this project.", "OK");

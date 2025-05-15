@@ -94,6 +94,15 @@
         "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
         "MessageContent": "Are you interested in my project? Check my profile",
         "MessageDate": "2025-05-02T16:16:10.5468593+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "e710d315-f686-4038-90a1-c35e260e9443",
+        "MessageOrder": 2,
+        "SenderId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+        "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "MessageContent": "No",
+        "MessageDate": "2025-05-15T11:29:54.5732024+08:00",
         "IsRead": false
       }
     ]
