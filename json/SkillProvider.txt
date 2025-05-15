@@ -14,7 +14,11 @@
     "OfferApplicationId": [
       "607fb4e9-2cab-4839-89f6-068dae9eb1f9",
       "22222222-2222-2222-2222-222222222222",
-      "9edbe9f9-6150-4d5d-82ae-28a24ed1e807"
+      "9edbe9f9-6150-4d5d-82ae-28a24ed1e807",
+      "24af4220-3fea-4a9b-98b2-84e02764729d",
+      "1539b4fd-f6c8-4519-be6c-552a54459aff",
+      "79159e0c-9294-4449-924c-38cdf805f878",
+      "14655408-ae18-478f-976c-df3117ab58b7"
     ],
     "Educations": [
       {
@@ -80,9 +84,7 @@
         "YearsOfExperience": 0
       }
     ],
-    "EmployedProjects": [
-      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9"
-    ],
+    "EmployedProjects": [],
     "UserRating": 3.0,
     "UserRatingTotal": 18.0,
     "UserRatingCount": 6,

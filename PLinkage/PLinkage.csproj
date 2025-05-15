@@ -80,6 +80,9 @@
 	  <Compile Update="Views\SkillProviderSendApplicationView.xaml.cs">
 	    <DependentUpon>SkillProviderSendApplicationView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SkillProviderMessagesView.xaml.cs">
+	    <DependentUpon>SkillProviderMessagesView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ViewProjectView.xaml.cs">
 	    <DependentUpon>ViewProjectView.xaml</DependentUpon>
 	  </Compile>
@@ -182,7 +185,7 @@
 	  <MauiXaml Update="Views\SkillProviderHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderOffersAndApplicationsView.xaml">
+	  <MauiXaml Update="Views\SkillProviderOffersAndApplicationsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SkillProviderProfileView.xaml">
@@ -191,7 +194,7 @@
 	  <MauiXaml Update="Views To use\SkillProviderSendMessageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProvidersMessagesView.xaml">
+	  <MauiXaml Update="Views\SkillProviderMessagesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SkillProviderUpdateEducationView.xaml">

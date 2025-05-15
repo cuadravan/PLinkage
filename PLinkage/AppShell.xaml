@@ -101,7 +101,7 @@
         <ShellContent Route="SkillProviderBrowseProjectsView" 
         ContentTemplate="{DataTemplate views:SkillProviderBrowseProjectsView}" />
     </FlyoutItem>
-    <!--
+    
     <FlyoutItem Title="Applications and Offers" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProviderOffersAndApplicationsView" 
         ContentTemplate="{DataTemplate views:SkillProviderOffersAndApplicationsView}" />
@@ -109,10 +109,7 @@
 
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProvidersMessagesView" 
-        ContentTemplate="{DataTemplate views:SkillProvidersMessagesView}" />
+        ContentTemplate="{DataTemplate views:SkillProviderMessagesView}" />
     </FlyoutItem>
-
-    -->
-
 
 </Shell>

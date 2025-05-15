@@ -125,6 +125,17 @@ namespace PLinkage.ViewModels
                 return;
             }
 
+            // ——— NEW CHECK: prevent offering to someone already on this project ———
+            if (SelectedProject.ProjectMembers.Any(m => m.MemberId == _skillProviderId))
+            {
+                await Shell.Current.DisplayAlert(
+                    "❗ Already Employed",
+                    "You cannot send an offer to a skill provider who is already employed on this project.",
+                    "OK");
+                return;
+            }
+            // ————————————————————————————————————————————————————————————————
+
             // ✅ Create and save OfferApplication
             var offer = new OfferApplication
             {
