@@ -56,10 +56,8 @@ namespace PLinkage.ViewModels
 
         // Core Methods
         public async Task OnViewAppearing()
-        {
-            _projectOwnerId = _sessionService.VisitingProjectOwnerID;
-            if (_projectOwnerId == Guid.Empty)
-                _projectOwnerId = _sessionService.GetCurrentUser().UserId;
+        { 
+            _projectOwnerId = _sessionService.GetCurrentUser().UserId;
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
@@ -95,16 +93,28 @@ namespace PLinkage.ViewModels
 
         // Commands
         [RelayCommand]
-        private async Task UpdateProfile() => await _navigationService.NavigateToAsync("ProjectOwnerUpdateProfileView");
+        private async Task UpdateProfile() => await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProfileView");
 
         [RelayCommand]
-        private async Task AddProject() => await _navigationService.NavigateToAsync("ProjectOwnerAddProjectView");
+        private async Task AddProject() => await _navigationService.NavigateToAsync("/ProjectOwnerAddProjectView");
 
         [RelayCommand]
         private async Task ViewProject(Project project)
         {
             _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("ProjectOwnerViewProjectView");
+            await _navigationService.NavigateToAsync("/ViewProjectView");
+        }
+
+        [RelayCommand]
+        private async Task UpdateProject(Project project)
+        {
+            if(project.ProjectStatus == ProjectStatus.Completed)
+            {
+                await Shell.Current.DisplayAlert("⚠️ Error", "You cannot update a completed project.", "OK");
+                return;
+            }
+            _sessionService.VisitingProjectID = project.ProjectId;
+            await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProjectView");
         }
     }
 }

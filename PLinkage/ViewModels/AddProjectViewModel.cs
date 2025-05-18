@@ -111,6 +111,7 @@ namespace PLinkage.ViewModels
                 ProjectMembers = projectMemberDetails,
                 ProjectPriority = ProjectPrioritySelected,
                 ProjectResourcesNeeded = ProjectResourcesNeeded,
+                ProjectResourcesAvailable = ProjectResourcesNeeded,
                 ProjectDateCreated = ProjectDateCreated,
                 ProjectDateUpdated = ProjectDateUpdated
             };
@@ -119,11 +120,11 @@ namespace PLinkage.ViewModels
             await _unitOfWork.SaveChangesAsync();
 
             await Shell.Current.DisplayAlert("Success", "Project created successfully!", "OK");
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
 
         [RelayCommand]
-        private async Task Cancel() => await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+        private async Task Cancel() => await _navigationService.GoBackAsync();
 
         [RelayCommand]
         private void AddSkill()

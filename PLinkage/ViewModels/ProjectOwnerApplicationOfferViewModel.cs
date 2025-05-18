@@ -141,6 +141,19 @@ namespace PLinkage.ViewModels
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(application.SenderId);
             if (skillProvider == null) return;
 
+            // Check if the skill provider is already employed
+            if (skillProvider.EmployedProjects != null && skillProvider.EmployedProjects.Any())
+            {
+                application.OfferApplicationStatus = "Rejected";
+                await _unitOfWork.OfferApplications.UpdateAsync(application);
+                await _unitOfWork.SaveChangesAsync();
+                await LoadData();
+                await Shell.Current.DisplayAlert("ℹ️ Application Rejected",
+                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} is already employed.",
+                    "OK");
+                return;
+            }
+
             // Mark as accepted
             application.OfferApplicationStatus = "Accepted";
             await _unitOfWork.OfferApplications.UpdateAsync(application);
@@ -158,11 +171,15 @@ namespace PLinkage.ViewModels
 
             project.ProjectMembers.Add(member);
             project.ProjectDateUpdated = DateTime.Now;
+            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
+
+            skillProvider.EmployedProjects.Add(project.ProjectId);
 
             await _unitOfWork.Projects.UpdateAsync(project);
             await _unitOfWork.SaveChangesAsync();
             await LoadData();
         }
+
 
 
 
@@ -175,6 +192,28 @@ namespace PLinkage.ViewModels
             await _unitOfWork.OfferApplications.UpdateAsync(entity);
             await _unitOfWork.SaveChangesAsync();
             await LoadData();
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(OfferApplicationDisplayModel display)
+        {
+            if (display == null) return;
+            var offerApplication = await _unitOfWork.OfferApplications.GetByIdAsync(display.OfferApplicationId);
+            if (offerApplication == null) return;
+            // Navigate to the project details page
+            _sessionService.VisitingProjectID = offerApplication.ProjectId;
+            await _navigationService.NavigateToAsync("/ViewProjectView");
+        }
+
+        [RelayCommand]
+        private async Task ViewSkillProvider(OfferApplicationDisplayModel display)
+        {
+            if (display == null) return;
+            var offerApplication = await _unitOfWork.OfferApplications.GetByIdAsync(display.OfferApplicationId);
+            if (offerApplication == null) return;
+            // Navigate to the project details page
+            _sessionService.VisitingProjectOwnerID = offerApplication.SenderId;
+            await _navigationService.NavigateToAsync("/ViewProjectOwnerProfileView");
         }
 
     }

@@ -39,18 +39,27 @@
         <ShellContent Route="AdminHomeView" 
             ContentTemplate="{DataTemplate views:AdminHomeView}" />
     </FlyoutItem>
-    <!--<FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsAdmin}">
-        <ShellContent Route="AdminBrowseSkillProvidersView" 
-        ContentTemplate="{DataTemplate views:AdminBrowseSkillProvidersView}" />
-    </FlyoutItem>
     <FlyoutItem Title="Browse Projects" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminBrowseProjectsView" 
-        ContentTemplate="{DataTemplate views:AdminBrowseProjectsView}" />
+            ContentTemplate="{DataTemplate views:AdminBrowseProjectsView}" />
     </FlyoutItem>
-    <FlyoutItem Title="[DEBUG] View Project Owner Profile" IsVisible="{Binding IsAdmin}">
+
+    <FlyoutItem Title="Browse Project Owners" IsVisible="{Binding IsAdmin}">
+        <ShellContent Route="AdminBrowseProjectOwnerView" 
+            ContentTemplate="{DataTemplate views:AdminBrowseProjectOwnerView}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsAdmin}">
+        <ShellContent Route="AdminBrowseSkillProvidersView" 
+            ContentTemplate="{DataTemplate views:AdminBrowseSkillProvidersView}" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="My Messages" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminViewProjectOwnerProfileView" 
-        ContentTemplate="{DataTemplate views:AdminViewProjectOwnerProfileView}" />
+        ContentTemplate="{DataTemplate views:AdminMessagesView}" />
     </FlyoutItem>
+    
+    <!--
     <FlyoutItem Title="[DEBUG] View Project" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminViewProjectView" 
         ContentTemplate="{DataTemplate views:AdminViewProjectView}" />
@@ -86,62 +95,22 @@
         ContentTemplate="{DataTemplate views:ProjectOwnerMessagesView}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="[DEBUG] Update Profile" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerUpdateProfileView" 
-        ContentTemplate="{DataTemplate views:ProjectOwnerUpdateProfileView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] Add Project" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerAddProjectView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerAddProjectView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] Update Project" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerUpdateProjectView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerUpdateProjectView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] View Project" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerViewProjectView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerViewProjectView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] Rate Skill Provider" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerRateSkillProviderView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerRateSkillProviderView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] Send Offer" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerSendOfferView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerSendOfferView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] Send Message" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerSendMessageView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerSendMessageView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[DEBUG] View Skill Provider Profile" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent Route="ProjectOwnerViewSkillProviderProfileView" 
-    ContentTemplate="{DataTemplate views:ProjectOwnerViewSkillProviderProfileView}" />
-    </FlyoutItem>
-
     <!-- Skill Provider Menu -->
     <FlyoutItem Title="Home" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProviderHomeView" 
                 ContentTemplate="{DataTemplate views:SkillProviderHomeView}" />
     </FlyoutItem>
 
-    <!--<FlyoutItem Title="My Profile" IsVisible="{Binding IsSkillProvider}">
+    <FlyoutItem Title="My Profile" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProviderProfileView" 
         ContentTemplate="{DataTemplate views:SkillProviderProfileView}" />
     </FlyoutItem>
-
+    
     <FlyoutItem Title="Browse Projects" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProviderBrowseProjectsView" 
         ContentTemplate="{DataTemplate views:SkillProviderBrowseProjectsView}" />
     </FlyoutItem>
-
+    
     <FlyoutItem Title="Applications and Offers" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProviderOffersAndApplicationsView" 
         ContentTemplate="{DataTemplate views:SkillProviderOffersAndApplicationsView}" />
@@ -149,53 +118,7 @@
 
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsSkillProvider}">
         <ShellContent Route="SkillProvidersMessagesView" 
-        ContentTemplate="{DataTemplate views:SkillProvidersMessagesView}" />
+        ContentTemplate="{DataTemplate views:SkillProviderMessagesView}" />
     </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Update Profile" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderUpdateProfileView" 
-        ContentTemplate="{DataTemplate views:SkillProviderUpdateProfileView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Add Education" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderAddEducationView" 
-        ContentTemplate="{DataTemplate views:SkillProviderAddEducationView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Update Education" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderUpdateEducationView" 
-    ContentTemplate="{DataTemplate views:SkillProviderUpdateEducationView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Add Skill" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderAddSkillView" 
-    ContentTemplate="{DataTemplate views:SkillProviderAddSkillView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Update Skill" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderUpdateSkillView" 
-    ContentTemplate="{DataTemplate views:SkillProviderUpdateSkillView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] View Project" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderViewProjectView" 
-    ContentTemplate="{DataTemplate views:SkillProviderViewProjectView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Apply Project" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderApplyView" 
-    ContentTemplate="{DataTemplate views:SkillProviderApplyView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] Send Message" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderSendMessageView" 
-    ContentTemplate="{DataTemplate views:SkillProviderSendMessageView}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="[Debug] View Project Owner" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent Route="SkillProviderViewProjectOwnerProfileView" 
-    ContentTemplate="{DataTemplate views:SkillProviderViewProjectOwnerProfileView}" />
-    </FlyoutItem>-->
-
 
 </Shell>

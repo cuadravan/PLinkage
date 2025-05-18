@@ -25,12 +25,6 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string userPhone;
         [ObservableProperty] private double userRating;
 
-        // Role Flags
-        [ObservableProperty] private bool isProjectOwner;
-        [ObservableProperty] private bool isSkillProvider;
-        [ObservableProperty] private bool isAdmin;
-        [ObservableProperty]private bool isOwner;
-
 
         // Data Collections
         [ObservableProperty] private ObservableCollection<Skill> skills = new();
@@ -52,29 +46,14 @@ namespace PLinkage.ViewModels
 
         public async Task OnViewAppearing()
         {
-            SetRoleFlags();
-
-            _skillProviderId = _sessionService.VisitingSkillProviderID;
             var currentUser = _sessionService.GetCurrentUser();
-            if (_skillProviderId == Guid.Empty && currentUser != null)
-                _skillProviderId = currentUser.UserId;
-
-            // Check if the current user is viewing their own profile
-            IsOwner = currentUser != null && currentUser.UserId == _skillProviderId;
+            _skillProviderId = currentUser.UserId;
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
             await LoadEmployedProjectsAsync();
         }
 
-
-        private void SetRoleFlags()
-        {
-            var role = _sessionService.GetCurrentUserType();
-            IsProjectOwner = role == UserRole.ProjectOwner;
-            IsSkillProvider = role == UserRole.SkillProvider;
-            IsAdmin = role == UserRole.Admin;
-        }
 
         private async Task LoadProfileAsync()
         {
@@ -109,17 +88,90 @@ namespace PLinkage.ViewModels
 
         // Commands
         [RelayCommand]
-        private async Task SendOffer()
+        private async Task AddEducation ()
         {
-            _sessionService.VisitingSkillProviderID = _skillProviderId;
-            await _navigationService.NavigateToAsync("ProjectOwnerSendOfferView");
+            await _navigationService.NavigateToAsync("/SkillProviderAddEducationView");
+        }
+        [RelayCommand]
+        private async Task UpdateEducation(Education education)
+        {
+            if (education == null || Educations == null) return;
+
+            int index = Educations.IndexOf(education);
+            if (index >= 0)
+            {
+                _sessionService.VisitingSkillEducationID = index;
+                await _navigationService.NavigateToAsync("/SkillProviderUpdateEducationView");
+            }
         }
 
         [RelayCommand]
-        private async Task SendMessage()
+        private async Task AddSkill ()
         {
-            _sessionService.VisitingReceiverID = _skillProviderId;
-            await _navigationService.NavigateToAsync("ProjectOwnerSendMessageView");
+            await _navigationService.NavigateToAsync("/SkillProviderAddSkillView");
         }
+        [RelayCommand]
+        private async Task UpdateSkill (Skill skill)
+        {
+            if (skill == null || Skills == null) return;
+
+            int index = Skills.IndexOf(skill);
+            if (index >= 0)
+            {
+                _sessionService.VisitingSkillEducationID = index;
+                await _navigationService.NavigateToAsync("/SkillProviderUpdateSkillView");
+            }
+        }
+        [RelayCommand]
+        private async Task UpdateProfile()
+        {
+            await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProfileView");
+        }
+        [RelayCommand]
+        private async Task ViewProject(Project project)
+        {
+            _sessionService.VisitingProjectID = project.ProjectId;
+            await _navigationService.NavigateToAsync("/ViewProjectView");
+        }
+
+        [RelayCommand]
+        private async Task ResignProject(Project project)
+        {
+            if (project == null)
+                return;
+
+            // 1. Ask for confirmation
+            var confirm = await Shell.Current.DisplayAlert(
+                "Resign from Project",
+                $"Are you sure you want to resign from \"{project.ProjectName}\"? This cannot be undone.",
+                "Yes",
+                "No");
+            if (!confirm)
+                return;
+
+            // 2. Load fresh copies
+            var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
+            var proj = await _unitOfWork.Projects.GetByIdAsync(project.ProjectId);
+            if (skillProvider == null || proj == null)
+                return;
+
+            // 3. Remove member from project
+            proj.ProjectMembers.RemoveAll(m => m.MemberId == _skillProviderId);
+            proj.ProjectResourcesAvailable = proj.ProjectResourcesNeeded - proj.ProjectMembers.Count;
+            proj.ProjectDateUpdated = DateTime.Now;
+            await _unitOfWork.Projects.UpdateAsync(proj);
+
+            // 4. Remove project from skill-provider’s employed list
+            if (skillProvider.EmployedProjects.Contains(proj.ProjectId))
+                skillProvider.EmployedProjects.Remove(proj.ProjectId);
+            await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
+
+            // 5. Persist both changes
+            await _unitOfWork.SaveChangesAsync();
+
+            // 6. Update your UI collections
+            EmployedProjects.Remove(project);
+        }
+
     }
 }

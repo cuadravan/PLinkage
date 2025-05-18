@@ -165,6 +165,7 @@ namespace PLinkage.ViewModels
             project.ProjectStartDate = ProjectStartDate;
             project.ProjectSkillsRequired = ProjectSkillsRequired.ToList();
             project.ProjectResourcesNeeded = ProjectResourcesNeeded;
+            project.ProjectResourcesAvailable = ProjectResourcesNeeded - ProjectMembers.Count;
             project.ProjectStatus = ProjectStatusSelected;
             project.ProjectDateUpdated = DateTime.Now;
 
@@ -174,7 +175,7 @@ namespace PLinkage.ViewModels
                 await _unitOfWork.Projects.UpdateAsync(project);
                 await _unitOfWork.SaveChangesAsync();
                 ErrorMessage = string.Empty;
-                await _navigationService.NavigateToAsync("ProjectOwnerRateSkillProviderView");
+                await _navigationService.NavigateToAsync("/ProjectOwnerRateSkillProviderView");
             }
             else
             {
@@ -183,7 +184,7 @@ namespace PLinkage.ViewModels
                 ErrorMessage = string.Empty;
 
                 await Shell.Current.DisplayAlert("Success", "Project updated successfully!", "OK");
-                await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+                await _navigationService.GoBackAsync();
             }
                 
         }
@@ -200,7 +201,7 @@ namespace PLinkage.ViewModels
             var result = await Shell.Current.DisplayAlert("Cancel", "Are you sure you want to cancel?", "Yes", "No");
             if (result)
             {
-                await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+                await _navigationService.GoBackAsync();
             }
         }
 
@@ -222,13 +223,45 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private void RemoveSkillProvider(SkillProvider skillProvider)
+        private async Task RemoveSkillProvider(SkillProvider skillProvider)
         {
-            if(EmployedSkillProviders.Contains(skillProvider))
-            {
-                EmployedSkillProviders.Remove(skillProvider);
-                ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
-            }
+            // 1. Confirm removal
+            var confirm = await Shell.Current.DisplayAlert(
+                "Remove Skill Provider",
+                "Are you sure you want to remove this skill provider? This action is permanent and cannot be undone.",
+                "Yes",
+                "No");
+            if (!confirm)
+                return;
+
+            // 2. Load project
+            var project = await _unitOfWork.Projects.GetByIdAsync(_sessionService.VisitingProjectID);
+            if (project == null)
+                return;
+
+            // 3. Remove from the project's members
+            project.ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
+
+            // 4. Recalculate available resources & timestamp
+            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
+            project.ProjectDateUpdated = DateTime.Now;
+
+            // 5. Persist project change
+            await _unitOfWork.Projects.UpdateAsync(project);
+
+            // 6. Also remove this project from the skill provider's employed list
+            if (skillProvider.EmployedProjects.Contains(project.ProjectId))
+                skillProvider.EmployedProjects.Remove(project.ProjectId);
+
+            // 7. Persist skill-provider change
+            await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
+            await _unitOfWork.SaveChangesAsync();
+
+            // 8. Update the view collections
+            EmployedSkillProviders.Remove(skillProvider);
+            ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
         }
+
+
     }
 }

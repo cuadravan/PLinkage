@@ -56,5 +56,14 @@ namespace PLinkage.Services
         {
             return _currentUser?.UserRole;
         }
+
+        public int VisitingSkillEducationID
+        {
+            get => visitingSkillEducationID;
+            set => visitingSkillEducationID = value;
+        }
+
+        private int visitingSkillEducationID = 0;
+
     }
 }

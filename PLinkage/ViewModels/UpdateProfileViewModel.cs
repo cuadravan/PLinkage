@@ -13,7 +13,12 @@ namespace PLinkage.ViewModels
         private readonly IUnitOfWork _unitOfWork;
         private readonly INavigationService _navigationService;
         private readonly ISessionService _sessionService;
-        
+
+        private readonly UserRole? currentUserRole;
+        private ProjectOwner? projectOwner;
+        private SkillProvider? skillProvider;
+
+
 
         // Fields
         [ObservableProperty, Required(ErrorMessage = "First Name is required"),
@@ -44,24 +49,45 @@ namespace PLinkage.ViewModels
             _unitOfWork = unitOfWork;
             _navigationService = navigationService;
             _sessionService = sessionService;
-
+            currentUserRole = _sessionService.GetCurrentUserType(); // returns UserRole
             _ = LoadCurrentProfile();
         }
 
         // Core Methods
         private async Task LoadCurrentProfile()
         {
-            var user = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
-            if (user == null) return;
+            var userId = _sessionService.GetCurrentUser().UserId;
 
-            FirstName = user.UserFirstName;
-            LastName = user.UserLastName;
-            Birthdate = user.UserBirthDate;
-            MobileNumber = user.UserPhone;
-            SelectedLocation = user.UserLocation;
-            IsMale = user.UserGender == "Male";
-            IsFemale = user.UserGender == "Female";
+            switch (currentUserRole)
+            {
+                case UserRole.ProjectOwner:
+                    projectOwner = await _unitOfWork.ProjectOwner.GetByIdAsync(userId);
+                    if (projectOwner == null) return;
+
+                    FirstName = projectOwner.UserFirstName;
+                    LastName = projectOwner.UserLastName;
+                    Birthdate = projectOwner.UserBirthDate;
+                    MobileNumber = projectOwner.UserPhone;
+                    SelectedLocation = projectOwner.UserLocation;
+                    IsMale = projectOwner.UserGender == "Male";
+                    IsFemale = projectOwner.UserGender == "Female";
+                    break;
+
+                case UserRole.SkillProvider:
+                    skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(userId);
+                    if (skillProvider == null) return;
+
+                    FirstName = skillProvider.UserFirstName;
+                    LastName = skillProvider.UserLastName;
+                    Birthdate = skillProvider.UserBirthDate;
+                    MobileNumber = skillProvider.UserPhone;
+                    SelectedLocation = skillProvider.UserLocation;
+                    IsMale = skillProvider.UserGender == "Male";
+                    IsFemale = skillProvider.UserGender == "Female";
+                    break;
+            }
         }
+
 
         private bool ValidateForm()
         {
@@ -97,24 +123,43 @@ namespace PLinkage.ViewModels
         {
             if (!ValidateForm()) return;
 
-            var user = await _unitOfWork.ProjectOwner.GetByIdAsync(_sessionService.GetCurrentUser().UserId);
-            if (user == null) return;
+            switch (currentUserRole)
+            {
+                case UserRole.ProjectOwner:
+                    if (projectOwner == null) return;
 
-            user.UserFirstName = FirstName;
-            user.UserLastName = LastName;
-            user.UserBirthDate = Birthdate;
-            user.UserGender = IsMale ? "Male" : "Female";
-            user.UserPhone = MobileNumber;
-            user.UserLocation = SelectedLocation;
+                    projectOwner.UserFirstName = FirstName;
+                    projectOwner.UserLastName = LastName;
+                    projectOwner.UserBirthDate = Birthdate;
+                    projectOwner.UserGender = IsMale ? "Male" : "Female";
+                    projectOwner.UserPhone = MobileNumber;
+                    projectOwner.UserLocation = SelectedLocation;
 
-            await _unitOfWork.ProjectOwner.UpdateAsync(user);
-            await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.ProjectOwner.UpdateAsync(projectOwner);
+                    await _unitOfWork.SaveChangesAsync();
+                    _sessionService.SetCurrentUser(projectOwner);
+                    break;
 
-            _sessionService.SetCurrentUser(user);
+                case UserRole.SkillProvider:
+                    if (skillProvider == null) return;
+
+                    skillProvider.UserFirstName = FirstName;
+                    skillProvider.UserLastName = LastName;
+                    skillProvider.UserBirthDate = Birthdate;
+                    skillProvider.UserGender = IsMale ? "Male" : "Female";
+                    skillProvider.UserPhone = MobileNumber;
+                    skillProvider.UserLocation = SelectedLocation;
+
+                    await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
+                    await _unitOfWork.SaveChangesAsync();
+                    _sessionService.SetCurrentUser(skillProvider);
+                    break;
+            }
+
             ErrorMessage = string.Empty;
-
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
+
 
         [RelayCommand]
         private Task Clear() => LoadCurrentProfile();
@@ -123,7 +168,7 @@ namespace PLinkage.ViewModels
         private async Task BackToProfile()
         {
             _sessionService.VisitingProjectID = Guid.Empty;
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
     }
 }

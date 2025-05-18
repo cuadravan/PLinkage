@@ -14,6 +14,7 @@ namespace PLinkage.ViewModels
         private readonly INavigationService _navigationService;
 
         private Guid _projectId;
+        private Guid _projectOwnerId;
 
         // Constructor
         public ViewProjectViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
@@ -32,7 +33,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private DateTime projectStartDate;
         [ObservableProperty] private DateTime projectEndDate;
         [ObservableProperty] private string projectPriority;
-        [ObservableProperty] private ProjectStatus? projectStatus;
+        [ObservableProperty] private ProjectStatus? currentProjectStatus;
         [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
         [ObservableProperty] private List<ProjectMemberDetail> projectMembers = new();
         [ObservableProperty] private int projectResourcesNeeded;
@@ -40,6 +41,10 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private DateTime projectDateUpdated;
         [ObservableProperty] private string durationSummary;
         [ObservableProperty] private ObservableCollection<EmployedSkillProviderWrapper> employedSkillProviders = new();
+        [ObservableProperty] private bool isSkillProvider;
+        [ObservableProperty] private bool isSkillproviderOrAdmin;
+        [ObservableProperty] private string projectOwnerFullName;
+
 
         public IAsyncRelayCommand OnAppearingCommand { get; }
 
@@ -50,30 +55,45 @@ namespace PLinkage.ViewModels
             if (_projectId == Guid.Empty) return;
 
             await _unitOfWork.ReloadAsync();
+
+            // ✅ Fast role check using enum
+            IsSkillProvider = _sessionService.GetCurrentUserType() == UserRole.SkillProvider;
+            IsSkillproviderOrAdmin = _sessionService.GetCurrentUserType() == UserRole.SkillProvider ||
+                                      _sessionService.GetCurrentUserType() == UserRole.Admin;
+
             await LoadProjectDetailsAsync();
         }
+
 
         private async Task LoadProjectDetailsAsync()
         {
             var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
             if (project == null) return;
 
+            _projectOwnerId = project.ProjectOwnerId;
             ProjectName = project.ProjectName;
             ProjectLocation = project.ProjectLocation;
             ProjectDescription = project.ProjectDescription;
             ProjectStartDate = project.ProjectStartDate;
             ProjectEndDate = project.ProjectEndDate;
             ProjectPriority = project.ProjectPriority;
-            ProjectStatus = project.ProjectStatus;
+            CurrentProjectStatus = project.ProjectStatus;
             ProjectSkillsRequired = new ObservableCollection<string>(project.ProjectSkillsRequired);
             ProjectMembers = project.ProjectMembers;
             ProjectResourcesNeeded = project.ProjectResourcesNeeded;
             ProjectDateCreated = project.ProjectDateCreated;
             ProjectDateUpdated = project.ProjectDateUpdated;
 
+            // 👇 Fetch Project Owner's Full Name
+            var owner = await _unitOfWork.ProjectOwner.GetByIdAsync(project.ProjectOwnerId);
+            ProjectOwnerFullName = owner != null
+                ? $"{owner.UserFirstName} {owner.UserLastName}"
+                : "Unknown";
+
             UpdateDurationSummary();
             await LoadEmployedSkillProviders();
         }
+
 
         private async Task LoadEmployedSkillProviders()
         {
@@ -107,18 +127,87 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task UpdateProject()
+        private async Task ViewSkillProvider(EmployedSkillProviderWrapper skillProvider)
         {
-            _sessionService.VisitingProjectID = _projectId;
-            await _navigationService.NavigateToAsync("ProjectOwnerUpdateProjectView");
+            _sessionService.VisitingSkillProviderID = skillProvider.MemberId;
+            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
         }
+
+        [RelayCommand]
+        private async Task Apply()
+        {
+            var currentUser = _sessionService.GetCurrentUser();
+
+            if (currentUser == null || currentUser.UserRole != UserRole.SkillProvider)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Invalid user session. Please log in again.", "OK");
+                return;
+            }
+
+            var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(currentUser.UserId);
+
+            if (skillProvider == null)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Skill provider record not found.", "OK");
+                return;
+            }
+
+            // ——— NEW: check if the project has any available slots ———
+            var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
+            if (project == null)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Project not found.", "OK");
+                return;
+            }
+
+            if (project.ProjectStatus != ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Project is Currently Inactive or Completed",
+                    "This project is not currently accepting applications.",
+                    "OK");
+                return;
+            }
+
+            if (project.ProjectResourcesAvailable <= 0)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Project Full",
+                    "This project has reached its maximum number of members and is no longer accepting applications.",
+                    "OK");
+                return;
+            }
+
+            if (skillProvider.EmployedProjects.Contains(_projectId))
+            {
+                await Shell.Current.DisplayAlert("⚠️ Already Employed", "You are already a member of this project.", "OK");
+                return;
+            }
+
+            await _navigationService.NavigateToAsync("/SkillProviderSendApplicationView");
+        }
+
 
         [RelayCommand]
         private async Task Back()
         {
             _sessionService.VisitingProjectID = Guid.Empty;
-            await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
+            await _navigationService.GoBackAsync();
         }
+
+        [RelayCommand]
+        private async Task ViewProjectOwner()
+        {
+            if (_projectOwnerId == Guid.Empty)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Project owner not found.", "OK");
+                return;
+            }
+
+            _sessionService.VisitingProjectOwnerID = _projectOwnerId;
+            await _navigationService.NavigateToAsync("/ViewProjectOwnerProfileView");
+        }
+
     }
 }
 

@@ -13,11 +13,19 @@
     "UserStatus": "Active",
     "OfferApplicationId": [
       "607fb4e9-2cab-4839-89f6-068dae9eb1f9",
-      "22222222-2222-2222-2222-222222222222"
+      "22222222-2222-2222-2222-222222222222",
+      "9edbe9f9-6150-4d5d-82ae-28a24ed1e807",
+      "24af4220-3fea-4a9b-98b2-84e02764729d",
+      "1539b4fd-f6c8-4519-be6c-552a54459aff",
+      "79159e0c-9294-4449-924c-38cdf805f878",
+      "14655408-ae18-478f-976c-df3117ab58b7",
+      "7c6f8c93-02e6-4eb7-a9f1-3a865e59d16e",
+      "04982060-ac4e-4943-8c63-bc55b635db36",
+      "f8909369-e8a0-4ee5-a733-b6f940c4d8f2"
     ],
     "Educations": [
       {
-        "CourseName": "Bachelor of Science in Geodetic Engineering",
+        "CourseName": "Bachelor of Science in Geodetic Engineeringdgsdsfgdfg",
         "SchoolAttended": "University of the Philippines Diliman",
         "TimeGraduated": "2021-06-30T00:00:00"
       },
@@ -30,13 +38,18 @@
         "CourseName": "Certificate in Remote Sensing Applications",
         "SchoolAttended": "Phil-LiDAR Training Center",
         "TimeGraduated": "2020-12-10T00:00:00"
+      },
+      {
+        "CourseName": "Bachelor of Science in Computer Engineering Major in Embedded Systems",
+        "SchoolAttended": "University of San Jose - Recoletos",
+        "TimeGraduated": "2025-05-13T00:00:00+08:00"
       }
     ],
     "Skills": [
       {
         "SkillName": "GIS Analysis",
         "SkillDescription": "Ability to process and analyze spatial data using GIS software.",
-        "SkillLevel": 4,
+        "SkillLevel": 5,
         "TimeAcquired": "2022-06-15T00:00:00",
         "OrganizationInvolved": "Naga City Planning Office",
         "YearsOfExperience": 3
@@ -58,22 +71,33 @@
         "YearsOfExperience": 2
       },
       {
-        "SkillName": "Project Management",
-        "SkillDescription": "Lead teams in planning, executing, and delivering GIS-related projects.",
+        "SkillName": "Project Management!!!!!!!!!!!!",
+        "SkillDescription": "Lead teams in planning, executing, and delivering GIS-related projects.!!!!!!!!!!!",
         "SkillLevel": 4,
         "TimeAcquired": "2020-08-01T00:00:00",
-        "OrganizationInvolved": "Naga City Development Authority",
-        "YearsOfExperience": 5
+        "OrganizationInvolved": "Naga City Development Authority!!!!!!!!",
+        "YearsOfExperience": 52
+      },
+      {
+        "SkillName": "Dancing",
+        "SkillDescription": "Dancing through life",
+        "SkillLevel": 0,
+        "TimeAcquired": "2025-05-13T00:00:00+08:00",
+        "OrganizationInvolved": "None",
+        "YearsOfExperience": 0
       }
     ],
-    "EmployedProjects": [],
-    "UserRating": 3.0,
-    "UserRatingTotal": 18.0,
-    "UserRatingCount": 6,
-    "TempRating": 1.0,
+    "EmployedProjects": [
+      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9"
+    ],
+    "UserRating": 3.2857142857142856,
+    "UserRatingTotal": 23.0,
+    "UserRatingCount": 7,
+    "TempRating": 5.0,
     "JoinedOn": "2025-04-12T15:08:13.3629424+08:00",
     "UserMessagesId": [
-      "b016ce02-58ba-4d32-8676-dc8c3c8fd0f5"
+      "b016ce02-58ba-4d32-8676-dc8c3c8fd0f5",
+      "d87874fa-9f36-4428-9d1b-0a84538af2b4"
     ]
   },
   {
@@ -89,11 +113,18 @@
     "UserRole": 0,
     "UserStatus": "Active",
     "OfferApplicationId": [
-      "b85e12d1-bcaf-496e-b5c4-5ef84464424d"
+      "b85e12d1-bcaf-496e-b5c4-5ef84464424d",
+      "55f4c5b2-7656-490b-ac36-c526a43da6ad",
+      "3ae57e79-4d21-4d52-b3de-5981c5831837",
+      "08fe6539-8101-4b0b-8d09-f9d3e794db5b",
+      "51553243-2922-4bb8-99f1-fc65b8993848",
+      "4914d7d7-550f-45b7-81db-6564f1fc0964"
     ],
     "Educations": [],
     "Skills": [],
-    "EmployedProjects": [],
+    "EmployedProjects": [
+      "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f"
+    ],
     "UserRating": 2.8,
     "UserRatingTotal": 14.0,
     "UserRatingCount": 5,

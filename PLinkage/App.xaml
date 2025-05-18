@@ -15,6 +15,7 @@
             <!-- Inline resources like converters go here -->
             <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />
             <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

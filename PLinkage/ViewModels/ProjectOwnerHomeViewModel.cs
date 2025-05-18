@@ -124,7 +124,7 @@ namespace PLinkage.ViewModels
         private async Task ViewSkillProvider(SkillProvider skillProvider)
         {
             _sessionService.VisitingSkillProviderID = skillProvider.UserId;
-            await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
         }
 
         private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)

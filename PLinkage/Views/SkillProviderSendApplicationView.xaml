@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.SkillProviderSendApplicationView"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             Title="Apply to Project">
+    
+    <Grid ColumnDefinitions="*">
+        <ScrollView Grid.Column="0" Padding="40,20">
+            <Border Background="#E0E0E0"
+                    Stroke="LightGray"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="30"
+                    HorizontalOptions="Center"
+                    WidthRequest="400">
+
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Project Name:" FontAttributes="Bold" TextColor="Black"/>
+                    <Label Text="{Binding ProjectName}" BackgroundColor="White"
+                           TextColor="Black" Padding="8,4" />
+
+                    <Label Text="Applying Skill Provider:" FontAttributes="Bold" TextColor="Black"/>
+                    <Label Text="{Binding SkillProviderFullName}" BackgroundColor="White"
+                           TextColor="Black" Padding="8,4" />
+
+                    <Label Text="Requested Rate (₱/hour):" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry Placeholder="e.g., 500"
+                           Text="{Binding RateAsked}"
+                           Keyboard="Numeric"
+                           BackgroundColor="White" TextColor="Black"/>
+
+                    <Label Text="Requested Timeframe (Hours):" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry Placeholder="e.g., 10"
+                           Text="{Binding TimeFrameAsked}"
+                           Keyboard="Numeric"
+                           BackgroundColor="White" TextColor="Black"/>
+
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Button Text="Apply"
+                                Command="{Binding SendApplicationCommand}"
+                                Padding="12,6"
+                                BackgroundColor="#A1D490"
+                                TextColor="Black"
+                                WidthRequest="120" />
+
+                        <Button Text="Go Back"
+                                Command="{Binding GoBackCommand}"
+                                Padding="12,6"
+                                BackgroundColor="#B0BEC5"
+                                TextColor="Black"
+                                WidthRequest="120" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </ScrollView>
+    </Grid>
+</ContentPage>

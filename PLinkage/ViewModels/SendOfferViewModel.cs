@@ -117,13 +117,49 @@ namespace PLinkage.ViewModels
             }
 
             var allowedHours = (projectEnd - projectStart).TotalHours;
-
             if (hours > allowedHours)
             {
                 await Shell.Current.DisplayAlert("❗ Timeframe Too Long",
                     $"The offered timeframe exceeds the project's duration of {allowedHours:N0} hours.", "OK");
                 return;
             }
+
+            // Prevent offering to someone already on this project
+            if (SelectedProject.ProjectMembers.Any(m => m.MemberId == _skillProviderId))
+            {
+                await Shell.Current.DisplayAlert(
+                    "❗ Already Employed",
+                    "You cannot send an offer to a skill provider who is already employed on this project.",
+                    "OK");
+                return;
+            }
+
+            // ——— NEW CHECK: is the project full? ———
+            var project = await _unitOfWork.Projects.GetByIdAsync(SelectedProject.ProjectId);
+            if (project == null)
+            {
+                await Shell.Current.DisplayAlert("❗ Error", "Project not found.", "OK");
+                return;
+            }
+
+            if (project.ProjectStatus is not ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Inactive Project",
+                    "You can only send offers for projects that are currently active.",
+                    "OK");
+                return;
+            }
+
+            if (project.ProjectResourcesAvailable <= 0)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Project Full",
+                    "This project has reached its maximum number of members and is no longer accepting offers.",
+                    "OK");
+                return; 
+            }
+            // —————————————————————————————————————
 
             // ✅ Create and save OfferApplication
             var offer = new OfferApplication
@@ -159,8 +195,9 @@ namespace PLinkage.ViewModels
             await _unitOfWork.SaveChangesAsync();
 
             await Shell.Current.DisplayAlert("✅ Success", "Offer successfully sent!", "OK");
-            await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+            await _navigationService.GoBackAsync();
         }
+
 
 
 
@@ -168,7 +205,7 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+            await _navigationService.GoBackAsync();
         }
 
     }

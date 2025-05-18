@@ -77,10 +77,22 @@
 	  <Compile Update="Views\ProjectOwnerBrowseSkillProviderView.xaml.cs">
 	    <DependentUpon>ProjectOwnerBrowseSkillProviderView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SkillProviderSendApplicationView.xaml.cs">
+	    <DependentUpon>SkillProviderSendApplicationView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SkillProviderMessagesView.xaml.cs">
+	    <DependentUpon>SkillProviderMessagesView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ViewProjectView.xaml.cs">
+	    <DependentUpon>ViewProjectView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ViewSkillProviderProfileView.xaml.cs">
+	    <DependentUpon>ViewSkillProviderProfileView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\RegisterView.xaml.cs">
 	    <DependentUpon>RegisterView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views To use\SkillProviderUpdateSkillView.xaml.cs">
+	  <Compile Update="Views\SkillProviderUpdateSkillView.xaml.cs">
 	    <DependentUpon>SkillProviderUpdateSkillView.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
@@ -89,10 +101,13 @@
 	  <MauiXaml Update="SplashScreen.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\AdminBrowseProjectsView.xaml">
+	  <MauiXaml Update="Views\AdminBrowseProjectOwnerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\AdminBrowseSkillProvidersView.xaml">
+	  <MauiXaml Update="Views\AdminBrowseProjectsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AdminBrowseSkillProvidersView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AdminHomeView.xaml">
@@ -108,6 +123,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views To use\BlankPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AdminMessagesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProjectOwnerAddProjectView.xaml">
@@ -143,10 +161,13 @@
 	  <MauiXaml Update="Views\ProjectOwnerUpdateProjectView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ProjectOwnerViewProjectView.xaml">
+	  <MauiXaml Update="Views\ViewProjectOwnerProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ProjectOwnerViewSkillProviderProfileView.xaml">
+	  <MauiXaml Update="Views\ViewProjectView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewSkillProviderProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -155,40 +176,40 @@
 	  <MauiXaml Update="Views\RegisterView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderAddEducationView.xaml">
+	  <MauiXaml Update="Views\SkillProviderAddEducationView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderAddSkillView.xaml">
+	  <MauiXaml Update="Views\SkillProviderAddSkillView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderApplyView.xaml">
+	  <MauiXaml Update="Views\SkillProviderSendApplicationView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderBrowseProjectsView.xaml">
+	  <MauiXaml Update="Views\SkillProviderBrowseProjectsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SkillProviderHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderOffersAndApplicationsView.xaml">
+	  <MauiXaml Update="Views\SkillProviderOffersAndApplicationsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderProfileView.xaml">
+	  <MauiXaml Update="Views\SkillProviderProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views To use\SkillProviderSendMessageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProvidersMessagesView.xaml">
+	  <MauiXaml Update="Views\SkillProviderMessagesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderUpdateEducationView.xaml">
+	  <MauiXaml Update="Views\SkillProviderUpdateEducationView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views To use\SkillProviderUpdateProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views To use\SkillProviderUpdateSkillView.xaml">
+	  <MauiXaml Update="Views\SkillProviderUpdateSkillView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views To use\SkillProviderViewProjectOwnerProfileView.xaml">

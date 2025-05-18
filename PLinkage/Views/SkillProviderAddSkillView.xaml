@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             x:Class="PLinkage.Views.SkillProviderAddSkillView"
+             Title="Add Skill"
+             x:DataType="viewmodels:AddSkillViewModel">
+
+    <Grid ColumnDefinitions="*">
+        <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
+            <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
+                <VerticalStackLayout Spacing="20">
+                    <Entry Placeholder="Skill Name"
+                           Text="{Binding SkillName, Mode=TwoWay}"
+                           BackgroundColor="White" TextColor="Black" />
+
+                    <Entry Placeholder="Description"
+                           Text="{Binding SkillDescription, Mode=TwoWay}"
+                           BackgroundColor="White" TextColor="Black" />
+
+                    <Entry Placeholder="Skill Level (0–5)"
+                           Text="{Binding SkillLevel, Mode=TwoWay}"
+                           Keyboard="Numeric"
+                           BackgroundColor="White" TextColor="Black" />
+
+                    <DatePicker Date="{Binding TimeAcquired, Mode=TwoWay}"
+                                Format="MMMM yyyy"
+                                TextColor="Black"
+                                BackgroundColor="White"
+                                MaximumDate="{x:Static sys:DateTime.Today}" />
+
+                    <Entry Placeholder="Organization Involved"
+                           Text="{Binding OrganizationInvolved, Mode=TwoWay}"
+                           BackgroundColor="White" TextColor="Black" />
+
+                    <Entry Placeholder="Years of Experience"
+                           Text="{Binding YearsOfExperience, Mode=TwoWay}"
+                           Keyboard="Numeric"
+                           BackgroundColor="White" TextColor="Black" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+                <Button Text="Save"
+                        BackgroundColor="#A5D6A7"
+                        TextColor="Black"
+                        Padding="14,6"
+                        CornerRadius="8"
+                        Command="{Binding SaveCommand}" />
+
+                <Button Text="Cancel"
+                        BackgroundColor="LightGray"
+                        TextColor="Black"
+                        Padding="14,6"
+                        CornerRadius="8"
+                        Command="{Binding CancelCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

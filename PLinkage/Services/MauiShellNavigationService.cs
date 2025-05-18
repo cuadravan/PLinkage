@@ -16,7 +16,9 @@ namespace PLinkage.Services
         // Also remember: previousProject, previousSkillProvider
         public async Task NavigateToAsync(string route, IDictionary<string, object>? parameters = null)
         {
-            if (!route.StartsWith("/") && !route.StartsWith("///"))
+            // If route starts with / or ///, use as-is.
+            // Else, treat as shell route and prepend ///
+            if (!route.StartsWith("/"))
             {
                 route = "///" + route;
             }
@@ -26,6 +28,7 @@ namespace PLinkage.Services
             else
                 await Shell.Current.GoToAsync(route, parameters);
         }
+
 
         public async Task GoBackAsync()
         {

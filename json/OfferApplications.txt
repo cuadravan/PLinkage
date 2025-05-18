@@ -1,21 +1,11 @@
 [
   {
-    "OfferApplicationId": "11111111-1111-1111-1111-111111111111",
-    "OfferApplicationType": "Offer",
-    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
-    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-    "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
-    "OfferApplicationStatus": "Pending",
-    "OfferApplicationRate": 5000.0,
-    "OfferApplicationTimeFrame": 40
-  },
-  {
     "OfferApplicationId": "22222222-2222-2222-2222-222222222222",
     "OfferApplicationType": "Application",
     "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
     "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
-    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationStatus": "Rejected",
     "OfferApplicationRate": 7500.0,
     "OfferApplicationTimeFrame": 60
   },
@@ -58,5 +48,135 @@
     "OfferApplicationStatus": "Rejected",
     "OfferApplicationRate": 10000.0,
     "OfferApplicationTimeFrame": 96
+  },
+  {
+    "OfferApplicationId": "9edbe9f9-6150-4d5d-82ae-28a24ed1e807",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 20.0,
+    "OfferApplicationTimeFrame": 20
+  },
+  {
+    "OfferApplicationId": "24af4220-3fea-4a9b-98b2-84e02764729d",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "1539b4fd-f6c8-4519-be6c-552a54459aff",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "79159e0c-9294-4449-924c-38cdf805f878",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "14655408-ae18-478f-976c-df3117ab58b7",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "55f4c5b2-7656-490b-ac36-c526a43da6ad",
+    "OfferApplicationType": "Application",
+    "SenderId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 2.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "3ae57e79-4d21-4d52-b3de-5981c5831837",
+    "OfferApplicationType": "Application",
+    "SenderId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "08fe6539-8101-4b0b-8d09-f9d3e794db5b",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "7c6f8c93-02e6-4eb7-a9f1-3a865e59d16e",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "51553243-2922-4bb8-99f1-fc65b8993848",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "04982060-ac4e-4943-8c63-bc55b635db36",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "f8909369-e8a0-4ee5-a733-b6f940c4d8f2",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "4914d7d7-550f-45b7-81db-6564f1fc0964",
+    "OfferApplicationType": "Application",
+    "SenderId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
   }
 ]
