@@ -59,6 +59,11 @@ public static class MauiProgram
         builder.Services.AddTransient<SendApplicationViewModel>();
         builder.Services.AddTransient<ViewProjectOwnerProfileViewModel>();
         builder.Services.AddTransient<SkillProviderApplicationOfferViewModel>();
+        builder.Services.AddTransient<AdminHomeViewModel>();
+        builder.Services.AddTransient<AdminBrowseProjectsViewModel>();
+        builder.Services.AddTransient<AdminBrowseSkillProviderViewModel>();
+        builder.Services.AddTransient<AdminBrowseProjectOwnerViewModel>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();

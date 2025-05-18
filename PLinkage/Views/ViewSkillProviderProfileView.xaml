@@ -37,13 +37,14 @@
                             <Button Text="Message"
                                     BackgroundColor="#388E3C" TextColor="White"
                                     CornerRadius="6" Padding="10,5" WidthRequest="100"
-                                    IsVisible="{Binding IsProjectOwner}" 
+                                    IsVisible="{Binding IsProjectOwnerOrAdmin}" 
                                     Command="{Binding SendMessageCommand}"/>
 
                             <!-- Visible if Admin -->
-                            <Button Text="Deactivate"
+                            <Button Text="{Binding ToggleActivationButtonText}"
                                     BackgroundColor="#D32F2F" TextColor="White"
-                                    CornerRadius="6" Padding="10,5" WidthRequest="100"
+                                    CornerRadius="6" Padding="10,5"
+                                    Command="{Binding ToggleSkillProviderActivationCommand}"
                                     IsVisible="{Binding IsAdmin}" />
 
                         </HorizontalStackLayout>

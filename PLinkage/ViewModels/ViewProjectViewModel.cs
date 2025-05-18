@@ -33,7 +33,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private DateTime projectStartDate;
         [ObservableProperty] private DateTime projectEndDate;
         [ObservableProperty] private string projectPriority;
-        [ObservableProperty] private ProjectStatus? projectStatus;
+        [ObservableProperty] private ProjectStatus? currentProjectStatus;
         [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
         [ObservableProperty] private List<ProjectMemberDetail> projectMembers = new();
         [ObservableProperty] private int projectResourcesNeeded;
@@ -42,6 +42,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string durationSummary;
         [ObservableProperty] private ObservableCollection<EmployedSkillProviderWrapper> employedSkillProviders = new();
         [ObservableProperty] private bool isSkillProvider;
+        [ObservableProperty] private bool isSkillproviderOrAdmin;
         [ObservableProperty] private string projectOwnerFullName;
 
 
@@ -57,6 +58,8 @@ namespace PLinkage.ViewModels
 
             // ✅ Fast role check using enum
             IsSkillProvider = _sessionService.GetCurrentUserType() == UserRole.SkillProvider;
+            IsSkillproviderOrAdmin = _sessionService.GetCurrentUserType() == UserRole.SkillProvider ||
+                                      _sessionService.GetCurrentUserType() == UserRole.Admin;
 
             await LoadProjectDetailsAsync();
         }
@@ -74,7 +77,7 @@ namespace PLinkage.ViewModels
             ProjectStartDate = project.ProjectStartDate;
             ProjectEndDate = project.ProjectEndDate;
             ProjectPriority = project.ProjectPriority;
-            ProjectStatus = project.ProjectStatus;
+            CurrentProjectStatus = project.ProjectStatus;
             ProjectSkillsRequired = new ObservableCollection<string>(project.ProjectSkillsRequired);
             ProjectMembers = project.ProjectMembers;
             ProjectResourcesNeeded = project.ProjectResourcesNeeded;
@@ -156,6 +159,16 @@ namespace PLinkage.ViewModels
                 await Shell.Current.DisplayAlert("❗ Error", "Project not found.", "OK");
                 return;
             }
+
+            if (project.ProjectStatus != ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Project is Currently Inactive or Completed",
+                    "This project is not currently accepting applications.",
+                    "OK");
+                return;
+            }
+
             if (project.ProjectResourcesAvailable <= 0)
             {
                 await Shell.Current.DisplayAlert(

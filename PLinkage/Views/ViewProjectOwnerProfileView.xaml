@@ -24,16 +24,27 @@
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
 
-                        <!-- Right section: send message button -->
-                        <Button Grid.Column="1"
-                Text="Send Message"
-                BackgroundColor="Blue"
-                Padding="10,4"
-                CornerRadius="6"
-                Command="{Binding SendMessageCommand}"
-                IsVisible="{Binding IsSkillProvider}"
-                HorizontalOptions="End"
-                VerticalOptions="Center" />
+                        <!-- Right section: buttons in a horizontal stack -->
+                        <HorizontalStackLayout Grid.Column="1"
+                       Spacing="8"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center">
+                            <Button Text="Send Message"
+            BackgroundColor="Blue"
+            Padding="10,4"
+            CornerRadius="6"
+            Command="{Binding SendMessageCommand}"
+            IsVisible="{Binding IsSkillproviderOrAdmin}" />
+
+                            <Button Text="{Binding ToggleActivationButtonText}"
+            BackgroundColor="#D32F2F"
+            TextColor="White"
+            CornerRadius="6"
+            Padding="10,4"
+            Command="{Binding ToggleProjectOwnerActivationCommand}"
+            IsVisible="{Binding IsAdmin}" />
+                        </HorizontalStackLayout>
+
                     </Grid>
                 </Border>
 

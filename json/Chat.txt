@@ -67,7 +67,7 @@
         "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
         "MessageContent": "Oreo",
         "MessageDate": "2025-05-13T23:38:10.9920922+08:00",
-        "IsRead": false
+        "IsRead": true
       },
       {
         "MessageId": "cc0dc79c-502e-4997-a795-12456ce0d895",
@@ -76,7 +76,25 @@
         "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
         "MessageContent": "No",
         "MessageDate": "2025-05-15T10:02:14.4572038+08:00",
-        "IsRead": false
+        "IsRead": true
+      },
+      {
+        "MessageId": "f462a2ea-4f4e-426c-8107-829b023fce62",
+        "MessageOrder": 9,
+        "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "MessageContent": "hello",
+        "MessageDate": "2025-05-15T13:38:24.5995601+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "6210b09e-9fce-4dc3-9086-20199c3b2847",
+        "MessageOrder": 10,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "hello",
+        "MessageDate": "2025-05-15T13:39:47.022409+08:00",
+        "IsRead": true
       }
     ]
   },
@@ -103,6 +121,60 @@
         "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
         "MessageContent": "No",
         "MessageDate": "2025-05-15T11:29:54.5732024+08:00",
+        "IsRead": true
+      }
+    ]
+  },
+  {
+    "ChatId": "d87874fa-9f36-4428-9d1b-0a84538af2b4",
+    "MessengerId": [
+      "ac984da8-2f69-48f0-9fd4-6b43e7c5e5cb",
+      "bdbfdf21-02a5-47a5-805c-a2ca294591e7"
+    ],
+    "Messages": [
+      {
+        "MessageId": "66c3f065-fff7-4f6c-a3af-050826d6d689",
+        "MessageOrder": 1,
+        "SenderId": "ac984da8-2f69-48f0-9fd4-6b43e7c5e5cb",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "Your account has been issued a warning for \"inactivity\".",
+        "MessageDate": "2025-05-18T19:43:31.1633703+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "59ac4233-361a-41dc-bec4-b729ea5b2fd9",
+        "MessageOrder": 2,
+        "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "ReceiverId": "ac984da8-2f69-48f0-9fd4-6b43e7c5e5cb",
+        "MessageContent": "Why?",
+        "MessageDate": "2025-05-18T19:44:12.922597+08:00",
+        "IsRead": false
+      }
+    ]
+  },
+  {
+    "ChatId": "cd2d0816-fa0e-47af-9dba-8a38262e26e0",
+    "MessengerId": [
+      "ac984da8-2f69-48f0-9fd4-6b43e7c5e5cb",
+      "b506d2a4-73b9-47b6-91d4-b12eee5d7e83"
+    ],
+    "Messages": [
+      {
+        "MessageId": "40aa6961-e938-4b30-a141-717ff315bc56",
+        "MessageOrder": 1,
+        "SenderId": "ac984da8-2f69-48f0-9fd4-6b43e7c5e5cb",
+        "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "MessageContent": "Warning: Your project violates workplace safety code.",
+        "MessageDate": "2025-05-18T20:29:30.3042+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "a2c7a0d8-93a4-4ef4-a447-ea95d00af5a8",
+        "MessageOrder": 2,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "ac984da8-2f69-48f0-9fd4-6b43e7c5e5cb",
+        "MessageContent": "Ok",
+        "MessageDate": "2025-05-18T20:29:54.5604148+08:00",
         "IsRead": false
       }
     ]

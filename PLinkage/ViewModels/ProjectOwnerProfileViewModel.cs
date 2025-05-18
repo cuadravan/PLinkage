@@ -108,6 +108,11 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task UpdateProject(Project project)
         {
+            if(project.ProjectStatus == ProjectStatus.Completed)
+            {
+                await Shell.Current.DisplayAlert("⚠️ Error", "You cannot update a completed project.", "OK");
+                return;
+            }
             _sessionService.VisitingProjectID = project.ProjectId;
             await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProjectView");
         }

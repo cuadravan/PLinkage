@@ -70,7 +70,7 @@
             <CollectionView ItemsSource="{Binding SentOffersHistory}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="White" Stroke="#D9D9D9" StrokeThickness="1"
+                        <Border Background="LightGray" Stroke="#D9D9D9" StrokeThickness="1"
                                 StrokeShape="RoundRectangle 12" Padding="14" Margin="0,0,0,10">
                             <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                 <VerticalStackLayout>
@@ -98,7 +98,7 @@
             <CollectionView ItemsSource="{Binding ReceivedApplicationsHistory}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="White" Stroke="#D9D9D9" StrokeThickness="1"
+                        <Border Background="LightGray" Stroke="#D9D9D9" StrokeThickness="1"
                                 StrokeShape="RoundRectangle 12" Padding="14" Margin="0,0,0,10">
                             <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                 <VerticalStackLayout>

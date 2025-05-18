@@ -141,13 +141,23 @@ namespace PLinkage.ViewModels
                 await Shell.Current.DisplayAlert("❗ Error", "Project not found.", "OK");
                 return;
             }
+
+            if (project.ProjectStatus is not ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert(
+                    "⚠️ Inactive Project",
+                    "You can only send offers for projects that are currently active.",
+                    "OK");
+                return;
+            }
+
             if (project.ProjectResourcesAvailable <= 0)
             {
                 await Shell.Current.DisplayAlert(
                     "⚠️ Project Full",
                     "This project has reached its maximum number of members and is no longer accepting offers.",
                     "OK");
-                return;
+                return; 
             }
             // —————————————————————————————————————
 

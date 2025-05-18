@@ -39,18 +39,27 @@
         <ShellContent Route="AdminHomeView" 
             ContentTemplate="{DataTemplate views:AdminHomeView}" />
     </FlyoutItem>
-    <!--<FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsAdmin}">
-        <ShellContent Route="AdminBrowseSkillProvidersView" 
-        ContentTemplate="{DataTemplate views:AdminBrowseSkillProvidersView}" />
-    </FlyoutItem>
     <FlyoutItem Title="Browse Projects" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminBrowseProjectsView" 
-        ContentTemplate="{DataTemplate views:AdminBrowseProjectsView}" />
+            ContentTemplate="{DataTemplate views:AdminBrowseProjectsView}" />
     </FlyoutItem>
-    <FlyoutItem Title="[DEBUG] View Project Owner Profile" IsVisible="{Binding IsAdmin}">
+
+    <FlyoutItem Title="Browse Project Owners" IsVisible="{Binding IsAdmin}">
+        <ShellContent Route="AdminBrowseProjectOwnerView" 
+            ContentTemplate="{DataTemplate views:AdminBrowseProjectOwnerView}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsAdmin}">
+        <ShellContent Route="AdminBrowseSkillProvidersView" 
+            ContentTemplate="{DataTemplate views:AdminBrowseSkillProvidersView}" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="My Messages" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminViewProjectOwnerProfileView" 
-        ContentTemplate="{DataTemplate views:AdminViewProjectOwnerProfileView}" />
+        ContentTemplate="{DataTemplate views:AdminMessagesView}" />
     </FlyoutItem>
+    
+    <!--
     <FlyoutItem Title="[DEBUG] View Project" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminViewProjectView" 
         ContentTemplate="{DataTemplate views:AdminViewProjectView}" />

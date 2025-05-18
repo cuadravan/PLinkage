@@ -1,82 +1,91 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PLinkage.Views.AdminBrowseProjectsView"
+             Title="Admin: Browse Projects"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
-             x:Class="PLinkage.Views.ProjectOwnerHomeView"
-             Title="ProjectOwnerHomeView"
-             BackgroundColor="White">
+             xmlns:local="clr-namespace:PLinkage.Converters">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:SortToVisibilityConverter x:Key="SortToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-    <Grid ColumnDefinitions="*">
-        <ScrollView Grid.Column="0" Padding="20">
+    <Grid>
+        <ScrollView Padding="20">
             <VerticalStackLayout Spacing="16">
 
-                <!-- Welcome Banner -->
+                <!-- Header -->
                 <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="{Binding UserName, StringFormat='Welcome back, {0}!'}"
+                        <Label Text="All Projects (Admin View)"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="Black" />
-
-                        <Label Text="{Binding SummaryText}"
-                           FontSize="14"
-                           TextColor="Black"/>
-
+                        <Label Text="Manage and monitor all projects, including deactivated ones."
+                               FontSize="14"
+                               TextColor="Black"/>
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Suggested Header and Sort Picker -->
+                <!-- Sorting Controls -->
                 <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Suggested for you"
+                        <Label Text="Filter Projects"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="Black" />
 
-                        <!-- Sort Options Picker -->
-                        <Picker Title="Sort by"
+                        <Picker Title="Sort By"
                                 ItemsSource="{Binding SortOptions}"
                                 SelectedItem="{Binding SortSelection}" />
+
+                        <Picker Title="Select Location"
+                                ItemsSource="{Binding CebuLocations}"
+                                SelectedItem="{Binding SelectedLocation}"
+                                IsVisible="{Binding SortSelection, Converter={StaticResource SortToVisibilityConverter}}" />
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Suggested Projects List -->
-                <CollectionView ItemsSource="{Binding SuggestedSkillProviders}">
+                <!-- Project List -->
+                <CollectionView ItemsSource="{Binding AllProjects}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
                                     Padding="12" StrokeShape="RoundRectangle 10">
                                 <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                    <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                                    <BoxView Color="DarkGray" HeightRequest="60" WidthRequest="60"
                                              VerticalOptions="Center" HorizontalOptions="Center"/>
 
                                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                        <Label Text="{Binding UserFirstName}"
+                                        <Label Text="{Binding ProjectName}"
                                                FontAttributes="Bold"
                                                FontSize="14"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding UserRating, StringFormat='{0:F2} star/s'}"
-       FontSize="12"
-       TextColor="Black"/>
-
-                                        <Label Text="{Binding UserLocation}"
+                                        <Label Text="{Binding ProjectStatus}"
+                                               FontSize="12"
+                                               TextColor="Gray"/>
+                                        <Label Text="{Binding ProjectResourcesAvailable, StringFormat='{0} available slot/s'}"
+                                               FontSize="12"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding ProjectLocation}"
                                                FontSize="12"
                                                TextColor="Black"/>
                                     </VerticalStackLayout>
 
                                     <Button Text="View"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerHomeViewModel}}, Path=ViewSkillProviderCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Grid.Column="2"
-                                    BackgroundColor="#D0E8FF"
-                                    Padding="10,4"
-                                    CornerRadius="6"
-                                    VerticalOptions="Center"
-                                    TextColor="Black"/>
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseProjectsViewModel}}, Path=ViewProjectCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="2"
+                                            BackgroundColor="#FFDCA5"
+                                            Padding="10,4"
+                                            CornerRadius="6"
+                                            VerticalOptions="Center"
+                                            TextColor="Black"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

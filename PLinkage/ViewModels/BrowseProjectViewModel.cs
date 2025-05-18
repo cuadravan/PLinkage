@@ -63,6 +63,7 @@ namespace PLinkage.ViewModels
         {
             var projects = (await _unitOfWork.Projects.GetAllAsync())
                 .Where(p => p.ProjectStatus != ProjectStatus.Deactivated)
+                .Where(p => p.ProjectStatus != ProjectStatus.Completed)
                 .ToList();
 
             var currentUser = await _unitOfWork.SkillProvider

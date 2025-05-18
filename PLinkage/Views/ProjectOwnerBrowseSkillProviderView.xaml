@@ -53,9 +53,10 @@
                                                FontAttributes="Bold"
                                                FontSize="14"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding UserRating, StringFormat='{0} star/s'}"
-                                               FontSize="12"
-                                               TextColor="Black"/>
+                                        <Label Text="{Binding UserRating, StringFormat='{0:F2} star/s'}"
+       FontSize="12"
+       TextColor="Black"/>
+
                                         <Label Text="{Binding UserLocation}"
                                                FontSize="12"
                                                TextColor="Black"/>

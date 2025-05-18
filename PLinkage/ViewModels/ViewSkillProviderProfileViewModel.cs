@@ -24,11 +24,14 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string userEmail;
         [ObservableProperty] private string userPhone;
         [ObservableProperty] private double userRating;
+        [ObservableProperty] private string toggleActivationButtonText;
+
 
         // Role Flags
         [ObservableProperty] private bool isProjectOwner;
         [ObservableProperty] private bool isSkillProvider;
         [ObservableProperty] private bool isAdmin;
+        [ObservableProperty] private bool isProjectOwnerOrAdmin;
         [ObservableProperty]private bool isOwner;
 
 
@@ -79,6 +82,7 @@ namespace PLinkage.ViewModels
             IsProjectOwner = role == UserRole.ProjectOwner;
             IsSkillProvider = role == UserRole.SkillProvider;
             IsAdmin = role == UserRole.Admin;
+            IsProjectOwnerOrAdmin = IsProjectOwner || IsAdmin;
         }
 
         private async Task LoadProfileAsync()
@@ -96,6 +100,7 @@ namespace PLinkage.ViewModels
 
             Educations = new ObservableCollection<Education>(profile.Educations);
             Skills = new ObservableCollection<Skill>(profile.Skills);
+            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate Account" : "Deactivate Account";
         }
 
         private async Task LoadEmployedProjectsAsync()
@@ -132,6 +137,28 @@ namespace PLinkage.ViewModels
         {
             _sessionService.VisitingProjectID = project.ProjectId;
             await _navigationService.NavigateToAsync("/ViewProjectView");
+        }
+
+        [RelayCommand]
+        private async Task ToggleSkillProviderActivation()
+        {
+            var owner = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
+            if (owner == null) return;
+
+            string action = owner.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
+
+            bool confirm = await Shell.Current.DisplayAlert(
+                $"Confirm {action}",
+                $"{action} Project Owner: {owner.UserFirstName} {owner.UserLastName}?",
+                "Yes", "No");
+
+            if (!confirm) return;
+
+            owner.UserStatus = owner.UserStatus == "Deactivated" ? "Active" : "Deactivated";
+
+            await _unitOfWork.SkillProvider.UpdateAsync(owner);
+            await _unitOfWork.SaveChangesAsync();
+            await LoadProfileAsync(); // Updates UI including button text
         }
     }
 }

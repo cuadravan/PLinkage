@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,7 +9,7 @@ using PLinkage.Models;
 
 namespace PLinkage.ViewModels
 {
-    public partial class SendMessageViewModel: ObservableObject
+    public partial class SendMessageViewModel : ObservableObject
     {
         // Services
         private readonly IUnitOfWork _unitOfWork;
@@ -24,7 +22,6 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private IUser sender;
         [ObservableProperty] private IUser receiver;
         [ObservableProperty] private string receiverFullName; // Bind to full name label
-        // Project must be active
         [ObservableProperty] private string messageContent; // Bind to content
 
         public SendMessageViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
@@ -47,7 +44,7 @@ namespace PLinkage.ViewModels
             var currentUser = _sessionService.GetCurrentUser();
             Sender = currentUser; // IUser is base type, this works
 
-            // Try finding receiver in both repositories
+            // Try finding receiver in SkillProvider repository
             var skillProviderReceiver = await _unitOfWork.SkillProvider.GetByIdAsync(_receiverId);
             if (skillProviderReceiver != null)
             {
@@ -55,16 +52,26 @@ namespace PLinkage.ViewModels
             }
             else
             {
+                // Try ProjectOwner repository
                 var projectOwnerReceiver = await _unitOfWork.ProjectOwner.GetByIdAsync(_receiverId);
                 if (projectOwnerReceiver != null)
                 {
                     Receiver = projectOwnerReceiver;
                 }
+                else
+                {
+                    // Try Admin repository last
+                    var adminReceiver = await _unitOfWork.Admin.GetByIdAsync(_receiverId);
+                    if (adminReceiver != null)
+                    {
+                        Receiver = adminReceiver;
+                    }
+                }
             }
 
             if (Receiver != null)
             {
-                ReceiverFullName = $"{receiver.UserFirstName} {receiver.UserLastName}";
+                ReceiverFullName = $"{Receiver.UserFirstName} {Receiver.UserLastName}";
             }
         }
 
@@ -111,16 +118,16 @@ namespace PLinkage.ViewModels
                 {
                     MessengerId = new List<Guid> { _senderId, _receiverId },
                     Messages = new List<Message>
-            {
-                new Message
-                {
-                    SenderId = _senderId,
-                    ReceiverId = _receiverId,
-                    MessageOrder = 1,
-                    MessageContent = MessageContent,
-                    MessageDate = DateTime.Now
-                }
-            }
+                    {
+                        new Message
+                        {
+                            SenderId = _senderId,
+                            ReceiverId = _receiverId,
+                            MessageOrder = 1,
+                            MessageContent = MessageContent,
+                            MessageDate = DateTime.Now
+                        }
+                    }
                 };
                 await _unitOfWork.Chat.AddAsync(newChat);
                 targetChat = newChat;
@@ -134,6 +141,7 @@ namespace PLinkage.ViewModels
             await Shell.Current.DisplayAlert("Success", "Message sent successfully!", "OK");
             await GoBack();
         }
+
         private async Task AddChatIdToUserAsync(Guid userId, Guid chatId)
         {
             // Try SkillProvider first
@@ -157,25 +165,24 @@ namespace PLinkage.ViewModels
                     projectOwner.UserMessagesId.Add(chatId);
                     await _unitOfWork.ProjectOwner.UpdateAsync(projectOwner);
                 }
+                return;
+            }
+
+            // Try Admin last
+            var admin = await _unitOfWork.Admin.GetByIdAsync(userId);
+            if (admin != null)
+            {
+                if (!admin.UserMessagesId.Contains(chatId))
+                {
+                    admin.UserMessagesId.Add(chatId);
+                    await _unitOfWork.Admin.UpdateAsync(admin);
+                }
             }
         }
-
-
-
 
         [RelayCommand]
         private async Task GoBack()
         {
-            //if(receiver.UserRole == UserRole.SkillProvider)
-            //{
-            //    _sessionService.VisitingSkillProviderID = receiver.UserId;
-            //    await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
-            //}
-            //else if (receiver.UserRole == UserRole.ProjectOwner)
-            //{
-            //    _sessionService.VisitingProjectOwnerID = receiver.UserId;
-            //    await _navigationService.NavigateToAsync("ProjectOwnerProfileView");
-            //}
             await _navigationService.GoBackAsync();
         }
     }

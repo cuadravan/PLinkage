@@ -16,5 +16,6 @@ namespace PLinkage.Models
         public UserRole UserRole { get; set; } = UserRole.Admin;
         public string UserStatus { get; set; } = string.Empty;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
+        public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
     }
 }

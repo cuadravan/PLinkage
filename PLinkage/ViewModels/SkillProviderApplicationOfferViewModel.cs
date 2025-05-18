@@ -141,6 +141,19 @@ namespace PLinkage.ViewModels
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(application.ReceiverId);
             if (skillProvider == null) return;
 
+            // Check if the skill provider is already employed
+            if (skillProvider.EmployedProjects != null && skillProvider.EmployedProjects.Any())
+            {
+                application.OfferApplicationStatus = "Rejected";
+                await _unitOfWork.OfferApplications.UpdateAsync(application);
+                await _unitOfWork.SaveChangesAsync();
+                await LoadData();
+                await Shell.Current.DisplayAlert("ℹ️ Offer Rejected",
+                    "You are already employed in this project.",
+                    "OK");
+                return;
+            }
+
             // Mark as accepted
             application.OfferApplicationStatus = "Accepted";
             await _unitOfWork.OfferApplications.UpdateAsync(application);
@@ -166,6 +179,7 @@ namespace PLinkage.ViewModels
             await _unitOfWork.SaveChangesAsync();
             await LoadData();
         }
+
 
 
 

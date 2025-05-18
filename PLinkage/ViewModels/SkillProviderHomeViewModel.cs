@@ -72,6 +72,7 @@ namespace PLinkage.ViewModels
             // fetch all and exclude deactivated users
             var projects = (await _unitOfWork.Projects.GetAllAsync())
                 .Where(p => p.ProjectStatus != ProjectStatus.Deactivated)
+                .Where(p => p.ProjectStatus != ProjectStatus.Completed)
                 .ToList();
 
             var currentUser = await _unitOfWork.SkillProvider

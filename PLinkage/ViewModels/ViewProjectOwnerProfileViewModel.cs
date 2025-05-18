@@ -24,9 +24,13 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private string userEmail;
         [ObservableProperty] private string userPhone;
         [ObservableProperty] private ObservableCollection<Project> ownedProjects = new();
+        [ObservableProperty] private string toggleActivationButtonText;
+
 
         // Role Flags
         [ObservableProperty] private bool isSkillProvider;
+        [ObservableProperty] private bool isAdmin;
+        [ObservableProperty] private bool isSkillproviderOrAdmin;
         [ObservableProperty] private bool isOwner;
 
         public IAsyncRelayCommand OnViewAppearingCommand { get; }
@@ -72,6 +76,7 @@ namespace PLinkage.ViewModels
 
             // ✅ Check ownership
             IsOwner = currentUser != null && currentUser.UserId == _projectOwnerId;
+            
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
@@ -86,6 +91,8 @@ namespace PLinkage.ViewModels
         {
             var role = _sessionService.GetCurrentUserType();
             IsSkillProvider = role == UserRole.SkillProvider;
+            IsAdmin = role == UserRole.Admin;
+            IsSkillproviderOrAdmin = role == UserRole.SkillProvider || role == UserRole.Admin;
         }
 
         private async Task LoadProfileAsync()
@@ -99,7 +106,11 @@ namespace PLinkage.ViewModels
             UserGender = profile.UserGender;
             UserEmail = profile.UserEmail;
             UserPhone = profile.UserPhone;
+
+            // Set the toggle button text
+            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate Account" : "Deactivate Account";
         }
+
 
         private async Task LoadProjectsAsync()
         {
@@ -128,5 +139,28 @@ namespace PLinkage.ViewModels
             _sessionService.VisitingReceiverID = _projectOwnerId;
             await _navigationService.NavigateToAsync("/ProjectOwnerSendMessageView");
         }
+
+        [RelayCommand]
+        private async Task ToggleProjectOwnerActivation()
+        {
+            var owner = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
+            if (owner == null) return;
+
+            string action = owner.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
+
+            bool confirm = await Shell.Current.DisplayAlert(
+                $"Confirm {action}",
+                $"{action} Project Owner: {owner.UserFirstName} {owner.UserLastName}?",
+                "Yes", "No");
+
+            if (!confirm) return;
+
+            owner.UserStatus = owner.UserStatus == "Deactivated" ? "Active" : "Deactivated";
+
+            await _unitOfWork.ProjectOwner.UpdateAsync(owner);
+            await _unitOfWork.SaveChangesAsync();
+            await LoadProfileAsync(); // Updates UI including button text
+        }
+
     }
 }

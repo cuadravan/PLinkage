@@ -11,13 +11,8 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace PLinkage.ViewModels
 {
-    public partial class ViewMessagesViewModel: ObservableObject
+    public partial class ViewMessagesViewModel : ObservableObject
     {
-        // Load all messenger ID , display the full name of the receiver
-        // When clicking on it, to the right, create a scroll view on the right showing all messages with datetime and content
-        // Upon loading, mark all messages loaded as read
-        // Additionally, messages that are sent by other person is shown on left, messages sent by current user on right
-
         // Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
@@ -31,12 +26,11 @@ namespace PLinkage.ViewModels
 
         [ObservableProperty]
         private ChatSummaryViewModel selectedChat;
+
         [ObservableProperty]
         private string messageContent;
 
-
         private Guid _currentUserId;
-
 
         public ViewMessagesViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
         {
@@ -68,7 +62,7 @@ namespace PLinkage.ViewModels
                 // Get the other user
                 var receiverId = chat.MessengerId.First(id => id != currentUser.UserId);
 
-                // Load name from either repo
+                // Load name from SkillProvider, ProjectOwner, or Admin repositories
                 string fullName = string.Empty;
                 var sp = await _unitOfWork.SkillProvider.GetByIdAsync(receiverId);
                 if (sp != null)
@@ -78,6 +72,12 @@ namespace PLinkage.ViewModels
                     var po = await _unitOfWork.ProjectOwner.GetByIdAsync(receiverId);
                     if (po != null)
                         fullName = $"{po.UserFirstName} {po.UserLastName}";
+                    else
+                    {
+                        var admin = await _unitOfWork.Admin.GetByIdAsync(receiverId);
+                        if (admin != null)
+                            fullName = $"{admin.UserFirstName} {admin.UserLastName}";
+                    }
                 }
 
                 // Get latest message
@@ -97,6 +97,7 @@ namespace PLinkage.ViewModels
                 summaries.OrderByDescending(s => s.MessageDate)
             );
         }
+
         private async Task OnChatSelectedAsync(ChatSummaryViewModel selected)
         {
             if (selected == null) return;
@@ -191,6 +192,7 @@ namespace PLinkage.ViewModels
                 summary.MessageDate = newMessage.MessageDate;
             }
         }
+
         private async Task AddChatIdToUserAsync(Guid userId, Guid chatId)
         {
             var sp = await _unitOfWork.SkillProvider.GetByIdAsync(userId);
@@ -212,11 +214,19 @@ namespace PLinkage.ViewModels
                     po.UserMessagesId.Add(chatId);
                     await _unitOfWork.ProjectOwner.UpdateAsync(po);
                 }
+                return;
+            }
+
+            var admin = await _unitOfWork.Admin.GetByIdAsync(userId);
+            if (admin != null)
+            {
+                if (!admin.UserMessagesId.Contains(chatId))
+                {
+                    admin.UserMessagesId.Add(chatId);
+                    await _unitOfWork.Admin.UpdateAsync(admin);
+                }
             }
         }
-
-
-
     }
 
     public class ChatSummaryViewModel
