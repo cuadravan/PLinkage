@@ -80,16 +80,45 @@ namespace PLinkage.ViewModels
 
             if (string.IsNullOrWhiteSpace(ProjectName) ||
                 string.IsNullOrWhiteSpace(ProjectDescription) ||
-                !ProjectLocationSelected.HasValue ||
-                string.IsNullOrWhiteSpace(ProjectPrioritySelected) ||
-                ProjectEndDate < ProjectStartDate)
+                string.IsNullOrWhiteSpace(ProjectPrioritySelected))
             {
                 ErrorMessage = "Please ensure all required fields are correctly filled.";
                 return false;
             }
 
+            if (!ProjectLocationSelected.HasValue)
+            {
+                ErrorMessage = "Project location must be selected.";
+                return false;
+            }
+
+            if (ProjectStartDate == default || ProjectEndDate == default)
+            {
+                ErrorMessage = "Project start and end dates must be set.";
+                return false;
+            }
+
+            if (ProjectEndDate < ProjectStartDate)
+            {
+                ErrorMessage = "Project end date cannot be earlier than start date.";
+                return false;
+            }
+
+            if (ProjectSkillsRequired.Count == 0)
+            {
+                ErrorMessage = "At least one skill is required for the project.";
+                return false;
+            }
+
+            if (ProjectStatusSelected == ProjectStatus.Completed)
+            {
+                ErrorMessage = "Project cannot be created with status Completed.";
+                return false;
+            }
+
             return true;
         }
+
 
         [RelayCommand]
         private async Task Submit()

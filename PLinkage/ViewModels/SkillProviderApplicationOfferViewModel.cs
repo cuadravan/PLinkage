@@ -206,15 +206,30 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task ViewProjectOwner(OfferApplicationDisplayModel display)
+        private async Task ViewSender(OfferApplicationDisplayModel display)
         {
             if (display == null) return;
+
             var offerApplication = await _unitOfWork.OfferApplications.GetByIdAsync(display.OfferApplicationId);
             if (offerApplication == null) return;
-            // Navigate to the project details page
+
             _sessionService.VisitingProjectOwnerID = offerApplication.SenderId;
             await _navigationService.NavigateToAsync("/ViewProjectOwnerProfileView");
         }
+
+        [RelayCommand]
+        private async Task ViewReceiver(OfferApplicationDisplayModel display)
+        {
+            if (display == null) return;
+
+            var offerApplication = await _unitOfWork.OfferApplications.GetByIdAsync(display.OfferApplicationId);
+            if (offerApplication == null) return;
+
+            _sessionService.VisitingProjectOwnerID = offerApplication.ReceiverId;
+            await _navigationService.NavigateToAsync("/ViewProjectOwnerProfileView");
+        }
+
+
 
     }
 }

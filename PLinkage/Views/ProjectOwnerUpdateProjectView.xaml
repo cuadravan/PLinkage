@@ -177,13 +177,6 @@
                        IsVisible="{Binding IsErrorVisible}" />
 
                 <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
-                    <Button Text="Cancel"
-                            Command="{Binding CancelCommand}"
-                            BackgroundColor="Gray"
-                            TextColor="White"
-                            CornerRadius="6"
-                            Padding="12"/>
-
                     <Button Text="Reset"
                             Command="{Binding ResetCommand}"
                             BackgroundColor="#FF9800"

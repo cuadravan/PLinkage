@@ -18,11 +18,23 @@
                             <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                 <VerticalStackLayout>
                                     <Label Text="🔵 Offer" FontSize="10" TextColor="#2196F3" />
-                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedRate}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                    <Label Text="{Binding ReceiverName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding ReceiverName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewReceiverCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedTimeFrame}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <Label Grid.Column="2" Text="Pending" TextColor="Gray" VerticalOptions="Center" FontAttributes="Bold" />
@@ -42,11 +54,23 @@
                             <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                 <VerticalStackLayout>
                                     <Label Text="🟠 Application" FontSize="10" TextColor="#FF9800" />
-                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedRate}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                    <Label Text="{Binding SenderName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding SenderName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewSenderCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedTimeFrame}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <HorizontalStackLayout Grid.Column="2" Spacing="8" HorizontalOptions="End">
@@ -75,11 +99,23 @@
                             <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                 <VerticalStackLayout>
                                     <Label Text="🔵 Offer" FontSize="10" TextColor="#2196F3" />
-                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedRate}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                    <Label Text="{Binding ReceiverName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding ReceiverName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewReceiverCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedTimeFrame}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <Label Grid.Column="2"
@@ -103,11 +139,23 @@
                             <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                 <VerticalStackLayout>
                                     <Label Text="🟠 Application" FontSize="10" TextColor="#FF9800" />
-                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding ProjectName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedRate}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                    <Label Text="{Binding SenderName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding SenderName}" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewSenderCommand}" 
+                                                CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Label Text="{Binding FormattedTimeFrame}" FontSize="12" />
                                 </VerticalStackLayout>
                                 <Label Grid.Column="2"

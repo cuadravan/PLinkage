@@ -35,4 +35,6 @@ public class ProjectMemberDetail
     public string Email { get; set; } // From SkillProvider
     public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
     public int TimeFrame { get; set; } = 0; // Hours
+    public bool IsResigning { get; set; } = false;
+    public string? ResignationReason { get; set; } = string.Empty; // Reason for resignation
 }

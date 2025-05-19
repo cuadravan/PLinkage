@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using PLinkage.Models;
 using PLinkage.Interfaces;
+using Windows.System;
 
 namespace PLinkage.ViewModels
 {
@@ -71,6 +72,13 @@ namespace PLinkage.ViewModels
 
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;
+
+            var userId = currentUser.UserId;
+
+            projects = projects
+                .Where(p => p.ProjectMembers == null || !p.ProjectMembers
+                    .Any(m => m.MemberId == userId))
+                .ToList();
 
             var userCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
 

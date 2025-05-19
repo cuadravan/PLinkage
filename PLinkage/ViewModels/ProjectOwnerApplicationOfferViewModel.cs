@@ -141,15 +141,16 @@ namespace PLinkage.ViewModels
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(application.SenderId);
             if (skillProvider == null) return;
 
-            // Check if the skill provider is already employed
-            if (skillProvider.EmployedProjects != null && skillProvider.EmployedProjects.Any())
+            // Load the associated project
+            if (project?.ProjectMembers != null &&
+                project.ProjectMembers.Any(m => m.MemberId == skillProvider.UserId))
             {
                 application.OfferApplicationStatus = "Rejected";
                 await _unitOfWork.OfferApplications.UpdateAsync(application);
                 await _unitOfWork.SaveChangesAsync();
                 await LoadData();
                 await Shell.Current.DisplayAlert("ℹ️ Application Rejected",
-                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} is already employed.",
+                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} is already a member of the project.",
                     "OK");
                 return;
             }
@@ -206,14 +207,27 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task ViewSkillProvider(OfferApplicationDisplayModel display)
+        private async Task ViewSender(OfferApplicationDisplayModel display)
         {
             if (display == null) return;
+
             var offerApplication = await _unitOfWork.OfferApplications.GetByIdAsync(display.OfferApplicationId);
             if (offerApplication == null) return;
-            // Navigate to the project details page
-            _sessionService.VisitingProjectOwnerID = offerApplication.SenderId;
-            await _navigationService.NavigateToAsync("/ViewProjectOwnerProfileView");
+
+            _sessionService.VisitingSkillProviderID = offerApplication.SenderId;
+            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
+        }
+
+        [RelayCommand]
+        private async Task ViewReceiver(OfferApplicationDisplayModel display)
+        {
+            if (display == null) return;
+
+            var offerApplication = await _unitOfWork.OfferApplications.GetByIdAsync(display.OfferApplicationId);
+            if (offerApplication == null) return;
+
+            _sessionService.VisitingSkillProviderID = offerApplication.ReceiverId;
+            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
         }
 
     }

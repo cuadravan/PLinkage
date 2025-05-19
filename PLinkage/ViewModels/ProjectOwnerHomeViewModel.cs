@@ -64,7 +64,35 @@ namespace PLinkage.ViewModels
             await CountReceivedApplications(currentUser.UserId);
             await CountActiveProjects(currentUser.UserId);
 
-            SummaryText = $"You have {ActiveProjects} active projects, {SentOfferCount} pending sent applications, and {receivedApplicationCount} received offers.";
+            var allProjects = await _unitOfWork.Projects.GetAllAsync();
+            var ownedProjects = allProjects
+                .Where(p => p.ProjectOwnerId == currentUser.UserId)
+                .ToList();
+
+            int resignationCount = 0;
+            var projectsWithResignations = new List<string>();
+
+            foreach (var project in ownedProjects)
+            {
+                if (project.ProjectMembers == null) continue;
+
+                var resigningMembers = project.ProjectMembers
+                    .Where(m => m.IsResigning)
+                    .ToList();
+
+                if (resigningMembers.Any())
+                {
+                    resignationCount += resigningMembers.Count;
+                    projectsWithResignations.Add(project.ProjectName);
+                }
+            }
+
+            var resignationSummary = resignationCount > 0
+            ? $" {resignationCount} resignation{(resignationCount > 1 ? "s" : "")} received in: {string.Join(", ", projectsWithResignations)}. Go to Profile -> Update Project to process resignation."
+            : " No resignations reported.";
+
+            SummaryText = $"You have {ActiveProjects} active projects, {SentOfferCount} pending sent applications, and {ReceivedApplicationCount} received offers." + resignationSummary;
+
         }
 
         private async Task LoadSuggestedSkillProviders()

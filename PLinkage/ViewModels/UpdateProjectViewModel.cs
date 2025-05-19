@@ -82,6 +82,9 @@ namespace PLinkage.ViewModels
 
             await _unitOfWork.ReloadAsync();
             await LoadCurrentProject();
+
+            // 🔁 Add this line to process resignations after project is loaded
+            await ProcessResignationRequest();
         }
         private async Task LoadCurrentProject()
         {
@@ -146,6 +149,13 @@ namespace PLinkage.ViewModels
                 return false;
             }
 
+            if ((ProjectStatusSelected == ProjectStatus.Deactivated) && EmployedSkillProviders.Count > 0)
+            {
+                ErrorMessage = "Cannot deactivate project while there are still employed skill providers.";
+                return false;
+            }
+
+
             return true;
         }
 
@@ -156,6 +166,13 @@ namespace PLinkage.ViewModels
         {
             if (!ValidateForm())
                 return;
+
+            if (ProjectStatusSelected == ProjectStatus.Deactivated && EmployedSkillProviders.Count > 0)
+            {
+                await Shell.Current.DisplayAlert("Error", "Cannot deactivate project while there are still employed skill providers.", "OK");
+                return;
+            }
+
 
             var project = await _unitOfWork.Projects.GetByIdAsync(_sessionService.VisitingProjectID);
             if (project == null) return;
@@ -260,6 +277,64 @@ namespace PLinkage.ViewModels
             // 8. Update the view collections
             EmployedSkillProviders.Remove(skillProvider);
             ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
+        }
+
+        private async Task ProcessResignationRequest()
+        {
+            if (ProjectMembers == null || ProjectMembers.Count == 0)
+                return;
+
+            var updated = false;
+
+            // Loop through all resigning members
+            foreach (var member in ProjectMembers.Where(m => m.IsResigning).ToList())
+            {
+                var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(member.MemberId);
+                if (skillProvider == null) continue;
+
+                // Prepare message with reason (optional fallback if null)
+                string reasonText = string.IsNullOrWhiteSpace(member.ResignationReason)
+                    ? "No reason was provided."
+                    : member.ResignationReason;
+
+                bool confirm = await Shell.Current.DisplayAlert(
+                    "Resignation Request",
+                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} has requested to resign.\n\nReason: {reasonText}\n\nDo you approve this resignation?",
+                    "Yes",
+                    "No");
+
+                if (confirm)
+                {
+                    // Remove from project
+                    ProjectMembers.Remove(member);
+                    EmployedSkillProviders.Remove(skillProvider);
+
+                    var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
+                    if (project != null)
+                    {
+                        project.ProjectMembers.RemoveAll(m => m.MemberId == member.MemberId);
+                        project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
+                        project.ProjectDateUpdated = DateTime.Now;
+                        await _unitOfWork.Projects.UpdateAsync(project);
+                    }
+
+                    // Update skill provider record
+                    if (skillProvider.EmployedProjects.Contains(_projectId))
+                        skillProvider.EmployedProjects.Remove(_projectId);
+                    await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
+
+                    updated = true;
+                }
+                else
+                {
+                    // Mark as not resigning anymore
+                    member.IsResigning = false;
+                    member.ResignationReason = null;
+                }
+            }
+
+            if (updated)
+                await _unitOfWork.SaveChangesAsync();
         }
 
 

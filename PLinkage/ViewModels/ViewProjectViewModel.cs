@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkage.Models;
 using PLinkage.Interfaces;
+using System.Globalization;
 
 namespace PLinkage.ViewModels
 {
@@ -43,6 +44,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private ObservableCollection<EmployedSkillProviderWrapper> employedSkillProviders = new();
         [ObservableProperty] private bool isSkillProvider;
         [ObservableProperty] private bool isSkillproviderOrAdmin;
+        [ObservableProperty] private bool isOwner;
         [ObservableProperty] private string projectOwnerFullName;
 
 
@@ -55,13 +57,15 @@ namespace PLinkage.ViewModels
             if (_projectId == Guid.Empty) return;
 
             await _unitOfWork.ReloadAsync();
-
             // ✅ Fast role check using enum
+            
             IsSkillProvider = _sessionService.GetCurrentUserType() == UserRole.SkillProvider;
             IsSkillproviderOrAdmin = _sessionService.GetCurrentUserType() == UserRole.SkillProvider ||
                                       _sessionService.GetCurrentUserType() == UserRole.Admin;
 
             await LoadProjectDetailsAsync();
+
+            IsOwner = _sessionService.GetCurrentUser()?.UserId == _projectOwnerId;
         }
 
 

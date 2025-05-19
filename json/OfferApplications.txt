@@ -178,5 +178,55 @@
     "OfferApplicationStatus": "Accepted",
     "OfferApplicationRate": 1.0,
     "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "f6103516-cba0-4c62-bcac-4c9e84f03b5d",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 12.0,
+    "OfferApplicationTimeFrame": 12
+  },
+  {
+    "OfferApplicationId": "6b44a407-2738-4cf9-9bb1-af44bc7a97ac",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "a8e425ce-abb8-4046-977e-62d365e77086",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 2.0,
+    "OfferApplicationTimeFrame": 2
+  },
+  {
+    "OfferApplicationId": "15927bf9-fce9-4fff-a637-9f18ed0c899b",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 2
+  },
+  {
+    "OfferApplicationId": "64794921-4b49-4c29-a4b7-0eb00c2fdbfe",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 2.0,
+    "OfferApplicationTimeFrame": 1
   }
 ]

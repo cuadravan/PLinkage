@@ -64,40 +64,50 @@ namespace PLinkage.ViewModels
             await CountSentApplications(currentUser.UserId);
             await CountActiveProjects(currentUser.UserId);
 
-            SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent application, and {ReceivedOfferCount} received offers.";
+            SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent applications, and {ReceivedOfferCount} received offers.";
         }
 
         private async Task LoadSuggestedProjects()
         {
-            // fetch all and exclude deactivated users
+            // fetch all and exclude deactivated and completed projects
             var projects = (await _unitOfWork.Projects.GetAllAsync())
-                .Where(p => p.ProjectStatus != ProjectStatus.Deactivated)
-                .Where(p => p.ProjectStatus != ProjectStatus.Completed)
+                .Where(p => p.ProjectStatus != ProjectStatus.Deactivated &&
+                            p.ProjectStatus != ProjectStatus.Completed)
                 .ToList();
 
             var currentUser = await _unitOfWork.SkillProvider
                 .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;
 
-            var ownerCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
+            var userId = currentUser.UserId;
+            var userLocation = currentUser.UserLocation.Value;
+            var userCoord = CebuLocationCoordinates.Map[userLocation];
+
+            // Exclude projects where the current user is already employed
+            projects = projects
+                .Where(p => p.ProjectMembers == null || !p.ProjectMembers
+                    .Any(m => m.MemberId == userId))
+                .ToList();
 
             IEnumerable<Project> filtered = SortSelection switch
             {
                 "Same Place as Me" => projects
-                    .Where(p => p.ProjectLocation == currentUser.UserLocation),
+                    .Where(p => p.ProjectLocation == userLocation),
 
                 "Near Me" => projects
                     .Where(p =>
                         p.ProjectLocation.HasValue &&
                         CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 50),
+                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 50),
 
                 _ => projects
             };
 
             SuggestedProjects = new ObservableCollection<Project>(filtered);
         }
+
 
 
         private async Task CountReceivedOffers(Guid userId)

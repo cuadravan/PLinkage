@@ -31,7 +31,7 @@
                                     <Label Text="{Binding ReceiverName, StringFormat='Sent to: {0}'}" FontAttributes="Bold">
                                     <Label.GestureRecognizers>
                                             <TapGestureRecognizer
-Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewProjectOwnerCommand}" 
+Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewReceiverCommand}" 
                                                  CommandParameter="{Binding .}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
@@ -67,7 +67,7 @@ Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillPr
                                     <Label Text="{Binding SenderName, StringFormat='Received from: {0}'}" FontAttributes="Bold">
                                     <Label.GestureRecognizers>
                                             <TapGestureRecognizer
-            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewProjectOwnerCommand}" 
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewSenderCommand}" 
                                                  CommandParameter="{Binding .}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
@@ -112,7 +112,7 @@ Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillPr
                                     <Label Text="{Binding ReceiverName, StringFormat='Sent to: {0}'}" FontAttributes="Bold" >
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer
-Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewProjectOwnerCommand}" 
+Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewReceiverCommand}" 
                                                  CommandParameter="{Binding .}"/>
                                         </Label.GestureRecognizers>
                                     </Label>
@@ -152,7 +152,7 @@ Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillPr
                                     <Label Text="{Binding SenderName, StringFormat='Received from: {0}'}" FontAttributes="Bold">
                                     <Label.GestureRecognizers>
                                             <TapGestureRecognizer
-Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewProjectOwnerCommand}" 
+Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderApplicationOfferViewModel}}, Path=ViewSenderCommand}" 
                                                  CommandParameter="{Binding .}"/>
                                         </Label.GestureRecognizers>
                                     </Label>

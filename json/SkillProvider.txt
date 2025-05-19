@@ -21,7 +21,12 @@
       "14655408-ae18-478f-976c-df3117ab58b7",
       "7c6f8c93-02e6-4eb7-a9f1-3a865e59d16e",
       "04982060-ac4e-4943-8c63-bc55b635db36",
-      "f8909369-e8a0-4ee5-a733-b6f940c4d8f2"
+      "f8909369-e8a0-4ee5-a733-b6f940c4d8f2",
+      "f6103516-cba0-4c62-bcac-4c9e84f03b5d",
+      "6b44a407-2738-4cf9-9bb1-af44bc7a97ac",
+      "a8e425ce-abb8-4046-977e-62d365e77086",
+      "15927bf9-fce9-4fff-a637-9f18ed0c899b",
+      "64794921-4b49-4c29-a4b7-0eb00c2fdbfe"
     ],
     "Educations": [
       {
@@ -111,7 +116,7 @@
     "UserBirthDate": "2025-04-01T00:00:00",
     "UserGender": "Female",
     "UserRole": 0,
-    "UserStatus": "Active",
+    "UserStatus": "Deactivated",
     "OfferApplicationId": [
       "b85e12d1-bcaf-496e-b5c4-5ef84464424d",
       "55f4c5b2-7656-490b-ac36-c526a43da6ad",
@@ -125,10 +130,10 @@
     "EmployedProjects": [
       "e66ae6bd-13bd-4ced-9bc7-9b18ab77ab9f"
     ],
-    "UserRating": 2.8,
-    "UserRatingTotal": 14.0,
-    "UserRatingCount": 5,
-    "TempRating": 3.0,
+    "UserRating": 3.1666666666666665,
+    "UserRatingTotal": 19.0,
+    "UserRatingCount": 6,
+    "TempRating": 5.0,
     "JoinedOn": "2025-04-16T10:03:24.8777466+08:00",
     "UserMessagesId": [
       "3315a76c-b44c-4b2a-ace2-a320a33ab762"

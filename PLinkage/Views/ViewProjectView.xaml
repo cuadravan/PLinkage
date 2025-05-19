@@ -50,7 +50,7 @@
                             <Label Text="Priority" FontAttributes="Bold" TextColor="black"/>
                             <Label Text="{Binding ProjectPriority}" BackgroundColor="White" TextColor="#444"/>
                             <Label Text="Status" FontAttributes="Bold" TextColor="black"/>
-                            <Label Text="{Binding ProjectStatus}" BackgroundColor="White" TextColor="#444"/>
+                            <Label Text="{Binding CurrentProjectStatus}" BackgroundColor="White" TextColor="#444"/>
                         </VerticalStackLayout>
                     </Border>
 
@@ -84,8 +84,14 @@
                                             <Label Text="{Binding Email}" TextColor="Gray" FontSize="12"/>
 
                                             <HorizontalStackLayout Spacing="10">
-                                                <Label Text="{Binding Rate, StringFormat='₱{0:N2} per hour'}" TextColor="Black" />
-                                                <Label Text="{Binding TimeFrame, StringFormat='{}{0} hours'}" TextColor="Black" />
+                                                <Label Text="{Binding Rate, StringFormat='₱{0:N2} per hour'}" 
+       TextColor="Black" 
+       IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=IsOwner}" />
+
+                                                <Label Text="{Binding TimeFrame, StringFormat='{}{0} hours'}" 
+       TextColor="Black" 
+       IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=IsOwner}" />
+
                                                 <Button Text="View"
         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=ViewSkillProviderCommand}"
         CommandParameter="{Binding .}"

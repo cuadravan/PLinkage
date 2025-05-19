@@ -140,38 +140,61 @@ namespace PLinkage.ViewModels
             if (project == null)
                 return;
 
+            // 🚫 Prevent resignation if project is not active
+            if (project.ProjectStatus != ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert(
+                    "Cannot Resign",
+                    $"You can only resign from active projects. This project is currently marked as \"{project.ProjectStatus}\".",
+                    "OK");
+                return;
+            }
+
             // 1. Ask for confirmation
             var confirm = await Shell.Current.DisplayAlert(
                 "Resign from Project",
-                $"Are you sure you want to resign from \"{project.ProjectName}\"? This cannot be undone.",
+                $"Are you sure you want to resign from \"{project.ProjectName}\"? This will need to be approved by your project owner.",
                 "Yes",
                 "No");
+
             if (!confirm)
                 return;
 
-            // 2. Load fresh copies
+            // 2. Prompt for resignation reason
+            string reason = await Shell.Current.DisplayPromptAsync(
+                "Resignation Reason",
+                "Please provide a reason for resigning:",
+                placeholder: "e.g., schedule conflict, personal reasons",
+                maxLength: 300);
+
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                await Shell.Current.DisplayAlert("Error", "You must provide a reason to resign.", "OK");
+                return;
+            }
+
+            // 3. Load fresh data
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
             var proj = await _unitOfWork.Projects.GetByIdAsync(project.ProjectId);
             if (skillProvider == null || proj == null)
                 return;
 
-            // 3. Remove member from project
-            proj.ProjectMembers.RemoveAll(m => m.MemberId == _skillProviderId);
-            proj.ProjectResourcesAvailable = proj.ProjectResourcesNeeded - proj.ProjectMembers.Count;
+            // 4. Flag member as resigning and attach reason
+            var member = proj.ProjectMembers.FirstOrDefault(m => m.MemberId == _skillProviderId);
+            if (member != null)
+            {
+                member.IsResigning = true;
+                member.ResignationReason = reason;
+            }
+
             proj.ProjectDateUpdated = DateTime.Now;
             await _unitOfWork.Projects.UpdateAsync(proj);
-
-            // 4. Remove project from skill-provider’s employed list
-            if (skillProvider.EmployedProjects.Contains(proj.ProjectId))
-                skillProvider.EmployedProjects.Remove(proj.ProjectId);
-            await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
-
-            // 5. Persist both changes
             await _unitOfWork.SaveChangesAsync();
 
-            // 6. Update your UI collections
-            EmployedProjects.Remove(project);
+            await Shell.Current.DisplayAlert("Resignation Submitted", "Your resignation has been submitted for approval.", "OK");
         }
+
+
 
     }
 }
