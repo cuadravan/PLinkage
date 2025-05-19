@@ -61,14 +61,6 @@
                 <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" TextColor="Red" FontAttributes="Italic"/>
             </Grid>
 
-            <!-- Upload Button -->
-            <Button Text="Upload Profile Photo"
-                    HorizontalOptions="Center"
-                    BackgroundColor="#DDDDDD"
-                    TextColor="Black"
-                    CornerRadius="6"
-                    Padding="10,5"/>
-
             <!-- Action Buttons -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Reset"

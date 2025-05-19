@@ -66,6 +66,9 @@ namespace PLinkage.ViewModels
             await LoadProjectDetailsAsync();
 
             IsOwner = _sessionService.GetCurrentUser()?.UserId == _projectOwnerId;
+
+            var duration = ProjectEndDate - ProjectStartDate;
+            DurationSummary = $"{(int)duration.TotalDays} days | {Math.Floor(duration.TotalDays / 7)} weeks | {Math.Floor(duration.TotalDays / 30)} months";
         }
 
 

@@ -12,15 +12,6 @@
             HorizontalOptions="Center"
             VerticalOptions="Center">
 
-            <!-- 🟡 Back to Login Button -->
-            <Button Text="← Back to Login"
-            HorizontalOptions="Start"
-            VerticalOptions="Start"
-            BackgroundColor="Transparent"
-            TextColor="#007BFF"
-            FontAttributes="Bold"
-            Command="{Binding BackToLoginCommand}" />
-            
             <Border 
                 StrokeThickness="2"
                 Stroke="#5A5A5A"
@@ -43,17 +34,6 @@
                           RowDefinitions="Auto, Auto, Auto"
                           ColumnSpacing="30"
                           RowSpacing="30">
-
-                        <!-- First Row (Blank Cell + Upload Button) -->
-                        <Label Grid.Row="0" Grid.Column="0" />
-                        <Button Grid.Row="0" Grid.Column="1"
-                                Text="Upload Profile Photo"
-                                BackgroundColor="#007BFF"
-                                TextColor="White"
-                                CornerRadius="10"
-                                Padding="10,5"
-                                FontSize="14"
-                                HorizontalOptions="End" />
 
                         <!-- Second Row (Two Columns of Fields) -->
                         <Grid Grid.Row="1" Grid.ColumnSpan="2"

@@ -2,9 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.LoginView"
+             xmlns:converters="clr-namespace:PLinkage.Converters"
              Title="Login Page"
              BackgroundColor="White"
              Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
 
     <ScrollView>
         <VerticalStackLayout
@@ -57,7 +65,9 @@
                         TextColor="Red"
                         FontSize="13"
                         FontAttributes="Italic"
-                        HorizontalOptions="Start" />
+                        HorizontalOptions="Start"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+
 
 
                     <Button

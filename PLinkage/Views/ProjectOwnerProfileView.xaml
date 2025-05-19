@@ -23,7 +23,7 @@
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
                         <Button Text="Update Profile"
-                                BackgroundColor="Salmon" Padding="10,4" CornerRadius="6"
+                                BackgroundColor="Red" Padding="10,4" CornerRadius="6"
                                 Command="{Binding UpdateProfileCommand}"
                                 HorizontalOptions="End" />
                     </Grid>
@@ -82,7 +82,7 @@
                                                 <Button Text="View"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewProjectCommand}"
                                                         CommandParameter="{Binding .}"
-                                                        BackgroundColor="LightBlue"/>
+                                                        BackgroundColor="Blue"/>
                                                 <Button Text="Update Project"
                                                         BackgroundColor="#4CAF50"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.UpdateProjectCommand}"

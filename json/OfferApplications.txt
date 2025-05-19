@@ -228,5 +228,55 @@
     "OfferApplicationStatus": "Rejected",
     "OfferApplicationRate": 2.0,
     "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "ce273a32-40b3-4cad-b116-70ed99125770",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 20.0,
+    "OfferApplicationTimeFrame": 5
+  },
+  {
+    "OfferApplicationId": "42bcb0b6-b5bb-428b-91fd-d50885406714",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 1.5,
+    "OfferApplicationTimeFrame": 2
+  },
+  {
+    "OfferApplicationId": "c433464e-6b4b-45f7-8d00-b5e8319951e2",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "fe31d8cc-9101-4c68-947b-e674ecc510c3",
+    "OfferApplicationType": "Offer",
+    "SenderId": "18f40e44-c1a7-4e62-bbc0-ded296efbfce",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
+    "OfferApplicationStatus": "Rejected",
+    "OfferApplicationRate": 10.0,
+    "OfferApplicationTimeFrame": 200
+  },
+  {
+    "OfferApplicationId": "675b60b8-fc60-490d-9f22-9dd86231b343",
+    "OfferApplicationType": "Offer",
+    "SenderId": "18f40e44-c1a7-4e62-bbc0-ded296efbfce",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 600.0,
+    "OfferApplicationTimeFrame": 2
   }
 ]

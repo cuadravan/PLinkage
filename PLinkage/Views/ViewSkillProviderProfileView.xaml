@@ -123,26 +123,29 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Project">
                                     <Border Background="White"
-                                            Stroke="LightGray"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 4"
-                                            Padding="10"
-                                            Margin="0,4">           
-                                        <VerticalStackLayout>
-                                            <Label Text="{Binding ProjectName}" FontSize="12" FontAttributes="Bold" TextColor="Black" />
-                                            <Label Text="{Binding ProjectDescription}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Gray" />
-                                            <Label Text="{Binding ProjectStartDate, StringFormat='Start: {0:MMM dd, yyyy}'}" FontSize="12" TextColor="Gray" />
-                                            <Label Text="{Binding ProjectEndDate, StringFormat='End: {0:MMM dd, yyyy}'}" FontSize="12" TextColor="Gray" />
-                                            <Button Text="View Project"
-                            BackgroundColor="#2196F3"
-                            TextColor="White"
-                            Padding="8,4"
-                            CornerRadius="6"
-                            HorizontalOptions="End"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewSkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
-                            CommandParameter="{Binding .}" />
-                                        </VerticalStackLayout>
+                            Stroke="LightGray"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 6"
+                            Padding="10"
+                            Margin="0,4">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                                                <Label Text="{Binding ProjectDescription}" FontSize="14" TextColor="Black" />
+                                                <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
+                                                <Button Text="View"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewSkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="Blue"
+                                        TextColor="White"
+                                        CornerRadius="6"
+                                                        WidthRequest="150"
+                                        Padding="10,4"/>
+                                                
+                                            </VerticalStackLayout>
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

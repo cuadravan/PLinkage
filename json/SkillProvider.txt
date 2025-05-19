@@ -26,7 +26,12 @@
       "6b44a407-2738-4cf9-9bb1-af44bc7a97ac",
       "a8e425ce-abb8-4046-977e-62d365e77086",
       "15927bf9-fce9-4fff-a637-9f18ed0c899b",
-      "64794921-4b49-4c29-a4b7-0eb00c2fdbfe"
+      "64794921-4b49-4c29-a4b7-0eb00c2fdbfe",
+      "ce273a32-40b3-4cad-b116-70ed99125770",
+      "42bcb0b6-b5bb-428b-91fd-d50885406714",
+      "c433464e-6b4b-45f7-8d00-b5e8319951e2",
+      "fe31d8cc-9101-4c68-947b-e674ecc510c3",
+      "675b60b8-fc60-490d-9f22-9dd86231b343"
     ],
     "Educations": [
       {
@@ -93,7 +98,9 @@
       }
     ],
     "EmployedProjects": [
-      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9"
+      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
+      "281d9c62-e6e4-4886-ac43-fce9f12386bd",
+      "a4abee41-bc2b-47f9-b1aa-de2a7b453671"
     ],
     "UserRating": 3.2857142857142856,
     "UserRatingTotal": 23.0,
@@ -138,5 +145,28 @@
     "UserMessagesId": [
       "3315a76c-b44c-4b2a-ace2-a320a33ab762"
     ]
+  },
+  {
+    "UserId": "49f31bfe-83b7-44ab-89d4-52c03fc44d42",
+    "UserFirstName": "V",
+    "UserLastName": "V",
+    "UserEmail": "v@c.s",
+    "UserPassword": "12345678",
+    "UserPhone": "9177805163",
+    "UserLocation": 26,
+    "UserBirthDate": "2004-06-28T00:00:00",
+    "UserGender": "Male",
+    "UserRole": 0,
+    "UserStatus": "Active",
+    "OfferApplicationId": [],
+    "Educations": [],
+    "Skills": [],
+    "EmployedProjects": [],
+    "UserRating": 0.0,
+    "UserRatingTotal": 0.0,
+    "UserRatingCount": 0,
+    "TempRating": 0.0,
+    "JoinedOn": "2025-05-19T22:55:35.1426651+08:00",
+    "UserMessagesId": []
   }
 ]

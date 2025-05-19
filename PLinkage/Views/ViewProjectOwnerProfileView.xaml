@@ -30,7 +30,7 @@
                        HorizontalOptions="End"
                        VerticalOptions="Center">
                             <Button Text="Send Message"
-            BackgroundColor="Blue"
+            BackgroundColor="#388E3C"
             Padding="10,4"
             CornerRadius="6"
             Command="{Binding SendMessageCommand}"
@@ -97,7 +97,8 @@
                                                 <Button Text="View"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewProjectCommand}"
                                                         CommandParameter="{Binding .}"
-                                                        BackgroundColor="LightBlue"/>
+                                                        WidthRequest="150"
+                                                        BackgroundColor="ForestGreen"/>
                                             </VerticalStackLayout>
                                         </Grid>
                                     </Border>

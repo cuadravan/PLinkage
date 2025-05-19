@@ -29,11 +29,6 @@
     ContentTemplate="{DataTemplate views:LoginView}"
     FlyoutItemIsVisible="False" />
 
-    <ShellContent
-    Route="RegisterView"
-    ContentTemplate="{DataTemplate views:RegisterView}"
-    FlyoutItemIsVisible="False" />
-
     <!-- Admin Menu -->
     <FlyoutItem Title="Home" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminHomeView" 

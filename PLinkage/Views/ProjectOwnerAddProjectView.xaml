@@ -94,7 +94,7 @@
                             </VerticalStackLayout>
                         </Border>
 
-                        <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" Padding="10">
+                        <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" Padding="10" HeightRequest="250">
                             <VerticalStackLayout>
                                 <Label Text="Date Created" FontAttributes="Bold" FontSize="14"/>
                                 <DatePicker Date="{Binding ProjectDateCreated}" BackgroundColor="White" IsEnabled="False"/>

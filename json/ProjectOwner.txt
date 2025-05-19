@@ -58,7 +58,7 @@
     "UserPassword": "12345678",
     "UserPhone": "09177805163",
     "UserLocation": 1,
-    "UserBirthDate": "2025-05-03T00:00:00",
+    "UserBirthDate": "2002-03-12T00:00:00",
     "UserGender": "Male",
     "UserRole": 1,
     "UserStatus": "Active",
@@ -87,7 +87,10 @@
       "6b44a407-2738-4cf9-9bb1-af44bc7a97ac",
       "a8e425ce-abb8-4046-977e-62d365e77086",
       "15927bf9-fce9-4fff-a637-9f18ed0c899b",
-      "64794921-4b49-4c29-a4b7-0eb00c2fdbfe"
+      "64794921-4b49-4c29-a4b7-0eb00c2fdbfe",
+      "ce273a32-40b3-4cad-b116-70ed99125770",
+      "42bcb0b6-b5bb-428b-91fd-d50885406714",
+      "c433464e-6b4b-45f7-8d00-b5e8319951e2"
     ],
     "OwnedProjectId": [],
     "UserMessagesId": [
@@ -109,6 +112,26 @@
     "UserRole": 1,
     "UserStatus": "Active",
     "JoinedOn": "2025-04-14T11:07:28.9552376+08:00",
+    "OfferApplicationId": [
+      "fe31d8cc-9101-4c68-947b-e674ecc510c3",
+      "675b60b8-fc60-490d-9f22-9dd86231b343"
+    ],
+    "OwnedProjectId": [],
+    "UserMessagesId": []
+  },
+  {
+    "UserId": "60f3f5b1-00a7-4a66-b547-2f3452460ce7",
+    "UserFirstName": "A",
+    "UserLastName": "A",
+    "UserEmail": "a@s.co",
+    "UserPassword": "12345678",
+    "UserPhone": null,
+    "UserLocation": 25,
+    "UserBirthDate": "2025-05-19T00:00:00+08:00",
+    "UserGender": "Male",
+    "UserRole": 1,
+    "UserStatus": "Active",
+    "JoinedOn": "2025-05-19T22:50:29.7085041+08:00",
     "OfferApplicationId": [],
     "OwnedProjectId": [],
     "UserMessagesId": []

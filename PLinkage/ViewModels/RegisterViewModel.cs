@@ -47,8 +47,10 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private bool isFemale;
 
         [ObservableProperty,
+         Required(ErrorMessage = "Mobile Number is required."),
          RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
-        private string mobileNumber;
+                private string mobileNumber;
+
 
         [ObservableProperty] private CebuLocation? selectedLocation;
         [ObservableProperty, Required(ErrorMessage = "Please select a role.")] private string selectedRole;
@@ -86,8 +88,16 @@ namespace PLinkage.ViewModels
             if (!SelectedLocation.HasValue)
                 return SetError("Please select a location.");
 
+            // ✅ Add this age check:
+            var today = DateTime.Today;
+            var age = today.Year - Birthdate.Year;
+            if (Birthdate.Date > today.AddYears(-age)) age--; // adjust for birthdate not yet occurred this year
+            if (age < 18)
+                return SetError("You must be 18 years old or above to register.");
+
             return true;
         }
+
 
         private bool SetError(string message)
         {

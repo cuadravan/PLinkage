@@ -22,16 +22,6 @@
         "TimeFrame": 1,
         "IsResigning": false,
         "ResignationReason": ""
-      },
-      {
-        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-        "UserFirstName": "Van",
-        "UserLastName": "Cuadra",
-        "Email": "cuadra@gmail.com",
-        "Rate": 1.0,
-        "TimeFrame": 1,
-        "IsResigning": false,
-        "ResignationReason": ""
       }
     ],
     "ProjectPriority": "Medium",
@@ -91,13 +81,23 @@
         "TimeFrame": 1,
         "IsResigning": false,
         "ResignationReason": ""
+      },
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 1.0,
+        "TimeFrame": 1,
+        "IsResigning": false,
+        "ResignationReason": ""
       }
     ],
     "ProjectPriority": "Medium",
-    "ProjectResourcesNeeded": 3,
+    "ProjectResourcesNeeded": 4,
     "ProjectResourcesAvailable": 2,
     "ProjectDateCreated": "2025-04-29T12:05:48.9326344+08:00",
-    "ProjectDateUpdated": "2025-05-19T20:41:18.7670561+08:00"
+    "ProjectDateUpdated": "2025-05-20T00:00:51.6520308+08:00"
   },
   {
     "ProjectId": "fd84e5d2-067b-4baa-acbd-384881a283cd",
@@ -117,5 +117,35 @@
     "ProjectResourcesAvailable": 1,
     "ProjectDateCreated": "2025-05-19T20:12:28.0577942+08:00",
     "ProjectDateUpdated": "2025-05-19T20:12:28.0577942+08:00"
+  },
+  {
+    "ProjectId": "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
+    "ProjectOwnerId": "18f40e44-c1a7-4e62-bbc0-ded296efbfce",
+    "ProjectName": "Bridge Building",
+    "ProjectLocation": 22,
+    "ProjectDescription": "Test",
+    "ProjectStartDate": "2025-05-20T00:34:34.7589504+08:00",
+    "ProjectEndDate": "2025-08-30T00:00:00",
+    "ProjectStatus": 0,
+    "ProjectSkillsRequired": [
+      "Building"
+    ],
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 600.0,
+        "TimeFrame": 2,
+        "IsResigning": false,
+        "ResignationReason": ""
+      }
+    ],
+    "ProjectPriority": "Medium",
+    "ProjectResourcesNeeded": 5,
+    "ProjectResourcesAvailable": 4,
+    "ProjectDateCreated": "2025-05-20T00:34:34.7601695+08:00",
+    "ProjectDateUpdated": "2025-05-20T00:38:58.6383156+08:00"
   }
 ]

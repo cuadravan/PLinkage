@@ -11,7 +11,7 @@
                 <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
                     <VerticalStackLayout Spacing="10">
                         <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
-                        <Entry Placeholder="Enter project name" Text="{Binding ProjectName}" IsEnabled="False" BackgroundColor="White" TextColor="Black"/>
+                        <Entry Placeholder="Enter project name" Text="{Binding ProjectName}"  IsEnabled="False" BackgroundColor="White" TextColor="Gray"/>
 
                         <Label Text="Location" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
                         <Picker ItemsSource="{Binding CebuLocations}"
@@ -19,7 +19,7 @@
                                 SelectedItem="{Binding ProjectLocationSelected}" 
                                 Title="Select Location"
                                 BackgroundColor="White"
-                                TextColor="Black"
+                                TextColor="Gray"
                                 IsEnabled="False"/>
 
                         <Label Text="Project Description" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
@@ -27,7 +27,7 @@
                                 Text="{Binding ProjectDescription}"
                                 HeightRequest="100"
                                 BackgroundColor="White"
-                                TextColor="Black"/>
+                                TextColor="Blue"/>
                     </VerticalStackLayout>
                 </Border>
 
@@ -41,7 +41,7 @@
                                 <DatePicker Date="{Binding ProjectStartDate}" BackgroundColor="White" IsEnabled="False"/>
 
                                 <Label Text="End Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectEndDate}" BackgroundColor="White"/>
+                                <DatePicker Date="{Binding ProjectEndDate}" BackgroundColor="White" TextColor="Blue"/>
                             </VerticalStackLayout>
 
                             <!-- Duration Display -->
@@ -63,14 +63,14 @@
                                     ItemsSource="{Binding PriorityOptions}"
                                     SelectedItem="{Binding ProjectPrioritySelected}"
                                     BackgroundColor="White"
-                                    TextColor="Black" 
+                                    TextColor="Gray" 
                                     IsEnabled="False"/>
 
                             <Label Text="Status" FontAttributes="Bold" FontSize="14"/>
                             <Picker ItemsSource="{Binding StatusOptions}"
                                     SelectedItem="{Binding ProjectStatusSelected}"
                                     BackgroundColor="White"
-                                    TextColor="Black"/>
+                                    TextColor="Blue"/>
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
@@ -83,13 +83,13 @@
                         <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
                             <VerticalStackLayout>
                                 <Label Text="Resources Needed" FontAttributes="Bold" FontSize="14"/>
-                                <Entry Text="{Binding ProjectResourcesNeeded}"
+                                <Entry Text="{Binding ProjectResourcesNeeded}" TextColor="Blue"
                                        Keyboard="Numeric"
                                        BackgroundColor="White"/>
                             </VerticalStackLayout>
                         </Border>
 
-                        <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" HeightRequest="250">
                             <VerticalStackLayout>
                                 <Label Text="Date Created" FontAttributes="Bold" FontSize="14"/>
                                 <DatePicker Date="{Binding ProjectDateCreated}" BackgroundColor="White" IsEnabled="False"/>
@@ -139,32 +139,35 @@
 
                 <!-- Employed Skill Providers -->
                 <Border Grid.Column="0" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                    <CollectionView ItemsSource="{Binding EmployedSkillProviders}" HeightRequest="150">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border Padding="6,3" Margin="2" Background="#DDEEFF" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Label TextColor="Black">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding UserFirstName}" />
-                                                    <Span Text=" " />
-                                                    <Span Text="{Binding UserLastName}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Employed Skill Providers" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                        <CollectionView ItemsSource="{Binding EmployedSkillProviders}" HeightRequest="150">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="6,3" Margin="2" Background="#DDEEFF" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label TextColor="Black">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding UserFirstName}" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding UserLastName}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
-                                        <Button Text="Remove Skill Provider"
+                                            <Button Text="Remove Skill Provider"
                                                 FontSize="12"
                                                 BackgroundColor="Red"
                                                 TextColor="White"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSkillProviderCommand}"
                                                 CommandParameter="{Binding .}" />
-                                    </HorizontalStackLayout>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
                 </Border>
 
                 <!-- Action Buttons -->
@@ -173,8 +176,7 @@
                        TextColor="Red"
                        FontAttributes="Bold"
                        FontSize="14"
-                       HorizontalOptions="Center"
-                       IsVisible="{Binding IsErrorVisible}" />
+                       HorizontalOptions="Center" />
 
                 <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
                     <Button Text="Reset"

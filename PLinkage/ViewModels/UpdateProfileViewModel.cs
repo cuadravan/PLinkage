@@ -34,8 +34,10 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private bool isFemale;
 
         [ObservableProperty,
+         Required(ErrorMessage = "Mobile number is required."),
          RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
-        private string mobileNumber;
+                private string mobileNumber;
+
 
         [ObservableProperty] private CebuLocation? selectedLocation;
         [ObservableProperty] private string errorMessage;
@@ -88,6 +90,13 @@ namespace PLinkage.ViewModels
             }
         }
 
+        private bool IsAtLeast18YearsOld(DateTime birthdate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthdate.Year;
+            if (birthdate > today.AddYears(-age)) age--;
+            return age >= 18;
+        }
 
         private bool ValidateForm()
         {
@@ -102,6 +111,9 @@ namespace PLinkage.ViewModels
                 return false;
             }
 
+            if (!IsAtLeast18YearsOld(Birthdate))
+                return SetError("You must be at least 18 years old.");
+
             if (!(IsMale || IsFemale))
                 return SetError("Please select a gender.");
 
@@ -110,6 +122,7 @@ namespace PLinkage.ViewModels
 
             return true;
         }
+
 
         private bool SetError(string message)
         {

@@ -141,15 +141,16 @@ namespace PLinkage.ViewModels
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(application.ReceiverId);
             if (skillProvider == null) return;
 
-            // Check if the skill provider is already employed
-            if (skillProvider.EmployedProjects != null && skillProvider.EmployedProjects.Any())
+            // Load the associated project
+            if (project?.ProjectMembers != null &&
+                project.ProjectMembers.Any(m => m.MemberId == skillProvider.UserId))
             {
                 application.OfferApplicationStatus = "Rejected";
                 await _unitOfWork.OfferApplications.UpdateAsync(application);
                 await _unitOfWork.SaveChangesAsync();
                 await LoadData();
-                await Shell.Current.DisplayAlert("ℹ️ Offer Rejected",
-                    "You are already employed in this project.",
+                await Shell.Current.DisplayAlert("ℹ️ Application Rejected",
+                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} is already a member of the project.",
                     "OK");
                 return;
             }
