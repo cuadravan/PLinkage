@@ -53,9 +53,9 @@
         "TimeGraduated": "2025-05-13T00:00:00+08:00"
       },
       {
-        "CourseName": "Bachelor of Science in",
-        "SchoolAttended": "USJR",
-        "TimeGraduated": "2025-05-20T00:00:00+08:00"
+        "CourseName": "Bachelor of Science in Electronics and Communications Engineering",
+        "SchoolAttended": "University of San Jose - Recoletos",
+        "TimeGraduated": "2024-12-01T00:00:00"
       }
     ],
     "Skills": [
@@ -65,7 +65,7 @@
         "SkillLevel": 5,
         "TimeAcquired": "2022-06-15T00:00:00",
         "OrganizationInvolved": "Naga City Planning Office",
-        "YearsOfExperience": 30
+        "YearsOfExperience": 3
       },
       {
         "SkillName": "Remote Sensing",
@@ -84,12 +84,12 @@
         "YearsOfExperience": 2
       },
       {
-        "SkillName": "Project Management!!!!!!!!!!!!",
-        "SkillDescription": "Lead teams in planning, executing, and delivering GIS-related projects.!!!!!!!!!!!",
+        "SkillName": "Project Management",
+        "SkillDescription": "Lead teams in planning, executing, and delivering GIS-related projects.",
         "SkillLevel": 4,
         "TimeAcquired": "2020-08-01T00:00:00",
         "OrganizationInvolved": "Naga City Development Authority!!!!!!!!",
-        "YearsOfExperience": 52
+        "YearsOfExperience": 3
       },
       {
         "SkillName": "Dancing",
@@ -98,19 +98,10 @@
         "TimeAcquired": "2025-05-13T00:00:00+08:00",
         "OrganizationInvolved": "None",
         "YearsOfExperience": 0
-      },
-      {
-        "SkillName": "A",
-        "SkillDescription": "A",
-        "SkillLevel": 1,
-        "TimeAcquired": "2025-05-20T00:00:00+08:00",
-        "OrganizationInvolved": "A",
-        "YearsOfExperience": 2
       }
     ],
     "EmployedProjects": [
-      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
-      "a4abee41-bc2b-47f9-b1aa-de2a7b453671"
+      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9"
     ],
     "UserRating": 3.2857142857142856,
     "UserRatingTotal": 23.0,
@@ -177,6 +168,46 @@
     "UserRatingCount": 0,
     "TempRating": 0.0,
     "JoinedOn": "2025-05-19T22:55:35.1426651+08:00",
+    "UserMessagesId": []
+  },
+  {
+    "UserId": "3d2316f1-0102-406d-a863-1ed86bf1e4fe",
+    "UserFirstName": "Taylor",
+    "UserLastName": "Swift",
+    "UserEmail": "taylorswift@gmail.com",
+    "UserPassword": "12345678",
+    "UserPhone": "09177805152",
+    "UserLocation": 39,
+    "UserBirthDate": "1984-01-31T00:00:00",
+    "UserGender": "Female",
+    "UserRole": 0,
+    "UserStatus": "Active",
+    "OfferApplicationId": [
+      "9af32027-31ff-4ccd-a7fc-f22dc38e7a33"
+    ],
+    "Educations": [
+      {
+        "CourseName": "ABCD",
+        "SchoolAttended": "ABC",
+        "TimeGraduated": "2025-05-20T00:00:00+08:00"
+      }
+    ],
+    "Skills": [
+      {
+        "SkillName": "ABC",
+        "SkillDescription": "ABC",
+        "SkillLevel": 2,
+        "TimeAcquired": "2025-04-15T00:00:00",
+        "OrganizationInvolved": "ABC",
+        "YearsOfExperience": 2
+      }
+    ],
+    "EmployedProjects": [],
+    "UserRating": 0.0,
+    "UserRatingTotal": 0.0,
+    "UserRatingCount": 0,
+    "TempRating": 0.0,
+    "JoinedOn": "2025-05-20T10:11:17.7219327+08:00",
     "UserMessagesId": []
   }
 ]

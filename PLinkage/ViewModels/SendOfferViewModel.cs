@@ -68,7 +68,7 @@ namespace PLinkage.ViewModels
             if (!owned.Any())
             {
                 await Shell.Current.DisplayAlert("⚠️ Warning", "You have no active projects, you cannot send offer.", "OK");
-                await _navigationService.NavigateToAsync("ProjectOwnerViewSkillProviderProfileView");
+                await _navigationService.GoBackAsync();
             }
             OwnedProjects = new ObservableCollection<Project>(owned);
 

@@ -120,23 +120,12 @@
     "ProjectSkillsRequired": [
       "Building"
     ],
-    "ProjectMembers": [
-      {
-        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
-        "UserFirstName": "Van",
-        "UserLastName": "Cuadra",
-        "Email": "cuadra@gmail.com",
-        "Rate": 12.0,
-        "TimeFrame": 12,
-        "IsResigning": false,
-        "ResignationReason": null
-      }
-    ],
+    "ProjectMembers": [],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 5,
-    "ProjectResourcesAvailable": 4,
+    "ProjectResourcesAvailable": 5,
     "ProjectDateCreated": "2025-05-20T00:34:34.7601695+08:00",
-    "ProjectDateUpdated": "2025-05-20T09:57:06.9484739+08:00"
+    "ProjectDateUpdated": "2025-05-20T11:04:16.3967073+08:00"
   },
   {
     "ProjectId": "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",

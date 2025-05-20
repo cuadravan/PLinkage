@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using PLinkage.Interfaces;
 using PLinkage.Models;
+using System;
 
 namespace PLinkage.ViewModels
 {
@@ -45,7 +46,7 @@ namespace PLinkage.ViewModels
 
         [ObservableProperty]
         [Required(ErrorMessage = "Years of experience is required.")]
-        [Range(1, 100, ErrorMessage = "Years of experience must be between 1 and 100.")]
+        [Range(0, 100, ErrorMessage = "Years of experience must be between 1 and 100.")]
         private int yearsOfExperience;
 
         [ObservableProperty]
@@ -62,6 +63,12 @@ namespace PLinkage.ViewModels
                 ErrorMessage = GetErrors()
                     .OfType<ValidationResult>()
                     .FirstOrDefault()?.ErrorMessage ?? "Validation failed.";
+                return;
+            }
+
+            // Validate time acquired vs years of experience
+            if (!ValidateExperienceDates())
+            {
                 return;
             }
 
@@ -90,6 +97,29 @@ namespace PLinkage.ViewModels
             _sessionService.SetCurrentUser(skillProvider);
 
             await _navigationService.GoBackAsync();
+        }
+
+        private bool ValidateExperienceDates()
+        {
+            // Calculate the expected start year based on years of experience
+            var expectedStartYear = DateTime.Now.Year - YearsOfExperience;
+
+            // Check if the acquired date makes sense with the years of experience
+            if (TimeAcquired.Year > expectedStartYear)
+            {
+                ErrorMessage = $"Years of experience ({YearsOfExperience}) doesn't match the acquired date. " +
+                             $"Based on your experience, the skill should have been acquired by {expectedStartYear} or earlier.";
+                return false;
+            }
+
+            // Check if the acquired date is in the future
+            if (TimeAcquired > DateTime.Now)
+            {
+                ErrorMessage = "Time acquired cannot be in the future.";
+                return false;
+            }
+
+            return true;
         }
 
         [RelayCommand]

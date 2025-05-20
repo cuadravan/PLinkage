@@ -161,6 +161,7 @@ namespace PLinkage.ViewModels
             }
 
             await _unitOfWork.SaveChangesAsync();
+            await Shell.Current.DisplayAlert("✅ Success", "You are successfully registered! Please login now.", "OK");
             ErrorMessage = string.Empty;
             await _navigationService.NavigateToAsync("LoginView");
         }

@@ -29,7 +29,10 @@ namespace PLinkage.ViewModels
         // Data Collections
         [ObservableProperty] private ObservableCollection<Skill> skills = new();
         [ObservableProperty] private ObservableCollection<Education> educations = new();
-        [ObservableProperty] private ObservableCollection<Project> employedProjects = new();
+        [ObservableProperty]
+        private ObservableCollection<EmployedProjectDisplay> employedProjectDisplays = new();
+
+
 
         public IAsyncRelayCommand OnViewAppearingCommand { get; }
 
@@ -74,7 +77,7 @@ namespace PLinkage.ViewModels
 
         private async Task LoadEmployedProjectsAsync()
         {
-            EmployedProjects.Clear();
+            EmployedProjectDisplays.Clear();
 
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
             var employedIn = allProjects.Where(p =>
@@ -82,9 +85,24 @@ namespace PLinkage.ViewModels
 
             foreach (var project in employedIn)
             {
-                EmployedProjects.Add(project);
+                var member = project.ProjectMembers.FirstOrDefault(m => m.MemberId == _skillProviderId);
+                if (member == null) continue;
+
+                EmployedProjectDisplays.Add(new EmployedProjectDisplay
+                {
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    ProjectStatus = project.ProjectStatus,
+                    ProjectStartDate = project.ProjectStartDate,
+                    ProjectEndDate = project.ProjectEndDate,
+                    Rate = member.Rate,
+                    TimeFrame = member.TimeFrame,
+                    OriginalProject = project
+                });
             }
         }
+
+
 
         // Commands
         [RelayCommand]
@@ -128,24 +146,24 @@ namespace PLinkage.ViewModels
             await _navigationService.NavigateToAsync("/ProjectOwnerUpdateProfileView");
         }
         [RelayCommand]
-        private async Task ViewProject(Project project)
+        private async Task ViewProject(EmployedProjectDisplay projectDisplay)
         {
-            _sessionService.VisitingProjectID = project.ProjectId;
+            _sessionService.VisitingProjectID = projectDisplay.ProjectId;
             await _navigationService.NavigateToAsync("/ViewProjectView");
         }
 
         [RelayCommand]
-        private async Task ResignProject(Project project)
+        private async Task ResignProject(EmployedProjectDisplay projectDisplay)
         {
-            if (project == null)
+            if (projectDisplay == null)
                 return;
 
             // 🚫 Prevent resignation if project is not active
-            if (project.ProjectStatus != ProjectStatus.Active)
+            if (projectDisplay.ProjectStatus != ProjectStatus.Active)
             {
                 await Shell.Current.DisplayAlert(
                     "Cannot Resign",
-                    $"You can only resign from active projects. This project is currently marked as \"{project.ProjectStatus}\".",
+                    $"You can only resign from active projects. This project is currently marked as \"{projectDisplay.ProjectStatus}\".",
                     "OK");
                 return;
             }
@@ -153,7 +171,7 @@ namespace PLinkage.ViewModels
             // 1. Ask for confirmation
             var confirm = await Shell.Current.DisplayAlert(
                 "Resign from Project",
-                $"Are you sure you want to resign from \"{project.ProjectName}\"? This will need to be approved by your project owner.",
+                $"Are you sure you want to resign from \"{projectDisplay.ProjectName}\"? This will need to be approved by your project owner.",
                 "Yes",
                 "No");
 
@@ -175,7 +193,7 @@ namespace PLinkage.ViewModels
 
             // 3. Load fresh data
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
-            var proj = await _unitOfWork.Projects.GetByIdAsync(project.ProjectId);
+            var proj = await _unitOfWork.Projects.GetByIdAsync(projectDisplay.ProjectId);
             if (skillProvider == null || proj == null)
                 return;
 
@@ -253,12 +271,18 @@ namespace PLinkage.ViewModels
 
             await Shell.Current.DisplayAlert("Deleted", "Education has been removed.", "OK");
         }
-
-
-        
-
-
-
-
     }
+    public class EmployedProjectDisplay
+    {
+        public Guid ProjectId { get; set; }
+        public string ProjectName { get; set; }
+        public ProjectStatus? ProjectStatus { get; set; }
+        public DateTime ProjectStartDate { get; set; }
+        public DateTime ProjectEndDate { get; set; }
+        public decimal Rate { get; set; }
+        public int TimeFrame { get; set; } // In hours
+        public Project OriginalProject { get; set; } // Optional: useful for navigation or resigning
+    }
+
+
 }

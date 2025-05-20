@@ -160,9 +160,9 @@
                 <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Employed Projects" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                        <CollectionView ItemsSource="{Binding EmployedProjects}">
+                        <CollectionView ItemsSource="{Binding EmployedProjectDisplays}">
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Project">
+                                <DataTemplate>
                                     <Border Background="White"
                                             Stroke="LightGray"
                                             StrokeThickness="1"
@@ -172,8 +172,10 @@
                                         <Grid ColumnDefinitions="*,Auto">
                                             <VerticalStackLayout>
                                                 <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                                                <Label Text="{Binding ProjectDescription}" FontSize="14" TextColor="Black" />
                                                 <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
+                                                <Label Text="{Binding TimeFrame, StringFormat='Timeframe: {0} hours'}" FontSize="12" />
+                                                <Label Text="{Binding Rate, StringFormat='Rate: ₱{0:F2}'}" FontSize="12"/>
+                                              
                                             </VerticalStackLayout>
                                             <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
                                                 <Button Text="View"
