@@ -10,30 +10,36 @@
     <Grid ColumnDefinitions="*">
         <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
             <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
-                <VerticalStackLayout Spacing="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Skill Name" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="Skill Name"
                            Text="{Binding SkillName, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="Description" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="Description"
                            Text="{Binding SkillDescription, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Entry Placeholder="Skill Level (0–5)"
+                    <Label Text="Skill Level (1–5)" TextColor="Black" FontAttributes="Bold" />
+                    <Entry Placeholder="Skill Level (1–5)"
                            Text="{Binding SkillLevel, Mode=TwoWay}"
                            Keyboard="Numeric"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="Time Acquired" TextColor="Black" FontAttributes="Bold" />
                     <DatePicker Date="{Binding TimeAcquired, Mode=TwoWay}"
                                 Format="MMMM yyyy"
                                 TextColor="Black"
                                 BackgroundColor="White"
                                 MaximumDate="{x:Static sys:DateTime.Today}" />
 
+                    <Label Text="Organization Involved" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="Organization Involved"
                            Text="{Binding OrganizationInvolved, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="Years of Experience (1-100)" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="Years of Experience"
                            Text="{Binding YearsOfExperience, Mode=TwoWay}"
                            Keyboard="Numeric"

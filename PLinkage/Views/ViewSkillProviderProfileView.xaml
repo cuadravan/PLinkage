@@ -138,7 +138,7 @@
                                                 <Button Text="View"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewSkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
                                         CommandParameter="{Binding .}"
-                                        BackgroundColor="Blue"
+                                        BackgroundColor="#1976D2"
                                         TextColor="White"
                                         CornerRadius="6"
                                                         WidthRequest="150"

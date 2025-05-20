@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.ProjectOwnerUpdateProjectView"
-             Title="ProjectOwnerUpdateProjectView">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             Title="Update Project">
     <Grid ColumnDefinitions="*">
         <ScrollView Grid.Column="0" Padding="20">
             <VerticalStackLayout Spacing="20">
@@ -41,7 +42,7 @@
                                 <DatePicker Date="{Binding ProjectStartDate}" BackgroundColor="White" IsEnabled="False"/>
 
                                 <Label Text="End Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectEndDate}" BackgroundColor="White" TextColor="Blue"/>
+                                <DatePicker Date="{Binding ProjectEndDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White" TextColor="Blue"/>
                             </VerticalStackLayout>
 
                             <!-- Duration Display -->
@@ -63,8 +64,7 @@
                                     ItemsSource="{Binding PriorityOptions}"
                                     SelectedItem="{Binding ProjectPrioritySelected}"
                                     BackgroundColor="White"
-                                    TextColor="Gray" 
-                                    IsEnabled="False"/>
+                                    TextColor="Blue" />
 
                             <Label Text="Status" FontAttributes="Bold" FontSize="14"/>
                             <Picker ItemsSource="{Binding StatusOptions}"

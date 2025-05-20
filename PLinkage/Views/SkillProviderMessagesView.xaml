@@ -40,6 +40,7 @@
                             Command="{Binding BindingContext.ChatSelectedCommand, Source={x:Reference Name=ChatListView}}"
                             CommandParameter="{Binding .}" 
                             FontSize="12"
+                                        BackgroundColor="#1976D2"
                             HorizontalOptions="End" />
                             </VerticalStackLayout>
                         </Frame>
@@ -80,7 +81,7 @@
                 <!-- Input -->
                 <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,10,0,0">
                     <Entry Text="{Binding MessageContent}" Placeholder="Type a message..." FontSize="14" TextColor="Black" />
-                    <Button Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}" />
+                    <Button Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}" BackgroundColor="#1976D2"/>
                 </Grid>
             </Grid>
         </Grid>

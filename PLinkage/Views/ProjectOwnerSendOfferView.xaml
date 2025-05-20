@@ -30,7 +30,7 @@
                            Keyboard="Numeric"
                            BackgroundColor="White" TextColor="Black"/>
 
-                    <Label Text="Timeframe (Hour):" FontAttributes="Bold" TextColor="Black"/>
+                    <Label Text="Estimated Timeframe (in hours):" FontAttributes="Bold" TextColor="Black"/>
                     <Entry Placeholder="e.g., 2"
                            Text="{Binding TimeFrameOffered}"
                            BackgroundColor="White" TextColor="Black"/>

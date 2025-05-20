@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.AdminBrowseProjectOwnerView"
-             Title="Browse Skill Providers"
+             Title="Browse Project Owners"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
              xmlns:local="clr-namespace:PLinkage.Converters">
@@ -21,11 +21,11 @@
                 <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="Browse Project Owner"
+                        <Label Text="All Project Owners (Admin View)"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="Black" />
-                        <Label Text="Manage and explore skill providers with filtering and sorting options."
+                        <Label Text="Manage and monitor all project owners, including deactivated ones."
                                FontSize="14"
                                TextColor="Black" />
                     </VerticalStackLayout>
@@ -86,11 +86,11 @@
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseProjectOwnerViewModel}}, Path=ViewProjectOwnerCommand}"
                                             CommandParameter="{Binding .}"
                                             Grid.Column="2"
-                                            BackgroundColor="#D0E8FF"
                                             Padding="10,4"
                                             CornerRadius="6"
                                             VerticalOptions="Center"
-                                            TextColor="Black"/>
+                                            BackgroundColor="#1976D2"
+                                            WidthRequest="100"       />
                                 </Grid>
                             </Border>
                         </DataTemplate>

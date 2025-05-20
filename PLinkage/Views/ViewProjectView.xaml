@@ -4,7 +4,7 @@
              x:Class="PLinkage.Views.ViewProjectView"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
             xmlns:models="clr-namespace:PLinkage.Models"
-             Title="ProjectOwnerViewProjectView">
+             Title="View Project">
 
     <Grid ColumnDefinitions="*">
 

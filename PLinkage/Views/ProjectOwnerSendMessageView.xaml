@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.ProjectOwnerSendMessageView"
-             Title="ProjectOwnerSendMessageView">
+             Title="Send Message">
     <Grid ColumnDefinitions="*">
 
         <!-- MAIN CONTENT -->
@@ -40,7 +40,7 @@
                             Text="{Binding MessageContent}"/>
 
                         <!-- Send Button -->
-                        <HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
                             <Button Text="Send Message"
                                     BackgroundColor="#A1D490"
                                     TextColor="Black"

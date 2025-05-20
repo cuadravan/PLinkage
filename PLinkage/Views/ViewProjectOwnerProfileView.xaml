@@ -29,7 +29,7 @@
                        Spacing="8"
                        HorizontalOptions="End"
                        VerticalOptions="Center">
-                            <Button Text="Send Message"
+                            <Button Text="Message"
             BackgroundColor="#388E3C"
             Padding="10,4"
             CornerRadius="6"
@@ -66,7 +66,8 @@
                         <!-- Sort + Create -->
                         <Grid ColumnDefinitions="*,Auto">
                             <VerticalStackLayout>
-                                <Label Text="Sort By" TextColor="Black" FontSize="14" FontAttributes="Bold" Margin="0,0,0,4" />
+                                <Label Text="Projects" TextColor="Black" FontSize="14" FontAttributes="Bold" Margin="0,0,0,4" />
+                                <Label Text="Sort By" TextColor="Black" FontSize="14" Margin="0,0,0,4" HorizontalOptions="Center"/>
                                 <Border Background="White" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6"
                                         HeightRequest="40" WidthRequest="200" Padding="0">
                                     <Grid>
@@ -98,7 +99,7 @@
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewProjectCommand}"
                                                         CommandParameter="{Binding .}"
                                                         WidthRequest="150"
-                                                        BackgroundColor="ForestGreen"/>
+                                                        BackgroundColor="#1976D2"/>
                                             </VerticalStackLayout>
                                         </Grid>
                                     </Border>

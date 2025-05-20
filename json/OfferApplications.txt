@@ -278,5 +278,25 @@
     "OfferApplicationStatus": "Accepted",
     "OfferApplicationRate": 600.0,
     "OfferApplicationTimeFrame": 2
+  },
+  {
+    "OfferApplicationId": "4d4e96df-f7b9-41ec-bd69-4da5a097bcbd",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",
+    "OfferApplicationStatus": "Pending",
+    "OfferApplicationRate": 90.0,
+    "OfferApplicationTimeFrame": 5
+  },
+  {
+    "OfferApplicationId": "6e39fbea-acbf-4efe-bcfa-2707c27c4c4d",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",
+    "OfferApplicationStatus": "Pending",
+    "OfferApplicationRate": 500.0,
+    "OfferApplicationTimeFrame": 2
   }
 ]

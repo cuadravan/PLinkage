@@ -4,7 +4,7 @@
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
              x:Class="PLinkage.Views.ProjectOwnerHomeView"
-             Title="ProjectOwnerHomeView"
+             Title="Home - Project Owner"
              BackgroundColor="White">
 
 
@@ -72,11 +72,11 @@
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerHomeViewModel}}, Path=ViewSkillProviderCommand}"
                                     CommandParameter="{Binding .}"
                                     Grid.Column="2"
-                                    BackgroundColor="#D0E8FF"
+                                    BackgroundColor="#1976D2"
+                                    WidthRequest="100"        
                                     Padding="10,4"
                                     CornerRadius="6"
-                                    VerticalOptions="Center"
-                                    TextColor="Black"/>
+                                    VerticalOptions="Center"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

@@ -25,7 +25,7 @@ namespace PLinkage.ViewModels
             _ = LoadSkill();
         }
 
-        // Fields
+        // Form Fields
         [ObservableProperty]
         [Required(ErrorMessage = "Skill Name is required.")]
         private string skillName;
@@ -35,7 +35,8 @@ namespace PLinkage.ViewModels
         private string skillDescription;
 
         [ObservableProperty]
-        [Range(0, 5, ErrorMessage = "Skill level must be between 0 and 5.")]
+        [Required(ErrorMessage = "Skill level is required.")]
+        [Range(1, 5, ErrorMessage = "Skill level must be between 1 and 5.")]
         private int skillLevel;
 
         [ObservableProperty]
@@ -43,10 +44,12 @@ namespace PLinkage.ViewModels
         private DateTime timeAcquired;
 
         [ObservableProperty]
+        [Required(ErrorMessage = "Organization is required.")]
         private string organizationInvolved;
 
         [ObservableProperty]
-        [Range(0, 100, ErrorMessage = "Years of experience must be a positive number.")]
+        [Required(ErrorMessage = "Years of experience is required.")]
+        [Range(1, 100, ErrorMessage = "Years of experience must be between 1 and 100.")]
         private int yearsOfExperience;
 
         [ObservableProperty]

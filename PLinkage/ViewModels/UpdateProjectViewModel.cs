@@ -12,13 +12,20 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace PLinkage.ViewModels
 {
-    public partial class UpdateProjectViewModel: ObservableValidator
+    public partial class UpdateProjectViewModel : ObservableValidator
     {
         // Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
         private Guid _projectId;
+
+        // Original collections to track changes
+        private List<ProjectMemberDetail> _originalProjectMembers = new();
+        private List<SkillProvider> _originalSkillProviders = new();
+
+        // Track pending removals
+        private List<SkillProvider> _pendingRemovals = new();
 
         // Constructor
         public UpdateProjectViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
@@ -30,7 +37,7 @@ namespace PLinkage.ViewModels
             OnAppearingCommand = new AsyncRelayCommand(OnAppearing);
         }
 
-        // Form fields
+        // Form fields (existing properties remain the same)
         [ObservableProperty] private CebuLocation? projectLocationSelected;
         [ObservableProperty, Required(ErrorMessage = "Project name is required.")] private string projectName;
         [ObservableProperty, Required(ErrorMessage = "Project description is required.")] private string projectDescription;
@@ -38,7 +45,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private DateTime projectEndDate;
         [ObservableProperty, Required(ErrorMessage = "Project status is required.")] private ProjectStatus? projectStatusSelected;
         [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
-        [ObservableProperty] private List<ProjectMemberDetail> projectMembers = new();
+        [ObservableProperty] private ObservableCollection<ProjectMemberDetail> projectMembers = new();
         [ObservableProperty, Required(ErrorMessage = "Priority is required.")] private string projectPrioritySelected;
         [ObservableProperty, Range(1, int.MaxValue, ErrorMessage = "Resources needed must be at least 1.")] private int projectResourcesNeeded;
         [ObservableProperty] private DateTime projectDateCreated;
@@ -83,9 +90,14 @@ namespace PLinkage.ViewModels
             await _unitOfWork.ReloadAsync();
             await LoadCurrentProject();
 
-            // 🔁 Add this line to process resignations after project is loaded
+            // Store original state for reset functionality
+            _originalProjectMembers = new List<ProjectMemberDetail>(ProjectMembers);
+            _originalSkillProviders = new List<SkillProvider>(EmployedSkillProviders);
+            _pendingRemovals.Clear();
+
             await ProcessResignationRequest();
         }
+
         private async Task LoadCurrentProject()
         {
             var project = await _unitOfWork.Projects.GetByIdAsync(_sessionService.VisitingProjectID);
@@ -100,7 +112,7 @@ namespace PLinkage.ViewModels
             ProjectPrioritySelected = project.ProjectPriority;
             ProjectStatusSelected = project.ProjectStatus;
             ProjectSkillsRequired = new ObservableCollection<string>(project.ProjectSkillsRequired);
-            ProjectMembers = project.ProjectMembers;
+            ProjectMembers = new ObservableCollection<ProjectMemberDetail>(project.ProjectMembers);
             ProjectResourcesNeeded = project.ProjectResourcesNeeded;
             ProjectDateCreated = project.ProjectDateCreated;
             ProjectDateUpdated = project.ProjectDateUpdated;
@@ -155,11 +167,8 @@ namespace PLinkage.ViewModels
                 return false;
             }
 
-
             return true;
         }
-
-        // Commands
 
         [RelayCommand]
         private async Task Submit()
@@ -173,25 +182,53 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-
             var project = await _unitOfWork.Projects.GetByIdAsync(_sessionService.VisitingProjectID);
             if (project == null) return;
+
+            // Confirmation dialog when marking as completed
+            if (ProjectStatusSelected == ProjectStatus.Completed)
+            {
+                bool confirm = await Shell.Current.DisplayAlert(
+                    "Confirm Completion",
+                    "Are you sure you want to mark this project as completed? The project will be closed and cannot be updated further. You will also proceed to rate your employed skill providers.",
+                    "Yes",
+                    "No"
+                );
+
+                if (!confirm)
+                    return;
+            }
+
+            // Process pending removals
+            foreach (var skillProvider in _pendingRemovals)
+            {
+                // Remove from project members
+                project.ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
+
+                // Remove project from skill provider's employed list
+                if (skillProvider.EmployedProjects.Contains(project.ProjectId))
+                {
+                    skillProvider.EmployedProjects.Remove(project.ProjectId);
+                    await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
+                }
+            }
 
             project.ProjectDescription = ProjectDescription;
             project.ProjectPriority = ProjectPrioritySelected;
             project.ProjectStartDate = ProjectStartDate;
             project.ProjectSkillsRequired = ProjectSkillsRequired.ToList();
             project.ProjectResourcesNeeded = ProjectResourcesNeeded;
-            project.ProjectResourcesAvailable = ProjectResourcesNeeded - ProjectMembers.Count;
+            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - ProjectMembers.Count;
             project.ProjectStatus = ProjectStatusSelected;
             project.ProjectDateUpdated = DateTime.Now;
 
-            if(project.ProjectStatus == ProjectStatus.Completed)
+            if (project.ProjectStatus == ProjectStatus.Completed)
             {
                 project.ProjectEndDate = ProjectEndDate;
                 await _unitOfWork.Projects.UpdateAsync(project);
                 await _unitOfWork.SaveChangesAsync();
                 ErrorMessage = string.Empty;
+
                 await _navigationService.NavigateToAsync("/ProjectOwnerRateSkillProviderView");
             }
             else
@@ -203,13 +240,20 @@ namespace PLinkage.ViewModels
                 await Shell.Current.DisplayAlert("Success", "Project updated successfully!", "OK");
                 await _navigationService.GoBackAsync();
             }
-                
+
+            // Clear pending removals after successful submission
+            _pendingRemovals.Clear();
         }
 
         [RelayCommand]
         private async Task Reset()
         {
-            await LoadCurrentProject();
+            // Restore original state
+            ProjectMembers = new ObservableCollection<ProjectMemberDetail>(_originalProjectMembers);
+            EmployedSkillProviders = new ObservableCollection<SkillProvider>(_originalSkillProviders);
+            _pendingRemovals.Clear();
+
+            await LoadCurrentProject(); // Reload other fields
         }
 
         [RelayCommand]
@@ -242,41 +286,21 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task RemoveSkillProvider(SkillProvider skillProvider)
         {
-            // 1. Confirm removal
             var confirm = await Shell.Current.DisplayAlert(
                 "Remove Skill Provider",
-                "Are you sure you want to remove this skill provider? This action is permanent and cannot be undone.",
+                "Are you sure you want to remove this skill provider? This change won't be permanent until you submit the form.",
                 "Yes",
                 "No");
+
             if (!confirm)
                 return;
 
-            // 2. Load project
-            var project = await _unitOfWork.Projects.GetByIdAsync(_sessionService.VisitingProjectID);
-            if (project == null)
-                return;
+            // Mark for removal (won't actually remove from database until Submit)
+            _pendingRemovals.Add(skillProvider);
 
-            // 3. Remove from the project's members
-            project.ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
-
-            // 4. Recalculate available resources & timestamp
-            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
-            project.ProjectDateUpdated = DateTime.Now;
-
-            // 5. Persist project change
-            await _unitOfWork.Projects.UpdateAsync(project);
-
-            // 6. Also remove this project from the skill provider's employed list
-            if (skillProvider.EmployedProjects.Contains(project.ProjectId))
-                skillProvider.EmployedProjects.Remove(project.ProjectId);
-
-            // 7. Persist skill-provider change
-            await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
-            await _unitOfWork.SaveChangesAsync();
-
-            // 8. Update the view collections
+            // Update UI collections
             EmployedSkillProviders.Remove(skillProvider);
-            ProjectMembers.RemoveAll(m => m.MemberId == skillProvider.UserId);
+            ProjectMembers.Remove(ProjectMembers.FirstOrDefault(m => m.MemberId == skillProvider.UserId));
         }
 
         private async Task ProcessResignationRequest()
@@ -286,13 +310,11 @@ namespace PLinkage.ViewModels
 
             var updated = false;
 
-            // Loop through all resigning members
             foreach (var member in ProjectMembers.Where(m => m.IsResigning).ToList())
             {
                 var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(member.MemberId);
                 if (skillProvider == null) continue;
 
-                // Prepare message with reason (optional fallback if null)
                 string reasonText = string.IsNullOrWhiteSpace(member.ResignationReason)
                     ? "No reason was provided."
                     : member.ResignationReason;
@@ -305,38 +327,44 @@ namespace PLinkage.ViewModels
 
                 if (confirm)
                 {
-                    // Remove from project
+                    // Mark for removal (actual removal happens on submit)
+                    _pendingRemovals.Add(skillProvider);
+
+                    // Update UI collections
                     ProjectMembers.Remove(member);
                     EmployedSkillProviders.Remove(skillProvider);
-
-                    var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
-                    if (project != null)
-                    {
-                        project.ProjectMembers.RemoveAll(m => m.MemberId == member.MemberId);
-                        project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
-                        project.ProjectDateUpdated = DateTime.Now;
-                        await _unitOfWork.Projects.UpdateAsync(project);
-                    }
-
-                    // Update skill provider record
-                    if (skillProvider.EmployedProjects.Contains(_projectId))
-                        skillProvider.EmployedProjects.Remove(_projectId);
-                    await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
-
                     updated = true;
                 }
                 else
                 {
-                    // Mark as not resigning anymore
+                    // Clear the resignation flags
                     member.IsResigning = false;
                     member.ResignationReason = null;
+
+                    // Update the member in the database
+                    var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
+                    if (project != null)
+                    {
+                        var dbMember = project.ProjectMembers.FirstOrDefault(m => m.MemberId == member.MemberId);
+                        if (dbMember != null)
+                        {
+                            dbMember.IsResigning = false;
+                            dbMember.ResignationReason = null;
+                            await _unitOfWork.Projects.UpdateAsync(project);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+                    }
+                    updated = true;
                 }
             }
 
             if (updated)
-                await _unitOfWork.SaveChangesAsync();
+            {
+                await Shell.Current.DisplayAlert(
+                    "Notice",
+                    updated ? "Resignation request processed." : "No changes were made.",
+                    "OK");
+            }
         }
-
-
     }
 }

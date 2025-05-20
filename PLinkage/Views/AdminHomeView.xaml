@@ -4,7 +4,7 @@
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
              x:Class="PLinkage.Views.AdminHomeView"
-             Title="Admin Dashboard"
+             Title="Home - Admin"
              BackgroundColor="White">
     
     <Grid ColumnDefinitions="*">
@@ -26,7 +26,7 @@
                         <Label Text="{Binding CompletedProjects, StringFormat='Completed Projects: {0}'}"
                                FontSize="14"
                                TextColor="Black"/>
-                        <Label Text="{Binding EmploymentRatio, StringFormat='Employment Ratio: {0}'}"
+                        <Label Text="{Binding EmploymentRatio, StringFormat='Employment Ratio (excluding deactivated): {0}'}"
                                FontSize="14"
                                TextColor="Black"/>
                     </VerticalStackLayout>
@@ -36,12 +36,16 @@
                 <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Filter Projects"
-                               FontSize="16"
-                               FontAttributes="Bold"
+                        <Label Text="All Projects"
+       FontSize="16"
+       FontAttributes="Bold"
+       TextColor="Black" />
+                        <Label Text="Filter Projects by Project Status"
+                               FontSize="14"
+                               
                                TextColor="Black" />
 
-                        <Picker Title="Project Status"
+                        <Picker Title=""
                                 ItemsSource="{Binding ProjectStatusFilterOptions}"
                                 SelectedItem="{Binding SelectedProjectFilter}" />
                     </VerticalStackLayout>
@@ -75,11 +79,11 @@
 
                                     <!-- View Button -->
                                     <Button Text="View"
-                            BackgroundColor="#D0E8FF"
+                            BackgroundColor="#1976D2"
                             Padding="10,4"
                             CornerRadius="6"
                             VerticalOptions="Center"
-                            TextColor="Black"
+                                            WidthRequest="100"
                             Grid.Column="2"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
                             CommandParameter="{Binding .}"/>
@@ -95,9 +99,12 @@
                 <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Filter Skill Providers"
-                               FontSize="16"
-                               FontAttributes="Bold"
+                        <Label Text="All Skill Providers"
+       FontSize="16"
+       FontAttributes="Bold"
+       TextColor="Black" />
+                        <Label Text="Filter Skill Providers by"
+                               FontSize="14"
                                TextColor="Black" />
 
                         <Picker Title="Employment Status"
@@ -134,11 +141,11 @@
                                     </VerticalStackLayout>
 
                                     <Button Text="View"
-                                            BackgroundColor="#D0E8FF"
+                                            BackgroundColor="#1976D2"
+                                            WidthRequest="100"       
                                             Padding="10,4"
                                             CornerRadius="6"
                                             VerticalOptions="Center"
-                                            TextColor="Black"
                                             Grid.Column="2"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
 CommandParameter="{Binding .}"/>

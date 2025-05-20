@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.SkillProviderProfileView"
-             Title="SkillProviderProfileView"
+             Title="My Profile"
              xmlns:models="clr-namespace:PLinkage.Models"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels">
     <Grid ColumnDefinitions="*">
@@ -25,15 +25,14 @@
                         </VerticalStackLayout>
 
                         <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Start">
-
-                            <!-- Visible if Skill Provider -->
                             <Button Text="Update Profile"
-                                BackgroundColor="Red" Padding="10,4" CornerRadius="6"
-                                Command="{Binding UpdateProfileCommand}"
-                                    WidthRequest="150"
-                                HorizontalOptions="End" />
-                            
-
+                                BackgroundColor="#D32F2F" 
+                                TextColor="White"
+                                Padding="10,5" 
+                                CornerRadius="6"
+                                WidthRequest="150"
+                                HorizontalOptions="End" 
+                                Command="{Binding UpdateProfileCommand}"/>
                         </HorizontalStackLayout>
                     </Grid>
                 </Border>
@@ -53,13 +52,13 @@
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Education" FontAttributes="Bold" FontSize="14" TextColor="Black" />
                         <Button Text="Add Education"
-                                BackgroundColor="ForestGreen"
-                                CornerRadius="6" Padding="10,4"
+                                BackgroundColor="#388E3C"
+                                TextColor="White"
+                                CornerRadius="6" 
+                                Padding="10,5"
                                 HorizontalOptions="End"
-                                VerticalOptions="End"
                                 WidthRequest="150"
                                 Command="{Binding AddEducationCommand}"/>
-                        
 
                         <CollectionView ItemsSource="{Binding Educations}">
                             <CollectionView.ItemTemplate>
@@ -70,17 +69,29 @@
                                             StrokeShape="RoundRectangle 4"
                                             Padding="10"
                                             Margin="0,4">
-                                        <VerticalStackLayout>
+                                        <VerticalStackLayout Spacing="4">
                                             <Label Text="{Binding SchoolAttended, StringFormat='School: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding CourseName, StringFormat='Course: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding TimeGraduated, StringFormat='Graduated: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
-                                            <Button Text="Update Education"
-                                                            BackgroundColor="Blue"
-                                                            CornerRadius="6" Padding="10,4"
-                                                            HorizontalOptions="End"   
-                                                            WidthRequest="150"
-                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateEducationCommand}"
-                                                            CommandParameter="{Binding .}" />
+
+                                            <VerticalStackLayout Spacing="4" HorizontalOptions="End">
+                                                <Button Text="Update Education"
+                                                    BackgroundColor="#1976D2"
+                                                    TextColor="White"
+                                                    CornerRadius="6" 
+                                                    Padding="10,5"
+                                                    WidthRequest="150"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateEducationCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                                <Button Text="Delete Education"
+                                                    BackgroundColor="#D32F2F"
+                                                    TextColor="White"
+                                                    CornerRadius="6" 
+                                                    Padding="10,5"
+                                                    WidthRequest="150"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=DeleteEducationCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </VerticalStackLayout>
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -95,8 +106,10 @@
                         <Label Text="Skills" FontAttributes="Bold" FontSize="14" TextColor="Black" />
                         <Button Text="Add Skill"
                                 WidthRequest="150"
-                                BackgroundColor="ForestGreen"
-                                CornerRadius="6" Padding="10,4"
+                                BackgroundColor="#388E3C"
+                                TextColor="White"
+                                CornerRadius="6" 
+                                Padding="10,5"
                                 HorizontalOptions="End" 
                                 Command="{Binding AddSkillCommand}"/>
 
@@ -109,21 +122,32 @@
                                             StrokeShape="RoundRectangle 4"
                                             Padding="10"
                                             Margin="0,4">
-                                        <VerticalStackLayout>
+                                        <VerticalStackLayout Spacing="4">
                                             <Label Text="{Binding SkillName, StringFormat='Skill: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding SkillDescription, StringFormat='Description: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding SkillLevel, StringFormat='Level: {0}/5'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding TimeAcquired, StringFormat='Acquired: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding OrganizationInvolved, StringFormat='Organization: {0}'}" FontSize="12" TextColor="Black" />
                                             <Label Text="{Binding YearsOfExperience, StringFormat='Experience: {0} years'}" FontSize="12" TextColor="Black" />
-                                            <!-- Update Skill Button -->
-                                            <Button Text="Update Skill"
-                                                        BackgroundColor="Blue"
-                                                        CornerRadius="6" Padding="10,4"
-                                                        WidthRequest="150"
-                                                        HorizontalOptions="End"           
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateSkillCommand}"
-                                                        CommandParameter="{Binding .}" />
+
+                                            <VerticalStackLayout Spacing="4" HorizontalOptions="End">
+                                                <Button Text="Update Skill"
+                                                    BackgroundColor="#1976D2"
+                                                    TextColor="White"
+                                                    CornerRadius="6" 
+                                                    Padding="10,5"
+                                                    WidthRequest="150"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateSkillCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                                <Button Text="Delete Skill"
+                                                    BackgroundColor="#D32F2F"
+                                                    TextColor="White"
+                                                    CornerRadius="6" 
+                                                    Padding="10,5"
+                                                    WidthRequest="150"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=DeleteSkillCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </VerticalStackLayout>
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -140,11 +164,11 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Project">
                                     <Border Background="White"
-                            Stroke="LightGray"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 6"
-                            Padding="10"
-                            Margin="0,4">
+                                            Stroke="LightGray"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 6"
+                                            Padding="10"
+                                            Margin="0,4">
                                         <Grid ColumnDefinitions="*,Auto">
                                             <VerticalStackLayout>
                                                 <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="Black" />
@@ -153,20 +177,21 @@
                                             </VerticalStackLayout>
                                             <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
                                                 <Button Text="View"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="ForestGreen"
-                                        TextColor="White"
-                                        CornerRadius="6"
-                                                        WidthRequest="150"
-                                        Padding="10,4"/>
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#1976D2"
+                                                    TextColor="White"
+                                                    CornerRadius="6"
+                                                    WidthRequest="150"
+                                                    Padding="10,5"/>
                                                 <Button Text="Resign"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ResignProjectCommand}"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="Red"
-                                        TextColor="White"
-                                        CornerRadius="6"
-                                        Padding="10,4"/>
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ResignProjectCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#D32F2F"
+                                                    TextColor="White"
+                                                    CornerRadius="6"
+                                                    WidthRequest="150"
+                                                    Padding="10,5"/>
                                             </VerticalStackLayout>
                                         </Grid>
                                     </Border>
@@ -175,7 +200,6 @@
                         </CollectionView>
                     </VerticalStackLayout>
                 </Border>
-
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

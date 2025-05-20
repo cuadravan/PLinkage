@@ -11,19 +11,22 @@
         <!-- MAIN CONTENT -->
         <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
             <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
-                <VerticalStackLayout Spacing="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Course Name" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="Course Name"
                            Text="{Binding CourseName, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="School Attended" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="School"
                            Text="{Binding SchoolAttended, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="Time Graduated" TextColor="Black" FontAttributes="Bold" />
                     <DatePicker Date="{Binding TimeGraduated, Mode=TwoWay}"
                                 TextColor="Black"
                                 BackgroundColor="White"
-                                Format="yyyy"
+                                Format="MMMM yyyy"
                                 MaximumDate="{x:Static sys:DateTime.Today}" />
                 </VerticalStackLayout>
             </Frame>

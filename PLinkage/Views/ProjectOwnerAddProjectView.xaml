@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              x:Class="PLinkage.Views.ProjectOwnerAddProjectView"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Title="Create Project">
 
     <Grid ColumnDefinitions="*">
@@ -44,10 +45,10 @@
                             <!-- Date Pickers -->
                             <VerticalStackLayout Spacing="10" Grid.Column="0">
                                 <Label Text="Start Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectStartDate}" BackgroundColor="White"/>
+                                <DatePicker Date="{Binding ProjectStartDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White"/>
 
                                 <Label Text="End Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectEndDate}" BackgroundColor="White"/>
+                                <DatePicker Date="{Binding ProjectEndDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White"/>
                             </VerticalStackLayout>
 
                             <!-- Duration Display -->
@@ -146,7 +147,6 @@
                        TextColor="Red"
                        FontAttributes="Bold"
                        FontSize="14"
-                       IsVisible="{Binding HasError}"
                        HorizontalOptions="Center"
                        Margin="0,10,0,0"/>
 

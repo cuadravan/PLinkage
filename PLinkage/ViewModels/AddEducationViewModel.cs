@@ -31,7 +31,7 @@ namespace PLinkage.ViewModels
         private string schoolAttended;
 
         [ObservableProperty]
-        [Required(ErrorMessage = "Year Graduated is required.")]
+        [Required(ErrorMessage = "Month and Year Graduated is required.")]
         private DateTime timeGraduated;
 
         [ObservableProperty]
@@ -72,6 +72,7 @@ namespace PLinkage.ViewModels
             await _unitOfWork.SaveChangesAsync();
 
             _sessionService.SetCurrentUser(skillProvider);
+            await Shell.Current.DisplayAlert("Success", "Education added successfully!", "OK");
             await _navigationService.GoBackAsync();
         }
 

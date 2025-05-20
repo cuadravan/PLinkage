@@ -108,10 +108,14 @@ namespace PLinkage.ViewModels
         {
             var allSkillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
-            
 
-            int total = allSkillProviders.Count;
-            int employed = allSkillProviders.Count(sp =>
+            // Filter out deactivated skill providers
+            var activeSkillProviders = allSkillProviders
+                .Where(sp => !sp.UserStatus.Equals("Deactivated", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            int total = activeSkillProviders.Count;
+            int employed = activeSkillProviders.Count(sp =>
                 allProjects.Any(p =>
                     p.ProjectMembers.Any(m => m.MemberId == sp.UserId) &&
                     p.ProjectStatus == ProjectStatus.Active));
@@ -122,7 +126,6 @@ namespace PLinkage.ViewModels
                 ? "N/A"
                 : $"{employed}/{total} employed ({(employed * 100.0 / total):0.##}%)";
         }
-
         private async Task FilterProjects()
         {
             var allProjects = await _unitOfWork.Projects.GetAllAsync();

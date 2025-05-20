@@ -94,7 +94,7 @@ namespace PLinkage.ViewModels
                 await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
                 await _unitOfWork.SaveChangesAsync();
                 _sessionService.SetCurrentUser(skillProvider);
-
+                await Shell.Current.DisplayAlert("Success", "Education updated successfully!", "OK");
                 await _navigationService.GoBackAsync();
             }
             else

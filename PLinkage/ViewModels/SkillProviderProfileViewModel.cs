@@ -194,6 +194,70 @@ namespace PLinkage.ViewModels
             await Shell.Current.DisplayAlert("Resignation Submitted", "Your resignation has been submitted for approval.", "OK");
         }
 
+        [RelayCommand]
+        private async Task DeleteSkill(Skill skill)
+        {
+            if (skill == null || Skills == null) return;
+
+            bool confirm = await Shell.Current.DisplayAlert(
+                "Delete Skill",
+                $"Are you sure you want to delete the skill \"{skill.SkillName}\"?",
+                "Yes", "No");
+
+            if (!confirm) return;
+
+            int index = Skills.IndexOf(skill);
+            if (index < 0) return;
+
+            // 1. Load the provider
+            var provider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
+            if (provider == null || provider.Skills.Count <= index) return;
+
+            // 2. Remove from both provider and UI list
+            provider.Skills.RemoveAt(index);
+            Skills.RemoveAt(index);
+
+            // 3. Persist changes
+            await _unitOfWork.SkillProvider.UpdateAsync(provider);
+            await _unitOfWork.SaveChangesAsync();
+
+            await Shell.Current.DisplayAlert("Deleted", "Skill has been removed.", "OK");
+        }
+
+        [RelayCommand]
+        private async Task DeleteEducation(Education education)
+        {
+            if (education == null || Educations == null) return;
+
+            bool confirm = await Shell.Current.DisplayAlert(
+                "Delete Education",
+                $"Are you sure you want to delete the education: \"{education.SchoolAttended} - {education.CourseName}\"?",
+                "Yes", "No");
+
+            if (!confirm) return;
+
+            int index = Educations.IndexOf(education);
+            if (index < 0) return;
+
+            // 1. Load the provider
+            var provider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
+            if (provider == null || provider.Educations.Count <= index) return;
+
+            // 2. Remove from both provider and UI list
+            provider.Educations.RemoveAt(index);
+            Educations.RemoveAt(index);
+
+            // 3. Persist changes
+            await _unitOfWork.SkillProvider.UpdateAsync(provider);
+            await _unitOfWork.SaveChangesAsync();
+
+            await Shell.Current.DisplayAlert("Deleted", "Education has been removed.", "OK");
+        }
+
+
+        
+
+
 
 
     }

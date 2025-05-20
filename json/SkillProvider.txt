@@ -31,18 +31,15 @@
       "42bcb0b6-b5bb-428b-91fd-d50885406714",
       "c433464e-6b4b-45f7-8d00-b5e8319951e2",
       "fe31d8cc-9101-4c68-947b-e674ecc510c3",
-      "675b60b8-fc60-490d-9f22-9dd86231b343"
+      "675b60b8-fc60-490d-9f22-9dd86231b343",
+      "4d4e96df-f7b9-41ec-bd69-4da5a097bcbd",
+      "6e39fbea-acbf-4efe-bcfa-2707c27c4c4d"
     ],
     "Educations": [
       {
-        "CourseName": "Bachelor of Science in Geodetic Engineeringdgsdsfgdfg",
+        "CourseName": "Bachelor of Science in Geodetic Engineering",
         "SchoolAttended": "University of the Philippines Diliman",
         "TimeGraduated": "2021-06-30T00:00:00"
-      },
-      {
-        "CourseName": "Master of Science in Environmental Planning",
-        "SchoolAttended": "University of San Carlos",
-        "TimeGraduated": "2023-05-15T00:00:00"
       },
       {
         "CourseName": "Certificate in Remote Sensing Applications",
@@ -50,9 +47,14 @@
         "TimeGraduated": "2020-12-10T00:00:00"
       },
       {
-        "CourseName": "Bachelor of Science in Computer Engineering Major in Embedded Systems",
+        "CourseName": "Bachelor of Science in Computer Engineering Major in Software Development",
         "SchoolAttended": "University of San Jose - Recoletos",
         "TimeGraduated": "2025-05-13T00:00:00+08:00"
+      },
+      {
+        "CourseName": "Bachelor of Science in",
+        "SchoolAttended": "USJR",
+        "TimeGraduated": "2025-05-20T00:00:00+08:00"
       }
     ],
     "Skills": [
@@ -62,7 +64,7 @@
         "SkillLevel": 5,
         "TimeAcquired": "2022-06-15T00:00:00",
         "OrganizationInvolved": "Naga City Planning Office",
-        "YearsOfExperience": 3
+        "YearsOfExperience": 30
       },
       {
         "SkillName": "Remote Sensing",
@@ -95,11 +97,18 @@
         "TimeAcquired": "2025-05-13T00:00:00+08:00",
         "OrganizationInvolved": "None",
         "YearsOfExperience": 0
+      },
+      {
+        "SkillName": "A",
+        "SkillDescription": "A",
+        "SkillLevel": 1,
+        "TimeAcquired": "2025-05-20T00:00:00+08:00",
+        "OrganizationInvolved": "A",
+        "YearsOfExperience": 2
       }
     ],
     "EmployedProjects": [
       "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
-      "281d9c62-e6e4-4886-ac43-fce9f12386bd",
       "a4abee41-bc2b-47f9-b1aa-de2a7b453671"
     ],
     "UserRating": 3.2857142857142856,
@@ -123,7 +132,7 @@
     "UserBirthDate": "2025-04-01T00:00:00",
     "UserGender": "Female",
     "UserRole": 0,
-    "UserStatus": "Deactivated",
+    "UserStatus": "Active",
     "OfferApplicationId": [
       "b85e12d1-bcaf-496e-b5c4-5ef84464424d",
       "55f4c5b2-7656-490b-ac36-c526a43da6ad",

@@ -21,11 +21,11 @@
                 <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="Browse Skill Providers"
+                        <Label Text="All Skill Providers (Admin View)"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="Black" />
-                        <Label Text="Manage and explore skill providers with filtering and sorting options."
+                        <Label Text="Manage and monitor all skill providers, including deactivated ones."
                                FontSize="14"
                                TextColor="Black" />
                     </VerticalStackLayout>
@@ -86,11 +86,12 @@
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseSkillProviderViewModel}}, Path=ViewSkillProviderCommand}"
                                             CommandParameter="{Binding .}"
                                             Grid.Column="2"
-                                            BackgroundColor="#D0E8FF"
+                                            BackgroundColor="#1976D2"
+
                                             Padding="10,4"
                                             CornerRadius="6"
                                             VerticalOptions="Center"
-                                            TextColor="Black"/>
+                                            WidthRequest="100"       />
                                 </Grid>
                             </Border>
                         </DataTemplate>

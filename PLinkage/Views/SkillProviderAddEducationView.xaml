@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             x:Class="PLinkage.Views.SkillProviderAddEducationView"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             x:Class="PLinkage.Views.SkillProviderAddEducationView"
              Title="Add Education"
              x:DataType="viewmodels:AddEducationViewModel">
 
@@ -11,23 +11,28 @@
         <!-- MAIN CONTENT -->
         <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
             <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
-                <VerticalStackLayout Spacing="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Course Name" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="Course Name"
                            Text="{Binding CourseName, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="School Attended" TextColor="Black" FontAttributes="Bold" />
                     <Entry Placeholder="School"
                            Text="{Binding SchoolAttended, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
+                    <Label Text="Time Graduated" TextColor="Black" FontAttributes="Bold" />
                     <DatePicker Date="{Binding TimeGraduated, Mode=TwoWay}"
                                 TextColor="Black"
                                 BackgroundColor="White"
+                                Format="MMMM yyyy"
                                 MaximumDate="{x:Static sys:DateTime.Today}" />
                 </VerticalStackLayout>
             </Frame>
 
-            <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12" IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
 
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
                 <Button Text="Save"

@@ -78,11 +78,11 @@
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseProjectViewModel}}, Path=ViewProjectCommand}"
                                             CommandParameter="{Binding .}"
                                             Grid.Column="2"
-                                            BackgroundColor="#D0E8FF"
+                                            BackgroundColor="#1976D2"
                                             Padding="10,4"
+                                            WidthRequest="100"
                                             CornerRadius="6"
-                                            VerticalOptions="Center"
-                                            TextColor="Black"/>
+                                            VerticalOptions="Center"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
