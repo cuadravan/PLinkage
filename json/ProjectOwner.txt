@@ -139,5 +139,24 @@
     "OfferApplicationId": [],
     "OwnedProjectId": [],
     "UserMessagesId": []
+  },
+  {
+    "UserId": "67f23170-2371-4409-95d4-aecd65e97962",
+    "UserFirstName": "Loid",
+    "UserLastName": "Forger",
+    "UserEmail": "forger@gmail.com",
+    "UserPassword": "12345678",
+    "UserPhone": "09177805163",
+    "UserLocation": 51,
+    "UserBirthDate": "1998-07-16T00:00:00",
+    "UserGender": "Male",
+    "UserRole": 1,
+    "UserStatus": "Active",
+    "JoinedOn": "2025-05-20T11:55:15.5139465+08:00",
+    "OfferApplicationId": [
+      "e5bb0294-d234-44a0-be60-55fcfb663b5d"
+    ],
+    "OwnedProjectId": [],
+    "UserMessagesId": []
   }
 ]

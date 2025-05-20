@@ -39,10 +39,10 @@
                             <!-- Date Pickers -->
                             <VerticalStackLayout Spacing="10" Grid.Column="0">
                                 <Label Text="Start Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectStartDate}" BackgroundColor="White" IsEnabled="False"/>
+                                <DatePicker Date="{Binding ProjectStartDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White" TextColor="Blue"/>
 
                                 <Label Text="End Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectEndDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White" TextColor="Blue"/>
+                                <DatePicker Date="{Binding ProjectEndDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White"  IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <!-- Duration Display -->

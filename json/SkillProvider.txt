@@ -183,7 +183,8 @@
     "UserRole": 0,
     "UserStatus": "Active",
     "OfferApplicationId": [
-      "9af32027-31ff-4ccd-a7fc-f22dc38e7a33"
+      "9af32027-31ff-4ccd-a7fc-f22dc38e7a33",
+      "e5bb0294-d234-44a0-be60-55fcfb663b5d"
     ],
     "Educations": [
       {
@@ -202,7 +203,9 @@
         "YearsOfExperience": 2
       }
     ],
-    "EmployedProjects": [],
+    "EmployedProjects": [
+      "b16e60a6-8d2e-4775-adc7-020ddec27097"
+    ],
     "UserRating": 0.0,
     "UserRatingTotal": 0.0,
     "UserRatingCount": 0,
