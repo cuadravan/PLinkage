@@ -6,7 +6,7 @@
     x:Class="PLinkage.Views.ProjectOwnerRateSkillProviderView"
     xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
     xmlns:models="clr-namespace:PLinkage.Models"
-    Title="ProjectOwnerRateSkillProviderView">
+    Title="Rate Employed Skill Providers">
 
     <Grid Padding="20">
         <ScrollView>

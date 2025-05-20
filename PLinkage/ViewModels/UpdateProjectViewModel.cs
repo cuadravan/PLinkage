@@ -157,7 +157,7 @@ namespace PLinkage.ViewModels
             }
             if (EmployedSkillProviders.Count == 0 && (ProjectStatusSelected?.Equals(ProjectStatus.Completed) ?? false))
             {
-                ErrorMessage = "A complete project cannot have no employed skill providers";
+                ErrorMessage = "A complete project cannot have no employed skill providers. If you want to close the project, mark it as deactivated instead.";
                 return false;
             }
 
@@ -229,6 +229,9 @@ namespace PLinkage.ViewModels
                 await _unitOfWork.SaveChangesAsync();
                 ErrorMessage = string.Empty;
 
+                // Show project summary before navigating to rating page
+                await ShowProjectSummary(project);
+
                 await _navigationService.NavigateToAsync("/ProjectOwnerRateSkillProviderView");
             }
             else
@@ -245,6 +248,37 @@ namespace PLinkage.ViewModels
             _pendingRemovals.Clear();
         }
 
+        private async Task ShowProjectSummary(Project project)
+        {
+            // Calculate project duration
+            var duration = project.ProjectEndDate - project.ProjectStartDate;
+            var durationText = $"{(int)duration.TotalDays} days";
+
+            // Build skill providers list
+            var providersList = string.Join("\n", EmployedSkillProviders
+                .Select(sp => $"- {sp.UserFirstName} {sp.UserLastName}"));
+
+            // Build skills required list
+            var skillsList = string.Join("\n", project.ProjectSkillsRequired
+                .Select(s => $"- {s}"));
+
+            await Shell.Current.DisplayAlert(
+                "Actual Project Completion Details",
+                $"Project: {project.ProjectName}\n\n" +
+                $"Description: {project.ProjectDescription}\n\n" +
+                $"Location: {project.ProjectLocation}\n" +
+                $"Priority: {project.ProjectPriority}\n" +
+                $"Status: {project.ProjectStatus}\n\n" +
+                $"Duration: {durationText}\n" +
+                $"Start: {project.ProjectStartDate:MMMM d, yyyy}\n" +
+                $"End: {project.ProjectEndDate:MMMM d, yyyy}\n\n" +
+                $"Resources Needed: {project.ProjectResourcesNeeded}\n" +
+                $"Members Employed: {EmployedSkillProviders.Count}\n\n" +
+                $"Skill Providers:\n{providersList}\n\n" +
+                $"Skills Required:\n{skillsList}",
+                "Continue to Rating");
+        }
+
         [RelayCommand]
         private async Task Reset()
         {
@@ -252,6 +286,8 @@ namespace PLinkage.ViewModels
             ProjectMembers = new ObservableCollection<ProjectMemberDetail>(_originalProjectMembers);
             EmployedSkillProviders = new ObservableCollection<SkillProvider>(_originalSkillProviders);
             _pendingRemovals.Clear();
+
+            ProcessResignationRequest();
 
             await LoadCurrentProject(); // Reload other fields
         }
@@ -333,7 +369,10 @@ namespace PLinkage.ViewModels
                     // Update UI collections
                     ProjectMembers.Remove(member);
                     EmployedSkillProviders.Remove(skillProvider);
-                    updated = true;
+                    updated = false;
+
+                    await Shell.Current.DisplayAlert("Notice", "Please click update project to finalize resignation. If you change your mind, click reset.",
+                    "OK");
                 }
                 else
                 {

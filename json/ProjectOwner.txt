@@ -57,7 +57,7 @@
     "UserEmail": "cuadravan@gmail.com",
     "UserPassword": "12345678",
     "UserPhone": "09177805163",
-    "UserLocation": 1,
+    "UserLocation": 6,
     "UserBirthDate": "2002-03-12T00:00:00",
     "UserGender": "Male",
     "UserRole": 1,
@@ -116,7 +116,8 @@
     "JoinedOn": "2025-04-14T11:07:28.9552376+08:00",
     "OfferApplicationId": [
       "fe31d8cc-9101-4c68-947b-e674ecc510c3",
-      "675b60b8-fc60-490d-9f22-9dd86231b343"
+      "675b60b8-fc60-490d-9f22-9dd86231b343",
+      "d5f8a7dc-0e7f-4486-a0cc-60b2fc57923c"
     ],
     "OwnedProjectId": [],
     "UserMessagesId": []

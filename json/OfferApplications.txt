@@ -298,5 +298,15 @@
     "OfferApplicationStatus": "Pending",
     "OfferApplicationRate": 500.0,
     "OfferApplicationTimeFrame": 2
+  },
+  {
+    "OfferApplicationId": "d5f8a7dc-0e7f-4486-a0cc-60b2fc57923c",
+    "OfferApplicationType": "Offer",
+    "SenderId": "18f40e44-c1a7-4e62-bbc0-ded296efbfce",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 12.0,
+    "OfferApplicationTimeFrame": 12
   }
 ]
