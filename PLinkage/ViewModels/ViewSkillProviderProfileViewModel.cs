@@ -62,10 +62,27 @@ namespace PLinkage.ViewModels
             if (_skillProviderId == Guid.Empty && currentUser != null)
                 _skillProviderId = currentUser.UserId;
 
-            // Check if the current user is viewing their own profile
             IsOwner = currentUser != null && currentUser.UserId == _skillProviderId;
 
             await _unitOfWork.ReloadAsync();
+
+            // Load profile and check if user is deactivated
+            var profile = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
+            if (profile == null)
+            {
+                await Shell.Current.DisplayAlert("Error", "Skill Provider not found.", "OK");
+                await _navigationService.GoBackAsync();
+                return;
+            }
+
+            // Check status and allow only admins to view deactivated profiles
+            if (profile.UserStatus == "Deactivated" && !IsAdmin)
+            {
+                await Shell.Current.DisplayAlert("Access Denied", "This profile is deactivated.", "OK");
+                await _navigationService.GoBackAsync();
+                return;
+            }
+
             await LoadProfileAsync();
             await LoadEmployedProjectsAsync();
 
@@ -74,6 +91,7 @@ namespace PLinkage.ViewModels
                 await Shell.Current.DisplayAlert("View Mode", "You are currently viewing your profile as a visitor.", "OK");
             }
         }
+
 
 
         private void SetRoleFlags()
@@ -149,7 +167,7 @@ namespace PLinkage.ViewModels
 
             bool confirm = await Shell.Current.DisplayAlert(
                 $"Confirm {action}",
-                $"{action} Project Owner: {owner.UserFirstName} {owner.UserLastName}?",
+                $"{action} Skill Provider: {owner.UserFirstName} {owner.UserLastName}?",
                 "Yes", "No");
 
             if (!confirm) return;

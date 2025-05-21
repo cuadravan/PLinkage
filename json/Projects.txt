@@ -26,7 +26,7 @@
     ],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 5,
-    "ProjectResourcesAvailable": 3,
+    "ProjectResourcesAvailable": 4,
     "ProjectDateCreated": "2025-04-20T22:51:13.984137+08:00",
     "ProjectDateUpdated": "2025-05-19T19:26:49.900516+08:00"
   },
@@ -96,7 +96,7 @@
     "ProjectLocation": 25,
     "ProjectDescription": "We will sell books!",
     "ProjectStartDate": "2025-05-19T20:12:28.0508222+08:00",
-    "ProjectEndDate": "2025-05-19T20:12:28.0508227+08:00",
+    "ProjectEndDate": "2025-05-20T20:12:28.0508227+08:00",
     "ProjectStatus": 2,
     "ProjectSkillsRequired": [
       "Marketing"
@@ -106,7 +106,7 @@
     "ProjectResourcesNeeded": 1,
     "ProjectResourcesAvailable": 1,
     "ProjectDateCreated": "2025-05-19T20:12:28.0577942+08:00",
-    "ProjectDateUpdated": "2025-05-20T07:23:03.2778002+08:00"
+    "ProjectDateUpdated": "2025-05-20T14:58:43.9442395+08:00"
   },
   {
     "ProjectId": "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
@@ -120,32 +120,74 @@
     "ProjectSkillsRequired": [
       "Building"
     ],
-    "ProjectMembers": [],
-    "ProjectPriority": "Medium",
+    "ProjectMembers": [
+      {
+        "MemberId": "3d2316f1-0102-406d-a863-1ed86bf1e4fe",
+        "UserFirstName": "Taylor",
+        "UserLastName": "Swift",
+        "Email": "taylorswift@gmail.com",
+        "Rate": 500.0,
+        "TimeFrame": 232,
+        "IsResigning": false,
+        "ResignationReason": ""
+      },
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 12.0,
+        "TimeFrame": 12,
+        "IsResigning": false,
+        "ResignationReason": null
+      }
+    ],
+    "ProjectPriority": "Low",
     "ProjectResourcesNeeded": 5,
-    "ProjectResourcesAvailable": 5,
+    "ProjectResourcesAvailable": 3,
     "ProjectDateCreated": "2025-05-20T00:34:34.7601695+08:00",
-    "ProjectDateUpdated": "2025-05-20T11:04:16.3967073+08:00"
+    "ProjectDateUpdated": "2025-05-21T08:49:27.8798429+08:00"
   },
   {
     "ProjectId": "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",
     "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "ProjectName": "Scrapbook Making",
     "ProjectLocation": 30,
-    "ProjectDescription": "123",
+    "ProjectDescription": "Let us make memories!",
     "ProjectStartDate": "2025-05-20T07:43:05.7384572+08:00",
     "ProjectEndDate": "2025-06-28T00:00:00",
-    "ProjectStatus": 2,
+    "ProjectStatus": 1,
     "ProjectSkillsRequired": [
       "Creativity",
       "Scrapbook making skill"
     ],
-    "ProjectMembers": [],
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 500.0,
+        "TimeFrame": 2,
+        "IsResigning": false,
+        "ResignationReason": ""
+      },
+      {
+        "MemberId": "3d2316f1-0102-406d-a863-1ed86bf1e4fe",
+        "UserFirstName": "Taylor",
+        "UserLastName": "Swift",
+        "Email": "taylorswift@gmail.com",
+        "Rate": 350.0,
+        "TimeFrame": 12,
+        "IsResigning": false,
+        "ResignationReason": ""
+      }
+    ],
     "ProjectPriority": "Low",
     "ProjectResourcesNeeded": 6,
-    "ProjectResourcesAvailable": 6,
+    "ProjectResourcesAvailable": 4,
     "ProjectDateCreated": "2025-05-20T07:43:05.7395623+08:00",
-    "ProjectDateUpdated": "2025-05-20T09:53:10.6973631+08:00"
+    "ProjectDateUpdated": "2025-05-20T15:00:44.2888151+08:00"
   },
   {
     "ProjectId": "0054616e-e715-44e2-970b-63b0d7388a77",
@@ -174,26 +216,53 @@
     "ProjectDescription": "1",
     "ProjectStartDate": "2025-05-20T12:00:16.0057756+08:00",
     "ProjectEndDate": "2025-06-06T00:00:00",
-    "ProjectStatus": 0,
+    "ProjectStatus": 2,
     "ProjectSkillsRequired": [
       "Hi"
     ],
-    "ProjectMembers": [
-      {
-        "MemberId": "3d2316f1-0102-406d-a863-1ed86bf1e4fe",
-        "UserFirstName": "Taylor",
-        "UserLastName": "Swift",
-        "Email": "taylorswift@gmail.com",
-        "Rate": 12.0,
-        "TimeFrame": 12,
-        "IsResigning": false,
-        "ResignationReason": ""
-      }
-    ],
+    "ProjectMembers": [],
     "ProjectPriority": "High",
     "ProjectResourcesNeeded": 1,
-    "ProjectResourcesAvailable": 0,
+    "ProjectResourcesAvailable": 1,
     "ProjectDateCreated": "2025-05-20T12:00:16.0073604+08:00",
-    "ProjectDateUpdated": "2025-05-20T12:01:53.4770681+08:00"
+    "ProjectDateUpdated": "2025-05-20T14:39:18.5446278+08:00"
+  },
+  {
+    "ProjectId": "a420302e-2238-4f72-ad38-1f3c6f117190",
+    "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectName": "Make a Gaming PC",
+    "ProjectLocation": 0,
+    "ProjectDescription": "Help me make a high-end gaming PC!",
+    "ProjectStartDate": "2025-05-21T00:00:00",
+    "ProjectEndDate": "2025-08-23T00:00:00",
+    "ProjectStatus": 0,
+    "ProjectSkillsRequired": [
+      "Buying pc parts"
+    ],
+    "ProjectMembers": [],
+    "ProjectPriority": "High",
+    "ProjectResourcesNeeded": 5,
+    "ProjectResourcesAvailable": 5,
+    "ProjectDateCreated": "2025-05-20T14:51:15.1692825+08:00",
+    "ProjectDateUpdated": "2025-05-21T09:15:24.503532+08:00"
+  },
+  {
+    "ProjectId": "bb8f58bd-54a0-4869-8b29-14401aad3296",
+    "ProjectOwnerId": "18f40e44-c1a7-4e62-bbc0-ded296efbfce",
+    "ProjectName": "Cake Baking",
+    "ProjectLocation": 27,
+    "ProjectDescription": "Bring your own ingredients!",
+    "ProjectStartDate": "2025-05-22T00:00:00",
+    "ProjectEndDate": "2025-05-23T00:00:00",
+    "ProjectStatus": 0,
+    "ProjectSkillsRequired": [
+      "Baking"
+    ],
+    "ProjectMembers": [],
+    "ProjectPriority": "Medium",
+    "ProjectResourcesNeeded": 5,
+    "ProjectResourcesAvailable": 5,
+    "ProjectDateCreated": "2025-05-21T08:54:53.2202182+08:00",
+    "ProjectDateUpdated": "2025-05-21T08:54:53.2202182+08:00"
   }
 ]

@@ -55,7 +55,7 @@ namespace PLinkage.ViewModels
 
         private void UpdateDurationSummary()
         {
-            if (ProjectEndDate < ProjectStartDate)
+            if (ProjectEndDate.Date < ProjectStartDate.Date)
             {
                 DurationSummary = "Invalid date range";
                 return;
@@ -92,15 +92,21 @@ namespace PLinkage.ViewModels
                 return false;
             }
 
-            if (ProjectStartDate == default || ProjectEndDate == default)
+            if (ProjectStartDate.Date == default || ProjectEndDate.Date == default)
             {
                 ErrorMessage = "Project start and end dates must be set.";
                 return false;
             }
 
-            if (ProjectEndDate < ProjectStartDate)
+            if (ProjectEndDate.Date < ProjectStartDate.Date)
             {
                 ErrorMessage = "Project end date cannot be earlier than start date.";
+                return false;
+            }
+
+            if (ProjectStartDate.Date == ProjectEndDate.Date)
+            {
+                ErrorMessage = "Project start date cannot be the same as the end date.";
                 return false;
             }
 
@@ -118,6 +124,7 @@ namespace PLinkage.ViewModels
 
             return true;
         }
+
 
 
         [RelayCommand]

@@ -128,6 +128,14 @@ namespace PLinkage.ViewModels
             var project = await _unitOfWork.Projects.GetByIdAsync(application.ProjectId);
             if (project == null) return;
 
+            if (project.ProjectStatus != ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert("❗ Project unavailable",
+                    $"This project is not active anymore. It is {project.ProjectStatus}.",
+                    "OK");
+                return;
+            }
+
             // Check if project already has required number of members
             if (project.ProjectMembers.Count >= project.ProjectResourcesNeeded)
             {

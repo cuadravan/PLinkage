@@ -27,6 +27,10 @@ namespace PLinkage.ViewModels
         // Track pending removals
         private List<SkillProvider> _pendingRemovals = new();
 
+        // Track pending rejections (resignation denied)
+        private List<ProjectMemberDetail> _pendingRejections = new();
+
+
         // Constructor
         public UpdateProjectViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
         {
@@ -161,6 +165,18 @@ namespace PLinkage.ViewModels
                 return false;
             }
 
+            if (ProjectEndDate.Date < ProjectStartDate.Date)
+            {
+                ErrorMessage = "Project end date cannot be earlier than start date.";
+                return false;
+            }
+
+            if (ProjectStartDate.Date == ProjectEndDate.Date)
+            {
+                ErrorMessage = "Project start date cannot be the same as the end date.";
+                return false;
+            }
+
             if ((ProjectStatusSelected == ProjectStatus.Deactivated) && EmployedSkillProviders.Count > 0)
             {
                 ErrorMessage = "Cannot deactivate project while there are still employed skill providers.";
@@ -185,7 +201,7 @@ namespace PLinkage.ViewModels
             var project = await _unitOfWork.Projects.GetByIdAsync(_sessionService.VisitingProjectID);
             if (project == null) return;
 
-            // Confirmation dialog when marking as completed
+            // Confirm completion if needed
             if (ProjectStatusSelected == ProjectStatus.Completed)
             {
                 bool confirm = await Shell.Current.DisplayAlert(
@@ -199,7 +215,7 @@ namespace PLinkage.ViewModels
                     return;
             }
 
-            // Process pending removals
+            // Handle resignations
             foreach (var skillProvider in _pendingRemovals)
             {
                 // Remove from project members
@@ -213,12 +229,23 @@ namespace PLinkage.ViewModels
                 }
             }
 
+            // Handle rejected resignations: reset their flags
+            foreach (var member in project.ProjectMembers)
+            {
+                if (member.IsResigning)
+                {
+                    member.IsResigning = false;
+                    member.ResignationReason = null;
+                }
+            }
+
+            // Update project details
             project.ProjectDescription = ProjectDescription;
             project.ProjectPriority = ProjectPrioritySelected;
             project.ProjectStartDate = ProjectStartDate;
             project.ProjectSkillsRequired = ProjectSkillsRequired.ToList();
             project.ProjectResourcesNeeded = ProjectResourcesNeeded;
-            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - ProjectMembers.Count;
+            project.ProjectResourcesAvailable = project.ProjectResourcesNeeded - project.ProjectMembers.Count;
             project.ProjectStatus = ProjectStatusSelected;
             project.ProjectDateUpdated = DateTime.Now;
 
@@ -229,9 +256,7 @@ namespace PLinkage.ViewModels
                 await _unitOfWork.SaveChangesAsync();
                 ErrorMessage = string.Empty;
 
-                // Show project summary before navigating to rating page
                 await ShowProjectSummary(project);
-
                 await _navigationService.NavigateToAsync("/ProjectOwnerRateSkillProviderView");
             }
             else
@@ -244,9 +269,9 @@ namespace PLinkage.ViewModels
                 await _navigationService.GoBackAsync();
             }
 
-            // Clear pending removals after successful submission
             _pendingRemovals.Clear();
         }
+
 
         private async Task ShowProjectSummary(Project project)
         {
@@ -344,7 +369,7 @@ namespace PLinkage.ViewModels
             if (ProjectMembers == null || ProjectMembers.Count == 0)
                 return;
 
-            var updated = false;
+            _pendingRejections.Clear();
 
             foreach (var member in ProjectMembers.Where(m => m.IsResigning).ToList())
             {
@@ -357,53 +382,22 @@ namespace PLinkage.ViewModels
 
                 bool confirm = await Shell.Current.DisplayAlert(
                     "Resignation Request",
-                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} has requested to resign.\n\nReason: {reasonText}\n\nDo you approve this resignation?",
+                    $"{skillProvider.UserFirstName} {skillProvider.UserLastName} has requested to resign.\n\nReason: {reasonText}\n\nDo you approve this resignation?\nThe change will be finalized once the project is updated.",
                     "Yes",
                     "No");
 
                 if (confirm)
                 {
-                    // Mark for removal (actual removal happens on submit)
                     _pendingRemovals.Add(skillProvider);
-
-                    // Update UI collections
-                    ProjectMembers.Remove(member);
-                    EmployedSkillProviders.Remove(skillProvider);
-                    updated = false;
-
-                    await Shell.Current.DisplayAlert("Notice", "Please click update project to finalize resignation. If you change your mind, click reset.",
-                    "OK");
                 }
                 else
                 {
-                    // Clear the resignation flags
-                    member.IsResigning = false;
-                    member.ResignationReason = null;
-
-                    // Update the member in the database
-                    var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
-                    if (project != null)
-                    {
-                        var dbMember = project.ProjectMembers.FirstOrDefault(m => m.MemberId == member.MemberId);
-                        if (dbMember != null)
-                        {
-                            dbMember.IsResigning = false;
-                            dbMember.ResignationReason = null;
-                            await _unitOfWork.Projects.UpdateAsync(project);
-                            await _unitOfWork.SaveChangesAsync();
-                        }
-                    }
-                    updated = true;
+                    _pendingRejections.Add(member);
                 }
-            }
 
-            if (updated)
-            {
-                await Shell.Current.DisplayAlert(
-                    "Notice",
-                    updated ? "Resignation request processed." : "No changes were made.",
-                    "OK");
+                await Shell.Current.DisplayAlert("Notice", "Please click Update Project to finalize your decision.", "OK");
             }
         }
+
     }
 }

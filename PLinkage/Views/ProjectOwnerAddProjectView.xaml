@@ -4,7 +4,6 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              x:Class="PLinkage.Views.ProjectOwnerAddProjectView"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Title="Create Project">
 
     <Grid ColumnDefinitions="*">

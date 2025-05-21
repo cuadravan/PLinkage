@@ -74,18 +74,37 @@ namespace PLinkage.ViewModels
             if (_projectOwnerId == Guid.Empty && currentUser != null)
                 _projectOwnerId = currentUser.UserId;
 
-            // ✅ Check ownership
             IsOwner = currentUser != null && currentUser.UserId == _projectOwnerId;
-            
 
             await _unitOfWork.ReloadAsync();
+
+            // Load profile directly here to check status early
+            var profile = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
+            if (profile == null)
+            {
+                await Shell.Current.DisplayAlert("Error", "Project Owner not found.", "OK");
+                await _navigationService.GoBackAsync();
+                return;
+            }
+
+            // Check deactivation status and restrict access if not admin
+            if (profile.UserStatus == "Deactivated" && !IsAdmin)
+            {
+                await Shell.Current.DisplayAlert("Access Denied", "This profile is deactivated.", "OK");
+                await _navigationService.GoBackAsync();
+                return;
+            }
+
+            // Now that status check passed, populate UI
             await LoadProfileAsync();
             await LoadProjectsAsync();
+
             if (IsOwner)
             {
                 await Shell.Current.DisplayAlert("View Mode", "You are currently viewing your profile as a visitor.", "OK");
             }
         }
+
 
         private void SetRoleFlags()
         {

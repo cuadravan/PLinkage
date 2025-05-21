@@ -1,75 +1,18 @@
 [
   {
-    "UserId": "628c40ed-4742-488e-bebc-71365aeab0a6",
-    "UserFirstName": "Mike",
-    "UserLastName": "Joe",
-    "UserEmail": "joe@google.com",
-    "UserPassword": "12345678",
-    "UserPhone": "09177805163",
-    "UserLocation": 27,
-    "UserBirthDate": "2025-04-12T00:00:00+08:00",
-    "UserGender": "Male",
-    "UserRole": 1,
-    "UserStatus": "Active",
-    "JoinedOn": "2025-04-12T15:16:54.592081+08:00",
-    "OfferApplicationId": [],
-    "OwnedProjectId": [],
-    "UserMessagesId": []
-  },
-  {
-    "UserId": "6e97f61c-268a-4950-826e-241b4eeccc1a",
-    "UserFirstName": "Joe",
-    "UserLastName": "Google",
-    "UserEmail": "google@joe.com",
-    "UserPassword": "12345678",
-    "UserPhone": "09177805163",
-    "UserLocation": 27,
-    "UserBirthDate": "2025-04-12T00:00:00+08:00",
-    "UserGender": "Male",
-    "UserRole": 1,
-    "UserStatus": "Active",
-    "JoinedOn": "2025-04-12T15:19:03.9280276+08:00",
-    "OfferApplicationId": [],
-    "OwnedProjectId": [],
-    "UserMessagesId": []
-  },
-  {
-    "UserId": "0ae26d04-7c7a-4fff-a354-f65803e9f5ef",
-    "UserFirstName": "Van",
-    "UserLastName": "Cuadra",
-    "UserEmail": "cuadrakristian@gmail.com",
-    "UserPassword": "12345678",
-    "UserPhone": "09177805163",
-    "UserLocation": 30,
-    "UserBirthDate": "2025-04-12T00:00:00+08:00",
-    "UserGender": "Male",
-    "UserRole": 1,
-    "UserStatus": "Active",
-    "JoinedOn": "2025-04-12T15:42:36.8430959+08:00",
-    "OfferApplicationId": [],
-    "OwnedProjectId": [],
-    "UserMessagesId": []
-  },
-  {
     "UserId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "UserFirstName": "Van Kristian",
     "UserLastName": "Cuadra",
     "UserEmail": "cuadravan@gmail.com",
     "UserPassword": "12345678",
     "UserPhone": "09177805163",
-    "UserLocation": 6,
+    "UserLocation": 4,
     "UserBirthDate": "2002-03-12T00:00:00",
     "UserGender": "Male",
     "UserRole": 1,
     "UserStatus": "Active",
     "JoinedOn": "2025-04-12T20:14:19.9186446+08:00",
     "OfferApplicationId": [
-      "11111111-1111-1111-1111-111111111111",
-      "22222222-2222-2222-2222-222222222222",
-      "33333333-3333-3333-3333-333333333333",
-      "44444444-4444-4444-4444-444444444444",
-      "55555555-5555-5555-5555-555555555555",
-      "66666666-6666-6666-6666-666666666666",
       "9edbe9f9-6150-4d5d-82ae-28a24ed1e807",
       "24af4220-3fea-4a9b-98b2-84e02764729d",
       "1539b4fd-f6c8-4519-be6c-552a54459aff",
@@ -92,7 +35,12 @@
       "42bcb0b6-b5bb-428b-91fd-d50885406714",
       "c433464e-6b4b-45f7-8d00-b5e8319951e2",
       "4d4e96df-f7b9-41ec-bd69-4da5a097bcbd",
-      "6e39fbea-acbf-4efe-bcfa-2707c27c4c4d"
+      "6e39fbea-acbf-4efe-bcfa-2707c27c4c4d",
+      "3ef317ae-611c-4753-8a34-9a0f2acc4a23",
+      "acae8666-ebc1-4600-9092-8dc9658b29a6",
+      "88de97c9-501f-460a-a803-9b49fb20c699",
+      "574f0568-9f6e-4e03-a39e-bf17e89b931f",
+      "6970fdc6-3f5a-4c20-9fa3-36ff11233e8a"
     ],
     "OwnedProjectId": [],
     "UserMessagesId": [
@@ -118,10 +66,14 @@
       "fe31d8cc-9101-4c68-947b-e674ecc510c3",
       "675b60b8-fc60-490d-9f22-9dd86231b343",
       "d5f8a7dc-0e7f-4486-a0cc-60b2fc57923c",
-      "9af32027-31ff-4ccd-a7fc-f22dc38e7a33"
+      "9af32027-31ff-4ccd-a7fc-f22dc38e7a33",
+      "c40e93c1-1804-41f0-bd5b-17b726fb82b2",
+      "2a07b2c3-3398-4fc9-aa91-327658865ce7"
     ],
     "OwnedProjectId": [],
-    "UserMessagesId": []
+    "UserMessagesId": [
+      "ac9ceb6e-7bcd-4daf-9a82-f3d12105e338"
+    ]
   },
   {
     "UserId": "60f3f5b1-00a7-4a66-b547-2f3452460ce7",

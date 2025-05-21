@@ -6,7 +6,7 @@
     "UserEmail": "cuadra@gmail.com",
     "UserPassword": "87654321",
     "UserPhone": "09177805163",
-    "UserLocation": 28,
+    "UserLocation": 22,
     "UserBirthDate": "2002-03-02T00:00:00",
     "UserGender": "Male",
     "UserRole": 0,
@@ -34,7 +34,12 @@
       "675b60b8-fc60-490d-9f22-9dd86231b343",
       "4d4e96df-f7b9-41ec-bd69-4da5a097bcbd",
       "6e39fbea-acbf-4efe-bcfa-2707c27c4c4d",
-      "d5f8a7dc-0e7f-4486-a0cc-60b2fc57923c"
+      "d5f8a7dc-0e7f-4486-a0cc-60b2fc57923c",
+      "c40e93c1-1804-41f0-bd5b-17b726fb82b2",
+      "acae8666-ebc1-4600-9092-8dc9658b29a6",
+      "2a07b2c3-3398-4fc9-aa91-327658865ce7",
+      "88de97c9-501f-460a-a803-9b49fb20c699",
+      "574f0568-9f6e-4e03-a39e-bf17e89b931f"
     ],
     "Educations": [
       {
@@ -55,7 +60,7 @@
       {
         "CourseName": "Bachelor of Science in Electronics and Communications Engineering",
         "SchoolAttended": "University of San Jose - Recoletos",
-        "TimeGraduated": "2024-12-01T00:00:00"
+        "TimeGraduated": "2024-11-07T00:00:00"
       }
     ],
     "Skills": [
@@ -101,16 +106,19 @@
       }
     ],
     "EmployedProjects": [
-      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9"
+      "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
+      "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",
+      "a4abee41-bc2b-47f9-b1aa-de2a7b453671"
     ],
-    "UserRating": 3.2857142857142856,
-    "UserRatingTotal": 23.0,
-    "UserRatingCount": 7,
+    "UserRating": 3.5,
+    "UserRatingTotal": 28.0,
+    "UserRatingCount": 8,
     "TempRating": 5.0,
     "JoinedOn": "2025-04-12T15:08:13.3629424+08:00",
     "UserMessagesId": [
       "b016ce02-58ba-4d32-8676-dc8c3c8fd0f5",
-      "d87874fa-9f36-4428-9d1b-0a84538af2b4"
+      "d87874fa-9f36-4428-9d1b-0a84538af2b4",
+      "ac9ceb6e-7bcd-4daf-9a82-f3d12105e338"
     ]
   },
   {
@@ -131,7 +139,8 @@
       "3ae57e79-4d21-4d52-b3de-5981c5831837",
       "08fe6539-8101-4b0b-8d09-f9d3e794db5b",
       "51553243-2922-4bb8-99f1-fc65b8993848",
-      "4914d7d7-550f-45b7-81db-6564f1fc0964"
+      "4914d7d7-550f-45b7-81db-6564f1fc0964",
+      "6970fdc6-3f5a-4c20-9fa3-36ff11233e8a"
     ],
     "Educations": [],
     "Skills": [],
@@ -149,19 +158,34 @@
   },
   {
     "UserId": "49f31bfe-83b7-44ab-89d4-52c03fc44d42",
-    "UserFirstName": "V",
-    "UserLastName": "V",
+    "UserFirstName": "Vivian",
+    "UserLastName": "Valentina",
     "UserEmail": "v@c.s",
     "UserPassword": "12345678",
     "UserPhone": "9177805163",
     "UserLocation": 26,
     "UserBirthDate": "2004-06-28T00:00:00",
-    "UserGender": "Male",
+    "UserGender": "Female",
     "UserRole": 0,
     "UserStatus": "Active",
     "OfferApplicationId": [],
-    "Educations": [],
-    "Skills": [],
+    "Educations": [
+      {
+        "CourseName": "Bachelor of Science in Civil Engineering",
+        "SchoolAttended": "Cebu Institute of Technology - University",
+        "TimeGraduated": "2024-06-01T00:00:00"
+      }
+    ],
+    "Skills": [
+      {
+        "SkillName": "Computer Aided Drafting",
+        "SkillDescription": "I can make floor plans, structural plans, and more!",
+        "SkillLevel": 5,
+        "TimeAcquired": "2023-03-16T00:00:00",
+        "OrganizationInvolved": "Self",
+        "YearsOfExperience": 1
+      }
+    ],
     "EmployedProjects": [],
     "UserRating": 0.0,
     "UserRatingTotal": 0.0,
@@ -184,7 +208,8 @@
     "UserStatus": "Active",
     "OfferApplicationId": [
       "9af32027-31ff-4ccd-a7fc-f22dc38e7a33",
-      "e5bb0294-d234-44a0-be60-55fcfb663b5d"
+      "e5bb0294-d234-44a0-be60-55fcfb663b5d",
+      "3ef317ae-611c-4753-8a34-9a0f2acc4a23"
     ],
     "Educations": [
       {
@@ -197,14 +222,15 @@
       {
         "SkillName": "ABC",
         "SkillDescription": "ABC",
-        "SkillLevel": 2,
+        "SkillLevel": 1,
         "TimeAcquired": "2025-04-15T00:00:00",
         "OrganizationInvolved": "ABC",
-        "YearsOfExperience": 2
+        "YearsOfExperience": 0
       }
     ],
     "EmployedProjects": [
-      "b16e60a6-8d2e-4775-adc7-020ddec27097"
+      "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",
+      "a4abee41-bc2b-47f9-b1aa-de2a7b453671"
     ],
     "UserRating": 0.0,
     "UserRatingTotal": 0.0,

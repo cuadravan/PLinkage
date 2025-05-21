@@ -137,6 +137,14 @@ namespace PLinkage.ViewModels
                 return;
             }
 
+            if(project.ProjectStatus != ProjectStatus.Active)
+            {
+                await Shell.Current.DisplayAlert("❗ Project unavailable",
+                    $"This project is not active anymore. It is {project.ProjectStatus}.",
+                    "OK");
+                return;
+            }
+
             // Load skill provider (application sender)
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(application.ReceiverId);
             if (skillProvider == null) return;
