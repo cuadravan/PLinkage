@@ -37,9 +37,12 @@ namespace PLinkage.ViewModels
         {
             "All",
             "Same Place as Me",
-            "Near Me",
+            "Nearby (<=10km)",
+            "Within Urban (<=30km)",
+            "Extended (<=50km)",
             "By Specific Location"
         };
+
 
         public BrowseProjectViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
         {
@@ -85,7 +88,19 @@ namespace PLinkage.ViewModels
                 "Same Place as Me" => projects
                     .Where(p => p.ProjectLocation == currentUser.UserLocation),
 
-                "Near Me" => projects
+                "Nearby (<=10km)" => projects
+                    .Where(p =>
+                        p.ProjectLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
+                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 10),
+
+                "Within Urban (<=30km)" => projects
+                    .Where(p =>
+                        p.ProjectLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
+                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 30),
+
+                "Extended (<=50km)" => projects
                     .Where(p =>
                         p.ProjectLocation.HasValue &&
                         CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
@@ -96,6 +111,7 @@ namespace PLinkage.ViewModels
 
                 _ => projects
             };
+
 
             SuggestedProjects = new ObservableCollection<Project>(filtered);
         }

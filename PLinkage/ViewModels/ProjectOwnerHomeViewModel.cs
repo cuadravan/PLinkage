@@ -39,8 +39,11 @@ namespace PLinkage.ViewModels
         {
             "All",
             "Same Place as Me",
-            "Near Me"
+            "Nearby (<= 10km)",
+            "Within Urban (<= 30km)",
+            "Extended (<= 50km)"
         };
+
 
         // Constructor
         public ProjectOwnerHomeViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
@@ -114,7 +117,19 @@ namespace PLinkage.ViewModels
                 "Same Place as Me" => skillProviders
                     .Where(sp => sp.UserLocation == currentUser.UserLocation),
 
-                "Near Me" => skillProviders
+                "Nearby (<= 10km)" => skillProviders
+                    .Where(sp =>
+                        sp.UserLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
+                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 10),
+
+                "Within Urban (<= 30km)" => skillProviders
+                    .Where(sp =>
+                        sp.UserLocation.HasValue &&
+                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
+                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 30),
+
+                "Extended (<= 50km)" => skillProviders
                     .Where(sp =>
                         sp.UserLocation.HasValue &&
                         CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
@@ -122,6 +137,7 @@ namespace PLinkage.ViewModels
 
                 _ => skillProviders
             };
+
 
             SuggestedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
         }

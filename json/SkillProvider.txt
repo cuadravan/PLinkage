@@ -6,7 +6,7 @@
     "UserEmail": "cuadra@gmail.com",
     "UserPassword": "87654321",
     "UserPhone": "09177805163",
-    "UserLocation": 22,
+    "UserLocation": 19,
     "UserBirthDate": "2002-03-02T00:00:00",
     "UserGender": "Male",
     "UserRole": 0,
@@ -39,7 +39,8 @@
       "acae8666-ebc1-4600-9092-8dc9658b29a6",
       "2a07b2c3-3398-4fc9-aa91-327658865ce7",
       "88de97c9-501f-460a-a803-9b49fb20c699",
-      "574f0568-9f6e-4e03-a39e-bf17e89b931f"
+      "574f0568-9f6e-4e03-a39e-bf17e89b931f",
+      "a84be361-8ca3-481f-93fa-559b3c0efdfa"
     ],
     "Educations": [
       {
@@ -108,7 +109,8 @@
     "EmployedProjects": [
       "08d2fe4a-cbb8-4396-a197-b7a32a1c09b9",
       "d5b6dffa-5e8a-48b0-865e-5b80e0aea35f",
-      "a4abee41-bc2b-47f9-b1aa-de2a7b453671"
+      "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
+      "a420302e-2238-4f72-ad38-1f3c6f117190"
     ],
     "UserRating": 3.5,
     "UserRatingTotal": 28.0,
@@ -201,7 +203,7 @@
     "UserEmail": "taylorswift@gmail.com",
     "UserPassword": "12345678",
     "UserPhone": "09177805152",
-    "UserLocation": 39,
+    "UserLocation": 38,
     "UserBirthDate": "1984-01-31T00:00:00",
     "UserGender": "Female",
     "UserRole": 0,

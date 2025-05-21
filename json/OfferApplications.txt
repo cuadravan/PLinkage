@@ -398,5 +398,15 @@
     "OfferApplicationStatus": "Accepted",
     "OfferApplicationRate": 1.0,
     "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "a84be361-8ca3-481f-93fa-559b3c0efdfa",
+    "OfferApplicationType": "Application",
+    "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectId": "a420302e-2238-4f72-ad38-1f3c6f117190",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
   }
 ]

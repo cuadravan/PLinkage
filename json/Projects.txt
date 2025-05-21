@@ -239,12 +239,23 @@
     "ProjectSkillsRequired": [
       "Buying pc parts"
     ],
-    "ProjectMembers": [],
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 1.0,
+        "TimeFrame": 1,
+        "IsResigning": false,
+        "ResignationReason": ""
+      }
+    ],
     "ProjectPriority": "High",
     "ProjectResourcesNeeded": 5,
-    "ProjectResourcesAvailable": 5,
+    "ProjectResourcesAvailable": 4,
     "ProjectDateCreated": "2025-05-20T14:51:15.1692825+08:00",
-    "ProjectDateUpdated": "2025-05-21T09:15:24.503532+08:00"
+    "ProjectDateUpdated": "2025-05-21T11:00:12.1967962+08:00"
   },
   {
     "ProjectId": "bb8f58bd-54a0-4869-8b29-14401aad3296",
