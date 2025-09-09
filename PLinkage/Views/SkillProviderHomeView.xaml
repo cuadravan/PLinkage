@@ -4,82 +4,91 @@
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
              x:Class="PLinkage.Views.SkillProviderHomeView"
-             Title="Home - Skill Provider">
-    <Grid ColumnDefinitions="*">
-        <ScrollView Grid.Column="0" Padding="20">
-            <VerticalStackLayout Spacing="16">
+             Title="Home - Skill Provider"
+             Shell.NavBarIsVisible="False">
+    <ScrollView Padding="50">
+        <VerticalStackLayout Spacing="16">
 
-                <!-- Welcome Banner -->
-                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+            <Border BackgroundColor="#7C4DFF" StrokeThickness="0"
                         Padding="16" StrokeShape="RoundRectangle 12">
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="{Binding UserName, StringFormat='Welcome back, {0}!'}"
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding UserName, StringFormat='Welcome back, {0}!'}"
                                FontSize="18"
                                FontAttributes="Bold"
-                               TextColor="Black" />
+                               TextColor="White" />
 
-                        <Label Text="{Binding SummaryText}"
+                    <Label Text="{Binding SummaryText}"
                            FontSize="14"
-                           TextColor="Black"/>
+                           TextColor="White"/>
 
-                    </VerticalStackLayout>
-                </Border>
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Suggested Header and Sort Picker -->
-                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+            <!-- Suggested Header and Sort Picker -->
+            <Border BackgroundColor="#FFFFFF" StrokeThickness="1" Stroke="#7C4DFF"
                         Padding="16" StrokeShape="RoundRectangle 12">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Suggested for you"
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Suggested for you"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="Black" />
 
-                        <!-- Sort Options Picker -->
-                        <Picker Title="Sort by"
+                    <!-- Sort Options Picker -->
+                    <Picker Title="Sort by"
                                 ItemsSource="{Binding SortOptions}"
                                 SelectedItem="{Binding SortSelection}" />
-                    </VerticalStackLayout>
-                </Border>
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Suggested Projects List -->
-                <CollectionView ItemsSource="{Binding SuggestedProjects}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
-                                    Padding="12" StrokeShape="RoundRectangle 10">
-                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                    <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+            <!-- Suggested Projects List -->
+            <FlexLayout BindableLayout.ItemsSource="{Binding SuggestedProjects}"
+                Wrap="Wrap"
+                Direction="Row"
+                AlignItems="Start"
+                JustifyContent="Center"
+                AlignContent="Center">
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="#FFFFFF" 
+StrokeThickness="1" 
+Stroke="#7C4DFF"
+Padding="12" 
+StrokeShape="RoundRectangle 10"
+HeightRequest="120" WidthRequest="340" 
+Margin="0,0,10,10">
+                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60"
                                              VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                        <Label Text="{Binding ProjectName}"
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding ProjectName}"
                                                FontAttributes="Bold"
                                                FontSize="14"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding ProjectResourcesAvailable, StringFormat='{0} available slot/s'}"
+                                    <Label Text="{Binding ProjectResourcesAvailable, StringFormat='{0} available slot/s'}"
                                                FontSize="12"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding ProjectLocation}"
+                                    <Label Text="{Binding ProjectLocation}"
                                                FontSize="12"
                                                TextColor="Black"/>
-                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                                    <Button Text="View"
+                                <Button Text="View"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderHomeViewModel}}, Path=ViewProjectCommand}"
                                     CommandParameter="{Binding .}"
                                     Grid.Column="2"
-                                    BackgroundColor="#1976D2"
+                                    BackgroundColor="#7C4DFF"
                                     Padding="10,4"
                                     CornerRadius="6"
                                     WidthRequest="100"
                                     VerticalOptions="Center"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
 
-            </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

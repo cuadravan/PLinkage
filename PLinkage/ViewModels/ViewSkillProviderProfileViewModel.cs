@@ -118,7 +118,7 @@ namespace PLinkage.ViewModels
 
             Educations = new ObservableCollection<Education>(profile.Educations);
             Skills = new ObservableCollection<Skill>(profile.Skills);
-            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate Account" : "Deactivate Account";
+            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
         }
 
         private async Task LoadEmployedProjectsAsync()

@@ -4,10 +4,10 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
           x:Class="PLinkage.Views.ProjectOwnerOffersAndApplicationsView"
-          Title="Offers and Applications">
+          Title="Offers and Applications"
+          Shell.NavBarIsVisible="False">
 
-    <ScrollView Padding="20" HorizontalScrollBarVisibility="Always">
-        <!-- Use a Grid with 4 columns -->
+    <ScrollView Padding="50" HorizontalScrollBarVisibility="Always">
         <Grid ColumnSpacing="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -20,14 +20,18 @@
             <VerticalStackLayout Grid.Column="0" Spacing="10">
                 <Label Text="Sent Offers (Pending)" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
                 <CollectionView ItemsSource="{Binding SentOffersPending}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+     VerticalItemSpacing="6"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="White" Stroke="#D9D9D9" StrokeThickness="1"
+                            <Border Background="White" Stroke="#7C4DFF" StrokeThickness="1"
                                     StrokeShape="RoundRectangle 12" Padding="14" Margin="0,0,0,10">
                                 <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                     <VerticalStackLayout>
                                         <Label Text="🔵 Offer" FontSize="10" TextColor="#2196F3" />
-                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -44,7 +48,7 @@
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                        <Label Text="{Binding ReceiverName, StringFormat='Sent to: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding ReceiverName, StringFormat='Sent to: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -66,14 +70,18 @@
             <VerticalStackLayout Grid.Column="1" Spacing="10">
                 <Label Text="Received Applications (Pending)" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
                 <CollectionView ItemsSource="{Binding ReceivedApplicationsPending}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+     VerticalItemSpacing="6"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="White" Stroke="#D9D9D9" StrokeThickness="1"
+                            <Border Background="White" Stroke="#7C4DFF" StrokeThickness="1"
                                     StrokeShape="RoundRectangle 12" Padding="14" Margin="0,0,0,8">
                                 <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                     <VerticalStackLayout>
                                         <Label Text="🟠 Application" FontSize="10" TextColor="#FF9800" />
-                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -90,7 +98,7 @@
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                        <Label Text="{Binding SenderName, StringFormat='Received from: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding SenderName, StringFormat='Received from: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -121,6 +129,10 @@
             <VerticalStackLayout Grid.Column="2" Spacing="10">
                 <Label Text="Sent Offers (History)" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
                 <CollectionView ItemsSource="{Binding SentOffersHistory}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                         VerticalItemSpacing="6"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border Background="LightGray" Stroke="#D9D9D9" StrokeThickness="1"
@@ -128,7 +140,7 @@
                                 <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                     <VerticalStackLayout>
                                         <Label Text="🔵 Offer" FontSize="10" TextColor="#2196F3" />
-                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -145,7 +157,7 @@
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                        <Label Text="{Binding ReceiverName, StringFormat='Sent to: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding ReceiverName, StringFormat='Sent to: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -171,6 +183,10 @@
             <VerticalStackLayout Grid.Column="3" Spacing="10">
                 <Label Text="Received Applications (History)" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
                 <CollectionView ItemsSource="{Binding ReceivedApplicationsHistory}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+     VerticalItemSpacing="6"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border Background="LightGray" Stroke="#D9D9D9" StrokeThickness="1"
@@ -178,7 +194,7 @@
                                 <Grid ColumnDefinitions="3*,3*,2*" VerticalOptions="Center">
                                     <VerticalStackLayout>
                                         <Label Text="🟠 Application" FontSize="10" TextColor="#FF9800" />
-                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding ProjectName}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -195,7 +211,7 @@
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                        <Label Text="{Binding SenderName, StringFormat='Received from: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="DodgerBlue">
+                                        <Label Text="{Binding SenderName, StringFormat='Received from: {0}'}" FontAttributes="Bold" TextDecorations="Underline" TextColor="#7C4DFF">
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewSenderCommand}" 

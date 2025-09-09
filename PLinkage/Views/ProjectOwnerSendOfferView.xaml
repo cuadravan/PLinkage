@@ -4,55 +4,50 @@
              x:Class="PLinkage.Views.ProjectOwnerSendOfferView"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
-             Title="Send Offer">
+             Title="Send Offer"
+             Shell.NavBarIsVisible="False">
 
-    <Grid ColumnDefinitions="*">
-
-        <!-- MAIN FORM -->
-        <ScrollView Grid.Column="0" Padding="40,20">
-            <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="30" HorizontalOptions="Center" WidthRequest="400">
-                <VerticalStackLayout Spacing="20">
-
-                    <Label Text="Select Project:" FontAttributes="Bold" TextColor="Black"/>
-                    <Picker Title="Choose Project"
+    <ScrollView>
+        <Border Background="#F1F0FC" Stroke="LightGray" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="30" WidthRequest="400">
+            <VerticalStackLayout Spacing="20">
+                <Label Text="Please complete form to send offer:" FontAttributes="Bold" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
+                <Label Text="Select Project:" FontAttributes="Bold" TextColor="Black"/>
+                <Picker
                             ItemsSource="{Binding OwnedProjects}"
                             ItemDisplayBinding="{Binding ProjectName}"
                             SelectedItem="{Binding SelectedProject}"
                             BackgroundColor="White" TextColor="Black" TitleColor="#555555"/>
 
-                    <Label Text="Skill Provider:" FontAttributes="Bold" TextColor="Black"/>
-                    <Label Text="{Binding SkillProviderFullName}" BackgroundColor="White"
-                           TextColor="Black" Padding="8,4" />
+                <Label Text="Skill Provider:" FontAttributes="Bold" TextColor="Black"/>
+                <Label Text="{Binding SkillProviderFullName}" BackgroundColor="White"
+                           TextColor="Black" Padding="10,10" />
 
-                    <Label Text="Rate per hour (₱):" FontAttributes="Bold" TextColor="Black"/>
-                    <Entry Placeholder="e.g., 500"
+                <Label Text="Rate per hour (₱):" FontAttributes="Bold" TextColor="Black"/>
+                <Entry Placeholder="e.g., 500"
                            Text="{Binding RateOffered}"
                            Keyboard="Numeric"
                            BackgroundColor="White" TextColor="Black"/>
 
-                    <Label Text="Estimated Timeframe (in hours):" FontAttributes="Bold" TextColor="Black"/>
-                    <Entry Placeholder="e.g., 2"
+                <Label Text="Estimated Timeframe (in hours):" FontAttributes="Bold" TextColor="Black"/>
+                <Entry Placeholder="e.g., 2"
                            Text="{Binding TimeFrameOffered}"
                            BackgroundColor="White" TextColor="Black"/>
 
-                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                        <Button Text="Send"
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Button Text="Send Offer"
                                 Command="{Binding SendOfferCommand}"
-                                Padding="12,6"
-                                BackgroundColor="#A1D490"
-                                TextColor="Black"
+                                
+                                BackgroundColor="#7C4DFF"
+                                TextColor="White"
                                 WidthRequest="120" />
 
-                        <Button Text="Go Back"
-                                Command="{Binding GoBackCommand}"
-                                Padding="12,6"
-                                BackgroundColor="#B0BEC5"
-                                TextColor="Black"
+                    <Button Text="Cancel"
+                                Command="{Binding GoBackCommand}"                             
+                                BackgroundColor="White"
+                                TextColor="#7C4DFF"
                                 WidthRequest="120" />
-                    </HorizontalStackLayout>
-
-                </VerticalStackLayout>
-            </Border>
-        </ScrollView>
-    </Grid>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+    </ScrollView>
 </ContentPage>

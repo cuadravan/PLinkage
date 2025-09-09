@@ -133,5 +133,4 @@ namespace PLinkage.Models
         Tuburan,
         Tudela
     }
-
 }

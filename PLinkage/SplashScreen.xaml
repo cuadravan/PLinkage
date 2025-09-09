@@ -6,7 +6,7 @@
              NavigationPage.HasNavigationBar="False">
     <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
         <Image x:Name="LogoImage"
-               Source="plinkage_logo.png"
+               Source="plinkage.png"
                WidthRequest="400"
                HeightRequest="400"
                Opacity="0"

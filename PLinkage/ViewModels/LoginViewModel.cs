@@ -49,12 +49,10 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // Successful login
             _sessionService.SetCurrentUser(user);
             _appShellViewModel.UpdateRoleProperties();
             ErrorMessage = string.Empty;
 
-            // Navigate to role-specific home
             switch (_sessionService.GetCurrentUserType())
             {
                 case UserRole.SkillProvider:

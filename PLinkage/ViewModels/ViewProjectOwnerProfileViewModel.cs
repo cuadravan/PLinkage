@@ -127,7 +127,7 @@ namespace PLinkage.ViewModels
             UserPhone = profile.UserPhone;
 
             // Set the toggle button text
-            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate Account" : "Deactivate Account";
+            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
         }
 
 

@@ -103,6 +103,42 @@
         "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
         "MessageContent": "Hi!",
         "MessageDate": "2025-05-20T14:59:27.6106218+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "230d2dab-826f-468b-9b4b-06f3d6739c88",
+        "MessageOrder": 12,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "Are you interested in app development? Check my offer",
+        "MessageDate": "2025-05-21T14:55:29.238461+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "1f29b15b-10f8-40b5-93af-67f44adea9b9",
+        "MessageOrder": 13,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "sgfjsfghs",
+        "MessageDate": "2025-05-21T14:55:43.7810646+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "bed71095-7acc-486e-8f03-3eb4d652e42a",
+        "MessageOrder": 14,
+        "SenderId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "ReceiverId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "MessageContent": "Check my resignation",
+        "MessageDate": "2025-05-21T14:59:08.2768886+08:00",
+        "IsRead": true
+      },
+      {
+        "MessageId": "f2a0b71f-3eb5-48cc-964b-2f656e349928",
+        "MessageOrder": 15,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "MessageContent": "g",
+        "MessageDate": "2025-09-02T16:36:01.0487806+08:00",
         "IsRead": false
       }
     ]
@@ -139,6 +175,15 @@
         "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
         "MessageContent": "Hello again!",
         "MessageDate": "2025-05-20T08:58:53.2680822+08:00",
+        "IsRead": false
+      },
+      {
+        "MessageId": "381c9b2b-afb1-4b80-9a7b-80462085730c",
+        "MessageOrder": 4,
+        "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+        "ReceiverId": "d758722e-df65-46b8-9d3c-2a20d6d8562d",
+        "MessageContent": "fdv",
+        "MessageDate": "2025-09-09T08:07:00.2123727+08:00",
         "IsRead": false
       }
     ]

@@ -97,16 +97,27 @@
     "ProjectDescription": "We will sell books!",
     "ProjectStartDate": "2025-05-19T20:12:28.0508222+08:00",
     "ProjectEndDate": "2025-05-20T20:12:28.0508227+08:00",
-    "ProjectStatus": 2,
+    "ProjectStatus": 1,
     "ProjectSkillsRequired": [
       "Marketing"
     ],
-    "ProjectMembers": [],
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 12.0,
+        "TimeFrame": 12,
+        "IsResigning": false,
+        "ResignationReason": ""
+      }
+    ],
     "ProjectPriority": "High",
     "ProjectResourcesNeeded": 1,
-    "ProjectResourcesAvailable": 1,
+    "ProjectResourcesAvailable": 0,
     "ProjectDateCreated": "2025-05-19T20:12:28.0577942+08:00",
-    "ProjectDateUpdated": "2025-05-20T14:58:43.9442395+08:00"
+    "ProjectDateUpdated": "2025-09-09T06:53:09.775281+08:00"
   },
   {
     "ProjectId": "a4abee41-bc2b-47f9-b1aa-de2a7b453671",
@@ -235,7 +246,7 @@
     "ProjectDescription": "Help me make a high-end gaming PC!",
     "ProjectStartDate": "2025-05-21T00:00:00",
     "ProjectEndDate": "2025-08-23T00:00:00",
-    "ProjectStatus": 0,
+    "ProjectStatus": 1,
     "ProjectSkillsRequired": [
       "Buying pc parts"
     ],
@@ -255,7 +266,7 @@
     "ProjectResourcesNeeded": 5,
     "ProjectResourcesAvailable": 4,
     "ProjectDateCreated": "2025-05-20T14:51:15.1692825+08:00",
-    "ProjectDateUpdated": "2025-05-21T11:00:12.1967962+08:00"
+    "ProjectDateUpdated": "2025-05-21T14:53:52.1094048+08:00"
   },
   {
     "ProjectId": "bb8f58bd-54a0-4869-8b29-14401aad3296",
@@ -275,5 +286,56 @@
     "ProjectResourcesAvailable": 5,
     "ProjectDateCreated": "2025-05-21T08:54:53.2202182+08:00",
     "ProjectDateUpdated": "2025-05-21T08:54:53.2202182+08:00"
+  },
+  {
+    "ProjectId": "2d4ca3f4-1fd5-4560-8beb-81c982c2edda",
+    "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectName": "App Development",
+    "ProjectLocation": 0,
+    "ProjectDescription": "Framework: .NET MAUI",
+    "ProjectStartDate": "2025-05-21T14:51:01.4391307+08:00",
+    "ProjectEndDate": "2025-07-19T00:00:00",
+    "ProjectStatus": 1,
+    "ProjectSkillsRequired": [
+      ".NET MAUI framework"
+    ],
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 12.0,
+        "TimeFrame": 12,
+        "IsResigning": false,
+        "ResignationReason": ""
+      }
+    ],
+    "ProjectPriority": "Medium",
+    "ProjectResourcesNeeded": 3,
+    "ProjectResourcesAvailable": 2,
+    "ProjectDateCreated": "2025-05-21T14:51:01.4410524+08:00",
+    "ProjectDateUpdated": "2025-09-09T06:51:02.8906399+08:00"
+  },
+  {
+    "ProjectId": "2cc16874-fbc4-48eb-b6ec-f03540725365",
+    "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ProjectName": "Certificate Making",
+    "ProjectLocation": 0,
+    "ProjectDescription": "I need good designers to make mass certificates.",
+    "ProjectStartDate": "2025-09-09T07:25:34.1693296+08:00",
+    "ProjectEndDate": "2025-11-24T00:00:00",
+    "ProjectStatus": 0,
+    "ProjectSkillsRequired": [
+      "Design software",
+      "Creativity",
+      "Graphic Design"
+    ],
+    "ProjectMembers": [],
+    "ProjectPriority": "Medium",
+    "ProjectResourcesNeeded": 5,
+    "ProjectResourcesAvailable": 5,
+    "ProjectDateCreated": "2025-09-09T07:25:34.1693775+08:00",
+    "ProjectDateUpdated": "2025-09-09T11:03:41.4228135+08:00"
   }
 ]

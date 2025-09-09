@@ -6,13 +6,11 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <!-- External resource dictionaries -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Inline resources like converters go here -->
             <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />
             <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
             <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />

@@ -9,7 +9,7 @@
 
     <Shell.FlyoutHeader>
         <StackLayout Padding="10" Spacing="10">
-            <Image Source="plinkage_logo.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+            <Image Source="plinkage.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
             <Label Text="{Binding WelcomeMessage}" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" />
             <Label Text="{Binding UserRoleMessage}" FontSize="14" HorizontalOptions="Center" />
 
@@ -48,21 +48,11 @@
         <ShellContent Route="AdminBrowseSkillProvidersView" 
             ContentTemplate="{DataTemplate views:AdminBrowseSkillProvidersView}" />
     </FlyoutItem>
-    
+
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsAdmin}">
         <ShellContent Route="AdminViewProjectOwnerProfileView" 
         ContentTemplate="{DataTemplate views:AdminMessagesView}" />
     </FlyoutItem>
-    
-    <!--
-    <FlyoutItem Title="[DEBUG] View Project" IsVisible="{Binding IsAdmin}">
-        <ShellContent Route="AdminViewProjectView" 
-        ContentTemplate="{DataTemplate views:AdminViewProjectView}" />
-    </FlyoutItem>
-    <FlyoutItem Title="[DEBUG] View Skill Provider Profile" IsVisible="{Binding IsAdmin}">
-        <ShellContent Route="AdminViewSkillProviderProfileView" 
-        ContentTemplate="{DataTemplate views:AdminViewSkillProviderProfileView}" />
-    </FlyoutItem>-->
 
     <!-- Project Owner Menu -->
     <FlyoutItem Title="Home" IsVisible="{Binding IsProjectOwner}">

@@ -6,23 +6,25 @@
     x:Class="PLinkage.Views.ProjectOwnerRateSkillProviderView"
     xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
     xmlns:models="clr-namespace:PLinkage.Models"
-    Title="Rate Employed Skill Providers">
+    Title="Rate Employed Skill Providers"
+    Shell.NavBarIsVisible="False">
 
     <Grid Padding="20">
         <ScrollView>
-            <VerticalStackLayout Spacing="20">
+            <Border Background="#F1F0FC" Stroke="LightGray" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="30" WidthRequest="400">
+            <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
 
                 <!-- Project Name Header -->
-                <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
+                <Border Background="#7C4DFF" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
                     <Label
                         Text="{Binding ProjectName}"
                         FontSize="18"
                         FontAttributes="Bold"
-                        TextColor="Black" />
+                        TextColor="White" />
                 </Border>
 
                 <!-- Rating Table -->
-                <Border Background="#E0E0E0" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
+                <Border Background="#FFFFFF" Stroke="LightGray" StrokeThickness="1" Padding="10" StrokeShape="RoundRectangle 5">
                     <CollectionView
                         ItemsSource="{Binding SkillProvidersToRate}"
                         SelectionMode="None">
@@ -87,12 +89,13 @@
                     <Button
                         Text="Submit Rating"
                         Padding="12,6"
-                        BackgroundColor="#A1D490"
-                        TextColor="Black"
+                        BackgroundColor="#7C4DFF"
+                        TextColor="White"
                         Command="{Binding SubmitRatingsCommand}" />
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>
+            </Border>
         </ScrollView>
     </Grid>
 </ContentPage>

@@ -5,80 +5,79 @@
     xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
     x:Class="PLinkage.Views.ProjectOwnerUpdateProfileView"
     x:DataType="viewmodels:UpdateProfileViewModel"
-    Title="Update Profile">
+    Title="Update Profile"
+    Shell.NavBarIsVisible="False">
 
-    <Grid ColumnDefinitions="*">
-        <VerticalStackLayout Grid.Column="0" Padding="20" Spacing="20">
+    <VerticalStackLayout Padding="50" Spacing="20">
 
-            <!-- Header -->
-            <Border Background="#D9D9D9" Padding="12" StrokeThickness="0" StrokeShape="RoundRectangle 5">
-                <Label Text="Update Profile" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+        <!-- Header -->
+        <Border Background="#7C4DFF" Padding="12" StrokeThickness="0" StrokeShape="RoundRectangle 5">
+            <Label Text="Update Profile" FontSize="20" FontAttributes="Bold" TextColor="White"/>
+        </Border>
+
+        <!-- Form Grid -->
+        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15" ColumnSpacing="20">
+
+            <!-- First Name -->
+            <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="0" Grid.Column="0" Background="Transparent">
+                <Entry Placeholder="First Name" Text="{Binding FirstName}" BackgroundColor="White" TextColor="Black" />
             </Border>
 
-            <!-- Form Grid -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15" ColumnSpacing="20">
+            <!-- Last Name -->
+            <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="1" Grid.Column="0" Background="Transparent">
+                <Entry Placeholder="Last Name" Text="{Binding LastName}" BackgroundColor="White" TextColor="Black" />
+            </Border>
 
-                <!-- First Name -->
-                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="0" Grid.Column="0" Background="Transparent">
-                    <Entry Placeholder="First Name" Text="{Binding FirstName}" BackgroundColor="White" TextColor="Black" />
-                </Border>
+            <!-- Gender RadioButtons -->
+            <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="0" Grid.Column="1" Background="Transparent">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Gender:" VerticalOptions="Center"/>
+                    <RadioButton Content="Male" IsChecked="{Binding IsMale}" GroupName="Gender"/>
+                    <RadioButton Content="Female" IsChecked="{Binding IsFemale}" GroupName="Gender"/>
+                </HorizontalStackLayout>
+            </Border>
 
-                <!-- Last Name -->
-                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="1" Grid.Column="0" Background="Transparent">
-                    <Entry Placeholder="Last Name" Text="{Binding LastName}" BackgroundColor="White" TextColor="Black" />
-                </Border>
-
-                <!-- Gender RadioButtons -->
-                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="0" Grid.Column="1" Background="Transparent">
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="Gender:" VerticalOptions="Center"/>
-                        <RadioButton Content="Male" IsChecked="{Binding IsMale}" GroupName="Gender"/>
-                        <RadioButton Content="Female" IsChecked="{Binding IsFemale}" GroupName="Gender"/>
-                    </HorizontalStackLayout>
-                </Border>
-
-                <!-- Location Picker -->
-                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="1" Grid.Column="1" Background="Transparent">
-                    <Picker ItemsSource="{Binding CebuLocations}"
+            <!-- Location Picker -->
+            <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="1" Grid.Column="1" Background="Transparent">
+                <Picker ItemsSource="{Binding CebuLocations}"
                             ItemDisplayBinding="{Binding .}"
                             SelectedItem="{Binding SelectedLocation}" 
                             Title="Select Location"
                             BackgroundColor="White"
                             TextColor="Black"/>
-                </Border>
+            </Border>
 
-                <!-- Birthdate -->
-                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="2" Grid.Column="0" Background="Transparent">
-                    <DatePicker Date="{Binding Birthdate}" TextColor="Black" BackgroundColor="White" />
-                </Border>
+            <!-- Birthdate -->
+            <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="2" Grid.Column="0" Background="Transparent">
+                <DatePicker Date="{Binding Birthdate}" TextColor="Black" BackgroundColor="White" />
+            </Border>
 
-                <!-- Mobile Number -->
-                <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="2" Grid.Column="1" Background="Transparent">
-                    <Entry Placeholder="Mobile Number" Text="{Binding MobileNumber}" Keyboard="Telephone" BackgroundColor="White" TextColor="Black" />
-                </Border>
+            <!-- Mobile Number -->
+            <Border Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 6" Padding="5" Grid.Row="2" Grid.Column="1" Background="Transparent">
+                <Entry Placeholder="Mobile Number" Text="{Binding MobileNumber}" Keyboard="Telephone" BackgroundColor="White" TextColor="Black" />
+            </Border>
 
-                <!-- Error Message -->
-                <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" TextColor="Red" FontAttributes="Italic"/>
-            </Grid>
+            <!-- Error Message -->
+            <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding ErrorMessage}" TextColor="Red" FontAttributes="Italic"/>
+        </Grid>
 
-            <!-- Action Buttons -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                <Button Text="Reset"
+        <!-- Action Buttons -->
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+            <Button Text="Reset"
                         Command="{Binding ClearCommand}"
                         BackgroundColor="White"
-                        BorderColor="LightGray"
+                        BorderColor="#7C4DFF"
                         TextColor="Black"
                         CornerRadius="6"
                         Padding="10,5"/>
 
-                <Button Text="Apply Changes"
+            <Button Text="Apply Changes"
                         Command="{Binding UpdateCommand}"
-                        BackgroundColor="LightGray"
-                        TextColor="Black"
+                        BackgroundColor="#7C4DFF"
+                        TextColor="White"
                         CornerRadius="6"
                         Padding="10,5"/>
-            </HorizontalStackLayout>
+        </HorizontalStackLayout>
 
-        </VerticalStackLayout>
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>

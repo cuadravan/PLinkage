@@ -7,64 +7,65 @@
              Title="Update Skill"
              x:DataType="viewmodels:UpdateSkillViewModel">
 
-    <Grid ColumnDefinitions="*">
-        <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
-            <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Skill Name" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="Skill Name"
+    <VerticalStackLayout Padding="40" Spacing="30" VerticalOptions="Center" WidthRequest="400">
+        <Frame BackgroundColor="#F1F0FC" Padding="20" CornerRadius="10">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Update form below:" FontAttributes="Bold" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
+                <Label Text="Skill Name" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="Skill Name"
                            Text="{Binding SkillName, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Label Text="Description" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="Description"
+                <Label Text="Description" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="Description"
                            Text="{Binding SkillDescription, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Label Text="Skill Level (1–5)" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="Skill Level (0–5)"
+                <Label Text="Skill Level (1–5)" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="Skill Level (0–5)"
                            Text="{Binding SkillLevel, Mode=TwoWay}"
                            Keyboard="Numeric"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Label Text="Time Acquired" TextColor="Black" FontAttributes="Bold" />
-                    <DatePicker Date="{Binding TimeAcquired, Mode=TwoWay}"
+                <Label Text="Time Acquired" TextColor="Black" FontAttributes="Bold" />
+                <DatePicker Date="{Binding TimeAcquired, Mode=TwoWay}"
                                 Format="MMMM yyyy"
                                 TextColor="Black"
                                 BackgroundColor="White"
                                 MaximumDate="{x:Static sys:DateTime.Today}" />
 
-                    <Label Text="Organization Involved" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="Organization Involved"
+                <Label Text="Organization Involved" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="Organization Involved"
                            Text="{Binding OrganizationInvolved, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Label Text="Years of Experience (1-100)" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="Years of Experience"
+                <Label Text="Years of Experience (1-100)" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="Years of Experience"
                            Text="{Binding YearsOfExperience, Mode=TwoWay}"
                            Keyboard="Numeric"
                            BackgroundColor="White" TextColor="Black" />
-                </VerticalStackLayout>
-            </Frame>
+            </VerticalStackLayout>
+        </Frame>
 
-            <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
+        <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
 
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
-                <Button Text="Save"
-                        BackgroundColor="#A5D6A7"
-                        TextColor="Black"
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+            <Button Text="Save"
+                        BackgroundColor="#7C4DFF"
+                        TextColor="White"
                         Padding="14,6"
                         CornerRadius="8"
                         Command="{Binding SaveCommand}" />
 
-                <Button Text="Cancel"
-                        BackgroundColor="LightGray"
-                        TextColor="Black"
+            <Button Text="Cancel"
+                        BackgroundColor="White"
+                        TextColor="#7C4DFF"
+                        BorderColor="#7C4DFF"
+                        BorderWidth="1"
                         Padding="14,6"
                         CornerRadius="8"
                         Command="{Binding CancelCommand}" />
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-    </Grid>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
 </ContentPage>

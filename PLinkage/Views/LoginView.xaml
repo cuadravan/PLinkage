@@ -13,32 +13,35 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-
     <ScrollView>
         <VerticalStackLayout
             Padding="10"
             Spacing="20"
             HorizontalOptions="Center"
             VerticalOptions="Center">
-
-            <Border 
-                StrokeThickness="2"
-                Stroke="#5A5A5A" 
-                BackgroundColor="#F8F8F8" 
-                Padding="25" 
-                StrokeShape="Rectangle 20"
+            <Border                 
+                BackgroundColor="#FFFFFF" 
+                Padding="25"               
                 HorizontalOptions="Fill"
                 WidthRequest="350">
-
                 <VerticalStackLayout Spacing="25">
-
+                    <Image
+                       Source="plinkage.png"
+                       WidthRequest="150"
+                       HeightRequest="150"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
                     <Label
-                        Text="Sign In"
-                        FontSize="28"
+                        Text="Welcome, Project Enthusiast!"
+                        FontSize="18"
                         FontAttributes="Bold"
                         TextColor="#333"
                         HorizontalOptions="Center" />
-
+                    <Label
+                        Text="Please sign in to continue."
+                        FontSize="18"
+                        TextColor="#333"
+                        HorizontalOptions="Center" />
                     <Entry
                         x:Name="EmailEntry"
                         Placeholder="Email Address"
@@ -48,7 +51,6 @@
                         FontSize="14"
                         HorizontalOptions="Fill" 
                         Text="{Binding Email}"/>
-
                     <Entry
                         x:Name="PasswordEntry"
                         Placeholder="Password"
@@ -58,8 +60,6 @@
                         FontSize="14"
                         HorizontalOptions="Fill" 
                         Text="{Binding Password}"/>
-
-                    <!-- Error Message Label -->
                     <Label
                         Text="{Binding ErrorMessage}"
                         TextColor="Red"
@@ -67,12 +67,9 @@
                         FontAttributes="Italic"
                         HorizontalOptions="Start"
                         IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
-
-
-
                     <Button
                         Text="Login"
-                        BackgroundColor="#007BFF"
+                        BackgroundColor="#7C4DFF"
                         TextColor="White"
                         HeightRequest="50"
                         CornerRadius="10"
@@ -80,22 +77,18 @@
                         FontAttributes="Bold"
                         Command="{Binding LoginCommand}"
                         HorizontalOptions="Fill" />
-
                     <Button
                         Text="Register"
                         Command="{Binding GoToRegisterCommand}"
-                        BackgroundColor="#6C757D"
+                        BackgroundColor="#6A33CC"
                         TextColor="White"
                         HeightRequest="50"
                         CornerRadius="10"
                         FontSize="16"
                         FontAttributes="Bold"
                         HorizontalOptions="Fill" />
-
                 </VerticalStackLayout>
             </Border>
-
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

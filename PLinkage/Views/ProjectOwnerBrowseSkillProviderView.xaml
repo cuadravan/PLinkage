@@ -5,79 +5,83 @@
              Title="Browse Skill Providers"
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              xmlns:models="clr-namespace:PLinkage.Models"
-             xmlns:local="clr-namespace:PLinkage.Converters">
+             xmlns:local="clr-namespace:PLinkage.Converters"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:SortToVisibilityConverter x:Key="SortToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid ColumnDefinitions="*">
+    <ScrollView Padding="50">
+        <VerticalStackLayout Spacing="15">
 
-        <!-- MAIN CONTENT -->
-        <ScrollView Grid.Column="0" Padding="20">
-            <VerticalStackLayout Spacing="15">
-
-                <!-- Page Header -->
-                <Border Padding="10" Background="#D9D9D9" StrokeThickness="0" StrokeShape="RoundRectangle 5">
-                    <VerticalStackLayout>
-                        <Label Text="Browse Skill Providers"
+            <Border Padding="10" Background="#7C4DFF" StrokeThickness="0" StrokeShape="RoundRectangle 5">
+                <VerticalStackLayout>
+                    <Label Text="Browse Skill Providers"
                                FontSize="20"
                                FontAttributes="Bold"
-                               TextColor="Black" />
-                        <!-- Sort Options Picker -->
-                        <Picker
+                               TextColor="White" />
+                    <Picker
                             Title="Sort By"
+                            TitleColor="White"
+                            TextColor="White"
                             ItemsSource="{Binding SortOptions}"
                             SelectedItem="{Binding SortSelection}" />
 
-                        <Picker
+                    <Picker
                             IsVisible="{Binding SortSelection, Converter={StaticResource SortToVisibilityConverter}}"
                             Title="Select Location"
+                            TitleColor="White"
+                            TextColor="White"
                             ItemsSource="{Binding CebuLocations}"
                             SelectedItem="{Binding SelectedLocation}" />
-                    </VerticalStackLayout>
-                </Border>
+                </VerticalStackLayout>
+            </Border>
 
-                <CollectionView ItemsSource="{Binding SuggestedSkillProviders}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
-                                    Padding="12" StrokeShape="RoundRectangle 10">
-                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                    <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+            <FlexLayout BindableLayout.ItemsSource="{Binding SuggestedSkillProviders}" Wrap="Wrap" Direction="Row" AlignItems="Start" JustifyContent="Center" AlignContent="Center" Padding="10">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="#FFFFFF" 
+StrokeThickness="1" 
+Stroke="#7C4DFF"
+Padding="12" 
+StrokeShape="RoundRectangle 10"
+HeightRequest="120" WidthRequest="340" 
+Margin="0,0,10,10">
+                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60"
                                              VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                        <Label Text="{Binding UserFirstName}"
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding UserFirstName}"
                                                FontAttributes="Bold"
                                                FontSize="14"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding UserRating, StringFormat='{0:F2} star/s'}"
-       FontSize="12"
-       TextColor="Black"/>
-
-                                        <Label Text="{Binding UserLocation}"
+                                    <Label Text="{Binding UserRating, StringFormat='{0:F2} star/s'}"
                                                FontSize="12"
                                                TextColor="Black"/>
-                                    </VerticalStackLayout>
 
-                                    <Button Text="View"
+                                    <Label Text="{Binding UserLocation}"
+                                               FontSize="12"
+                                               TextColor="Black"/>
+                                </VerticalStackLayout>
+
+                                <Button Text="View"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseSkillProviderViewModel}}, Path=ViewSkillProviderCommand}"
                                             CommandParameter="{Binding .}"
                                             Grid.Column="2"
-                                            BackgroundColor="#1976D2"
+                                            BackgroundColor="#7C4DFF"
+                                            TextColor="White"
                                             Padding="10,4"
                                             CornerRadius="6"
                                             WidthRequest="100"
                                             VerticalOptions="Center"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
-            </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

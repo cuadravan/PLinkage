@@ -5,50 +5,52 @@
              xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
              x:Class="PLinkage.Views.SkillProviderUpdateEducationView"
              Title="Update Education"
+             Shell.NavBarIsVisible="False"
              x:DataType="viewmodels:UpdateEducationViewModel">
 
-    <Grid ColumnDefinitions="*">
-        <!-- MAIN CONTENT -->
-        <VerticalStackLayout Grid.Column="0" Padding="40" Spacing="30" VerticalOptions="Center">
-            <Frame BackgroundColor="#F0F0F0" Padding="20" CornerRadius="10">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Course Name" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="Course Name"
+    <VerticalStackLayout Padding="40" Spacing="30" VerticalOptions="Center" WidthRequest="400">
+        <Frame BackgroundColor="#F1F0FC" Padding="20" CornerRadius="10">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Update the form below:" FontAttributes="Bold" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
+                <Label Text="Course Name" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="Course Name"
                            Text="{Binding CourseName, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Label Text="School Attended" TextColor="Black" FontAttributes="Bold" />
-                    <Entry Placeholder="School"
+                <Label Text="School Attended" TextColor="Black" FontAttributes="Bold" />
+                <Entry Placeholder="School"
                            Text="{Binding SchoolAttended, Mode=TwoWay}"
                            BackgroundColor="White" TextColor="Black" />
 
-                    <Label Text="Time Graduated" TextColor="Black" FontAttributes="Bold" />
-                    <DatePicker Date="{Binding TimeGraduated, Mode=TwoWay}"
+                <Label Text="Time Graduated" TextColor="Black" FontAttributes="Bold" />
+                <DatePicker Date="{Binding TimeGraduated, Mode=TwoWay}"
                                 TextColor="Black"
                                 BackgroundColor="White"
                                 Format="MMMM yyyy"
+                            HorizontalOptions="Center"
                                 MaximumDate="{x:Static sys:DateTime.Today}" />
-                </VerticalStackLayout>
-            </Frame>
+            </VerticalStackLayout>
+        </Frame>
 
-            <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
+        <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
 
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
-                <Button Text="Save"
-                        BackgroundColor="#A5D6A7"
-                        TextColor="Black"
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+            <Button Text="Update Education"
+                        BackgroundColor="#7C4DFF"
+                        TextColor="White"
                         Padding="14,6"
                         CornerRadius="8"
                         Command="{Binding SaveCommand}" />
 
-                <Button Text="Cancel"
-                        BackgroundColor="LightGray"
-                        TextColor="Black"
+            <Button Text="Cancel"
+                            BackgroundColor="White"
+                            TextColor="#7C4DFF"
+                            BorderColor="#7C4DFF"
+                            BorderWidth="1"
                         Padding="14,6"
                         CornerRadius="8"
                         Command="{Binding CancelCommand}" />
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-    </Grid>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
 </ContentPage>

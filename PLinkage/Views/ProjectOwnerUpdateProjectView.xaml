@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.ProjectOwnerUpdateProjectView"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             Title="Update Project">
-    <Grid ColumnDefinitions="*">
-        <ScrollView Grid.Column="0" Padding="20">
-            <VerticalStackLayout Spacing="20">
+             Title="Update Project"
+             Shell.NavBarIsVisible="False">
 
-                <!-- Project Info -->
-                <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
-                        <Entry Placeholder="Enter project name" Text="{Binding ProjectName}"  IsEnabled="False" BackgroundColor="White" TextColor="Gray"/>
+    <ScrollView Padding="50">
+        <VerticalStackLayout Spacing="20">
+            <!-- Project Info -->
+            <Border Background="#7C4DFF" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Project Name" FontAttributes="Bold" FontSize="14" TextColor="White"/>
+                    <Entry Placeholder="Enter project name" Text="{Binding ProjectName}"  IsEnabled="False" BackgroundColor="White" TextColor="Gray"/>
 
-                        <Label Text="Location" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
-                        <Picker ItemsSource="{Binding CebuLocations}"
+                    <Label Text="Location" FontAttributes="Bold" FontSize="14" TextColor="White"/>
+                    <Picker ItemsSource="{Binding CebuLocations}"
                                 ItemDisplayBinding="{Binding .}"
                                 SelectedItem="{Binding ProjectLocationSelected}" 
                                 Title="Select Location"
@@ -23,145 +23,111 @@
                                 TextColor="Gray"
                                 IsEnabled="False"/>
 
-                        <Label Text="Project Description" FontAttributes="Bold" FontSize="14" TextColor="Black"/>
-                        <Editor Placeholder="Enter project description"
+                    <Label Text="Project Description" FontAttributes="Bold" FontSize="14" TextColor="White"/>
+                    <Editor Placeholder="Enter project description"
                                 Text="{Binding ProjectDescription}"
                                 HeightRequest="100"
                                 BackgroundColor="White"
                                 TextColor="Blue"/>
-                    </VerticalStackLayout>
-                </Border>
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Dates & Duration Summary -->
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
-                    <Border Grid.Column="0" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                        <Grid ColumnDefinitions="2*, 1.2*" ColumnSpacing="20">
-                            <!-- Date Pickers -->
-                            <VerticalStackLayout Spacing="10" Grid.Column="0">
-                                <Label Text="Start Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectStartDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White" TextColor="Blue"/>
+            <!-- Dates & Duration Summary -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                <Border Grid.Column="0" Background="#FFFFFF" Padding="10" Stroke="#7C4DFF" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                    <Grid ColumnDefinitions="2*, 1.2*" ColumnSpacing="20">
+                        <!-- Date Pickers -->
+                        <VerticalStackLayout Spacing="10" Grid.Column="0">
+                            <Label Text="Start Date" FontAttributes="Bold" FontSize="14"/>
+                            <DatePicker Date="{Binding ProjectStartDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White" TextColor="Blue"/>
 
-                                <Label Text="End Date" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectEndDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White"  IsEnabled="False"/>
-                            </VerticalStackLayout>
+                            <Label Text="End Date" FontAttributes="Bold" FontSize="14"/>
+                            <DatePicker Date="{Binding ProjectEndDate}" MinimumDate="{x:Static sys:DateTime.Today}" BackgroundColor="White"  IsEnabled="False"/>
+                        </VerticalStackLayout>
 
-                            <!-- Duration Display -->
-                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="10" Padding="10,0,0,0">
-                                <Label Text="Duration" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
-                                <Label Text="{Binding DurationSummary}"
+                        <!-- Duration Display -->
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="10" Padding="10,0,0,0">
+                            <Label Text="Duration" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
+                            <Label Text="{Binding DurationSummary}"
                                        FontAttributes="Bold"
                                        FontSize="18"
                                        TextColor="Black"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
 
-                    <!-- Priority & Status -->
-                    <Border Grid.Column="1" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                        <VerticalStackLayout Spacing="10">
-                            <Label Text="Priority" FontAttributes="Bold" FontSize="14"/>
-                            <Picker Title="Select Priority"
+                <!-- Priority & Status -->
+                <Border Grid.Column="1" Background="#F1F0FC" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Priority" FontAttributes="Bold" FontSize="14"/>
+                        <Picker Title="Select Priority"
                                     ItemsSource="{Binding PriorityOptions}"
                                     SelectedItem="{Binding ProjectPrioritySelected}"
                                     BackgroundColor="White"
                                     TextColor="Blue" />
 
-                            <Label Text="Status" FontAttributes="Bold" FontSize="14"/>
-                            <Picker ItemsSource="{Binding StatusOptions}"
+                        <Label Text="Status" FontAttributes="Bold" FontSize="14"/>
+                        <Picker ItemsSource="{Binding StatusOptions}"
                                     SelectedItem="{Binding ProjectStatusSelected}"
                                     BackgroundColor="White"
                                     TextColor="Blue"/>
-                        </VerticalStackLayout>
-                    </Border>
-                </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
 
-                <!-- Resources, Dates, Skills -->
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+            <!-- Resources, Dates, Skills -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
 
-                    <!-- Left: Resources & Dates -->
-                    <VerticalStackLayout Grid.Column="0" Spacing="20">
-                        <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                            <VerticalStackLayout>
-                                <Label Text="Resources Needed" FontAttributes="Bold" FontSize="14"/>
-                                <Entry Text="{Binding ProjectResourcesNeeded}" TextColor="Blue"
+                <!-- Left: Resources & Dates -->
+                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                    <Border Background="#F1F0FC" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                        <VerticalStackLayout>
+                            <Label Text="Resources Needed" FontAttributes="Bold" FontSize="14"/>
+                            <Entry Text="{Binding ProjectResourcesNeeded}" TextColor="Blue"
                                        Keyboard="Numeric"
                                        BackgroundColor="White"/>
-                            </VerticalStackLayout>
-                        </Border>
+                        </VerticalStackLayout>
+                    </Border>
 
-                        <Border Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" HeightRequest="250">
-                            <VerticalStackLayout>
-                                <Label Text="Date Created" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectDateCreated}" BackgroundColor="White" IsEnabled="False"/>
-                                <Label Text="Date Updated" FontAttributes="Bold" FontSize="14"/>
-                                <DatePicker Date="{Binding ProjectDateUpdated}" BackgroundColor="White" IsEnabled="False"/>
-                            </VerticalStackLayout>
-                        </Border>
-                    </VerticalStackLayout>
+                    <Border Background="#F1F0FC" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5" HeightRequest="250">
+                        <VerticalStackLayout>
+                            <Label Text="Date Created" FontAttributes="Bold" FontSize="14"/>
+                            <DatePicker Date="{Binding ProjectDateCreated}" BackgroundColor="White" IsEnabled="False"/>
+                            <Label Text="Date Updated" FontAttributes="Bold" FontSize="14"/>
+                            <DatePicker Date="{Binding ProjectDateUpdated}" BackgroundColor="White" IsEnabled="False"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
 
-                    <!-- Right: Skills -->
-                    <Border Grid.Column="1" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                        <VerticalStackLayout Spacing="10">
-                            <Label Text="Skill Set" FontAttributes="Bold" FontSize="14"/>
-                            <Entry Placeholder="Type a skill..."
+                <!-- Right: Skills -->
+                <Border Grid.Column="1" Background="#FFFFFF" Padding="10" Stroke="#7C4DFF" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Skill Set" FontAttributes="Bold" FontSize="14"/>
+                        <Entry Placeholder="Type a skill..."
                                    Text="{Binding SelectedSkill}"
                                    BackgroundColor="White"/>
-                            <Button Text="Add Skill"
+                        <Button Text="Add Skill"
                                     Command="{Binding AddSkillCommand}"
-                                    BackgroundColor="#2196F3"
+                                    BackgroundColor="#7C4DFF"
                                     TextColor="White"/>
 
-                            <Label Text="Selected Skills:" FontAttributes="Bold" FontSize="14"/>
-                            <CollectionView ItemsSource="{Binding ProjectSkillsRequired}"
+                        <Label Text="Selected Skills:" FontAttributes="Bold" FontSize="14"/>
+                        <CollectionView ItemsSource="{Binding ProjectSkillsRequired}"
                                             HeightRequest="150">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Padding="6,3" Margin="2"
-                                                Background="#DDEEFF"
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="6,3" Margin="2"
+                                                Background="#F1F0FC"
                                                 Stroke="LightGray"
                                                 StrokeThickness="1"
                                                 StrokeShape="RoundRectangle 10">
-                                            <HorizontalStackLayout Spacing="8">
-                                                <Label Text="{Binding .}" TextColor="Black"/>
-                                                <Button Text="❌"
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="{Binding .}" TextColor="Black"/>
+                                            <Button Text="❌"
                                                         FontSize="12"
                                                         BackgroundColor="Transparent"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSkillCommand}"
                                                         CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </Border>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </VerticalStackLayout>
-                    </Border>
-                </Grid>
-
-                <!-- Employed Skill Providers -->
-                <Border Grid.Column="0" Background="#E0E0E0" Padding="10" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 5">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="Employed Skill Providers" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                        <CollectionView ItemsSource="{Binding EmployedSkillProviders}" HeightRequest="150">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Padding="6,3" Margin="2" Background="#DDEEFF" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                                        <HorizontalStackLayout Spacing="8">
-                                            <Label TextColor="Black">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding UserFirstName}" />
-                                                        <Span Text=" " />
-                                                        <Span Text="{Binding UserLastName}" />
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-
-                                            <Button Text="Remove Skill Provider"
-                                                FontSize="12"
-                                                BackgroundColor="Red"
-                                                TextColor="White"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSkillProviderCommand}"
-                                                CommandParameter="{Binding .}" />
                                         </HorizontalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -169,32 +135,63 @@
                         </CollectionView>
                     </VerticalStackLayout>
                 </Border>
+            </Grid>
 
-                <!-- Action Buttons -->
-                <!-- Error Message Display -->
-                <Label Text="{Binding ErrorMessage}"
+            <!-- Employed Skill Providers -->
+            <Border Grid.Column="0" Background="#FFFFFF" Padding="10" Stroke="#7C4DFF" StrokeThickness="1" StrokeShape="RoundRectangle 5">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Employed Skill Providers" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                    <CollectionView ItemsSource="{Binding EmployedSkillProviders}" HeightRequest="150">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="6,3" Margin="2" Background="#7C4DFF" Stroke="LightGray" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label TextColor="Black">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding UserFirstName}" TextColor="White"/>
+                                                    <Span Text=" " />
+                                                    <Span Text="{Binding UserLastName}" TextColor="White"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Button Text="Remove Skill Provider"
+                                                FontSize="12"
+                                                BackgroundColor="White"
+                                                TextColor="Red"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSkillProviderCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="{Binding ErrorMessage}"
                        TextColor="Red"
                        FontAttributes="Bold"
                        FontSize="14"
                        HorizontalOptions="Center" />
 
-                <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
-                    <Button Text="Reset"
+            <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
+                <Button Text="Reset"
                             Command="{Binding ResetCommand}"
                             BackgroundColor="#FF9800"
                             TextColor="White"
                             CornerRadius="6"
                             Padding="12"/>
 
-                    <Button Text="Update Project"
+                <Button Text="Update Project"
                             Command="{Binding SubmitCommand}"
                             BackgroundColor="#4CAF50"
                             TextColor="White"
                             CornerRadius="6"
                             Padding="12"/>
-                </HorizontalStackLayout>
+            </HorizontalStackLayout>
 
-            </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

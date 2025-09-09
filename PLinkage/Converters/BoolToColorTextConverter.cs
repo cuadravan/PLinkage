@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace PLinkage.Converters
 {
-    public class BoolToColorConverter : IValueConverter
+    public class BoolToColorTextConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool isFromUser = (bool)value;
-            return isFromUser ? "#FFAD92FE" : Colors.White;
+            return isFromUser ? Colors.White : Colors.Black;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             => throw new NotImplementedException();
     }
-
 }

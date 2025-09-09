@@ -65,7 +65,6 @@ namespace PLinkage.ViewModels
             "Project Owner"
         };
 
-        // Validation
         private bool ValidateForm()
         {
             ErrorMessage = string.Empty;
@@ -88,7 +87,6 @@ namespace PLinkage.ViewModels
             if (!SelectedLocation.HasValue)
                 return SetError("Please select a location.");
 
-            // ✅ Add this age check:
             var today = DateTime.Today;
             var age = today.Year - Birthdate.Year;
             if (Birthdate.Date > today.AddYears(-age)) age--; // adjust for birthdate not yet occurred this year
@@ -105,7 +103,6 @@ namespace PLinkage.ViewModels
             return false;
         }
 
-        // Commands
         [RelayCommand]
         private async Task Register()
         {

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PLinkage.Views.RegisterView"
              Title="Register Page"
+             Shell.NavBarIsVisible="False"
              BackgroundColor="White">
 
     <ScrollView>
@@ -14,20 +15,29 @@
 
             <Border 
                 StrokeThickness="2"
-                Stroke="#5A5A5A"
-                BackgroundColor="#F8F8F8"
+                StrokeShape="RoundRectangle 20"
                 Padding="20"
-                StrokeShape="Rectangle 20"
+                HeightRequest="720"
                 HorizontalOptions="Fill"
-                WidthRequest="700">
+                WidthRequest="600">
+
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#7C4DFF" Offset="0.0" />
+                        <GradientStop Color="#6A3FCC" Offset="0.5" />
+                        <GradientStop Color="#4A2E99" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
 
                 <VerticalStackLayout Spacing="30">
 
                     <Label 
-                        Text="Register" 
+                        Text="Register, and Be Part of the Linkage Community!"
+                        FontFamily="Roboto"
+                        HorizontalTextAlignment="Center"
                         FontSize="30" 
                         FontAttributes="Bold" 
-                        TextColor="#333"
+                        TextColor="White"
                         HorizontalOptions="Center"/>
 
                     <Grid ColumnDefinitions="*,*"
@@ -35,33 +45,30 @@
                           ColumnSpacing="30"
                           RowSpacing="30">
 
-                        <!-- Second Row (Two Columns of Fields) -->
                         <Grid Grid.Row="1" Grid.ColumnSpan="2"
                               ColumnDefinitions="*,*"
                               RowSpacing="25"
                               ColumnSpacing="30">
 
-                            <!-- Left Column -->
                             <VerticalStackLayout Grid.Column="0" Spacing="15">
-                                <Label Text="First Name" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="First Name" FontAttributes="Bold" TextColor="White" />
                                 <Entry BackgroundColor="White" FontSize="14" Placeholder="First Name" Text="{Binding FirstName}"/>
 
-                                <Label Text="Last Name" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Last Name" FontAttributes="Bold" TextColor="White" />
                                 <Entry BackgroundColor="White" FontSize="14" Placeholder="Last Name" Text="{Binding LastName}"/>
 
-                                <Label Text="Email Address" FontAttributes="Bold" TextColor="#444" />
-                                    <Entry BackgroundColor="White" FontSize="14" Placeholder="Email Address" Keyboard="Email" Text="{Binding Email}"/>
+                                <Label Text="Email Address" FontAttributes="Bold" TextColor="White" />
+                                <Entry BackgroundColor="White" FontSize="14" Placeholder="Email Address" Keyboard="Email" Text="{Binding Email}"/>
 
-                                <Label Text="Password" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Password" FontAttributes="Bold" TextColor="White" />
                                 <Entry BackgroundColor="White" FontSize="14" Placeholder="Password" IsPassword="True" Text="{Binding Password}"/>
 
-                                <Label Text="Confirm Password" FontAttributes="Bold" TextColor="#444" />
-                                            <Entry BackgroundColor="White" FontSize="14" Placeholder="Confirm Password" IsPassword="True" Text="{Binding ConfirmPassword}"/>
+                                <Label Text="Confirm Password" FontAttributes="Bold" TextColor="White" />
+                                <Entry BackgroundColor="White" FontSize="14" Placeholder="Confirm Password" IsPassword="True" Text="{Binding ConfirmPassword}"/>
                             </VerticalStackLayout>
 
-                            <!-- Right Column -->
                             <VerticalStackLayout Grid.Column="1" Spacing="15">
-                                <Label Text="Birthdate" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Birthdate" FontAttributes="Bold" TextColor="White" />
                                 <DatePicker Date="{Binding Birthdate}"
                                             HorizontalOptions="Fill"
                                             VerticalOptions="Center"
@@ -70,24 +77,26 @@
                                             FontSize="14"
                                             BackgroundColor="White" />
 
-                                <Label Text="Gender" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Gender" FontAttributes="Bold" TextColor="White" />
                                 <HorizontalStackLayout HorizontalOptions="Fill"
                                                        VerticalOptions="Center"
                                                        Spacing="20">
                                     <RadioButton Content="Male"
                                                  IsChecked="{Binding IsMale}"
                                                  GroupName="Gender"
+                                                 TextColor="White"
                                                  ToolTipProperties.Text="Required."
                                                  HorizontalOptions="StartAndExpand" />
 
                                     <RadioButton Content="Female"
+                                                 TextColor="White"
                                                  IsChecked="{Binding IsFemale}"
                                                  GroupName="Gender"
                                                  ToolTipProperties.Text="Required."
                                                  HorizontalOptions="EndAndExpand" />
                                 </HorizontalStackLayout>
 
-                                <Label Text="Location" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Location" FontAttributes="Bold" TextColor="White" />
                                 <Picker ItemsSource="{Binding CebuLocations}"
                                         SelectedItem="{Binding SelectedLocation}"
                                         HorizontalOptions="Fill"
@@ -96,14 +105,14 @@
                                         FontSize="14"
                                         BackgroundColor="White" />
 
-                                <Label Text="Mobile Number" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Mobile Number" FontAttributes="Bold" TextColor="White" />
                                 <Entry BackgroundColor="White"
                                        FontSize="14"
                                        Placeholder="Mobile Number"
                                        Keyboard="Telephone" 
                                        Text="{Binding MobileNumber}"/>
 
-                                <Label Text="Role of Choice" FontAttributes="Bold" TextColor="#444" />
+                                <Label Text="Role of Choice" FontAttributes="Bold" TextColor="White" />
                                 <Picker ItemsSource="{Binding Roles}"
                                         SelectedItem="{Binding SelectedRole}"
                                         HorizontalOptions="Fill"
@@ -112,51 +121,41 @@
                                         FontSize="14"
                                         BackgroundColor="White" />
                             </VerticalStackLayout>
-
                         </Grid>
 
-                        <!-- Row 2: Buttons and Error Message -->
                         <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="10" HorizontalOptions="Center">
-
                             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
                                 <Button Text="Register" 
-                BackgroundColor="#28A745" 
-                TextColor="White" 
-                HeightRequest="50"
-                CornerRadius="10"
-                FontSize="16"
-                FontAttributes="Bold"
-                WidthRequest="150" 
-                Command="{Binding RegisterCommand}"/>
+                                        BackgroundColor="#7C4DFF" 
+                                        TextColor="White" 
+                                        HeightRequest="50"
+                                        CornerRadius="10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        WidthRequest="150" 
+                                        Command="{Binding RegisterCommand}"/>
 
                                 <Button Text="Clear" 
-                BackgroundColor="#DC3545" 
-                TextColor="White" 
-                HeightRequest="50"
-                CornerRadius="10"
-                FontSize="16"
-                FontAttributes="Bold"
-                WidthRequest="150"
-                Command="{Binding ClearCommand}"/>
+                                        BackgroundColor="White" 
+                                        TextColor="#7C4DFF" 
+                                        HeightRequest="50"
+                                        CornerRadius="10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        WidthRequest="150"
+                                        Command="{Binding ClearCommand}"/>
                             </HorizontalStackLayout>
 
-                            <!-- Error Message Label -->
                             <Label Text="{Binding ErrorMessage}"
-           TextColor="Red"
-           FontSize="14"
-           FontAttributes="Italic"
-           IsVisible="{Binding ErrorMessage}"
-           HorizontalOptions="Center" />
+                                   TextColor="White"
+                                   FontSize="14"
+                                   FontAttributes="Italic"
+                                   IsVisible="{Binding ErrorMessage}"
+                                   HorizontalOptions="Center" />
                         </VerticalStackLayout>
-
-
-
                     </Grid>
-
                 </VerticalStackLayout>
             </Border>
-
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

@@ -5,81 +5,87 @@
              xmlns:models="clr-namespace:PLinkage.Models"
              x:Class="PLinkage.Views.AdminHomeView"
              Title="Home - Admin"
-             BackgroundColor="White">
-    
-    <Grid ColumnDefinitions="*">
-        <ScrollView Grid.Column="0" Padding="20">
-            <VerticalStackLayout Spacing="16">
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False">
 
-                <!-- Dashboard Stats -->
-                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+    <ScrollView Padding="50">
+        <VerticalStackLayout Spacing="16">
+
+            <!-- Dashboard Stats -->
+            <Border BackgroundColor="#7C4DFF" StrokeThickness="1" Stroke="#CCCCCC"
                         Padding="16" StrokeShape="RoundRectangle 12">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Welcome, Admin!"
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Welcome, Admin!"
                                FontSize="18"
                                FontAttributes="Bold"
-                               TextColor="Black" />
+                               TextColor="White" />
 
-                        <Label Text="{Binding ActiveProjects, StringFormat='Active Projects: {0}'}"
+                    <Label Text="{Binding ActiveProjects, StringFormat='Active Projects: {0}'}"
                                FontSize="14"
-                               TextColor="Black"/>
-                        <Label Text="{Binding CompletedProjects, StringFormat='Completed Projects: {0}'}"
+                               TextColor="White"/>
+                    <Label Text="{Binding CompletedProjects, StringFormat='Completed Projects: {0}'}"
                                FontSize="14"
-                               TextColor="Black"/>
-                        <Label Text="{Binding EmploymentRatio, StringFormat='Employment Ratio (excluding deactivated): {0}'}"
+                               TextColor="White"/>
+                    <Label Text="{Binding EmploymentRatio, StringFormat='Employment Ratio (excluding deactivated): {0}'}"
                                FontSize="14"
-                               TextColor="Black"/>
-                    </VerticalStackLayout>
-                </Border>
+                               TextColor="White"/>
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Project Filter -->
-                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+            <!-- Project Filter -->
+            <Border BackgroundColor="#FFFFFF" StrokeThickness="1" Stroke="#7C4DFF"
                         Padding="16" StrokeShape="RoundRectangle 12">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="All Projects"
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="All Projects"
        FontSize="16"
        FontAttributes="Bold"
        TextColor="Black" />
-                        <Label Text="Filter Projects by Project Status"
+                    <Label Text="Filter Projects by Project Status"
                                FontSize="14"
                                
                                TextColor="Black" />
 
-                        <Picker Title=""
+                    <Picker Title=""
                                 ItemsSource="{Binding ProjectStatusFilterOptions}"
                                 SelectedItem="{Binding SelectedProjectFilter}" />
-                    </VerticalStackLayout>
-                </Border>
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Project List -->
-                <CollectionView ItemsSource="{Binding FilteredProjects}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
-                    Padding="12" StrokeShape="RoundRectangle 10">
-                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+            <!-- Project List -->
+            <FlexLayout BindableLayout.ItemsSource="{Binding FilteredProjects}"
+    Wrap="Wrap"
+    Direction="Row"
+    AlignItems="Start"
+    JustifyContent="Center"
+    AlignContent="Center">
 
-                                    <!-- Avatar / Icon -->
-                                    <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="White" StrokeThickness="1" Stroke="#7C4DFF"
+                    Padding="12" StrokeShape="RoundRectangle 10" Margin="0,0,10,10" HeightRequest="120" WidthRequest="340">
+                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+
+                                <!-- Avatar / Icon -->
+                                <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60"
                              VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                                    <!-- Project Info -->
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                        <Label Text="{Binding ProjectName}"
+                                <!-- Project Info -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding ProjectName}"
                                FontSize="14"
                                FontAttributes="Bold"
                                TextColor="Black"/>
-                                        <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}"
+                                    <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}"
                                FontSize="12"
                                TextColor="Black"/>
-                                        <Label Text="{Binding ProjectLocation, StringFormat='Location: {0}'}"
+                                    <Label Text="{Binding ProjectLocation, StringFormat='Location: {0}'}"
                                FontSize="12"
                                TextColor="Gray"/>
-                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                                    <!-- View Button -->
-                                    <Button Text="View"
-                            BackgroundColor="#1976D2"
+                                <!-- View Button -->
+                                <Button Text="View"
+                            BackgroundColor="#7C4DFF"
                             Padding="10,4"
                             CornerRadius="6"
                             VerticalOptions="Center"
@@ -87,61 +93,73 @@
                             Grid.Column="2"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
                             CommandParameter="{Binding .}"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
 
 
 
-                <!-- Skill Provider Filters -->
-                <Border BackgroundColor="#E0E0E0" StrokeThickness="1" Stroke="#CCCCCC"
+            <!-- Skill Provider Filters -->
+            <Border BackgroundColor="White" StrokeThickness="1" Stroke="#7C4DFF"
                         Padding="16" StrokeShape="RoundRectangle 12">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="All Skill Providers"
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="All Skill Providers"
        FontSize="16"
        FontAttributes="Bold"
        TextColor="Black" />
-                        <Label Text="Filter Skill Providers by"
+                    <Label Text="Filter Skill Providers by"
                                FontSize="14"
                                TextColor="Black" />
 
-                        <Picker Title="Employment Status"
+                    <Picker Title="Employment Status"
                                 ItemsSource="{Binding SkillProviderFilterOptions}"
                                 SelectedItem="{Binding SelectedSkillEmploymentFilter}" />
 
-                        <Picker Title="Account Status"
+                    <Picker Title="Account Status"
                                 ItemsSource="{Binding SkillProviderStatusFilterOptions}"
                                 SelectedItem="{Binding SelectedSkillStatusFilter}" />
-                    </VerticalStackLayout>
-                </Border>
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Skill Provider List -->
-                <CollectionView ItemsSource="{Binding FilteredSkillProviders}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="#F9F9F9" StrokeThickness="1" Stroke="LightGray"
-                                    Padding="12" StrokeShape="RoundRectangle 10">
-                                <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                    <BoxView Color="DarkGray" HeightRequest="60" WidthRequest="60"
+            <!-- Skill Provider List -->
+            <FlexLayout BindableLayout.ItemsSource="{Binding FilteredSkillProviders}"
+                 Wrap="Wrap"
+                 Direction="Row"
+                 AlignItems="Start"
+                 JustifyContent="Center"
+                 AlignContent="Center">
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="#FFFFFF" 
+            StrokeThickness="1" 
+            Stroke="#7C4DFF"
+            Padding="12" 
+            StrokeShape="RoundRectangle 10"
+            HeightRequest="120" WidthRequest="340" 
+            Margin="0,0,10,10">
+                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+                                <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60"
                                              VerticalOptions="Center" HorizontalOptions="Center" />
 
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                        <Label Text="{Binding UserFirstName}"
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding UserFirstName}"
                                                FontAttributes="Bold"
                                                FontSize="14"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding UserStatus, StringFormat='Status: {0}'}"
+                                    <Label Text="{Binding UserStatus, StringFormat='Status: {0}'}"
                                                FontSize="12"
                                                TextColor="Black"/>
-                                        <Label Text="{Binding UserLocation}"
+                                    <Label Text="{Binding UserLocation}"
                                                FontSize="12"
                                                TextColor="Black"/>
-                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                                    <Button Text="View"
-                                            BackgroundColor="#1976D2"
+                                <Button Text="View"
+                                            BackgroundColor="#7C4DFF"
+                                        TextColor="White"
                                             WidthRequest="100"       
                                             Padding="10,4"
                                             CornerRadius="6"
@@ -149,13 +167,12 @@
                                             Grid.Column="2"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
 CommandParameter="{Binding .}"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
 
-            </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

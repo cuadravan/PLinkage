@@ -4,205 +4,229 @@
              x:Class="PLinkage.Views.SkillProviderProfileView"
              Title="My Profile"
              xmlns:models="clr-namespace:PLinkage.Models"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels">
-    <Grid ColumnDefinitions="*">
-
-        <!-- Main Content -->
-        <ScrollView Grid.Column="0" Padding="20">
+             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+             Shell.NavBarIsVisible="False">
+ 
+        <ScrollView Padding="50">
             <VerticalStackLayout Spacing="16">
 
                 <!-- Profile Summary -->
-                <Border Background="#E0E0E0" Padding="16" StrokeShape="RoundRectangle 8" StrokeThickness="0">
-                    <Grid ColumnDefinitions="80,*,Auto">
-                        <BoxView Color="Gray" HeightRequest="60" WidthRequest="60"
-                                 VerticalOptions="Start" HorizontalOptions="Center" />
+                <Border Background="#FFFFFF" Padding="16" StrokeShape="RoundRectangle 8" StrokeThickness="0">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <HorizontalStackLayout Spacing="12">
+                            <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60"
+                                 VerticalOptions="Center" HorizontalOptions="Center" />
 
-                        <VerticalStackLayout Grid.Column="1" Spacing="2">
-                            <Label Text="{Binding UserName}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
-                            <Label Text="{Binding UserRating, StringFormat='Rating: {0:F1}'}" FontSize="12" TextColor="Black" />
-                            <Label Text="{Binding UserLocation, StringFormat='Location: {0}'}" FontSize="12" TextColor="Black" />
-                            <Label Text="{Binding DateJoined, StringFormat='Joined on: {0:MMMM dd, yyyy}'}" FontSize="12" TextColor="Black" />
-                        </VerticalStackLayout>
-
-                        <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Start">
-                            <Button Text="Update Profile"
-                                BackgroundColor="#D32F2F" 
-                                TextColor="White"
-                                Padding="10,5" 
-                                CornerRadius="6"
-                                WidthRequest="150"
-                                HorizontalOptions="End" 
-                                Command="{Binding UpdateProfileCommand}"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="{Binding UserName}" FontAttributes="Bold" FontSize="25" TextColor="Black" />
+                                <Label Text="{Binding UserRating, StringFormat='Rating: {0:F1}'}" FontSize="12" TextColor="Black" />
+                                <Label Text="{Binding UserLocation, StringFormat='Location: {0}'}" FontSize="12" TextColor="Black" />
+                                <Label Text="{Binding DateJoined, StringFormat='Joined on: {0:MMMM dd, yyyy}'}" FontSize="12" TextColor="Black" />
+                            </VerticalStackLayout>
                         </HorizontalStackLayout>
+                        <Button Text="Update Profile"
+                                BackgroundColor="#D32F2F" Padding="10,4" CornerRadius="6"
+                                Command="{Binding UpdateProfileCommand}"
+                                WidthRequest="150"
+                                HorizontalOptions="End" />
                     </Grid>
                 </Border>
 
                 <!-- Contact Info -->
-                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
+                <Border Background="White" Stroke="#7C4DFF" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="1">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="Information" FontAttributes="Bold" FontSize="14" TextColor="Black" />
+                        <Label Text="Information" FontAttributes="Bold" FontSize="20" TextColor="Black" />
                         <Label Text="{Binding UserGender, StringFormat='Gender: {0}'}" FontSize="12" TextColor="Black" />
                         <Label Text="{Binding UserEmail, StringFormat='Email: {0}'}" FontSize="12" TextColor="Black" />
                         <Label Text="{Binding UserPhone, StringFormat='Mobile: {0}'}" FontSize="12" TextColor="Black" />
                     </VerticalStackLayout>
                 </Border>
+                <Grid ColumnDefinitions="*,*">
+                    <!-- Education -->
+                    <Border Grid.Column="0" Background="#FFFFFF" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="1" Margin="0,0,5,0" Stroke="#7C4DFF">
+                        <VerticalStackLayout Spacing="4" >
+                            <Label Text="Education" FontAttributes="Bold" FontSize="20" HorizontalTextAlignment="Center" TextColor="Black" />
+                            <Button Text="Add Education"
+                BackgroundColor="#388E3C"
+                TextColor="White"
+                CornerRadius="6" 
+                Padding="10,5"
+                HorizontalOptions="End"
+                WidthRequest="150"
+                Command="{Binding AddEducationCommand}"/>
 
-                <!-- Education -->
-                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="Education" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                        <Button Text="Add Education"
-                                BackgroundColor="#388E3C"
-                                TextColor="White"
-                                CornerRadius="6" 
-                                Padding="10,5"
-                                HorizontalOptions="End"
-                                WidthRequest="150"
-                                Command="{Binding AddEducationCommand}"/>
+                            <CollectionView ItemsSource="{Binding Educations}">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="6"/>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Education">
 
-                        <CollectionView ItemsSource="{Binding Educations}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Education">
-                                    <Border Background="White"
-                                            Stroke="LightGray"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 4"
-                                            Padding="10"
-                                            Margin="0,4">
-                                        <VerticalStackLayout Spacing="4">
-                                            <Label Text="{Binding SchoolAttended, StringFormat='School: {0}'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding CourseName, StringFormat='Course: {0}'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding TimeGraduated, StringFormat='Graduated: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
 
-                                            <VerticalStackLayout Spacing="4" HorizontalOptions="End">
-                                                <Button Text="Update Education"
-                                                    BackgroundColor="#1976D2"
-                                                    TextColor="White"
-                                                    CornerRadius="6" 
-                                                    Padding="10,5"
-                                                    WidthRequest="150"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateEducationCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                                <Button Text="Delete Education"
-                                                    BackgroundColor="#D32F2F"
-                                                    TextColor="White"
-                                                    CornerRadius="6" 
-                                                    Padding="10,5"
-                                                    WidthRequest="150"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=DeleteEducationCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                            </VerticalStackLayout>
-                                        </VerticalStackLayout>
-                                    </Border>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </Border>
 
-                <!-- Skills -->
-                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="Skills" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                        <Button Text="Add Skill"
-                                WidthRequest="150"
-                                BackgroundColor="#388E3C"
-                                TextColor="White"
-                                CornerRadius="6" 
-                                Padding="10,5"
-                                HorizontalOptions="End" 
-                                Command="{Binding AddSkillCommand}"/>
+                                        <Border Background="White"
+                            Stroke="#6A33CC"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 4"
+                            Padding="10"
+                            Margin="0,4">
+                                            <Grid ColumnDefinitions="*,*">
+                                                <VerticalStackLayout Spacing="4" Grid.Column="0">
+                                                    <Label Text="{Binding SchoolAttended, StringFormat='{0}'}" FontSize="20" FontAttributes="Bold" TextColor="Black" />
+                                                    <Label Text="{Binding CourseName, StringFormat='{0}'}" FontSize="16" TextColor="#7C4DFF" />
+                                                    <Label Text="{Binding TimeGraduated, StringFormat='{0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Spacing="4" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center">
+                                                    <Button Text="Update Education"
+                                    BackgroundColor="#7C4DFF"
+                                    TextColor="White"
+                                    CornerRadius="6" 
+                                    Padding="10,5"
+                                    WidthRequest="150"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateEducationCommand}"
+                                    CommandParameter="{Binding .}" />
+                                                    <Button Text="Delete Education"
+                                    BackgroundColor="#D32F2F"
+                                    TextColor="White"
+                                    CornerRadius="6" 
+                                    Padding="10,5"
+                                    WidthRequest="150"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=DeleteEducationCommand}"
+                                    CommandParameter="{Binding .}" />
 
-                        <CollectionView ItemsSource="{Binding Skills}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Skill">
-                                    <Border Background="White"
-                                            Stroke="LightGray"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 4"
-                                            Padding="10"
-                                            Margin="0,4">
-                                        <VerticalStackLayout Spacing="4">
-                                            <Label Text="{Binding SkillName, StringFormat='Skill: {0}'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding SkillDescription, StringFormat='Description: {0}'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding SkillLevel, StringFormat='Level: {0}/5'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding TimeAcquired, StringFormat='Acquired: {0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding OrganizationInvolved, StringFormat='Organization: {0}'}" FontSize="12" TextColor="Black" />
-                                            <Label Text="{Binding YearsOfExperience, StringFormat='Experience: {0} years'}" FontSize="12" TextColor="Black" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Border>
 
-                                            <VerticalStackLayout Spacing="4" HorizontalOptions="End">
-                                                <Button Text="Update Skill"
-                                                    BackgroundColor="#1976D2"
-                                                    TextColor="White"
-                                                    CornerRadius="6" 
-                                                    Padding="10,5"
-                                                    WidthRequest="150"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateSkillCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                                <Button Text="Delete Skill"
-                                                    BackgroundColor="#D32F2F"
-                                                    TextColor="White"
-                                                    CornerRadius="6" 
-                                                    Padding="10,5"
-                                                    WidthRequest="150"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=DeleteSkillCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                            </VerticalStackLayout>
-                                        </VerticalStackLayout>
-                                    </Border>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Skills -->
+                    <Border Grid.Column="1" Background="#FFFFFF" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="1" Stroke="#7C4DFF">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Skills" FontAttributes="Bold" FontSize="20" HorizontalTextAlignment="Center" TextColor="Black" />
+                            <Button Text="Add Skill"
+                WidthRequest="150"
+                BackgroundColor="#388E3C"
+                TextColor="White"
+                CornerRadius="6" 
+                Padding="10,5"
+                HorizontalOptions="End" 
+                Command="{Binding AddSkillCommand}"/>
+
+                            <CollectionView ItemsSource="{Binding Skills}">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical"
+VerticalItemSpacing="6"/>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Skill">
+                                        <Border Background="White"
+                            Stroke="#7C4DFF"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 4"
+                            Padding="10"
+                            Margin="0,4">
+                                            <Grid ColumnDefinitions="*,*">
+
+
+                                                <VerticalStackLayout Spacing="4" Grid.Column="0">
+                                                    <Label Text="{Binding SkillName, StringFormat='{0}'}" FontSize="20" TextColor="Black" FontAttributes="Bold" />
+                                                    <Label Text="{Binding OrganizationInvolved, StringFormat='{0}'}" FontSize="16" TextColor="#7C4DFF" />
+                                                    <Label Text="{Binding TimeAcquired, StringFormat='{0:MMMM yyyy}'}" FontSize="12" TextColor="Black" />
+                                                    <Label Text="{Binding SkillDescription, StringFormat='{0}'}" FontSize="14" TextColor="Black" />
+                                                    <HorizontalStackLayout>
+                                                        <Label Text="{Binding SkillLevel, StringFormat='Level: {0}/5'}" FontSize="12" TextColor="Black" />
+                                                        <Label Text="{Binding YearsOfExperience, StringFormat='     Experience: {0} years'}" FontSize="12" TextColor="Black" />
+                                                    </HorizontalStackLayout>
+                   
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Spacing="4" HorizontalOptions="End" VerticalOptions="Center" Grid.Column="1">
+                                                    <Button Text="Update Skill"
+                                    BackgroundColor="#7C4DFF"
+                                    TextColor="White"
+                                    CornerRadius="6" 
+                                    Padding="10,5"
+                                    WidthRequest="150"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=UpdateSkillCommand}"
+                                    CommandParameter="{Binding .}" />
+                                                    <Button Text="Delete Skill"
+                                    BackgroundColor="#D32F2F"
+                                    TextColor="White"
+                                    CornerRadius="6" 
+                                    Padding="10,5"
+                                    WidthRequest="150"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=DeleteSkillCommand}"
+                                    CommandParameter="{Binding .}" />
+                                                </VerticalStackLayout>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
 
                 <!-- Employed Projects -->
-                <Border Background="#E0E0E0" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="0">
+                <Border Background="#FFFFFF" StrokeShape="RoundRectangle 8" Padding="16" StrokeThickness="1" Stroke="#7C4DFF">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="Employed Projects" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                        <CollectionView ItemsSource="{Binding EmployedProjectDisplays}">
-                            <CollectionView.ItemTemplate>
+                        <Label Text="Employed Projects" FontAttributes="Bold" FontSize="20" TextColor="Black" HorizontalTextAlignment="Center"/>
+                        <FlexLayout BindableLayout.ItemsSource="{Binding EmployedProjectDisplays}"
+                Wrap="Wrap"
+                Direction="Row"
+                AlignItems="Start"
+                JustifyContent="Center"
+                AlignContent="Center">
+
+                            <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="White"
+                                    <Border Background="#7C4DFF"
                                             Stroke="LightGray"
                                             StrokeThickness="1"
                                             StrokeShape="RoundRectangle 6"
                                             Padding="10"
-                                            Margin="0,4">
+                                            HeightRequest="140"
+                                            WidthRequest="250"
+                                            Margin="0,0,6,6">
                                         <Grid ColumnDefinitions="*,Auto">
-                                            <VerticalStackLayout>
-                                                <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="Black" />
-                                                <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="Black" />
-                                                <Label Text="{Binding TimeFrame, StringFormat='Timeframe: {0} hours'}" FontSize="12" />
-                                                <Label Text="{Binding Rate, StringFormat='Rate: ₱{0:F2}'}" FontSize="12"/>
-                                              
+                                            <VerticalStackLayout VerticalOptions="Center">
+                                                <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="White" />
+                                                <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="White" />
+                                                <Label Text="{Binding TimeFrame, StringFormat='Timeframe: {0} hours'}" FontSize="12" TextColor="White"/>
+                                                <Label Text="{Binding Rate, StringFormat='Rate: ₱{0:F2}'}" FontSize="12" TextColor="White"/>
+
                                             </VerticalStackLayout>
-                                            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End" VerticalOptions="Center">
                                                 <Button Text="View"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
                                                     CommandParameter="{Binding .}"
-                                                    BackgroundColor="#1976D2"
-                                                    TextColor="White"
+                                                    BackgroundColor="White"
+                                                    TextColor="#7C4DFF"
                                                     CornerRadius="6"
-                                                    WidthRequest="150"
+                                                    WidthRequest="120"
                                                     Padding="10,5"/>
                                                 <Button Text="Resign"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderProfileViewModel}}, Path=ResignProjectCommand}"
                                                     CommandParameter="{Binding .}"
-                                                    BackgroundColor="#D32F2F"
-                                                    TextColor="White"
+                                                    BackgroundColor="White"
+                                                    TextColor="Red"
                                                     CornerRadius="6"
-                                                    WidthRequest="150"
+                                                    WidthRequest="120"
                                                     Padding="10,5"/>
                                             </VerticalStackLayout>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>
         </ScrollView>
-    </Grid>
 </ContentPage>
