@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:PLinkageApp.Converters"
+    xmlns:models="clr-namespace:PLinkageShared.Models;assembly=PLinkageShared"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels">
+
+    <converters:SortToVisibilityConverter x:Key="SortToVisibilityConverter" />
+    <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />
+    <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+    <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
+    <converters:BoolToColorTextConverter x:Key="BoolToColorTextConverter" />
+
+</ResourceDictionary>
