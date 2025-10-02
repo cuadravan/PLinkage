@@ -1,53 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.Views.ProjectOwnerSendMessageView"
-             Title="Send Message"
-             Shell.NavBarIsVisible="False">
-    <!-- MAIN CONTENT -->
+<ContentPage
+    x:Class="PLinkage.Views.ProjectOwnerSendMessageView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Send Message"
+    Shell.NavBarIsVisible="False">
+    <!--  MAIN CONTENT  -->
     <ScrollView Grid.Column="0" Padding="20">
-        <Border Background="#F1F0FC" Stroke="LightGray" VerticalOptions="Center" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="30" WidthRequest="400">
+        <Border
+            Padding="30"
+            Background="#F1F0FC"
+            Stroke="LightGray"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="0"
+            VerticalOptions="Center"
+            WidthRequest="400">
             <VerticalStackLayout Spacing="16">
-                <Label Text="Send Message"
-FontSize="20"
-FontAttributes="Bold"
-TextColor="Black"
-                           HorizontalTextAlignment="Center"/>
-                <!-- Message Form -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"
+                    Text="Send Message"
+                    TextColor="Black" />
+                <!--  Message Form  -->
 
                 <VerticalStackLayout Spacing="12">
 
-                    <!-- Name -->
-                    <Label Text="To:" FontSize="14" FontAttributes="Bold" TextColor="Black"/>
-                    <Entry x:Name="RecipientNameEntry"
-               Placeholder="Recipient Name"
-               BackgroundColor="White"
-               TextColor="Black"
-               Text="{Binding ReceiverFullName}"
-               IsEnabled="False"/>
-
-                    <!-- Message -->
-                    <Label Text="Message:" FontSize="14" FontAttributes="Bold" TextColor="Black"/>
-                    <Editor x:Name="MessageEditor"
-                Placeholder="Type your message here..."
-                BackgroundColor="White"
-                TextColor="Black"
-                HeightRequest="150"
-                Text="{Binding MessageContent}"/>
-
-                    <!-- Send Button -->
-                    <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                        <Button Text="Send Message"
-                        BackgroundColor="#7C4DFF"
-                        TextColor="White"
-                        Padding="12,6"
-                        HorizontalOptions="Center"
-                        Command="{Binding SendMessageCommand}"
-                        />
-                        <Button Text="Cancel"
-                                    TextColor="#7C4DFF"
+                    <!--  Name  -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="To:"
+                        TextColor="Black" />
+                    <Entry
+                        x:Name="RecipientNameEntry"
                         BackgroundColor="White"
-                        Command="{Binding GoBackCommand}"/>
+                        IsEnabled="False"
+                        Placeholder="Recipient Name"
+                        Text="{Binding ReceiverFullName}"
+                        TextColor="Black" />
+
+                    <!--  Message  -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Message:"
+                        TextColor="Black" />
+                    <Editor
+                        x:Name="MessageEditor"
+                        BackgroundColor="White"
+                        HeightRequest="150"
+                        Placeholder="Type your message here..."
+                        Text="{Binding MessageContent}"
+                        TextColor="Black" />
+
+                    <!--  Send Button  -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                        <Button
+                            Padding="12,6"
+                            BackgroundColor="#7C4DFF"
+                            Command="{Binding SendMessageCommand}"
+                            HorizontalOptions="Center"
+                            Text="Send Message"
+                            TextColor="White" />
+                        <Button
+                            BackgroundColor="White"
+                            Command="{Binding GoBackCommand}"
+                            Text="Cancel"
+                            TextColor="#7C4DFF" />
                     </HorizontalStackLayout>
 
                 </VerticalStackLayout>

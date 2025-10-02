@@ -1,57 +1,92 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.Views.SkillProviderSendApplicationView"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             Title="Apply to Project"
-             Shell.NavBarIsVisible="False">
+<ContentPage
+    x:Class="PLinkage.Views.SkillProviderSendApplicationView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+    Title="Apply to Project"
+    Shell.NavBarIsVisible="False">
 
     <ScrollView Padding="40,20">
-        <Border Background="#F1F0FC"
-                    Stroke="LightGray"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 10"
-                    Padding="30"
-                    HorizontalOptions="Center"
-                VerticalOptions="Center"
-                    WidthRequest="400">
+        <Border
+            Padding="30"
+            Background="#F1F0FC"
+            HorizontalOptions="Center"
+            Stroke="LightGray"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1"
+            VerticalOptions="Center"
+            WidthRequest="400">
 
             <VerticalStackLayout Spacing="20">
-                <Label Text="Please complete form to apply:" FontAttributes="Bold" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
-                <Label Text="Project Name:" FontAttributes="Bold" TextColor="Black"/>
-                <Label Text="{Binding ProjectName}" BackgroundColor="White"
-                           TextColor="Black" Padding="8,4" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalTextAlignment="Center"
+                    Text="Please complete form to apply:"
+                    TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Project Name:"
+                    TextColor="Black" />
+                <Label
+                    Padding="8,4"
+                    BackgroundColor="White"
+                    LineBreakMode="WordWrap"
+                    MaxLines="1"
+                    Text="{Binding ProjectName}"
+                    TextColor="Black" />
 
-                <Label Text="Applying Skill Provider:" FontAttributes="Bold" TextColor="Black"/>
-                <Label Text="{Binding SkillProviderFullName}" BackgroundColor="White"
-                           TextColor="Black" Padding="8,4" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Applying Skill Provider:"
+                    TextColor="Black" />
+                <Label
+                    Padding="8,4"
+                    BackgroundColor="White"
+                    LineBreakMode="WordWrap"
+                    MaxLines="1"
+                    Text="{Binding SkillProviderFullName}"
+                    TextColor="Black" />
 
-                <Label Text="Requested Rate (₱/hour):" FontAttributes="Bold" TextColor="Black"/>
-                <Entry Placeholder="e.g., 500"
-                           Text="{Binding RateAsked}"
-                           Keyboard="Numeric"
-                           BackgroundColor="White" TextColor="Black"/>
+                <Label
+                    FontAttributes="Bold"
+                    Text="Requested Rate (₱/hour):"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Keyboard="Numeric"
+                    Placeholder="e.g., 500"
+                    Text="{Binding RateAsked}"
+                    TextColor="Black" />
 
-                <Label Text="Requested Timeframe (Hours):" FontAttributes="Bold" TextColor="Black"/>
-                <Entry Placeholder="e.g., 10"
-                           Text="{Binding TimeFrameAsked}"
-                           Keyboard="Numeric"
-                           BackgroundColor="White" TextColor="Black"/>
+                <Label
+                    FontAttributes="Bold"
+                    Text="Requested Timeframe (Hours):"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Keyboard="Numeric"
+                    Placeholder="e.g., 10"
+                    Text="{Binding TimeFrameAsked}"
+                    TextColor="Black" />
 
-                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    <Button Text="Send Application"
-                                Command="{Binding SendApplicationCommand}"
-                                Padding="12,6"
-                                BackgroundColor="#7C4DFF"
-                                TextColor="White"
-                                WidthRequest="140" />
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <Button
+                        Padding="12,6"
+                        BackgroundColor="#7C4DFF"
+                        Command="{Binding SendApplicationCommand}"
+                        Text="Send Application"
+                        TextColor="White"
+                        WidthRequest="140" />
 
-                    <Button Text="Go Back"
-                                Command="{Binding GoBackCommand}"
-                                Padding="12,6"
-                                BackgroundColor="White"
-                                TextColor="#7C4DFF"
-                                WidthRequest="120" />
+                    <Button
+                        Padding="12,6"
+                        BackgroundColor="White"
+                        Command="{Binding GoBackCommand}"
+                        Text="Go Back"
+                        TextColor="#7C4DFF"
+                        WidthRequest="120" />
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Border>

@@ -1,73 +1,120 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             x:Class="PLinkage.Views.SkillProviderAddSkillView"
-             Title="Add Skill"
-             Shell.NavBarIsVisible="False"
-             x:DataType="viewmodels:AddSkillViewModel">
+<ContentPage
+    x:Class="PLinkage.Views.SkillProviderAddSkillView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+    Title="Add Skill"
+    x:DataType="viewmodels:AddSkillViewModel"
+    Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Padding="40" Spacing="30" VerticalOptions="Center" WidthRequest="400">
-        <Frame BackgroundColor="#F1F0FC" Padding="20" CornerRadius="10">
+    <VerticalStackLayout
+        Padding="40"
+        Spacing="30"
+        VerticalOptions="Center"
+        WidthRequest="400">
+        <Frame
+            Padding="20"
+            BackgroundColor="#F1F0FC"
+            CornerRadius="10">
             <VerticalStackLayout Spacing="10">
-                <Label Text="Please complete form to add skill:" FontAttributes="Bold" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
-                <Label Text="Skill Name" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="Skill Name"
-                           Text="{Binding SkillName, Mode=TwoWay}"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalTextAlignment="Center"
+                    Text="Please complete form to add skill:"
+                    TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Skill Name"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Placeholder="Skill Name"
+                    Text="{Binding SkillName, Mode=TwoWay}"
+                    TextColor="Black" />
 
-                <Label Text="Description" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="Description"
-                           Text="{Binding SkillDescription, Mode=TwoWay}"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Description"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Placeholder="Description"
+                    Text="{Binding SkillDescription, Mode=TwoWay}"
+                    TextColor="Black" />
 
-                <Label Text="Skill Level (1–5)" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="Skill Level (1–5)"
-                           Text="{Binding SkillLevel, Mode=TwoWay}"
-                           Keyboard="Numeric"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Skill Level (1–5)"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Keyboard="Numeric"
+                    Placeholder="Skill Level (1–5)"
+                    Text="{Binding SkillLevel, Mode=TwoWay}"
+                    TextColor="Black" />
 
-                <Label Text="Time Acquired" TextColor="Black" FontAttributes="Bold" />
-                <DatePicker Date="{Binding TimeAcquired, Mode=TwoWay}"
-                            HorizontalOptions="Center"
-                                Format="MMMM yyyy"
-                                TextColor="Black"
-                                BackgroundColor="White"
-                                MaximumDate="{x:Static sys:DateTime.Today}" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Time Acquired"
+                    TextColor="Black" />
+                <DatePicker
+                    BackgroundColor="White"
+                    Date="{Binding TimeAcquired, Mode=TwoWay}"
+                    Format="MMMM yyyy"
+                    HorizontalOptions="Center"
+                    MaximumDate="{x:Static sys:DateTime.Today}"
+                    TextColor="Black" />
 
-                <Label Text="Organization Involved" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="Organization Involved"
-                           Text="{Binding OrganizationInvolved, Mode=TwoWay}"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Organization Involved"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Placeholder="Organization Involved"
+                    Text="{Binding OrganizationInvolved, Mode=TwoWay}"
+                    TextColor="Black" />
 
-                <Label Text="Years of Experience (1-100)" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="Years of Experience"
-                           Text="{Binding YearsOfExperience, Mode=TwoWay}"
-                           Keyboard="Numeric"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Years of Experience (1-100)"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Keyboard="Numeric"
+                    Placeholder="Years of Experience"
+                    Text="{Binding YearsOfExperience, Mode=TwoWay}"
+                    TextColor="Black" />
             </VerticalStackLayout>
         </Frame>
 
-        <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
-                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+        <Label
+            FontSize="12"
+            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+            Text="{Binding ErrorMessage}"
+            TextColor="Red" />
 
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
-            <Button Text="Add Skill"
-                        BackgroundColor="#7C4DFF"
-                        TextColor="White"
-                        Padding="14,6"
-                        CornerRadius="8"
-                        Command="{Binding SaveCommand}" />
+            <Button
+                Padding="14,6"
+                BackgroundColor="#7C4DFF"
+                Command="{Binding SaveCommand}"
+                CornerRadius="8"
+                Text="Add Skill"
+                TextColor="White" />
 
-            <Button Text="Cancel"
-                        BackgroundColor="White"
-                        TextColor="#7C4DFF"
-                        BorderColor="#7C4DFF"
-                        BorderWidth="1"
-                        Padding="14,6"
-                        CornerRadius="8"
-                        Command="{Binding CancelCommand}" />
+            <Button
+                Padding="14,6"
+                BackgroundColor="White"
+                BorderColor="#7C4DFF"
+                BorderWidth="1"
+                Command="{Binding CancelCommand}"
+                CornerRadius="8"
+                Text="Cancel"
+                TextColor="#7C4DFF" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

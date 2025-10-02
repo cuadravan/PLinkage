@@ -12,7 +12,7 @@ using PLinkage.Models;
 
 namespace PLinkage.ViewModels
 {
-    public partial class RateSkillProviderViewModel: ObservableObject
+    public partial class RateSkillProviderViewModel : ObservableObject
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISessionService _sessionService;
@@ -82,14 +82,14 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         public async Task SubmitRatings()
         {
-            // 1️⃣ First, validate that all providers have been rated
+            // First, validate that all providers have been rated
             if (SkillProvidersToRate.Any(sp => sp.TempRating <= 0))
             {
                 await Shell.Current.DisplayAlert("Incomplete Ratings", "Please rate all skill providers before submitting.", "OK");
                 return;
             }
 
-            // 2️⃣ Proceed if all have valid ratings
+            // Proceed if all have valid ratings
             var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
 
             foreach (var skillProviderToRate in SkillProvidersToRate)

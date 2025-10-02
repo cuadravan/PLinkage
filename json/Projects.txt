@@ -320,7 +320,7 @@
   {
     "ProjectId": "2cc16874-fbc4-48eb-b6ec-f03540725365",
     "ProjectOwnerId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
-    "ProjectName": "Certificate Making",
+    "ProjectName": "Certificate MakingAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
     "ProjectLocation": 0,
     "ProjectDescription": "I need good designers to make mass certificates.",
     "ProjectStartDate": "2025-09-09T07:25:34.1693296+08:00",
@@ -331,11 +331,22 @@
       "Creativity",
       "Graphic Design"
     ],
-    "ProjectMembers": [],
+    "ProjectMembers": [
+      {
+        "MemberId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+        "UserFirstName": "Van",
+        "UserLastName": "Cuadra",
+        "Email": "cuadra@gmail.com",
+        "Rate": 1.0,
+        "TimeFrame": 1,
+        "IsResigning": true,
+        "ResignationReason": "fes"
+      }
+    ],
     "ProjectPriority": "Medium",
     "ProjectResourcesNeeded": 5,
-    "ProjectResourcesAvailable": 5,
+    "ProjectResourcesAvailable": 4,
     "ProjectDateCreated": "2025-09-09T07:25:34.1693775+08:00",
-    "ProjectDateUpdated": "2025-09-09T11:03:41.4228135+08:00"
+    "ProjectDateUpdated": "2025-09-11T18:53:35.5065168+08:00"
   }
 ]

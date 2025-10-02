@@ -36,7 +36,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty,
          Required(ErrorMessage = "Mobile number is required."),
          RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
-                private string mobileNumber;
+        private string mobileNumber;
 
 
         [ObservableProperty] private CebuLocation? selectedLocation;

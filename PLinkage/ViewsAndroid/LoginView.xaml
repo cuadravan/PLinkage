@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkage.ViewsAndroid.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="LoginView"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Image
+                    Margin="0,0,0,5"
+                    HeightRequest="225"
+                    Source="plinkage.png"
+                    WidthRequest="225" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    Text="Welcome, Project Enthusiast!"
+                    TextColor="#333" />
+                <Label
+                    Margin="0,0,0,25"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    Text="Please sign in to continue."
+                    TextColor="#333" />
+                <Border
+                    Margin="0,0,0,15"
+                    BackgroundColor="White"
+                    Stroke="#D1D5DB"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+                    <Entry
+                        Margin="10,0,0,0"
+                        BackgroundColor="White"
+                        FontSize="14"
+                        HeightRequest="50"
+                        Keyboard="Email"
+                        Placeholder="Email Address"
+                        Text="{Binding Email}"
+                        TextColor="Black" />
+                </Border>
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#D1D5DB"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+                    <Entry
+                        Margin="10,0,0,0"
+                        BackgroundColor="White"
+                        FontSize="14"
+                        HeightRequest="50"
+                        IsPassword="True"
+                        Placeholder="Password"
+                        Text="{Binding Password}" />
+                </Border>
+
+
+                <Label
+                    FontAttributes="Italic"
+                    FontSize="13"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Red" />
+                <Button
+                    Margin="0,0,0,15"
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding LoginCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HeightRequest="50"
+                    Text="Login"
+                    TextColor="White" />
+                <Button
+                    BackgroundColor="#6A33CC"
+                    Command="{Binding GoToRegisterCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HeightRequest="50"
+                    Text="Not yet a user? Register"
+                    TextColor="White" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

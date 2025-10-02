@@ -29,6 +29,8 @@ namespace PLinkage.Services
 
             // Dismiss splash screen
             await Shell.Current.Navigation.PopModalAsync();
+
+            await _navigationService.NavigateToAsync("///LoginView");
         }
     }
 

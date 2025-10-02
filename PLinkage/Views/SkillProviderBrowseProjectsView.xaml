@@ -1,87 +1,110 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.Views.SkillProviderBrowseProjectsView"
-             Title="Browse Projects"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             xmlns:models="clr-namespace:PLinkage.Models"
-             xmlns:local="clr-namespace:PLinkage.Converters"
-             Shell.NavBarIsVisible="False">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:SortToVisibilityConverter x:Key="SortToVisibilityConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+<ContentPage
+    x:Class="PLinkage.Views.SkillProviderBrowseProjectsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:PLinkage.Models"
+    xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+    Title="Browse Projects"
+    Shell.NavBarIsVisible="False">
 
     <ScrollView Padding="50">
         <VerticalStackLayout Spacing="16">
 
-            <!-- Header -->
-            <Border BackgroundColor="#7C4DFF" StrokeThickness="0"
-                        Padding="16" StrokeShape="RoundRectangle 12">
+            <!--  Header  -->
+            <Border
+                Padding="16"
+                BackgroundColor="#7C4DFF"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="0">
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Browse Available Projects"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               TextColor="White" />
-                    <Label Text="Find projects in your area that match your skills and interests."
-                               FontSize="14"
-                               TextColor="White"/>
-                
-                    <Picker Title="Sort By"
-                            TitleColor="White"
-                                TextColor="White"
-                                ItemsSource="{Binding SortOptions}"
-                                SelectedItem="{Binding SortSelection}" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Browse Available Projects"
+                        TextColor="White" />
+                    <Label
+                        FontSize="14"
+                        Text="Find projects in your area that match your skills and interests."
+                        TextColor="White" />
 
-                    <Picker Title="Select Location"
-                            TitleColor="White"
-                                TextColor="White"
-                                ItemsSource="{Binding CebuLocations}"
-                                SelectedItem="{Binding SelectedLocation}"
-                                IsVisible="{Binding SortSelection, Converter={StaticResource SortToVisibilityConverter}}" />
+                    <Picker
+                        Title="Sort By"
+                        ItemsSource="{Binding SortOptions}"
+                        SelectedItem="{Binding SortSelection}"
+                        TextColor="White"
+                        TitleColor="White" />
+
+                    <Picker
+                        Title="Select Location"
+                        IsVisible="{Binding SortSelection, Converter={StaticResource SortToVisibilityConverter}}"
+                        ItemsSource="{Binding CebuLocations}"
+                        SelectedItem="{Binding SelectedLocation}"
+                        TextColor="White"
+                        TitleColor="White" />
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Project List -->
-            <FlexLayout BindableLayout.ItemsSource="{Binding SuggestedProjects}" Wrap="Wrap" Direction="Row" AlignItems="Start" JustifyContent="Center" AlignContent="Center" Padding="10">
+            <!--  Project List  -->
+            <FlexLayout
+                Padding="10"
+                AlignContent="Center"
+                AlignItems="Start"
+                BindableLayout.ItemsSource="{Binding SuggestedProjects}"
+                Direction="Row"
+                JustifyContent="Center"
+                Wrap="Wrap">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="#FFFFFF" 
-StrokeThickness="1" 
-Stroke="#7C4DFF"
-Padding="12" 
-StrokeShape="RoundRectangle 10"
-HeightRequest="120" WidthRequest="340" 
-Margin="0,0,10,10">
+                        <Border
+                            Margin="0,0,10,10"
+                            Padding="12"
+                            BackgroundColor="#FFFFFF"
+                            MinimumHeightRequest="120"
+                            Stroke="#7C4DFF"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1"
+                            WidthRequest="340">
                             <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60"
-                                             VerticalOptions="Center" HorizontalOptions="Center"/>
+                                <BoxView
+                                    HeightRequest="60"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    WidthRequest="60"
+                                    Color="#7C4DFF" />
 
-                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                    <Label Text="{Binding ProjectName}"
-                                               FontAttributes="Bold"
-                                               FontSize="14"
-                                               TextColor="Black"/>
-                                    <Label Text="{Binding ProjectResourcesAvailable, StringFormat='{0} available slot/s'}"
-                                               FontSize="12"
-                                               TextColor="Black"/>
-                                    <Label Text="{Binding ProjectLocation}"
-                                               FontSize="12"
-                                               TextColor="Black"/>
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="2"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        LineBreakMode="WordWrap"
+                                        MaxLines="2"
+                                        Text="{Binding ProjectName}"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="12"
+                                        Text="{Binding ProjectResourcesAvailable, StringFormat='{0} available slot/s'}"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="12"
+                                        Text="{Binding ProjectLocation}"
+                                        TextColor="Black" />
                                 </VerticalStackLayout>
 
-                                <Button Text="View"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseProjectViewModel}}, Path=ViewProjectCommand}"
-                                            CommandParameter="{Binding .}"
-                                            Grid.Column="2"
-                                            BackgroundColor="#7C4DFF"
-TextColor="White"
-                                            Padding="10,4"
-                                            WidthRequest="100"
-                                            CornerRadius="6"
-                                            VerticalOptions="Center"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Padding="10,4"
+                                    BackgroundColor="#7C4DFF"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseProjectViewModel}}, Path=ViewProjectCommand}"
+                                    CommandParameter="{Binding .}"
+                                    CornerRadius="6"
+                                    Text="View"
+                                    TextColor="White"
+                                    VerticalOptions="Center"
+                                    WidthRequest="100" />
                             </Grid>
                         </Border>
                     </DataTemplate>

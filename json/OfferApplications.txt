@@ -485,6 +485,16 @@
     "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
     "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
     "ProjectId": "2cc16874-fbc4-48eb-b6ec-f03540725365",
+    "OfferApplicationStatus": "Accepted",
+    "OfferApplicationRate": 1.0,
+    "OfferApplicationTimeFrame": 1
+  },
+  {
+    "OfferApplicationId": "edf420d9-0b4d-4fc4-9801-e04766bd7c7a",
+    "OfferApplicationType": "Offer",
+    "SenderId": "b506d2a4-73b9-47b6-91d4-b12eee5d7e83",
+    "ReceiverId": "bdbfdf21-02a5-47a5-805c-a2ca294591e7",
+    "ProjectId": "2cc16874-fbc4-48eb-b6ec-f03540725365",
     "OfferApplicationStatus": "Pending",
     "OfferApplicationRate": 1.0,
     "OfferApplicationTimeFrame": 1

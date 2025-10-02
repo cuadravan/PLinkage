@@ -32,7 +32,7 @@ namespace PLinkage.ViewModels
         [ObservableProperty] private bool isSkillProvider;
         [ObservableProperty] private bool isAdmin;
         [ObservableProperty] private bool isProjectOwnerOrAdmin;
-        [ObservableProperty]private bool isOwner;
+        [ObservableProperty] private bool isOwner;
 
 
         // Data Collections

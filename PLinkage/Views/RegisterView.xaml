@@ -1,157 +1,228 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.Views.RegisterView"
-             Title="Register Page"
-             Shell.NavBarIsVisible="False"
-             BackgroundColor="White">
+<ContentPage
+    x:Class="PLinkage.Views.RegisterView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Register Page"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <VerticalStackLayout 
+        <VerticalStackLayout
             Padding="10"
-            Spacing="20"
             HorizontalOptions="Center"
+            Spacing="20"
             VerticalOptions="Center">
 
-            <Border 
-                StrokeThickness="2"
-                StrokeShape="RoundRectangle 20"
+            <Border
                 Padding="20"
                 HeightRequest="720"
                 HorizontalOptions="Fill"
+                StrokeShape="RoundRectangle 20"
+                StrokeThickness="2"
                 WidthRequest="600">
 
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#7C4DFF" Offset="0.0" />
-                        <GradientStop Color="#6A3FCC" Offset="0.5" />
-                        <GradientStop Color="#4A2E99" Offset="1.0" />
+                        <GradientStop Offset="0.0" Color="#7C4DFF" />
+                        <GradientStop Offset="0.5" Color="#6A3FCC" />
+                        <GradientStop Offset="1.0" Color="#4A2E99" />
                     </LinearGradientBrush>
                 </Border.Background>
 
                 <VerticalStackLayout Spacing="30">
 
-                    <Label 
-                        Text="Register, and Be Part of the Linkage Community!"
+                    <Label
+                        FontAttributes="Bold"
                         FontFamily="Roboto"
+                        FontSize="30"
+                        HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
-                        FontSize="30" 
-                        FontAttributes="Bold" 
-                        TextColor="White"
-                        HorizontalOptions="Center"/>
+                        Text="Register, and Be Part of the Linkage Community!"
+                        TextColor="White" />
 
-                    <Grid ColumnDefinitions="*,*"
-                          RowDefinitions="Auto, Auto, Auto"
-                          ColumnSpacing="30"
-                          RowSpacing="30">
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="30"
+                        RowDefinitions="Auto, Auto, Auto"
+                        RowSpacing="30">
 
-                        <Grid Grid.Row="1" Grid.ColumnSpan="2"
-                              ColumnDefinitions="*,*"
-                              RowSpacing="25"
-                              ColumnSpacing="30">
+                        <Grid
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="30"
+                            RowSpacing="25">
 
                             <VerticalStackLayout Grid.Column="0" Spacing="15">
-                                <Label Text="First Name" FontAttributes="Bold" TextColor="White" />
-                                <Entry BackgroundColor="White" FontSize="14" Placeholder="First Name" Text="{Binding FirstName}"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="First Name"
+                                    TextColor="White" />
+                                <Entry
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    Placeholder="First Name"
+                                    Text="{Binding FirstName}" />
 
-                                <Label Text="Last Name" FontAttributes="Bold" TextColor="White" />
-                                <Entry BackgroundColor="White" FontSize="14" Placeholder="Last Name" Text="{Binding LastName}"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Last Name"
+                                    TextColor="White" />
+                                <Entry
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    Placeholder="Last Name"
+                                    Text="{Binding LastName}" />
 
-                                <Label Text="Email Address" FontAttributes="Bold" TextColor="White" />
-                                <Entry BackgroundColor="White" FontSize="14" Placeholder="Email Address" Keyboard="Email" Text="{Binding Email}"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Email Address"
+                                    TextColor="White" />
+                                <Entry
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    Keyboard="Email"
+                                    Placeholder="Email Address"
+                                    Text="{Binding Email}" />
 
-                                <Label Text="Password" FontAttributes="Bold" TextColor="White" />
-                                <Entry BackgroundColor="White" FontSize="14" Placeholder="Password" IsPassword="True" Text="{Binding Password}"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Password"
+                                    TextColor="White" />
+                                <Entry
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    IsPassword="True"
+                                    Placeholder="Password"
+                                    Text="{Binding Password}" />
 
-                                <Label Text="Confirm Password" FontAttributes="Bold" TextColor="White" />
-                                <Entry BackgroundColor="White" FontSize="14" Placeholder="Confirm Password" IsPassword="True" Text="{Binding ConfirmPassword}"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Confirm Password"
+                                    TextColor="White" />
+                                <Entry
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    IsPassword="True"
+                                    Placeholder="Confirm Password"
+                                    Text="{Binding ConfirmPassword}" />
                             </VerticalStackLayout>
 
                             <VerticalStackLayout Grid.Column="1" Spacing="15">
-                                <Label Text="Birthdate" FontAttributes="Bold" TextColor="White" />
-                                <DatePicker Date="{Binding Birthdate}"
-                                            HorizontalOptions="Fill"
-                                            VerticalOptions="Center"
-                                            ToolTipProperties.Text="Optional."
-                                            HeightRequest="45"
-                                            FontSize="14"
-                                            BackgroundColor="White" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Birthdate"
+                                    TextColor="White" />
+                                <DatePicker
+                                    BackgroundColor="White"
+                                    Date="{Binding Birthdate}"
+                                    FontSize="14"
+                                    HeightRequest="45"
+                                    HorizontalOptions="Fill"
+                                    ToolTipProperties.Text="Optional."
+                                    VerticalOptions="Center" />
 
-                                <Label Text="Gender" FontAttributes="Bold" TextColor="White" />
-                                <HorizontalStackLayout HorizontalOptions="Fill"
-                                                       VerticalOptions="Center"
-                                                       Spacing="20">
-                                    <RadioButton Content="Male"
-                                                 IsChecked="{Binding IsMale}"
-                                                 GroupName="Gender"
-                                                 TextColor="White"
-                                                 ToolTipProperties.Text="Required."
-                                                 HorizontalOptions="StartAndExpand" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Gender"
+                                    TextColor="White" />
+                                <HorizontalStackLayout
+                                    HorizontalOptions="Fill"
+                                    Spacing="20"
+                                    VerticalOptions="Center">
+                                    <RadioButton
+                                        Content="Male"
+                                        GroupName="Gender"
+                                        HorizontalOptions="StartAndExpand"
+                                        IsChecked="{Binding IsMale}"
+                                        TextColor="White"
+                                        ToolTipProperties.Text="Required." />
 
-                                    <RadioButton Content="Female"
-                                                 TextColor="White"
-                                                 IsChecked="{Binding IsFemale}"
-                                                 GroupName="Gender"
-                                                 ToolTipProperties.Text="Required."
-                                                 HorizontalOptions="EndAndExpand" />
+                                    <RadioButton
+                                        Content="Female"
+                                        GroupName="Gender"
+                                        HorizontalOptions="EndAndExpand"
+                                        IsChecked="{Binding IsFemale}"
+                                        TextColor="White"
+                                        ToolTipProperties.Text="Required." />
                                 </HorizontalStackLayout>
 
-                                <Label Text="Location" FontAttributes="Bold" TextColor="White" />
-                                <Picker ItemsSource="{Binding CebuLocations}"
-                                        SelectedItem="{Binding SelectedLocation}"
-                                        HorizontalOptions="Fill"
-                                        VerticalOptions="Center"
-                                        HeightRequest="45"
-                                        FontSize="14"
-                                        BackgroundColor="White" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Location"
+                                    TextColor="White" />
+                                <Picker
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    HeightRequest="45"
+                                    HorizontalOptions="Fill"
+                                    ItemsSource="{Binding CebuLocations}"
+                                    SelectedItem="{Binding SelectedLocation}"
+                                    VerticalOptions="Center" />
 
-                                <Label Text="Mobile Number" FontAttributes="Bold" TextColor="White" />
-                                <Entry BackgroundColor="White"
-                                       FontSize="14"
-                                       Placeholder="Mobile Number"
-                                       Keyboard="Telephone" 
-                                       Text="{Binding MobileNumber}"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Mobile Number"
+                                    TextColor="White" />
+                                <Entry
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    Keyboard="Telephone"
+                                    Placeholder="Mobile Number"
+                                    Text="{Binding MobileNumber}" />
 
-                                <Label Text="Role of Choice" FontAttributes="Bold" TextColor="White" />
-                                <Picker ItemsSource="{Binding Roles}"
-                                        SelectedItem="{Binding SelectedRole}"
-                                        HorizontalOptions="Fill"
-                                        VerticalOptions="Center"
-                                        HeightRequest="45"
-                                        FontSize="14"
-                                        BackgroundColor="White" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Role of Choice"
+                                    TextColor="White" />
+                                <Picker
+                                    BackgroundColor="White"
+                                    FontSize="14"
+                                    HeightRequest="45"
+                                    HorizontalOptions="Fill"
+                                    ItemsSource="{Binding Roles}"
+                                    SelectedItem="{Binding SelectedRole}"
+                                    VerticalOptions="Center" />
                             </VerticalStackLayout>
                         </Grid>
 
-                        <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="10" HorizontalOptions="Center">
-                            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                                <Button Text="Register" 
-                                        BackgroundColor="#7C4DFF" 
-                                        TextColor="White" 
-                                        HeightRequest="50"
-                                        CornerRadius="10"
-                                        FontSize="16"
-                                        FontAttributes="Bold"
-                                        WidthRequest="150" 
-                                        Command="{Binding RegisterCommand}"/>
+                        <VerticalStackLayout
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            HorizontalOptions="Center"
+                            Spacing="10">
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                                <Button
+                                    BackgroundColor="#7C4DFF"
+                                    Command="{Binding RegisterCommand}"
+                                    CornerRadius="10"
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    HeightRequest="50"
+                                    Text="Register"
+                                    TextColor="White"
+                                    WidthRequest="150" />
 
-                                <Button Text="Clear" 
-                                        BackgroundColor="White" 
-                                        TextColor="#7C4DFF" 
-                                        HeightRequest="50"
-                                        CornerRadius="10"
-                                        FontSize="16"
-                                        FontAttributes="Bold"
-                                        WidthRequest="150"
-                                        Command="{Binding ClearCommand}"/>
+                                <Button
+                                    BackgroundColor="White"
+                                    Command="{Binding ClearCommand}"
+                                    CornerRadius="10"
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    HeightRequest="50"
+                                    Text="Clear"
+                                    TextColor="#7C4DFF"
+                                    WidthRequest="150" />
                             </HorizontalStackLayout>
 
-                            <Label Text="{Binding ErrorMessage}"
-                                   TextColor="White"
-                                   FontSize="14"
-                                   FontAttributes="Italic"
-                                   IsVisible="{Binding ErrorMessage}"
-                                   HorizontalOptions="Center" />
+                            <Label
+                                FontAttributes="Italic"
+                                FontSize="14"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding ErrorMessage}"
+                                Text="{Binding ErrorMessage}"
+                                TextColor="White" />
                         </VerticalStackLayout>
                     </Grid>
                 </VerticalStackLayout>

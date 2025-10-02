@@ -1,10 +1,19 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using PLinkage.Interfaces;
 using PLinkage.Services;
 using PLinkage.ViewModels;
 using PLinkage.Repositories;
 using PLinkage.Views;
+using Microsoft.Maui.LifecycleEvents;
+
+#if WINDOWS
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Windows.Graphics;
+#endif
 
 namespace PLinkage;
 
@@ -22,6 +31,13 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+        #if ANDROID
+            ServiceCollectionServiceExtensions.AddSingleton<Shell, AppShellAndroid>(builder.Services);
+        #elif WINDOWS
+            ServiceCollectionServiceExtensions.AddSingleton<Shell, AppShellWindows>(builder.Services);
+        #endif
+
+
         builder.Services.AddSingleton<ISessionService, SessionService>();
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
         builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
@@ -30,7 +46,7 @@ public static class MauiProgram
 
         builder.Services.AddTransient<SplashScreenPage>();
         builder.Services.AddSingleton<App>();
-        builder.Services.AddSingleton<AppShell>();
+        
         builder.Services.AddTransient<LoginView>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
@@ -63,6 +79,31 @@ public static class MauiProgram
         builder.Services.AddTransient<AdminBrowseProjectsViewModel>();
         builder.Services.AddTransient<AdminBrowseSkillProviderViewModel>();
         builder.Services.AddTransient<AdminBrowseProjectOwnerViewModel>();
+
+#if WINDOWS
+        builder.ConfigureLifecycleEvents(events =>
+        {
+            // Add Windows-specific lifecycle events
+            events.AddWindows(wndLifeCycleBuilder =>
+            {
+                // This runs when a window is created
+                wndLifeCycleBuilder.OnWindowCreated(window =>
+                {
+                    // Get the window handle
+                    IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+
+                    // Get the Window ID from the handle
+                    WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+
+                    // Get the AppWindow instance
+                    AppWindow appWindow = AppWindow.GetFromWindowId(myWndId);
+
+                    // Set the presenter to FullScreen
+                    appWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+                });
+            });
+        });
+#endif
 
 
 #if DEBUG

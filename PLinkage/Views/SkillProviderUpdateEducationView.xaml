@@ -1,56 +1,88 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             x:Class="PLinkage.Views.SkillProviderUpdateEducationView"
-             Title="Update Education"
-             Shell.NavBarIsVisible="False"
-             x:DataType="viewmodels:UpdateEducationViewModel">
+<ContentPage
+    x:Class="PLinkage.Views.SkillProviderUpdateEducationView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+    Title="Update Education"
+    x:DataType="viewmodels:UpdateEducationViewModel"
+    Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Padding="40" Spacing="30" VerticalOptions="Center" WidthRequest="400">
-        <Frame BackgroundColor="#F1F0FC" Padding="20" CornerRadius="10">
+    <VerticalStackLayout
+        Padding="40"
+        Spacing="30"
+        VerticalOptions="Center"
+        WidthRequest="400">
+        <Frame
+            Padding="20"
+            BackgroundColor="#F1F0FC"
+            CornerRadius="10">
             <VerticalStackLayout Spacing="10">
-                <Label Text="Update the form below:" FontAttributes="Bold" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
-                <Label Text="Course Name" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="Course Name"
-                           Text="{Binding CourseName, Mode=TwoWay}"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalTextAlignment="Center"
+                    Text="Update the form below:"
+                    TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Course Name"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Placeholder="Course Name"
+                    Text="{Binding CourseName, Mode=TwoWay}"
+                    TextColor="Black" />
 
-                <Label Text="School Attended" TextColor="Black" FontAttributes="Bold" />
-                <Entry Placeholder="School"
-                           Text="{Binding SchoolAttended, Mode=TwoWay}"
-                           BackgroundColor="White" TextColor="Black" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="School Attended"
+                    TextColor="Black" />
+                <Entry
+                    BackgroundColor="White"
+                    Placeholder="School"
+                    Text="{Binding SchoolAttended, Mode=TwoWay}"
+                    TextColor="Black" />
 
-                <Label Text="Time Graduated" TextColor="Black" FontAttributes="Bold" />
-                <DatePicker Date="{Binding TimeGraduated, Mode=TwoWay}"
-                                TextColor="Black"
-                                BackgroundColor="White"
-                                Format="MMMM yyyy"
-                            HorizontalOptions="Center"
-                                MaximumDate="{x:Static sys:DateTime.Today}" />
+                <Label
+                    FontAttributes="Bold"
+                    Text="Time Graduated"
+                    TextColor="Black" />
+                <DatePicker
+                    BackgroundColor="White"
+                    Date="{Binding TimeGraduated, Mode=TwoWay}"
+                    Format="MMMM yyyy"
+                    HorizontalOptions="Center"
+                    MaximumDate="{x:Static sys:DateTime.Today}"
+                    TextColor="Black" />
             </VerticalStackLayout>
         </Frame>
 
-        <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
-                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+        <Label
+            FontSize="12"
+            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+            Text="{Binding ErrorMessage}"
+            TextColor="Red" />
 
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
-            <Button Text="Update Education"
-                        BackgroundColor="#7C4DFF"
-                        TextColor="White"
-                        Padding="14,6"
-                        CornerRadius="8"
-                        Command="{Binding SaveCommand}" />
+            <Button
+                Padding="14,6"
+                BackgroundColor="#7C4DFF"
+                Command="{Binding SaveCommand}"
+                CornerRadius="8"
+                Text="Update Education"
+                TextColor="White" />
 
-            <Button Text="Cancel"
-                            BackgroundColor="White"
-                            TextColor="#7C4DFF"
-                            BorderColor="#7C4DFF"
-                            BorderWidth="1"
-                        Padding="14,6"
-                        CornerRadius="8"
-                        Command="{Binding CancelCommand}" />
+            <Button
+                Padding="14,6"
+                BackgroundColor="White"
+                BorderColor="#7C4DFF"
+                BorderWidth="1"
+                Command="{Binding CancelCommand}"
+                CornerRadius="8"
+                Text="Cancel"
+                TextColor="#7C4DFF" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

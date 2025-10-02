@@ -5,12 +5,12 @@ using PLinkage.Interfaces;
 
 namespace PLinkage
 {
-    public partial class AppShell : Shell
+    public partial class AppShellWindows : Shell
     {
         private readonly IStartupService _startupService;
         private bool _initialized;
 
-        public AppShell(AppShellViewModel viewModel, IStartupService startupService)
+        public AppShellWindows(AppShellViewModel viewModel, IStartupService startupService)
         {
             InitializeComponent();
 
@@ -40,7 +40,7 @@ namespace PLinkage
             if (_initialized)
                 return;
 
-            _initialized = true;
+            _initialized = true;    
             await _startupService.StartAsync();
         }
     }

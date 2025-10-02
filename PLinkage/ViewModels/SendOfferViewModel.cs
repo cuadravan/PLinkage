@@ -72,11 +72,11 @@ namespace PLinkage.ViewModels
             }
             OwnedProjects = new ObservableCollection<Project>(owned);
 
-            // 🔽 Add this block to fetch and set the skill provider
+            // Add this block to fetch and set the skill provider
             var provider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
             if (provider != null)
             {
-                SkillProviderOffered = provider; // 🔥 This triggers OnSkillProviderOfferedChanged
+                SkillProviderOffered = provider; // This triggers OnSkillProviderOfferedChanged
             }
         }
 
@@ -134,7 +134,7 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // ——— NEW CHECK: is the project full? ———
+            // CHECK: is the project full? ———
             var project = await _unitOfWork.Projects.GetByIdAsync(SelectedProject.ProjectId);
             if (project == null)
             {
@@ -159,9 +159,8 @@ namespace PLinkage.ViewModels
                     "OK");
                 return; 
             }
-            // —————————————————————————————————————
 
-            // ✅ Create and save OfferApplication
+            // Create and save OfferApplication
             var offer = new OfferApplication
             {
                 OfferApplicationType = "Offer",
@@ -176,7 +175,7 @@ namespace PLinkage.ViewModels
             await _unitOfWork.OfferApplications.AddAsync(offer);
             await _unitOfWork.SaveChangesAsync(); // Save to generate the OfferApplicationId
 
-            // 🔄 Update both ProjectOwner and SkillProvider with the new OfferApplicationId
+            // Update both ProjectOwner and SkillProvider with the new OfferApplicationId
             var projectOwner = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
 

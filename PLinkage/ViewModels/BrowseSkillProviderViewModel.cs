@@ -5,7 +5,7 @@ using PLinkage.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 namespace PLinkage.ViewModels
 {
-    public partial class BrowseSkillProviderViewModel: ObservableObject
+    public partial class BrowseSkillProviderViewModel : ObservableObject
     {
         [ObservableProperty]
         private CebuLocation? selectedLocation = null;

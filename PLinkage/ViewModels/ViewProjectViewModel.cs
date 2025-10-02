@@ -57,8 +57,8 @@ namespace PLinkage.ViewModels
             if (_projectId == Guid.Empty) return;
 
             await _unitOfWork.ReloadAsync();
-            // ✅ Fast role check using enum
-            
+            // Fast role check using enum
+
             IsSkillProvider = _sessionService.GetCurrentUserType() == UserRole.SkillProvider;
             IsSkillproviderOrAdmin = _sessionService.GetCurrentUserType() == UserRole.SkillProvider ||
                                       _sessionService.GetCurrentUserType() == UserRole.Admin;
@@ -91,7 +91,7 @@ namespace PLinkage.ViewModels
             ProjectDateCreated = project.ProjectDateCreated;
             ProjectDateUpdated = project.ProjectDateUpdated;
 
-            // 👇 Fetch Project Owner's Full Name
+            // Fetch Project Owner's Full Name
             var owner = await _unitOfWork.ProjectOwner.GetByIdAsync(project.ProjectOwnerId);
             ProjectOwnerFullName = owner != null
                 ? $"{owner.UserFirstName} {owner.UserLastName}"
@@ -159,7 +159,7 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // ——— NEW: check if the project has any available slots ———
+            // Check if the project has any available slots ———
             var project = await _unitOfWork.Projects.GetByIdAsync(_projectId);
             if (project == null)
             {

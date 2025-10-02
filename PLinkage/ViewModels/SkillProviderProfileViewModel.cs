@@ -106,7 +106,7 @@ namespace PLinkage.ViewModels
 
         // Commands
         [RelayCommand]
-        private async Task AddEducation ()
+        private async Task AddEducation()
         {
             await _navigationService.NavigateToAsync("/SkillProviderAddEducationView");
         }
@@ -124,12 +124,12 @@ namespace PLinkage.ViewModels
         }
 
         [RelayCommand]
-        private async Task AddSkill ()
+        private async Task AddSkill()
         {
             await _navigationService.NavigateToAsync("/SkillProviderAddSkillView");
         }
         [RelayCommand]
-        private async Task UpdateSkill (Skill skill)
+        private async Task UpdateSkill(Skill skill)
         {
             if (skill == null || Skills == null) return;
 
@@ -158,7 +158,7 @@ namespace PLinkage.ViewModels
             if (projectDisplay == null)
                 return;
 
-            // 🚫 Prevent resignation if project is not active
+            // Prevent resignation if project is not active
             if (projectDisplay.ProjectStatus != ProjectStatus.Active)
             {
                 await Shell.Current.DisplayAlert(
@@ -168,7 +168,7 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // 1. Ask for confirmation
+            // Ask for confirmation
             var confirm = await Shell.Current.DisplayAlert(
                 "Resign from Project",
                 $"Are you sure you want to resign from \"{projectDisplay.ProjectName}\"? This will need to be approved by your project owner.",
@@ -178,7 +178,7 @@ namespace PLinkage.ViewModels
             if (!confirm)
                 return;
 
-            // 2. Prompt for resignation reason
+            // Prompt for resignation reason
             string reason = await Shell.Current.DisplayPromptAsync(
                 "Resignation Reason",
                 "Please provide a reason for resigning:",
@@ -191,13 +191,13 @@ namespace PLinkage.ViewModels
                 return;
             }
 
-            // 3. Load fresh data
+            // Load fresh data
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
             var proj = await _unitOfWork.Projects.GetByIdAsync(projectDisplay.ProjectId);
             if (skillProvider == null || proj == null)
                 return;
 
-            // 4. Flag member as resigning and attach reason
+            // Flag member as resigning and attach reason
             var member = proj.ProjectMembers.FirstOrDefault(m => m.MemberId == _skillProviderId);
             if (member != null)
             {
@@ -227,15 +227,15 @@ namespace PLinkage.ViewModels
             int index = Skills.IndexOf(skill);
             if (index < 0) return;
 
-            // 1. Load the provider
+            // Load the provider
             var provider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
             if (provider == null || provider.Skills.Count <= index) return;
 
-            // 2. Remove from both provider and UI list
+            // Remove from both provider and UI list
             provider.Skills.RemoveAt(index);
             Skills.RemoveAt(index);
 
-            // 3. Persist changes
+            // Persist changes
             await _unitOfWork.SkillProvider.UpdateAsync(provider);
             await _unitOfWork.SaveChangesAsync();
 
@@ -257,15 +257,15 @@ namespace PLinkage.ViewModels
             int index = Educations.IndexOf(education);
             if (index < 0) return;
 
-            // 1. Load the provider
+            // Load the provider
             var provider = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
             if (provider == null || provider.Educations.Count <= index) return;
 
-            // 2. Remove from both provider and UI list
+            // Remove from both provider and UI list
             provider.Educations.RemoveAt(index);
             Educations.RemoveAt(index);
 
-            // 3. Persist changes
+            // Persist changes
             await _unitOfWork.SkillProvider.UpdateAsync(provider);
             await _unitOfWork.SaveChangesAsync();
 
@@ -281,7 +281,7 @@ namespace PLinkage.ViewModels
         public DateTime ProjectEndDate { get; set; }
         public decimal Rate { get; set; }
         public int TimeFrame { get; set; } // In hours
-        public Project OriginalProject { get; set; } // Optional: useful for navigation or resigning
+        public Project OriginalProject { get; set; } // Useful for navigation or resigning
     }
 
 

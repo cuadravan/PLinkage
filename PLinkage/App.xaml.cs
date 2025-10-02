@@ -4,9 +4,9 @@ namespace PLinkage
 {
     public partial class App : Application
     {
-        private readonly AppShell _appShell;
+        private readonly Shell _appShell;
 
-        public App(AppShell appShell)
+        public App(Shell appShell)
         {
             InitializeComponent();
             _appShell = appShell;

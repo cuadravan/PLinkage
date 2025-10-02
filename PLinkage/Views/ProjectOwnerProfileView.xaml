@@ -1,103 +1,195 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
-             xmlns:models="clr-namespace:PLinkage.Models"
-             x:Class="PLinkage.Views.ProjectOwnerProfileView"
-             Shell.NavBarIsVisible="False"
-             Title="My Profile">
+<ContentPage
+    x:Class="PLinkage.Views.ProjectOwnerProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:PLinkage.Models"
+    xmlns:viewmodels="clr-namespace:PLinkage.ViewModels"
+    Title="My Profile"
+    Shell.NavBarIsVisible="False">
 
     <ScrollView Padding="50">
         <VerticalStackLayout Spacing="16">
-            <Border Background="White" Padding="16" StrokeThickness="0" StrokeShape="RoundRectangle 8">
+            <Border
+                Padding="16"
+                Background="White"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="0">
                 <Grid ColumnDefinitions="*,Auto">
                     <HorizontalStackLayout Spacing="12">
-                        <BoxView Color="#7C4DFF" HeightRequest="60" WidthRequest="60" />
+                        <BoxView
+                            HeightRequest="60"
+                            WidthRequest="60"
+                            Color="#7C4DFF" />
                         <VerticalStackLayout>
-                            <Label Text="{Binding UserName}" FontAttributes="Bold" FontSize="25" TextColor="Black" />
-                            <Label Text="{Binding UserLocation, StringFormat='Location: {0}'}" FontSize="12" TextColor="Black" />
-                            <Label Text="{Binding DateJoined, StringFormat='Joined on: {0:MMMM dd, yyyy}'}" FontSize="12" TextColor="Black" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="25"
+                                Text="{Binding UserName}"
+                                TextColor="Black" />
+                            <Label
+                                FontSize="12"
+                                Text="{Binding UserLocation, StringFormat='Location: {0}'}"
+                                TextColor="Black" />
+                            <Label
+                                FontSize="12"
+                                Text="{Binding DateJoined, StringFormat='Joined on: {0:MMMM dd, yyyy}'}"
+                                TextColor="Black" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
-                    <Button Text="Update Profile"
-                                BackgroundColor="#D32F2F" Padding="10,4" CornerRadius="6"
-                                Command="{Binding UpdateProfileCommand}"
-                                WidthRequest="150"
-                                HorizontalOptions="End" />
+                    <Button
+                        Padding="10,4"
+                        BackgroundColor="#D32F2F"
+                        Command="{Binding UpdateProfileCommand}"
+                        CornerRadius="6"
+                        HorizontalOptions="End"
+                        Text="Update Profile"
+                        WidthRequest="150" />
                 </Grid>
             </Border>
 
-            <Border Background="White" Stroke="#7C4DFF" Padding="16" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+            <Border
+                Padding="16"
+                Background="White"
+                Stroke="#7C4DFF"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
                 <VerticalStackLayout>
-                    <Label Text="Information" FontAttributes="Bold" FontSize="20" TextColor="Black" />
-                    <Label Text="{Binding UserGender, StringFormat='Gender: {0}'}" FontSize="12" TextColor="Black" />
-                    <Label Text="{Binding UserEmail, StringFormat='Email: {0}'}" FontSize="12" TextColor="Black" />
-                    <Label Text="{Binding UserPhone, StringFormat='Mobile: {0}'}" FontSize="12" TextColor="Black" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Information"
+                        TextColor="Black" />
+                    <Label
+                        FontSize="12"
+                        Text="{Binding UserGender, StringFormat='Gender: {0}'}"
+                        TextColor="Black" />
+                    <Label
+                        FontSize="12"
+                        Text="{Binding UserEmail, StringFormat='Email: {0}'}"
+                        TextColor="Black" />
+                    <Label
+                        FontSize="12"
+                        Text="{Binding UserPhone, StringFormat='Mobile: {0}'}"
+                        TextColor="Black" />
                 </VerticalStackLayout>
             </Border>
 
-            <Border Background="White" Stroke="#7C4DFF" Padding="16" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+            <Border
+                Padding="16"
+                Background="White"
+                Stroke="#7C4DFF"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
                 <VerticalStackLayout Spacing="12">
 
                     <Grid ColumnDefinitions="*,Auto">
                         <VerticalStackLayout>
-                            <Label Text="My Projects" TextColor="Black" FontSize="20" HorizontalTextAlignment="Center" FontAttributes="Bold" Margin="0,0,0,4" />
-                            <Label Text="Sort By" TextColor="Black" FontSize="14" Margin="0,0,0,4" HorizontalOptions="Center"/>
-                            <Border Background="White" Stroke="LightGray" StrokeThickness="0" StrokeShape="RoundRectangle 6"
-                                        HeightRequest="40" WidthRequest="200" Padding="0">
+                            <Label
+                                Margin="0,0,0,4"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center"
+                                Text="My Projects"
+                                TextColor="Black" />
+                            <Label
+                                Margin="0,0,0,4"
+                                FontSize="14"
+                                HorizontalOptions="Center"
+                                Text="Sort By"
+                                TextColor="Black" />
+                            <Border
+                                Padding="0"
+                                Background="White"
+                                HeightRequest="40"
+                                Stroke="LightGray"
+                                StrokeShape="RoundRectangle 6"
+                                StrokeThickness="0"
+                                WidthRequest="200">
                                 <Grid>
-                                    <Picker Title="Select Status"
-                                                ItemsSource="{Binding SortOptions}"
-                                                SelectedItem="{Binding SortSelection}"
-                                                TextColor="Black" FontSize="14" TitleColor="DarkGray"
-                                                BackgroundColor="Transparent"
-                                                HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                                Margin="0,-15,0,0" HeightRequest="75" />
+                                    <Picker
+                                        Title="Select Status"
+                                        Margin="0,-15,0,0"
+                                        BackgroundColor="Transparent"
+                                        FontSize="14"
+                                        HeightRequest="75"
+                                        HorizontalOptions="FillAndExpand"
+                                        ItemsSource="{Binding SortOptions}"
+                                        SelectedItem="{Binding SortSelection}"
+                                        TextColor="Black"
+                                        TitleColor="DarkGray"
+                                        VerticalOptions="Center" />
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
 
-                        <Button Text="Create Project"
-                                    BackgroundColor="#388E3C" Padding="10,4" CornerRadius="6"
-                                    Command="{Binding AddProjectCommand}" WidthRequest="150"
-                                    HorizontalOptions="End" VerticalOptions="End" />
+                        <Button
+                            Padding="10,4"
+                            BackgroundColor="#388E3C"
+                            Command="{Binding AddProjectCommand}"
+                            CornerRadius="6"
+                            HorizontalOptions="End"
+                            Text="Create Project"
+                            VerticalOptions="End"
+                            WidthRequest="150" />
                     </Grid>
 
-                    <FlexLayout BindableLayout.ItemsSource="{Binding OwnedProjects}"
-                                    Wrap="Wrap"
-                                    Direction="Row"
-                                    AlignItems="Start"
-                                    JustifyContent="Center"
-                                    AlignContent="Center">
+                    <FlexLayout
+                        AlignContent="Center"
+                        AlignItems="Start"
+                        BindableLayout.ItemsSource="{Binding OwnedProjects}"
+                        Direction="Row"
+                        JustifyContent="Center"
+                        Wrap="Wrap">
 
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Border Stroke="LightGray" 
-                                            StrokeThickness="0" 
-                                            Padding="10" 
-                                            StrokeShape="RoundRectangle 6" 
-                                            Background="#7C4DFF"
-                                            HeightRequest="120"
-                                            WidthRequest="250"
-                                            Margin="0,0,6,6">
+                                <Border
+                                    Margin="0,0,6,6"
+                                    Padding="10"
+                                    Background="#7C4DFF"
+                                    MinimumHeightRequest="120"
+                                    Stroke="LightGray"
+                                    StrokeShape="RoundRectangle 6"
+                                    StrokeThickness="0"
+                                    WidthRequest="250">
 
                                     <Grid ColumnDefinitions="*,Auto">
                                         <VerticalStackLayout>
-                                            <Label Text="{Binding ProjectName}" FontAttributes="Bold" FontSize="14" TextColor="White" />
-                                            <Label Text="{Binding ProjectDescription}" FontSize="14" TextColor="White" />
-                                            <Label Text="{Binding ProjectStatus, StringFormat='Status: {0}'}" FontSize="12" TextColor="White" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="14"
+                                                LineBreakMode="WordWrap"
+                                                MaxLines="2"
+                                                Text="{Binding ProjectName}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="14"
+                                                LineBreakMode="WordWrap"
+                                                MaxLines="2"
+                                                Text="{Binding ProjectDescription}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontSize="12"
+                                                Text="{Binding ProjectStatus, StringFormat='Status: {0}'}"
+                                                TextColor="White" />
                                         </VerticalStackLayout>
-                                        <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
-                                            <Button Text="View"
-                                                        TextColor="#7C4DFF"
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewProjectCommand}"
-                                                        CommandParameter="{Binding .}"
-                                                        BackgroundColor="White"/>
-                                            <Button Text="Update"
-                                                        TextColor="#D32F2F"
-                                                        BackgroundColor="White"
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.UpdateProjectCommand}"
-                                                        CommandParameter="{Binding .}"/>
+                                        <VerticalStackLayout
+                                            Grid.Column="1"
+                                            HorizontalOptions="End"
+                                            Spacing="4">
+                                            <Button
+                                                BackgroundColor="White"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewProjectCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Text="View"
+                                                TextColor="#7C4DFF" />
+                                            <Button
+                                                BackgroundColor="White"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.UpdateProjectCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Text="Update"
+                                                TextColor="#D32F2F" />
                                         </VerticalStackLayout>
                                     </Grid>
                                 </Border>

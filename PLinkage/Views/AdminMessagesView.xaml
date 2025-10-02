@@ -1,49 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:PLinkage.Converters"
-             x:Class="PLinkage.Views.AdminMessagesView"
-             Title="Messages"
-             Shell.NavBarIsVisible="False">
+<ContentPage
+    x:Class="PLinkage.Views.AdminMessagesView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Messages"
+    Shell.NavBarIsVisible="False">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />
-            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
-            <converters:BoolToColorTextConverter x:Key="BoolToColorTextConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" Padding="50">
-        <!-- Header -->
-        <Frame BackgroundColor="#7C4DFF" Padding="16" HasShadow="False">
-            <Label Text="Messages" FontSize="20" FontAttributes="Bold" TextColor="White" />
+    <Grid
+        Padding="50"
+        ColumnDefinitions="*"
+        RowDefinitions="Auto,*">
+        <!--  Header  -->
+        <Frame
+            Padding="16"
+            BackgroundColor="#7C4DFF"
+            HasShadow="False">
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Messages"
+                TextColor="White" />
         </Frame>
 
-        <!-- Main Panel -->
-        <Grid Grid.Row="1" ColumnDefinitions="2*,3*" Padding="10">
+        <!--  Main Panel  -->
+        <Grid
+            Grid.Row="1"
+            Padding="10"
+            ColumnDefinitions="2*,3*">
 
-            <!-- Chat List -->
-            <CollectionView Grid.Column="0"
-                            x:Name="ChatListView"
+            <!--  Chat List  -->
+            <CollectionView
+                x:Name="ChatListView"
+                Grid.Column="0"
                 ItemsSource="{Binding ChatSummaries}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="10" BackgroundColor="White" CornerRadius="6" Margin="0,4">
+                        <Frame
+                            Margin="0,4"
+                            Padding="10"
+                            BackgroundColor="White"
+                            CornerRadius="6">
                             <VerticalStackLayout>
                                 <HorizontalStackLayout Spacing="10">
-                                    <BoxView Color="#7C4DFF" HeightRequest="40" WidthRequest="40" CornerRadius="4"/>
+                                    <BoxView
+                                        CornerRadius="4"
+                                        HeightRequest="40"
+                                        WidthRequest="40"
+                                        Color="#7C4DFF" />
                                     <VerticalStackLayout>
-                                        <Label Text="{Binding ReceiverFullName}" FontAttributes="Bold" TextColor="Black"/>
-                                        <Label Text="{Binding MostRecentMessage}" FontSize="12" TextColor="Gray" LineBreakMode="TailTruncation"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            Text="{Binding ReceiverFullName}"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="12"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding MostRecentMessage}"
+                                            TextColor="Gray" />
                                     </VerticalStackLayout>
                                 </HorizontalStackLayout>
-                                <Button Text="View" 
-                            Command="{Binding BindingContext.ChatSelectedCommand, Source={x:Reference Name=ChatListView}}"
-                            CommandParameter="{Binding .}" 
-                            FontSize="12"
-                            HorizontalOptions="End" 
-                                        BackgroundColor="#7C4DFF"/>
+                                <Button
+                                    BackgroundColor="#7C4DFF"
+                                    Command="{Binding BindingContext.ChatSelectedCommand, Source={x:Reference Name=ChatListView}}"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="12"
+                                    HorizontalOptions="End"
+                                    Text="View" />
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -51,27 +73,36 @@
             </CollectionView>
 
 
-            <!-- Chat Panel -->
-            <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" Padding="10">
-                <!-- Header: Selected Chat -->
-                <Frame BackgroundColor="#EEEEEE" Padding="10">
-                    <Label Text="{Binding SelectedChat.ReceiverFullName}" FontAttributes="Bold" TextColor="Black" />
+            <!--  Chat Panel  -->
+            <Grid
+                Grid.Column="1"
+                Padding="10"
+                RowDefinitions="Auto,*,Auto">
+                <!--  Header: Selected Chat  -->
+                <Frame Padding="10" BackgroundColor="#EEEEEE">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="{Binding SelectedChat.ReceiverFullName}"
+                        TextColor="Black" />
                 </Frame>
 
-                <!-- Message History -->
+                <!--  Message History  -->
                 <ScrollView Grid.Row="1">
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding SelectedChatMessages}" Spacing="10">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Frame Padding="10"
-                   CornerRadius="6"
-                   Margin="4"
-                   BackgroundColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorConverter}}"
-                   HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}">
+                                <Frame
+                                    Margin="4"
+                                    Padding="10"
+                                    BackgroundColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorConverter}}"
+                                    CornerRadius="6"
+                                    HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}">
                                     <StackLayout>
-                                        <Label Text="{Binding Content}" TextColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorTextConverter}}"/>
-                                        <Label Text="{Binding Date, StringFormat='{}{0:MMM dd, yyyy h:mm tt}'}"
-                           FontSize="10" TextColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorTextConverter}}"/>
+                                        <Label Text="{Binding Content}" TextColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorTextConverter}}" />
+                                        <Label
+                                            FontSize="10"
+                                            Text="{Binding Date, StringFormat='{}{0:MMM dd, yyyy h:mm tt}'}"
+                                            TextColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorTextConverter}}" />
                                     </StackLayout>
                                 </Frame>
                             </DataTemplate>
@@ -80,10 +111,21 @@
 
                 </ScrollView>
 
-                <!-- Input -->
-                <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,10,0,0">
-                    <Entry Text="{Binding MessageContent}" Placeholder="Type a message..." FontSize="14" TextColor="Black" />
-                    <Button Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}" BackgroundColor="#7C4DFF"/>
+                <!--  Input  -->
+                <Grid
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    ColumnDefinitions="*,Auto">
+                    <Entry
+                        FontSize="14"
+                        Placeholder="Type a message..."
+                        Text="{Binding MessageContent}"
+                        TextColor="Black" />
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="#7C4DFF"
+                        Command="{Binding SendMessageCommand}"
+                        Text="Send" />
                 </Grid>
             </Grid>
         </Grid>

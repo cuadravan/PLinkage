@@ -1,92 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkage.Views.LoginView"
-             xmlns:converters="clr-namespace:PLinkage.Converters"
-             Title="Login Page"
-             BackgroundColor="White"
-             Shell.NavBarIsVisible="False">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+<ContentPage
+    x:Class="PLinkage.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Login Page"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="10"
-            Spacing="20"
             HorizontalOptions="Center"
+            Spacing="20"
             VerticalOptions="Center">
-            <Border                 
-                BackgroundColor="#FFFFFF" 
-                Padding="25"               
+            <Border
+                Padding="25"
+                BackgroundColor="#FFFFFF"
                 HorizontalOptions="Fill"
                 WidthRequest="350">
                 <VerticalStackLayout Spacing="25">
                     <Image
-                       Source="plinkage.png"
-                       WidthRequest="150"
-                       HeightRequest="150"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                        HeightRequest="150"
+                        HorizontalOptions="Center"
+                        Source="plinkage.png"
+                        VerticalOptions="Center"
+                        WidthRequest="150" />
                     <Label
-                        Text="Welcome, Project Enthusiast!"
-                        FontSize="18"
                         FontAttributes="Bold"
-                        TextColor="#333"
-                        HorizontalOptions="Center" />
-                    <Label
-                        Text="Please sign in to continue."
                         FontSize="18"
-                        TextColor="#333"
-                        HorizontalOptions="Center" />
+                        HorizontalOptions="Center"
+                        Text="Welcome, Project Enthusiast!"
+                        TextColor="#333" />
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Please sign in to continue."
+                        TextColor="#333" />
                     <Entry
                         x:Name="EmailEntry"
-                        Placeholder="Email Address"
-                        Keyboard="Email"
                         BackgroundColor="White"
-                        HeightRequest="50"  
                         FontSize="14"
-                        HorizontalOptions="Fill" 
-                        Text="{Binding Email}"/>
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        Keyboard="Email"
+                        Placeholder="Email Address"
+                        Text="{Binding Email}" />
                     <Entry
                         x:Name="PasswordEntry"
-                        Placeholder="Password"
-                        IsPassword="True"
                         BackgroundColor="White"
-                        HeightRequest="50"
                         FontSize="14"
-                        HorizontalOptions="Fill" 
-                        Text="{Binding Password}"/>
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        IsPassword="True"
+                        Placeholder="Password"
+                        Text="{Binding Password}" />
                     <Label
-                        Text="{Binding ErrorMessage}"
-                        TextColor="Red"
-                        FontSize="13"
                         FontAttributes="Italic"
+                        FontSize="13"
                         HorizontalOptions="Start"
-                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                        Text="{Binding ErrorMessage}"
+                        TextColor="Red" />
                     <Button
-                        Text="Login"
                         BackgroundColor="#7C4DFF"
-                        TextColor="White"
-                        HeightRequest="50"
-                        CornerRadius="10"
-                        FontSize="16"
-                        FontAttributes="Bold"
                         Command="{Binding LoginCommand}"
-                        HorizontalOptions="Fill" />
-                    <Button
-                        Text="Register"
-                        Command="{Binding GoToRegisterCommand}"
-                        BackgroundColor="#6A33CC"
-                        TextColor="White"
-                        HeightRequest="50"
                         CornerRadius="10"
-                        FontSize="16"
                         FontAttributes="Bold"
-                        HorizontalOptions="Fill" />
+                        FontSize="16"
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        Text="Login"
+                        TextColor="White" />
+                    <Button
+                        BackgroundColor="#6A33CC"
+                        Command="{Binding GoToRegisterCommand}"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        Text="Register"
+                        TextColor="White" />
                 </VerticalStackLayout>
             </Border>
         </VerticalStackLayout>

@@ -56,7 +56,7 @@ namespace PLinkage.ViewModels
 
         // Core Methods
         public async Task OnViewAppearing()
-        { 
+        {
             _projectOwnerId = _sessionService.GetCurrentUser().UserId;
 
             await _unitOfWork.ReloadAsync();
@@ -108,7 +108,7 @@ namespace PLinkage.ViewModels
         [RelayCommand]
         private async Task UpdateProject(Project project)
         {
-            if(project.ProjectStatus == ProjectStatus.Completed)
+            if (project.ProjectStatus == ProjectStatus.Completed)
             {
                 await Shell.Current.DisplayAlert("⚠️ Error", "You cannot update a completed project.", "OK");
                 return;
