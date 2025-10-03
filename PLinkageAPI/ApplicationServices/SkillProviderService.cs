@@ -1,26 +1,24 @@
 ﻿using PLinkageShared.Enums;
 using PLinkageAPI.Interfaces;
 using PLinkageAPI.Entities;
-using PLinkageAPI.ValueObject;
 using PLinkageAPI.Specifications;
+using System.Linq.Expressions;
+using MongoDB.Driver;
+using PLinkageAPI.ValueObject;
 
 namespace PLinkageAPI.ApplicationServices
 {
     public class SkillProviderService : ISkillProviderService
     {
-        private readonly ISkillProviderRepository _repository;
+        private readonly IRepository<SkillProvider> _repository;
 
-        public SkillProviderService(ISkillProviderRepository repository)
+        public SkillProviderService(IRepository<SkillProvider> repository)
         {
             _repository = repository;
         }
 
-        public async Task<IEnumerable<SkillProvider>> GetFilteredProvidersAsync(
-            string proximity,
-            CebuLocation? location,
-            string status)
+        public async Task<IEnumerable<SkillProvider>> GetFilteredProvidersAsync(string proximity, CebuLocation? location, string status)
         {
-            // 1. Business Logic: Determine the distance threshold
             int range = proximity switch
             {
                 "Nearby (<= 10km)" => 10,
@@ -36,15 +34,29 @@ namespace PLinkageAPI.ApplicationServices
                 nearbyLocations = NearCebuLocations(location.Value, range).ToList();
             }
 
-            var spec = new SkillProviderByStatusProximityLocationSpecification(
-                proximity,
-                location,
-                status,
-                nearbyLocations
-            );
+            var builder = Builders<SkillProvider>.Filter;
+            var filter = builder.Empty; // equivalent to 'true'
 
-            return await _repository.FindAsync(spec);
+            // Status filter
+            if (status != "All")
+            {
+                filter &= builder.Eq(sp => sp.UserStatus, status);
+            }
+
+            // Proximity filter
+            if (proximity == "By Specific Location" && location.HasValue)
+            {
+                filter &= builder.Eq(sp => sp.UserLocation, location.Value);
+            }
+            else if (proximity != "All" && location.HasValue && nearbyLocations.Any())
+            {
+                filter &= builder.In(sp => sp.UserLocation, nearbyLocations);
+            }
+
+            // pass pure expression to repository
+            return await _repository.FindAsync(filter);
         }
+
 
         private List<CebuLocation?> NearCebuLocations(CebuLocation baseLocation, int threshold)
         {

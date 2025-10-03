@@ -20,7 +20,9 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 });
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("PLinkageDB")); // Registers IMongoDatabase to instance of the PLinkageDB
 
-builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
+builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
+
+//builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
 builder.Services.AddScoped<ISkillProviderService, SkillProviderService>();
 
 var app = builder.Build();
