@@ -38,7 +38,7 @@ The app simplifies project collaboration through **project management, user prof
 
 ---
 
-## Architecture & Design
+## Architecture Overview of the Application (TBD; TODO)
 
 * **MVVM Pattern** – Clean separation of UI, business logic, and data.
 * **Service Layers** – Centralized logic for reusability and maintainability.
@@ -46,6 +46,79 @@ The app simplifies project collaboration through **project management, user prof
 * **Dependency Injection** – Promotes modular, testable, and maintainable code.
 
 ---
+
+## Architecture Overview of the Web API/ Backend
+
+This project follows a **clean layered architecture** with inspiration from Domain-Driven Design (DDD) principles. The goal is to keep the codebase **modular, testable, and maintainable**, without over-engineering beyond the project scope.
+
+### Layers & Responsibilities
+
+* **Controllers**
+
+  * Handle incoming HTTP requests and responses.
+  * Delegate work to application services.
+  * No business logic — they are purely endpoints.
+  * Mapping to and from DTOS - they handle the mapping.
+
+* **Application Services**
+
+  * Contain **use case orchestration** (e.g., filtering skill providers, handling workflows).
+  * Coordinate between repositories, specifications, and domain models.
+  * Keep business processes consistent.
+
+* **Entities**
+
+  * Represent core domain objects (e.g., `SkillProvider`, `Project`, `Chat`).
+  * Hold identity (`Id`, `UserId`) and core data.
+  * Some business behavior may be added here in the future, but currently most rules are in services.
+
+* **Value Objects**
+
+  * Represent concepts defined by their values, not identity.
+  * Example: `Location` (latitude/longitude) is immutable and compared by value.
+  * Encapsulate small, strongly-typed domain concepts.
+
+* **Specifications**
+
+  * Encapsulate query/filtering logic in reusable classes.
+  * Example: `SkillProviderByStatusAndLocationSpecification`.
+  * Keeps repository queries expressive and composable.
+
+* **Repositories**
+
+  * Abstract persistence concerns (MongoDB in this case).
+  * Return domain entities rather than database models.
+  * Follow contracts defined by repository interfaces.
+
+* **Interfaces**
+
+  * Define contracts (`IRepository`, `IService`, `ISpecification`, etc.).
+  * Support **dependency injection** and testability.
+
+---
+
+### DDD Inspiration
+
+This architecture borrows from DDD but keeps things pragmatic:
+
+* Entities and Value Objects represent the domain model.
+* Application Services act as use case coordinators.
+* Specifications capture reusable query logic.
+* Repositories abstract persistence.
+
+Unlike strict DDD, **most business logic currently lives in services rather than inside entities or aggregates**. This keeps the design simpler while still maintaining a strong separation of concerns.
+
+---
+
+### Benefits
+
+* **Clean separation of concerns** → easier to maintain and scale.
+* **Testability** → services and repositories can be unit tested in isolation.
+* **Extensibility** → easy to add new services, specifications, or domain rules without breaking existing layers.
+* **DDD-inspired structure** → clarity and modularity without over-complication.
+
+---
+
 
 ## Getting Started
 
