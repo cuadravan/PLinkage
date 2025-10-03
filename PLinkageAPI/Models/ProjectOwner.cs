@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using PLinkageAPI.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageAPI.Models
 {

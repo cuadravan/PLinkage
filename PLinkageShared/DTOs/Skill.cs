@@ -1,6 +1,6 @@
 ﻿namespace PLinkageShared.DTOs
 {
-    public class Skill
+    public class SkillDto
     {
         public string SkillName { get; set; } = string.Empty;
         public string SkillDescription { get; set; } = string.Empty;

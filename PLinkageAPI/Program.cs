@@ -1,6 +1,8 @@
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
+using PLinkageAPI.Interfaces;
 using PLinkageAPI.Models;
 using PLinkageAPI.Repository;
+using PLinkageAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,35 +23,40 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 });
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("PLinkageDB")); // Registers IMongoDatabase to instance of the PLinkageDB
 builder.Services.AddScoped<ProjectOwnerRepository>();
-builder.Services.AddScoped<SkillProviderRepository>();
+//builder.Services.AddScoped<SkillProviderRepository>();
 
-// ProjectOwner has a "UserId"
-builder.Services.AddScoped<IRepository<ProjectOwner>>(sp =>
-    new MongoRepository<ProjectOwner>(
-        sp.GetRequiredService<IMongoDatabase>(),
-        "ProjectOwner",
-        "UserId"
-    )
-);
+// -------------------------------------------------------------------
+// 🎯 Dependency Injection Declarations
+// -------------------------------------------------------------------
 
-//// Project has a "ProjectId"
-//builder.Services.AddScoped<IRepository<Project>>(sp =>
-//    new MongoRepository<Project>(
-//        sp.GetRequiredService<IMongoDatabase>(),
-//        "Project",
-//        "ProjectId"
-//    )
+//// 1. Register MongoDB Client and Database (Singleton/Scoped)
+//// The MongoClient is usually registered as Singleton as it is safe to share across the application.
+//builder.Services.AddSingleton<IMongoClient>(s =>
+//    new MongoClient(builder.Configuration.GetConnectionString("MongoDbConnection"))
 //);
 
-//// OfferApplication has an "OfferApplicationId"
-//builder.Services.AddScoped<IRepository<OfferApplication>>(sp =>
-//    new MongoRepository<OfferApplication>(
-//        sp.GetRequiredService<IMongoDatabase>(),
-//        "OfferApplication",
-//        "OfferApplicationId"
-//    )
-//);
+//// The IMongoDatabase is registered as Scoped to ensure it uses the client within the request scope, 
+//// and its name can be pulled from configuration.
+//builder.Services.AddScoped<IMongoDatabase>(s =>
+//{
+//    var client = s.GetRequiredService<IMongoClient>();
+//    var dbName = builder.Configuration["DatabaseName"] ?? "PLinkageDB"; // Use a fallback name
+//    return client.GetDatabase(dbName);
+//});
 
+
+// 2. Register Repositories (Scoped)
+// Repositories are typically scoped as they handle data access for a single request.
+builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
+// Add other repositories here (e.g., builder.Services.AddScoped<IUserRepository, UserRepository>();)
+
+
+// 3. Register Services (Scoped)
+// Application services containing business logic are also typically scoped.
+builder.Services.AddScoped<ISkillProviderService, SkillProviderService>();
+// Add other services here (e.g., builder.Services.AddScoped<IUserService, UserService>();)
+
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 var app = builder.Build();
 

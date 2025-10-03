@@ -1,6 +1,6 @@
 ﻿namespace PLinkageShared.DTOs
 {
-    public class Education
+    public class EducationDto
     {
         public string CourseName { get; set; } = string.Empty;
         public string SchoolAttended { get; set; } = string.Empty;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PLinkageShared.Enums;
 
 namespace PLinkageAPI.Models
 {
@@ -69,68 +70,5 @@ namespace PLinkageAPI.Models
         { CebuLocation.Tuburan, (10.7333, 123.8333) },
         { CebuLocation.Tudela, (10.6333, 124.4000) }
     };
-    }
-
-
-    public enum CebuLocation
-    {
-        // Highly Urbanized Cities
-        CebuCity,
-        MandaueCity,
-        LapuLapuCity,
-        TalisayCity,
-
-        // Component Cities
-        CarcarCity,
-        DanaoCity,
-        NagaCity,
-        ToledoCity,
-        BogoCity,
-
-        // Municipalities
-        Alcantara,
-        Alcoy,
-        Alegria,
-        Aloguinsan,
-        Argao,
-        Asturias,
-        Badian,
-        Balamban,
-        Bantayan,
-        Barili,
-        Boljoon,
-        Borbon,
-        Carmen,
-        Catmon,
-        Compostela,
-        Consolacion,
-        Cordova,
-        Daanbantayan,
-        Dalaguete,
-        Dumanjug,
-        Ginatilan,
-        Liloan,
-        Madridejos,
-        Malabuyoc,
-        Medellin,
-        Minglanilla,
-        Moalboal,
-        Oslob,
-        Pilar,
-        Pinamungajan,
-        Poro,
-        Ronda,
-        Samboan,
-        SanFernando,
-        SanFrancisco,
-        SanRemigio,
-        SantaFe,
-        Santander,
-        Sibonga,
-        Sogod,
-        Tabogon,
-        Tabuelan,
-        Tuburan,
-        Tudela
     }
 }

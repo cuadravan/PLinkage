@@ -1,23 +1,9 @@
-﻿namespace PLinkageAPI.Models
+﻿using PLinkageShared.Enums;
+using PLinkageAPI.Interfaces;
+
+namespace PLinkageAPI.Models
 {
-    public interface IUser
-    {
-        Guid UserId { get; }
-        string UserFirstName { get; }
-        string UserLastName { get; }
-        UserRole UserRole { get; }
-        CebuLocation? UserLocation { get; }
-    }
-
-
-public enum UserRole
-{
-    SkillProvider,
-    ProjectOwner,
-    Admin
-}
-
-public class Admin: IUser
+    public class Admin : IUser
     {
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string UserFirstName { get; set; } = string.Empty;

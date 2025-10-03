@@ -12,16 +12,3 @@
         public int OfferApplicationTimeFrame { get; set; } = 0; // hours
     }
 }
-
-public class OfferApplicationDisplayModel
-{
-    public Guid OfferApplicationId { get; set; }
-    public string ProjectName { get; set; } = string.Empty;
-    public string SenderName { get; set; } = string.Empty;
-    public string ReceiverName { get; set; } = string.Empty;
-    public string OfferApplicationType { get; set; } = string.Empty;
-    public string OfferApplicationStatus { get; set; } = string.Empty;
-    public string FormattedRate { get; set; } = string.Empty;
-    public string FormattedTimeFrame { get; set; } = string.Empty;
-}
-

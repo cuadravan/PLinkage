@@ -2,6 +2,7 @@
 using PLinkageAPI.Models;
 using PLinkageAPI.Repository;
 using MongoDB.Driver;
+using PLinkageShared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,8 @@
-﻿namespace PLinkageShared.DTOs
+﻿using PLinkageShared.Enums;
+
+namespace PLinkageShared.DTOs
 {
-    public class SkillProvider
+    public class SkillProviderDto
     {
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string UserFirstName { get; set; } = string.Empty;
@@ -14,8 +16,8 @@
         public string UserRole { get; set; } = "Skill Provider";
         public string UserStatus { get; set; } = string.Empty;
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
-        public List<Education> Educations { get; set; } = new List<Education>();
-        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public List<EducationDto> Educations { get; set; } = new List<EducationDto>();
+        public List<SkillDto> Skills { get; set; } = new List<SkillDto>();
         public List <Guid> EmployedProjects { get; set; } = new List<Guid>();
         public double UserRating { get; set; } = 0.0;
         public double UserRatingTotal { get; set; } = 0.0;

@@ -1,4 +1,6 @@
-﻿namespace PLinkageShared.DTOs
+﻿using PLinkageShared.Enums;
+
+namespace PLinkageShared.DTOs
 {
     public class Project
     {
