@@ -1,4 +1,5 @@
 ﻿using PLinkageShared.Enums;
+using System.Text.Json.Serialization;
 
 namespace PLinkageShared.DTOs
 {
@@ -25,5 +26,7 @@ namespace PLinkageShared.DTOs
         public double TempRating { get; set; } = 0.0;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
+
+        
     }
 }

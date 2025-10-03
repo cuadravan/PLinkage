@@ -2,8 +2,9 @@
 using MongoDB.Bson;
 using PLinkageAPI.Interfaces;
 using PLinkageShared.Enums;
+using PLinkageAPI.ValueObject;
 
-namespace PLinkageAPI.Models
+namespace PLinkageAPI.Entities
 {
     public class SkillProvider: IUser
     {
@@ -31,5 +32,29 @@ namespace PLinkageAPI.Models
         public double TempRating { get; set; } = 0.0;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
+
+        //// This is a method that returns a location 
+        //// If there is UserLocation, it calls the static factory method which returns a Location object
+        //// This is done to reduce massive overhauls of existing database
+        //[BsonIgnore]
+        //public Location? LocationObject =>
+        //UserLocation.HasValue ? Location.From(UserLocation.Value) : null;
+    }
+
+    public class Skill
+    {
+        public string SkillName { get; set; } = string.Empty;
+        public string SkillDescription { get; set; } = string.Empty;
+        public int SkillLevel { get; set; } // 0-5
+        public DateTime TimeAcquired { get; set; } = DateTime.Now;
+        public string OrganizationInvolved { get; set; } = string.Empty;
+        public int YearsOfExperience { get; set; }
+    }
+
+    public class Education
+    {
+        public string CourseName { get; set; } = string.Empty;
+        public string SchoolAttended { get; set; } = string.Empty;
+        public DateTime TimeGraduated { get; set; } = DateTime.Now;
     }
 }

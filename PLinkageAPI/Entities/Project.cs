@@ -1,6 +1,6 @@
 ﻿using PLinkageShared.Enums;
 
-namespace PLinkageAPI.Models
+namespace PLinkageAPI.Entities
 {
     public class Project
     {

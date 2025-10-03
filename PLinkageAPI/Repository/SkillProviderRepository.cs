@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using PLinkageAPI.Interfaces;
 using PLinkageAPI.Specifications;
-using PLinkageAPI.Models;
+using PLinkageAPI.Entities;
 using System.Linq.Expressions;
 
 namespace PLinkageAPI.Repository

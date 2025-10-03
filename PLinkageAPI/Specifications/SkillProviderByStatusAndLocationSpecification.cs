@@ -1,4 +1,4 @@
-﻿using PLinkageAPI.Models;
+﻿using PLinkageAPI.Entities;
 using System.Linq.Expressions;
 using PLinkageShared.Enums;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace PLinkage.Models
+﻿namespace PLinkage.Entities
 {
     public class Chat
     {
