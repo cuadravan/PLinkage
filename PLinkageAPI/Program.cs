@@ -3,6 +3,9 @@ using PLinkageAPI.Interfaces;
 using PLinkageAPI.Repository;
 using PLinkageAPI.ApplicationServices;
 using PLinkageAPI.Controllers;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,8 @@ builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 
 //builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
 builder.Services.AddScoped<ISkillProviderService, SkillProviderService>();
+
+BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
 var app = builder.Build();
 

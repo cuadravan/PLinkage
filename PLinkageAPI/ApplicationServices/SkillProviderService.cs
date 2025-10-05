@@ -1,7 +1,6 @@
 ﻿using PLinkageShared.Enums;
 using PLinkageAPI.Interfaces;
 using PLinkageAPI.Entities;
-using PLinkageAPI.Specifications;
 using System.Linq.Expressions;
 using MongoDB.Driver;
 using PLinkageAPI.ValueObject;
@@ -10,14 +9,147 @@ namespace PLinkageAPI.ApplicationServices
 {
     public class SkillProviderService : ISkillProviderService
     {
-        private readonly IRepository<SkillProvider> _repository;
+        private readonly IRepository<SkillProvider> _skillProviderRepository;
 
         public SkillProviderService(IRepository<SkillProvider> repository)
         {
-            _repository = repository;
+            _skillProviderRepository = repository;
         }
 
-        public async Task<IEnumerable<SkillProvider>> GetFilteredProvidersAsync(string proximity, CebuLocation? location, string status)
+        public async Task<SkillProvider?> GetSpecificSkillProviderAsync(Guid skillProviderId)
+        {
+            return await _skillProviderRepository.GetByIdAsync(skillProviderId);
+        }
+
+        public async Task<bool> AddEducationAsync(Guid skillProviderId, Education educationToAdd)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if(skillProvider == null)
+            {
+                return false;
+            }
+
+            skillProvider.AddEducation(educationToAdd);
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
+        }
+
+        public async Task<bool> UpdateEducationAsync(Guid skillProviderId, int indexToUpdate, Education educationToUpdate)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if (skillProvider == null)
+            {
+                return false;
+            }
+
+            skillProvider.UpdateEducation(indexToUpdate, educationToUpdate);
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
+        }
+
+        public async Task<bool> DeleteEducationAsync(Guid skillProviderId, int indexToDelete)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if (skillProvider == null)
+            {
+                return false;
+            }
+
+            try { skillProvider.DeleteEducation(indexToDelete); }
+            catch(InvalidOperationException ex)
+            {
+                throw new Exception("Request cannot be fulfilled due to invalid index.");
+            }
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
+        }
+
+        public async Task<bool> AddSkillAsync(Guid skillProviderId, Skill skillToAdd)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if (skillProvider == null)
+            {
+                return false;
+            }
+
+            skillProvider.AddSkill(skillToAdd);
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
+        }
+
+        public async Task<bool> UpdateSkillAsync(Guid skillProviderId, int indexToUpdate, Skill skillToUpdate)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if (skillProvider == null)
+            {
+                return false;
+            }
+
+            skillProvider.UpdateSkill(indexToUpdate, skillToUpdate);
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
+        }
+
+        public async Task<bool> DeleteSkillAsync(Guid skillProviderId, int indexToDelete)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if (skillProvider == null)
+            {
+                return false;
+            }
+
+            try { skillProvider.DeleteSkill(indexToDelete); }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception("Request cannot be fulfilled due to invalid index.");
+            }
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
+        }
+
+        public async Task<IEnumerable<SkillProvider>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status)
         {
             int range = proximity switch
             {
@@ -54,7 +186,7 @@ namespace PLinkageAPI.ApplicationServices
             }
 
             // pass pure expression to repository
-            return await _repository.FindAsync(filter);
+            return await _skillProviderRepository.FindAsync(filter);
         }
 
 

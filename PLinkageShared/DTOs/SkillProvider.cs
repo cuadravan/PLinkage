@@ -8,13 +8,11 @@ namespace PLinkageShared.DTOs
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; } = string.Empty;
-        public string UserEmail { get; set; } = string.Empty;
-        public string UserPassword { get; set; } = string.Empty;
         public string UserPhone { get; set; } = string.Empty;
         public CebuLocation? UserLocation { get; set; } = null;
         public DateTime UserBirthDate { get; set; } = DateTime.Now;
         public string UserGender { get; set; } = string.Empty;
-        public string UserRole { get; set; } = "Skill Provider";
+        public UserRole UserRole { get; set; } = UserRole.SkillProvider;
         public string UserStatus { get; set; } = string.Empty;
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
         public List<EducationDto> Educations { get; set; } = new List<EducationDto>();

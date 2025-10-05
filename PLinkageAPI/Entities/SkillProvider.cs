@@ -11,6 +11,7 @@ namespace PLinkageAPI.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonRepresentation(BsonType.String)]
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; } = string.Empty;
@@ -32,6 +33,52 @@ namespace PLinkageAPI.Entities
         public double TempRating { get; set; } = 0.0;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
+
+        public void AddEducation(Education educationToAdd)
+        {
+            this.Educations.Add(educationToAdd);
+        }
+        
+        public void UpdateEducation(int indexToUpdate, Education updatedEducation)
+        {
+            if(indexToUpdate >= this.Educations.Count())
+            {
+                throw new InvalidOperationException("Index is out of bounds");
+            }
+            this.Educations[indexToUpdate] = updatedEducation;
+        }
+
+        public void DeleteEducation(int indexToDelete)
+        {
+            if (indexToDelete >= this.Educations.Count())
+            {
+                throw new InvalidOperationException("Index is out of bounds");
+            }
+            this.Educations.RemoveAt(indexToDelete);
+        }
+
+        public void AddSkill(Skill skillToAdd)
+        {
+            this.Skills.Add(skillToAdd);
+        }
+
+        public void UpdateSkill(int indexToUpdate, Skill updatedSkill)
+        {
+            if (indexToUpdate >= this.Skills.Count())
+            {
+                throw new InvalidOperationException("Index is out of bounds");
+            }
+            this.Skills[indexToUpdate] = updatedSkill;
+        }
+
+        public void DeleteSkill(int indexToDelete)
+        {
+            if (indexToDelete >= this.Skills.Count())
+            {
+                throw new InvalidOperationException("Index is out of bounds");
+            }
+            this.Skills.RemoveAt(indexToDelete);
+        }
 
         //// This is a method that returns a location 
         //// If there is UserLocation, it calls the static factory method which returns a Location object
