@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace PLinkageShared.Enums
 {
-    public enum Proximity
+    public enum ProjectStatus
     {
-        
+        Active,
+        Completed,
+        Deactivated,
     }
 }

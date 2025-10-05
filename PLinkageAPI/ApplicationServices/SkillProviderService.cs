@@ -4,6 +4,7 @@ using PLinkageAPI.Entities;
 using System.Linq.Expressions;
 using MongoDB.Driver;
 using PLinkageAPI.ValueObject;
+using PLinkageShared.DTOs;
 
 namespace PLinkageAPI.ApplicationServices
 {
@@ -19,6 +20,25 @@ namespace PLinkageAPI.ApplicationServices
         public async Task<SkillProvider?> GetSpecificSkillProviderAsync(Guid skillProviderId)
         {
             return await _skillProviderRepository.GetByIdAsync(skillProviderId);
+        }
+
+        public async Task<bool> UpdateSkillProviderAsync(Guid skillProviderId, SkillProviderUpdateDto skillProviderUpdateDto)
+        {
+            if (!await _skillProviderRepository.ExistsAsync(skillProviderId))
+            {
+                return false;
+            }
+            SkillProvider? skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
+
+            if (skillProvider == null)
+            {
+                return false;
+            }
+
+            skillProvider.UpdateProfile(skillProviderUpdateDto);
+
+            await _skillProviderRepository.UpdateAsync(skillProvider);
+            return true;
         }
 
         public async Task<bool> AddEducationAsync(Guid skillProviderId, Education educationToAdd)

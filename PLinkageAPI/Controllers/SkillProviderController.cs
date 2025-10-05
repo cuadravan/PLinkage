@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using PLinkageShared.Enums;
 using AutoMapper;
 using System.Linq;
+using System;
 
 namespace PLinkageAPI.Controllers
 {
@@ -25,7 +26,7 @@ namespace PLinkageAPI.Controllers
 
         [HttpGet("{skillProviderId}")]
 
-        public async Task<IActionResult> GetSpecific([FromQuery] Guid skillProviderId)
+        public async Task<IActionResult> GetSpecific(Guid skillProviderId)
         {
             try
             {
@@ -39,6 +40,24 @@ namespace PLinkageAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while fetching the skill provider. Error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{skillProviderId}")]
+        public async Task<IActionResult> UpdateSkillProvider(Guid skillProviderId, [FromBody] SkillProviderUpdateDto skillProviderUpdateDto)
+        {
+            try
+            {
+                bool isSuccess = await _skillProviderService.UpdateSkillProviderAsync(skillProviderId, skillProviderUpdateDto);        
+
+                if (isSuccess)
+                    return NoContent();
+
+                return NotFound($"Skill provider with ID no. {skillProviderId} not found.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating education. Error: {ex.Message}");
             }
         }
 

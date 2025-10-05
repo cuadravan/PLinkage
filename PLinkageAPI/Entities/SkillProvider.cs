@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using PLinkageAPI.Interfaces;
 using PLinkageShared.Enums;
 using PLinkageAPI.ValueObject;
+using PLinkageShared.DTOs;
 
 namespace PLinkageAPI.Entities
 {
@@ -78,6 +79,16 @@ namespace PLinkageAPI.Entities
                 throw new InvalidOperationException("Index is out of bounds");
             }
             this.Skills.RemoveAt(indexToDelete);
+        }
+
+        public void UpdateProfile(SkillProviderUpdateDto skillProviderUpdateDto)
+        {
+            this.UserFirstName = skillProviderUpdateDto.UserFirstName;
+            this.UserLastName = skillProviderUpdateDto.UserLastName;
+            this.UserPhone = skillProviderUpdateDto.UserPhone;
+            this.UserLocation = skillProviderUpdateDto.UserLocation;
+            this.UserBirthDate = skillProviderUpdateDto.UserBirthDate;
+            this.UserLocation = skillProviderUpdateDto.UserLocation;
         }
 
         //// This is a method that returns a location 

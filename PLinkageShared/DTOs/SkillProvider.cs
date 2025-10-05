@@ -27,4 +27,14 @@ namespace PLinkageShared.DTOs
 
         
     }
+
+    public class SkillProviderUpdateDto
+    {
+        public string UserFirstName { get; set; } = string.Empty;
+        public string UserLastName { get; set; } = string.Empty;
+        public string UserPhone { get; set; } = string.Empty;
+        public CebuLocation? UserLocation { get; set; } = null;
+        public DateTime UserBirthDate { get; set; } = DateTime.Now;
+        public string UserGender { get; set; } = string.Empty;
+    }
 }

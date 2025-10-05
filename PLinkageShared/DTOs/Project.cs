@@ -22,21 +22,14 @@ namespace PLinkageShared.DTOs
     }
 }
 
-//public enum ProjectStatus
-//{
-//    Active,
-//    Completed,
-//    Deactivated,
-//}
-
-//public class ProjectMemberDetail
-//{
-//    public Guid MemberId { get; set; }
-//    public string UserFirstName { get; set; } // From SkillProvider
-//    public string UserLastName { get; set; } // From SkillProvider
-//    public string Email { get; set; } // From SkillProvider
-//    public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
-//    public int TimeFrame { get; set; } = 0; // Hours
-//    public bool IsResigning { get; set; } = false;
-//    public string? ResignationReason { get; set; } = string.Empty; // Reason for resignation
-//}
+public class ProjectMemberDetail
+{
+    public Guid MemberId { get; set; }
+    public string UserFirstName { get; set; } // From SkillProvider
+    public string UserLastName { get; set; } // From SkillProvider
+    public string Email { get; set; } // From SkillProvider
+    public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
+    public int TimeFrame { get; set; } = 0; // Hours
+    public bool IsResigning { get; set; } = false;
+    public string? ResignationReason { get; set; } = string.Empty; // Reason for resignation
+}

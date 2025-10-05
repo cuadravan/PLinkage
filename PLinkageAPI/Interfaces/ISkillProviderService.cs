@@ -1,4 +1,5 @@
 ﻿using PLinkageAPI.Entities;
+using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
 
 namespace PLinkageAPI.Interfaces
@@ -6,6 +7,7 @@ namespace PLinkageAPI.Interfaces
     public interface ISkillProviderService
     {
         Task<SkillProvider?> GetSpecificSkillProviderAsync(Guid skillProviderId);
+        Task<bool> UpdateSkillProviderAsync(Guid skillProviderId, SkillProviderUpdateDto skillProviderUpdateDto);
         Task<bool> AddEducationAsync(Guid skillProviderId, Education educationToAdd);
         Task<bool> UpdateEducationAsync(Guid skillProviderId, int indexToUpdate, Education educationToUpdate);
         Task<bool> DeleteEducationAsync(Guid skillProviderId, int indexToDelete);
