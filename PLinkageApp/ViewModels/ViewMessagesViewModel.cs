@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 

@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageShared.Models;
-using PLinkageShared.Interfaces;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.ViewModels

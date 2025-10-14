@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

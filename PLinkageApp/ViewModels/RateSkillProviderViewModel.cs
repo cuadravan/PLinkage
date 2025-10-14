@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 
 namespace PLinkageApp.ViewModels
 {

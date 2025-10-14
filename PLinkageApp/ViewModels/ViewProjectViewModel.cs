@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using System.Globalization;
 using PLinkageApp.Interfaces;
 

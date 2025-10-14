@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
