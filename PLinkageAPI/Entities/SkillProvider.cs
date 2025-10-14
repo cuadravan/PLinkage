@@ -24,9 +24,12 @@ namespace PLinkageAPI.Entities
         public string UserGender { get; set; } = string.Empty;
         public UserRole UserRole { get; set; } = UserRole.SkillProvider;
         public string UserStatus { get; set; } = string.Empty;
+        [BsonRepresentation(BsonType.String)]
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
         public List<Education> Educations { get; set; } = new List<Education>();
         public List<Skill> Skills { get; set; } = new List<Skill>();
+
+        [BsonRepresentation(BsonType.String)]
         public List <Guid> EmployedProjects { get; set; } = new List<Guid>();
         public double UserRating { get; set; } = 0.0;
         public double UserRatingTotal { get; set; } = 0.0;

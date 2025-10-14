@@ -47,14 +47,14 @@ namespace PLinkageAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("migrate-passwords")]
-        public async Task<IActionResult> MigratePasswords()
-        {
-            var result = await _accountService.HashAllPasswordsAsync();
-            if (!result.Success)
-                return BadRequest(result);
-            return Ok(result);
-        }
+        //[HttpPost("migrate-passwords")]
+        //public async Task<IActionResult> MigratePasswords()
+        //{
+        //    var result = await _accountService.HashAllPasswordsAsync();
+        //    if (!result.Success)
+        //        return BadRequest(result);
+        //    return Ok(result);
+        //}
 
     }
 }

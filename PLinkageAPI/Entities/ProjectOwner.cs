@@ -25,7 +25,9 @@ namespace PLinkageAPI.Entities
         public UserRole UserRole { get; set; } = UserRole.ProjectOwner;
         public string UserStatus { get; set; } = string.Empty;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
+        [BsonRepresentation(BsonType.String)]
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
+        [BsonRepresentation(BsonType.String)]
         public List<Guid> OwnedProjectId { get; set; } = new List<Guid>();
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
 

@@ -1,6 +1,6 @@
 ﻿namespace PLinkageShared.DTOs
 {
-    public class OfferApplication
+    public class OfferApplicationDto
     {
         public Guid OfferApplicationId { get; set; } = Guid.NewGuid();
         public string OfferApplicationType { get; set; } = string.Empty; // e.g. "Application", "Offer"

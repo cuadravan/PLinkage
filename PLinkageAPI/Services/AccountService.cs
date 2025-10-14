@@ -22,60 +22,60 @@ namespace PLinkageAPI.Services
             _adminRepository = adminRepository;
         }
 
-        public async Task<ApiResponse<string>> HashAllPasswordsAsync()
-        {
-            try
-            {
-                var passwordHasherSP = new PasswordHasher<SkillProvider>();
-                var passwordHasherPO = new PasswordHasher<ProjectOwner>();
-                var passwordHasherAdmin = new PasswordHasher<Admin>();
+        //public async Task<ApiResponse<string>> HashAllPasswordsAsync()
+        //{
+        //    try
+        //    {
+        //        var passwordHasherSP = new PasswordHasher<SkillProvider>();
+        //        var passwordHasherPO = new PasswordHasher<ProjectOwner>();
+        //        var passwordHasherAdmin = new PasswordHasher<Admin>();
 
-                int hashedCount = 0;
+        //        int hashedCount = 0;
 
-                // --- SkillProviders ---
-                var allSkillProviders = await _skillProviderRepository.GetAllAsync();
-                foreach (var sp in allSkillProviders)
-                {
-                    // skip if already hashed
-                    if (!string.IsNullOrWhiteSpace(sp.UserPassword) && !sp.UserPassword.Contains("$"))
-                    {
-                        sp.UserPassword = passwordHasherSP.HashPassword(sp, sp.UserPassword);
-                        await _skillProviderRepository.UpdateAsync(sp);
-                        hashedCount++;
-                    }
-                }
+        //        // --- SkillProviders ---
+        //        var allSkillProviders = await _skillProviderRepository.GetAllAsync();
+        //        foreach (var sp in allSkillProviders)
+        //        {
+        //            // skip if already hashed
+        //            if (!string.IsNullOrWhiteSpace(sp.UserPassword) && !sp.UserPassword.Contains("$"))
+        //            {
+        //                sp.UserPassword = passwordHasherSP.HashPassword(sp, sp.UserPassword);
+        //                await _skillProviderRepository.UpdateAsync(sp);
+        //                hashedCount++;
+        //            }
+        //        }
 
-                // --- ProjectOwners ---
-                var allProjectOwners = await _projectOwnerRepository.GetAllAsync();
-                foreach (var po in allProjectOwners)
-                {
-                    if (!string.IsNullOrWhiteSpace(po.UserPassword) && !po.UserPassword.Contains("$"))
-                    {
-                        po.UserPassword = passwordHasherPO.HashPassword(po, po.UserPassword);
-                        await _projectOwnerRepository.UpdateAsync(po);
-                        hashedCount++;
-                    }
-                }
+        //        // --- ProjectOwners ---
+        //        var allProjectOwners = await _projectOwnerRepository.GetAllAsync();
+        //        foreach (var po in allProjectOwners)
+        //        {
+        //            if (!string.IsNullOrWhiteSpace(po.UserPassword) && !po.UserPassword.Contains("$"))
+        //            {
+        //                po.UserPassword = passwordHasherPO.HashPassword(po, po.UserPassword);
+        //                await _projectOwnerRepository.UpdateAsync(po);
+        //                hashedCount++;
+        //            }
+        //        }
 
-                // --- Admins ---
-                var allAdmins = await _adminRepository.GetAllAsync();
-                foreach (var admin in allAdmins)
-                {
-                    if (!string.IsNullOrWhiteSpace(admin.UserPassword) && !admin.UserPassword.Contains("$"))
-                    {
-                        admin.UserPassword = passwordHasherAdmin.HashPassword(admin, admin.UserPassword);
-                        await _adminRepository.UpdateAsync(admin);
-                        hashedCount++;
-                    }
-                }
+        //        // --- Admins ---
+        //        var allAdmins = await _adminRepository.GetAllAsync();
+        //        foreach (var admin in allAdmins)
+        //        {
+        //            if (!string.IsNullOrWhiteSpace(admin.UserPassword) && !admin.UserPassword.Contains("$"))
+        //            {
+        //                admin.UserPassword = passwordHasherAdmin.HashPassword(admin, admin.UserPassword);
+        //                await _adminRepository.UpdateAsync(admin);
+        //                hashedCount++;
+        //            }
+        //        }
 
-                return ApiResponse<string>.Ok($"Successfully hashed {hashedCount} passwords.");
-            }
-            catch (Exception ex)
-            {
-                return ApiResponse<string>.Fail($"An error occurred while hashing passwords: {ex.Message}");
-            }
-        }
+        //        return ApiResponse<string>.Ok($"Successfully hashed {hashedCount} passwords.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ApiResponse<string>.Fail($"An error occurred while hashing passwords: {ex.Message}");
+        //    }
+        //}
 
 
         public async Task<ApiResponse<LoginResultDto>> AuthenticateUserAsync(string email, string password)

@@ -15,5 +15,7 @@ namespace PLinkageAPI.Interfaces
         Task DeleteAsync(Guid id);
         Task<IReadOnlyList<T>> FindAsync(FilterDefinition<T> filter);
         Task<bool> ExistsAsync(Guid id);
+        Task<List<T>> GetByIdsAsync(IEnumerable<Guid> ids);
+
     }
 }
