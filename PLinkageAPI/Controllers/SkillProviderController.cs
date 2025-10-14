@@ -2,12 +2,12 @@
 using PLinkageAPI.Interfaces;
 using PLinkageAPI.Entities;
 using PLinkageShared.DTOs;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using PLinkageShared.Enums;
 using AutoMapper;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PLinkageShared.ApiResponse;
 
 namespace PLinkageAPI.Controllers
 {
@@ -25,40 +25,25 @@ namespace PLinkageAPI.Controllers
         }
 
         [HttpGet("{skillProviderId}")]
-
         public async Task<IActionResult> GetSpecific(Guid skillProviderId)
         {
-            try
-            {
-                var skillProvider = await _skillProviderService.GetSpecificSkillProviderAsync(skillProviderId);
-                if (skillProvider == null)
-                    return NotFound("Requested skill provider with ID not found.");
+            var response = await _skillProviderService.GetSpecificSkillProviderAsync(skillProviderId);
 
-                var skillProviderDto = _mapper.Map<SkillProviderDto>(skillProvider);
-                return Ok(skillProviderDto);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while fetching the skill provider. Error: {ex.Message}");
-            }
+            if (!response.Success)
+                return NotFound(response);
+
+            var dto = _mapper.Map<SkillProviderDto>(response.Data);
+            return Ok(ApiResponse<SkillProviderDto>.Ok(dto, response.Message));
         }
 
         [HttpPut("{skillProviderId}")]
-        public async Task<IActionResult> UpdateSkillProvider(Guid skillProviderId, [FromBody] SkillProviderUpdateDto skillProviderUpdateDto)
+        public async Task<IActionResult> UpdateSkillProvider(Guid skillProviderId, [FromBody] UserProfileUpdateDto updateDto)
         {
-            try
-            {
-                bool isSuccess = await _skillProviderService.UpdateSkillProviderAsync(skillProviderId, skillProviderUpdateDto);        
+            var response = await _skillProviderService.UpdateSkillProviderAsync(skillProviderId, updateDto);
+            if (!response.Success)
+                return NotFound(response);
 
-                if (isSuccess)
-                    return NoContent();
-
-                return NotFound($"Skill provider with ID no. {skillProviderId} not found.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while updating education. Error: {ex.Message}");
-            }
+            return Ok(response);
         }
 
         [HttpGet]
@@ -67,143 +52,62 @@ namespace PLinkageAPI.Controllers
             [FromQuery] CebuLocation? location = null,
             [FromQuery] string status = "All")
         {
-            try
-            {
-                var filteredSkillProviders = await _skillProviderService.GetFilteredSkillProvidersAsync(
-                    proximity, location, status);
+            var response = await _skillProviderService.GetFilteredSkillProvidersAsync(proximity, location, status);
+            if (!response.Success)
+                return NotFound(response);
 
-                if (filteredSkillProviders == null || !filteredSkillProviders.Any())
-                    return NotFound("No skill providers found matching the criteria.");
-
-                var skillProviderDtos = _mapper.Map<IEnumerable<SkillProviderDto>>(filteredSkillProviders);
-                return Ok(skillProviderDtos);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while fetching filtered providers. Error: {ex.Message}");
-            }
+            var dtos = _mapper.Map<IEnumerable<SkillProviderDto>>(response.Data);
+            return Ok(ApiResponse<IEnumerable<SkillProviderDto>>.Ok(dtos, response.Message));
         }
 
         // ----------------- EDUCATIONS -----------------
 
-        // POST: Add education
         [HttpPost("{skillProviderId}/educations")]
-        public async Task<IActionResult> AddEducation(Guid skillProviderId, [FromBody] EducationDto educationToAdd)
+        public async Task<IActionResult> AddEducation(Guid skillProviderId, [FromBody] EducationDto educationDto)
         {
-            try
-            {
-                var educationEntity = _mapper.Map<Education>(educationToAdd);
-                bool isSuccess = await _skillProviderService.AddEducationAsync(skillProviderId, educationEntity);
-
-                if (isSuccess)
-                    return CreatedAtAction(nameof(GetSpecific), new { skillProviderId }, null);
-
-                return StatusCode(500, "An error occurred while adding education.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while adding education. Error: {ex.Message}");
-            }
+            var education = _mapper.Map<Education>(educationDto);
+            var response = await _skillProviderService.AddEducationAsync(skillProviderId, education);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
-        // PUT: Update education by index
         [HttpPut("{skillProviderId}/educations/{index}")]
-        public async Task<IActionResult> UpdateEducation(Guid skillProviderId, int index, [FromBody] EducationDto updatedEducation)
+        public async Task<IActionResult> UpdateEducation(Guid skillProviderId, int index, [FromBody] EducationDto dto)
         {
-            try
-            {
-                var educationEntity = _mapper.Map<Education>(updatedEducation);
-                bool isSuccess = await _skillProviderService.UpdateEducationAsync(skillProviderId, index, educationEntity);
-
-                if (isSuccess)
-                    return NoContent();
-
-                return NotFound($"Education at index {index} not found for SkillProvider {skillProviderId}.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while updating education. Error: {ex.Message}");
-            }
+            var education = _mapper.Map<Education>(dto);
+            var response = await _skillProviderService.UpdateEducationAsync(skillProviderId, index, education);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
-        // DELETE: Delete education by index
         [HttpDelete("{skillProviderId}/educations/{index}")]
         public async Task<IActionResult> DeleteEducation(Guid skillProviderId, int index)
         {
-            try
-            {
-                bool isSuccess = await _skillProviderService.DeleteEducationAsync(skillProviderId, index);
-
-                if (isSuccess)
-                    return NoContent();
-
-                return NotFound($"Education at index {index} not found for SkillProvider {skillProviderId}.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while deleting education. Error: {ex.Message}");
-            }
+            var response = await _skillProviderService.DeleteEducationAsync(skillProviderId, index);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
-        // ----------------- Skills -----------------
+        // ----------------- SKILLS -----------------
 
-        // POST: Add skill
         [HttpPost("{skillProviderId}/skills")]
-        public async Task<IActionResult> AddSkill(Guid skillProviderId, [FromBody] SkillDto skillToAdd)
+        public async Task<IActionResult> AddSkill(Guid skillProviderId, [FromBody] SkillDto dto)
         {
-            try
-            {
-                var skillEntity = _mapper.Map<Skill>(skillToAdd);
-                bool isSuccess = await _skillProviderService.AddSkillAsync(skillProviderId, skillEntity);
-
-                if (isSuccess)
-                    return CreatedAtAction(nameof(GetSpecific), new { skillProviderId }, null);
-
-                return StatusCode(500, "An error occurred while adding skill.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while adding skill. Error: {ex.Message}");
-            }
+            var skill = _mapper.Map<Skill>(dto);
+            var response = await _skillProviderService.AddSkillAsync(skillProviderId, skill);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
-        // PUT: Update skill by index
         [HttpPut("{skillProviderId}/skills/{index}")]
-        public async Task<IActionResult> UpdateSkill(Guid skillProviderId, int index, [FromBody] SkillDto updatedSkill)
+        public async Task<IActionResult> UpdateSkill(Guid skillProviderId, int index, [FromBody] SkillDto dto)
         {
-            try
-            {
-                var skillEntity = _mapper.Map<Skill>(updatedSkill);
-                bool isSuccess = await _skillProviderService.UpdateSkillAsync(skillProviderId, index, skillEntity);
-
-                if (isSuccess)
-                    return NoContent();
-
-                return NotFound($"Skill at index {index} not found for SkillProvider {skillProviderId}.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while updating education. Error: {ex.Message}");
-            }
+            var skill = _mapper.Map<Skill>(dto);
+            var response = await _skillProviderService.UpdateSkillAsync(skillProviderId, index, skill);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
-        // DELETE: Delete skill by index
         [HttpDelete("{skillProviderId}/skills/{index}")]
         public async Task<IActionResult> DeleteSkill(Guid skillProviderId, int index)
         {
-            try
-            {
-                bool isSuccess = await _skillProviderService.DeleteSkillAsync(skillProviderId, index);
-
-                if (isSuccess)
-                    return NoContent();
-
-                return NotFound($"Skill at index {index} not found for SkillProvider {skillProviderId}.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while deleting education. Error: {ex.Message}");
-            }
+            var response = await _skillProviderService.DeleteSkillAsync(skillProviderId, index);
+            return response.Success ? Ok(response) : NotFound(response);
         }
     }
 }

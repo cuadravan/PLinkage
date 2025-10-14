@@ -1,10 +1,17 @@
 ﻿using PLinkageShared.Enums;
 using PLinkageAPI.Interfaces;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace PLinkageAPI.Entities
 {
     public class Admin : IUser
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonRepresentation(BsonType.String)]
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; } = string.Empty;

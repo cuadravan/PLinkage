@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using PLinkageAPI.Interfaces;
 using PLinkageAPI.Repository;
-using PLinkageAPI.ApplicationServices;
+using PLinkageAPI.Services;
 using PLinkageAPI.Controllers;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson.Serialization;
@@ -27,6 +27,9 @@ builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 
 //builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
 builder.Services.AddScoped<ISkillProviderService, SkillProviderService>();
+builder.Services.AddScoped<IProjectOwnerService, ProjectOwnerService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 

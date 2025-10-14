@@ -21,6 +21,12 @@ namespace PLinkageAPI.Controllers
             CreateMap<Skill, SkillDto>();
             CreateMap<SkillDto, Skill>();
 
+            CreateMap<ProjectOwner, ProjectOwnerDto>();
+            CreateMap<ProjectOwnerDto, ProjectOwner>();
+
+            CreateMap<Project, ProjectDto>();
+            CreateMap<ProjectDto, Project>();
+
             // Add any other necessary nested maps (e.g., Address, Skill, etc.)
             // CreateMap<PLinkageAPI.Models.Other, PLinkageShared.DTOs.OtherDto>(); 
         }

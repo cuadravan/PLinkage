@@ -40,22 +40,24 @@ namespace PLinkageAPI.Entities
             this.Educations.Add(educationToAdd);
         }
         
-        public void UpdateEducation(int indexToUpdate, Education updatedEducation)
+        public bool UpdateEducation(int indexToUpdate, Education updatedEducation)
         {
             if(indexToUpdate >= this.Educations.Count())
             {
-                throw new InvalidOperationException("Index is out of bounds");
+                return false;
             }
             this.Educations[indexToUpdate] = updatedEducation;
+            return true;
         }
 
-        public void DeleteEducation(int indexToDelete)
+        public bool DeleteEducation(int indexToDelete)
         {
             if (indexToDelete >= this.Educations.Count())
             {
-                throw new InvalidOperationException("Index is out of bounds");
+                return false;
             }
             this.Educations.RemoveAt(indexToDelete);
+            return true;
         }
 
         public void AddSkill(Skill skillToAdd)
@@ -63,25 +65,27 @@ namespace PLinkageAPI.Entities
             this.Skills.Add(skillToAdd);
         }
 
-        public void UpdateSkill(int indexToUpdate, Skill updatedSkill)
+        public bool UpdateSkill(int indexToUpdate, Skill updatedSkill)
         {
             if (indexToUpdate >= this.Skills.Count())
             {
-                throw new InvalidOperationException("Index is out of bounds");
+                return false;
             }
             this.Skills[indexToUpdate] = updatedSkill;
+            return true;
         }
 
-        public void DeleteSkill(int indexToDelete)
+        public bool DeleteSkill(int indexToDelete)
         {
             if (indexToDelete >= this.Skills.Count())
             {
-                throw new InvalidOperationException("Index is out of bounds");
+                return false;
             }
             this.Skills.RemoveAt(indexToDelete);
+            return true;
         }
 
-        public void UpdateProfile(SkillProviderUpdateDto skillProviderUpdateDto)
+        public void UpdateProfile(UserProfileUpdateDto skillProviderUpdateDto)
         {
             this.UserFirstName = skillProviderUpdateDto.UserFirstName;
             this.UserLastName = skillProviderUpdateDto.UserLastName;

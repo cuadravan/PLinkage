@@ -2,7 +2,7 @@
 
 namespace PLinkageShared.DTOs
 {
-    public class Project
+    public class ProjectDto
     {
         public Guid ProjectId { get; set; } = Guid.NewGuid();
         public Guid ProjectOwnerId { get; set; } = Guid.Empty;
@@ -18,6 +18,18 @@ namespace PLinkageShared.DTOs
         public int ProjectResourcesNeeded { get; set; } = 0;
         public int ProjectResourcesAvailable { get; set; } = 0;
         public DateTime ProjectDateCreated { get; set; } = DateTime.Now;
+        public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
+    }
+
+    public class ProjectUpdateDto
+    {
+        public Guid ProjectId { get; set; } = Guid.NewGuid();
+        public string ProjectDescription { get; set; } = string.Empty;
+        public DateTime ProjectStartDate { get; set; } = DateTime.Now;
+        public string ProjectPriority { get; set; } = string.Empty;
+        public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
+        public int ProjectResourcesNeeded { get; set; } = 0;
+        public ProjectStatus? ProjectStatus { get; set; } = null;
         public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
     }
 }

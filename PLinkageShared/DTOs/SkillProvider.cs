@@ -28,7 +28,7 @@ namespace PLinkageShared.DTOs
         
     }
 
-    public class SkillProviderUpdateDto
+    public class UserProfileUpdateDto
     {
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; } = string.Empty;
