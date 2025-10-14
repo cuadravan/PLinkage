@@ -1,4 +1,5 @@
 ﻿using PLinkageApp.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.Models
 {

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using PLinkageApp.Models;
 using System.Globalization;
 using PLinkageApp.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.ViewModels
 {

@@ -1,4 +1,6 @@
-﻿namespace PLinkageApp.Models
+﻿using PLinkageShared.Enums;
+
+namespace PLinkageApp.Models
 {
     public class Project
     {

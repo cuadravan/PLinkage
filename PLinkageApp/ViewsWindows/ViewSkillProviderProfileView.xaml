@@ -3,7 +3,6 @@
     x:Class="PLinkageApp.Views.ViewSkillProviderProfileView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:models="clr-namespace:PLinkageApp.Models;assembly=PLinkageApp"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="Skill Provider Profile"
     Shell.NavBarIsVisible="False">
@@ -133,7 +132,7 @@
                                 <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="6" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Education">
+                                <DataTemplate>
                                     <Border
                                         Margin="0,4"
                                         Padding="10"
@@ -182,7 +181,7 @@
                                 <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="6" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Skill">
+                                <DataTemplate>
                                     <Border
                                         Margin="0,4"
                                         Padding="10"

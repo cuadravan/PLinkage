@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PLinkageShared.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.Interfaces
 {

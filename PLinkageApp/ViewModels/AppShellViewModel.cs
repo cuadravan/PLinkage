@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Views;
 using PLinkageApp.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.ViewModels
 {

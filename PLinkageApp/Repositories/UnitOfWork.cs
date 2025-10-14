@@ -1,6 +1,5 @@
-﻿using PLinkageApp.Repositories;
-using PLinkageApp.Interfaces;
-using PLinkageShared.Models;
+﻿using PLinkageApp.Interfaces;
+using PLinkageApp.Models;
 
 namespace PLinkageApp.Repositories
 {

@@ -1,5 +1,5 @@
 ﻿using PLinkageApp.Interfaces;
-using PLinkageShared.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.Services
 {

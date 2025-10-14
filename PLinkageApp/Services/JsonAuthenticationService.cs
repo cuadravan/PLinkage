@@ -1,5 +1,4 @@
 ﻿using PLinkageApp.Interfaces;
-using PLinkageShared.Interfaces;
 
 namespace PLinkageApp.Services
 {

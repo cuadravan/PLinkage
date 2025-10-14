@@ -20,12 +20,5 @@ namespace PLinkageApp.Models
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
     }
 
-    public interface IUser
-    {
-        Guid UserId { get; }
-        string UserFirstName { get; }
-        string UserLastName { get; }
-        UserRole UserRole { get; }
-        CebuLocation? UserLocation { get; }
-    }
+    
 }
