@@ -27,49 +27,69 @@ namespace PLinkageAPI.Services
             return ApiResponse<ProjectOwner?>.Ok(projectOwner, "Project owner fetched successfully.");
         }
 
-        public async Task<ApiResponse<IEnumerable<ProjectOwner>>> GetFilteredProjectOwnerAsync(
-            string proximity,
-            CebuLocation? location,
-            string status)
+        private static readonly Dictionary<string, int> ProximityRanges = new()
+            {
+                { "Nearby (<= 10km)", 10 },
+                { "Within Urban (<= 20km)", 20 },
+                { "Extended (<= 50km)", 50 }
+            };
+
+        public async Task<ApiResponse<IEnumerable<ProjectOwnerCardDto>>> GetFilteredProjectOwnerAsync(
+    string proximity,
+    CebuLocation? location,
+    string status)
         {
             try
             {
-                int range = proximity switch
+                if (proximity != "All" && proximity != "By Specific Location" && !location.HasValue)
                 {
-                    "Nearby (<= 10km)" => 10,
-                    "Within Urban (<= 20km)" => 20,
-                    "Extended (<= 50km)" => 50,
-                    _ => 0
-                };
+                    return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Fail("A location must be provided for proximity searches.");
+                }
 
-                List<CebuLocation?> nearbyLocations = new();
+                ProximityRanges.TryGetValue(proximity, out var range);
 
+                var nearbyLocationsWithDistance = new Dictionary<CebuLocation, double>();
                 if (range > 0 && location.HasValue)
                 {
-                    nearbyLocations = NearCebuLocations(location.Value, range).ToList();
+                    nearbyLocationsWithDistance = GetNearbyLocationsWithDistance(location.Value, range);
                 }
 
                 var builder = Builders<ProjectOwner>.Filter;
                 var filter = builder.Empty;
 
                 if (status != "All")
-                    filter &= builder.Eq(sp => sp.UserStatus, status);
+                {
+                    filter &= builder.Eq(po => po.UserStatus, status);
+                }
 
                 if (proximity == "By Specific Location" && location.HasValue)
-                    filter &= builder.Eq(sp => sp.UserLocation, location.Value);
-                else if (proximity != "All" && location.HasValue && nearbyLocations.Any())
-                    filter &= builder.In(sp => sp.UserLocation, nearbyLocations);
+                {
+                    filter &= builder.Eq(po => po.UserLocation, location.Value);
+                }
+                else if (nearbyLocationsWithDistance.Any())
+                {
+                    filter &= builder.In(po => po.UserLocation, nearbyLocationsWithDistance.Keys.Cast<CebuLocation?>());
+                }
 
-                var filtered = await _projectOwnerRepository.FindAsync(filter);
+                var projectOwners = await _projectOwnerRepository.FindAsync(filter);
 
-                if (filtered == null || !filtered.Any())
-                    return ApiResponse<IEnumerable<ProjectOwner>>.Fail("No project owner found matching the criteria.");
+                if (projectOwners == null || !projectOwners.Any())
+                {
+                    return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Fail("No project owners found matching the criteria.");
+                }
 
-                return ApiResponse<IEnumerable<ProjectOwner>>.Ok(filtered, "Filtered project owners fetched successfully.");
+                var projectOwnerCardDtos = projectOwners.Select(po => new ProjectOwnerCardDto
+                {
+                    UserName = po.UserFirstName + " " + po.UserLastName,
+                    UserStatus = po.UserStatus,
+                    ProjectCount = "Has " + po.OwnedProjectId.Count().ToString() + " project/s"
+                });
+
+                return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Ok(projectOwnerCardDtos, "Filtered project owners fetched successfully.");
             }
             catch (Exception ex)
             {
-                return ApiResponse<IEnumerable<ProjectOwner>>.Fail($"An error occurred while filtering project owners. {ex.Message}");
+                return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Fail($"An error occurred while filtering project owners: {ex.Message}");
             }
         }
 
@@ -93,19 +113,19 @@ namespace PLinkageAPI.Services
             }
         }
 
-        private List<CebuLocation?> NearCebuLocations(CebuLocation baseLocation, int threshold)
+        private Dictionary<CebuLocation, double> GetNearbyLocationsWithDistance(CebuLocation baseLocation, int threshold)
         {
-            List<CebuLocation?> nearby = new();
-
+            var nearby = new Dictionary<CebuLocation, double>();
             var baseLoc = Location.From(baseLocation);
 
-            foreach (var kvp in CebuLocationCoordinates.Map)
+            foreach (var (locationEnum, coordinates) in CebuLocationCoordinates.Map)
             {
-                var otherLoc = Location.From(kvp.Key);
+                var otherLoc = new Location(coordinates.Latitude, coordinates.Longitude);
                 double distance = baseLoc.DistanceTo(otherLoc);
-
                 if (distance <= threshold)
-                    nearby.Add(kvp.Key);
+                {
+                    nearby[locationEnum] = distance;
+                }
             }
 
             return nearby;

@@ -73,6 +73,13 @@ namespace PLinkageAPI.Services
             return ApiResponse<Project>.Ok(project);
         }
 
+        private static readonly Dictionary<string, int> ProximityRanges = new()
+            {
+                { "Nearby (<= 10km)", 10 },
+                { "Within Urban (<= 20km)", 20 },
+                { "Extended (<= 50km)", 50 }
+            };
+
         public async Task<ApiResponse<IEnumerable<ProjectCardDto>>> GetFilteredProjectsAsync(
             string proximity,
             CebuLocation? location,
@@ -83,89 +90,85 @@ namespace PLinkageAPI.Services
                 return ApiResponse<IEnumerable<ProjectCardDto>>.Fail("A location must be provided for proximity searches.");
             }
 
-            int range = proximity switch
-            {
-                "Nearby (<= 10km)" => 10,
-                "Within Urban (<= 20km)" => 20,
-                "Extended (<= 50km)" => 50,
-                _ => 0
-            };
+            ProximityRanges.TryGetValue(proximity, out var range);
 
-            List<CebuLocation?> nearbyLocations = new();
-
+            var nearbyLocationsWithDistance = new Dictionary<CebuLocation, double>();
             if (range > 0 && location.HasValue)
-                nearbyLocations = NearCebuLocations(location.Value, range).ToList();
+            {
+                nearbyLocationsWithDistance = GetNearbyLocationsWithDistance(location.Value, range);
+            }
 
             var builder = Builders<Project>.Filter;
             var filter = builder.Empty;
-            ProjectStatus projectStatus = ProjectStatus.Active;
 
-            if (status != "All")
+            if (status != "All" && Enum.TryParse<ProjectStatus>(status, true, out var projectStatus))
             {
-                projectStatus = status switch
-                {
-                    "Active" => ProjectStatus.Active,
-                    "Completed" => ProjectStatus.Completed,
-                    "Deactivated" => ProjectStatus.Deactivated,
-                    _ => ProjectStatus.Active
-                };
-                filter &= builder.Eq(sp => sp.ProjectStatus, projectStatus);
+                filter &= builder.Eq(p => p.ProjectStatus, projectStatus);
             }
 
             if (proximity == "By Specific Location" && location.HasValue)
-                filter &= builder.Eq(sp => sp.ProjectLocation, location.Value);
-            else if (proximity != "All" && location.HasValue && nearbyLocations.Any())
-                filter &= builder.In(sp => sp.ProjectLocation, nearbyLocations);
+            {
+                filter &= builder.Eq(p => p.ProjectLocation, location.Value);
+            }
+            else if (nearbyLocationsWithDistance.Any())
+            {
+                filter &= builder.In(p => p.ProjectLocation, nearbyLocationsWithDistance.Keys.Cast<CebuLocation?>());
+            }
 
             var projects = await _projectRepository.FindAsync(filter);
 
             if (projects == null || !projects.Any())
+            {
                 return ApiResponse<IEnumerable<ProjectCardDto>>.Fail("No projects found matching the criteria.");
+            }
 
-            Location? baseLoc = location.HasValue ? Location.From(location.Value) : null;
-
-            var projectCardDtos = new List<ProjectCardDto>();
-            foreach (var project in projects)
+            var projectCardDtos = projects.Select(project =>
             {
                 string locationString = project.ProjectLocation?.ToString() ?? "Location not set";
 
-                if (baseLoc != null && project.ProjectLocation.HasValue)
+                if (location.HasValue && project.ProjectLocation.HasValue)
                 {
-                    var projectLoc = Location.From(project.ProjectLocation.Value);
-
-                    double distance = baseLoc.DistanceTo(projectLoc);
-
-                    string formattedDistance = distance.ToString("F0");
-
-                    locationString = $"{project.ProjectLocation.Value}, {formattedDistance} km away";
+                    if (nearbyLocationsWithDistance.TryGetValue(project.ProjectLocation.Value, out double distance))
+                    {
+                        locationString = $"{project.ProjectLocation.Value}, {distance:F0} km away";
+                    }
+                    else if (!nearbyLocationsWithDistance.Any())
+                    {
+                        var baseLoc = Location.From(location.Value);
+                        var projectLoc = Location.From(project.ProjectLocation.Value);
+                        distance = baseLoc.DistanceTo(projectLoc);
+                        locationString = $"{project.ProjectLocation.Value}, {distance:F0} km away";
+                    }
                 }
 
-                var projectCardDtoTemp = new ProjectCardDto
+                return new ProjectCardDto
                 {
                     Title = project.ProjectName,
-                    Slots = project.ProjectResourcesAvailable.ToString() + " slot/s",
-                    Location = locationString, 
+                    Slots = $"{project.ProjectResourcesAvailable} slot/s",
+                    Location = locationString,
                     Description = project.ProjectDescription,
-                    Skills = project.ProjectSkillsRequired
+                    Skills = project.ProjectSkillsRequired?
+    .Take(5)
+    .ToList() ?? new List<string>()
                 };
-
-                projectCardDtos.Add(projectCardDtoTemp);
-            }
+            });
 
             return ApiResponse<IEnumerable<ProjectCardDto>>.Ok(projectCardDtos);
         }
 
-        private List<CebuLocation?> NearCebuLocations(CebuLocation baseLocation, int threshold)
+        private Dictionary<CebuLocation, double> GetNearbyLocationsWithDistance(CebuLocation baseLocation, int threshold)
         {
-            List<CebuLocation?> nearby = new();
+            var nearby = new Dictionary<CebuLocation, double>();
             var baseLoc = Location.From(baseLocation);
 
-            foreach (var kvp in CebuLocationCoordinates.Map)
+            foreach (var (locationEnum, coordinates) in CebuLocationCoordinates.Map)
             {
-                var otherLoc = Location.From(kvp.Key);
+                var otherLoc = new Location(coordinates.Latitude, coordinates.Longitude);
                 double distance = baseLoc.DistanceTo(otherLoc);
                 if (distance <= threshold)
-                    nearby.Add(kvp.Key);
+                {
+                    nearby[locationEnum] = distance;
+                }
             }
 
             return nearby;

@@ -21,7 +21,7 @@ namespace PLinkageAPI.Interfaces
         Task<ApiResponse<bool>> DeleteSkillAsync(Guid skillProviderId, int indexToDelete);
 
         // ---------- Filters ----------
-        Task<ApiResponse<IEnumerable<SkillProvider>>> GetFilteredSkillProvidersAsync(
+        Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(
             string proximity,
             CebuLocation? location,
             string status);

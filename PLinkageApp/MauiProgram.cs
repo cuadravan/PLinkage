@@ -64,6 +64,14 @@ public static class MauiProgram
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
         });
+        builder.Services.AddHttpClient<IProjectOwnerServiceClient, ProjectOwnerServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+        builder.Services.AddHttpClient<ISkillProviderServiceClient, SkillProviderServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
@@ -76,6 +84,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<LogoutView>();
 
         builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
+        builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
+        builder.Services.AddTransient<AdminHomeViewModelTemp>();
         
         builder.Services.AddTransient<PLinkageApp.Views.LoginView>();
         builder.Services.AddTransient<PLinkageApp.ViewsAndroid.LogoutView>();

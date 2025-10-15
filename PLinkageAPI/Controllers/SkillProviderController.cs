@@ -55,9 +55,7 @@ namespace PLinkageAPI.Controllers
             var response = await _skillProviderService.GetFilteredSkillProvidersAsync(proximity, location, status);
             if (!response.Success)
                 return NotFound(response);
-
-            var dtos = _mapper.Map<IEnumerable<SkillProviderDto>>(response.Data);
-            return Ok(ApiResponse<IEnumerable<SkillProviderDto>>.Ok(dtos, response.Message));
+            return Ok(ApiResponse<IEnumerable<SkillProviderCardDto>>.Ok(response.Data, response.Message));
         }
 
         // ----------------- EDUCATIONS -----------------

@@ -9,7 +9,7 @@ namespace PLinkageAPI.Interfaces
     {
         Task<ApiResponse<ProjectOwner?>> GetSpecificProjectOwnerAsync(Guid projectOwnerId);
 
-        Task<ApiResponse<IEnumerable<ProjectOwner>>> GetFilteredProjectOwnerAsync(
+        Task<ApiResponse<IEnumerable<ProjectOwnerCardDto>>> GetFilteredProjectOwnerAsync(
             string proximity,
             CebuLocation? location,
             string status); 

@@ -9,6 +9,8 @@ namespace PLinkageApp.Services
     public interface IDashboardServiceClient
     {
         Task<ApiResponse<SkillProviderDashboardDto>> GetSkillProviderDashboardAsync(Guid skillProviderId);
+        Task<ApiResponse<ProjectOwnerDashboardDto>> GetProjectOwnerDashboardAsync(Guid projectOwnerId);
+        Task<ApiResponse<AdminDashboardDto>> GetAdminDashboardAsync(Guid adminId);
     }
 
     public class DashboardServiceClient : BaseApiClient, IDashboardServiceClient
@@ -19,6 +21,18 @@ namespace PLinkageApp.Services
         {
             string url = $"api/dashboard/skillprovider/{skillProviderId}";
             return await GetAsync<SkillProviderDashboardDto>(url);
+        }
+
+        public async Task<ApiResponse<ProjectOwnerDashboardDto>> GetProjectOwnerDashboardAsync(Guid projectOwnerId)
+        {
+            string url = $"api/dashboard/projectowner/{projectOwnerId}";
+            return await GetAsync<ProjectOwnerDashboardDto>(url);
+        }
+
+        public async Task<ApiResponse<AdminDashboardDto>> GetAdminDashboardAsync(Guid adminId)
+        {
+            string url = $"api/dashboard/admin/{adminId}";
+            return await GetAsync<AdminDashboardDto>(url);
         }
     }
 }

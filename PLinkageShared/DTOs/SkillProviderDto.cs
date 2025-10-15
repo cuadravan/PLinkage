@@ -37,4 +37,13 @@ namespace PLinkageShared.DTOs
         public DateTime UserBirthDate { get; set; } = DateTime.Now;
         public string UserGender { get; set; } = string.Empty;
     }
+
+    public class SkillProviderCardDto
+    {
+        public string UserName { get; set; } = string.Empty;
+        public string UserRating { get; set; }
+        public string Location { get; set; } = string.Empty;
+        public string Education { get; set; } = string.Empty;
+        public List<string> Skills { get; set; }    
+    }
 }

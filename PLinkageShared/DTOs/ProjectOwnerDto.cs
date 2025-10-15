@@ -18,4 +18,12 @@ namespace PLinkageShared.DTOs
         public List<Guid> OwnedProjectId { get; set; } = new List<Guid>();
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
     }
+
+    public class ProjectOwnerCardDto
+    {
+        public string UserName { get; set; }
+        public string UserStatus { get; set; }
+        public string ProjectCount { get; set; }
+
+    }
 }

@@ -125,60 +125,115 @@ namespace PLinkageAPI.Services
             return ApiResponse<bool>.Ok(true, "Skill deleted successfully.");
         }
 
-        // -------------- FILTERING -----------------
+        private static readonly Dictionary<string, int> ProximityRanges = new()
+            {
+                { "Nearby (<= 10km)", 10 },
+                { "Within Urban (<= 20km)", 20 },
+                { "Extended (<= 50km)", 50 }
+            };
 
-        public async Task<ApiResponse<IEnumerable<SkillProvider>>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status)
+        public async Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(
+    string proximity,
+    CebuLocation? location,
+    string status)
         {
             try
             {
-                int range = proximity switch
+                if (proximity != "All" && proximity != "By Specific Location" && !location.HasValue)
                 {
-                    "Nearby (<= 10km)" => 10,
-                    "Within Urban (<= 20km)" => 20,
-                    "Extended (<= 50km)" => 50,
-                    _ => 0
-                };
+                    return ApiResponse<IEnumerable<SkillProviderCardDto>>.Fail("A location must be provided for proximity searches.");
+                }
+
+                ProximityRanges.TryGetValue(proximity, out var range);
+
+                var nearbyLocationsWithDistance = new Dictionary<CebuLocation, double>();
+                if (range > 0 && location.HasValue)
+                {
+                    nearbyLocationsWithDistance = GetNearbyLocationsWithDistance(location.Value, range);
+                }
 
                 var builder = Builders<SkillProvider>.Filter;
                 var filter = builder.Empty;
 
+                // Correctly handle string comparison for UserStatus
                 if (status != "All")
-                    filter &= builder.Eq(sp => sp.UserStatus, status);
-
-                if (range > 0 && location.HasValue)
                 {
-                    var nearbyLocations = NearCebuLocations(location.Value, range);
-                    filter &= builder.In(sp => sp.UserLocation, nearbyLocations);
+                    filter &= builder.Eq(sp => sp.UserStatus, status);
                 }
-                else if (proximity == "By Specific Location" && location.HasValue)
+
+                if (proximity == "By Specific Location" && location.HasValue)
                 {
                     filter &= builder.Eq(sp => sp.UserLocation, location.Value);
                 }
+                else if (nearbyLocationsWithDistance.Any())
+                {
+                    filter &= builder.In(sp => sp.UserLocation, nearbyLocationsWithDistance.Keys.Cast<CebuLocation?>());
+                }
 
-                var result = await _skillProviderRepository.FindAsync(filter);
+                var skillProviders = await _skillProviderRepository.FindAsync(filter);
 
-                if (result == null || !result.Any())
-                    return ApiResponse<IEnumerable<SkillProvider>>.Fail("No skill providers found matching the criteria.");
+                if (skillProviders == null || !skillProviders.Any())
+                {
+                    return ApiResponse<IEnumerable<SkillProviderCardDto>>.Fail("No skill providers found matching the criteria.");
+                }
 
-                return ApiResponse<IEnumerable<SkillProvider>>.Ok(result, "Filtered skill providers fetched successfully.");
+                var skillProviderCardDtos = skillProviders.Select(sp =>
+                {
+                    string locationString = sp.UserLocation?.ToString() ?? "Location not set";
+
+                    if (location.HasValue && sp.UserLocation.HasValue)
+                    {
+                        if (nearbyLocationsWithDistance.TryGetValue(sp.UserLocation.Value, out double distance))
+                        {
+                            locationString = $"{sp.UserLocation.Value}, {distance:F0} km away";
+                        }
+                        else if (!nearbyLocationsWithDistance.Any())
+                        {
+                            var baseLoc = Location.From(location.Value);
+                            var providerLoc = Location.From(sp.UserLocation.Value);
+                            distance = baseLoc.DistanceTo(providerLoc);
+                            locationString = $"{sp.UserLocation.Value}, {distance:F0} km away";
+                        }
+                    }
+
+                    return new SkillProviderCardDto
+                    {
+                        UserName = sp.UserFirstName + " " + sp.UserLastName,
+                        UserRating = sp.UserRating.ToString("F2") + " ☆",
+                        Location = locationString,
+                        Education = sp.Educations != null && sp.Educations.Count > 0
+        ? sp.Educations[0].CourseName + " at " + sp.Educations[0].SchoolAttended
+        : string.Empty,
+                        Skills = sp.Skills?
+    .Select(skill => skill.SkillName)
+    .Take(5)
+    .ToList() ?? new List<string>()
+
+                    };
+
+                });
+
+                return ApiResponse<IEnumerable<SkillProviderCardDto>>.Ok(skillProviderCardDtos, "Filtered skill providers fetched successfully.");
             }
             catch (Exception ex)
             {
-                return ApiResponse<IEnumerable<SkillProvider>>.Fail($"Error fetching skill providers: {ex.Message}");
+                return ApiResponse<IEnumerable<SkillProviderCardDto>>.Fail($"Error fetching skill providers: {ex.Message}");
             }
         }
 
-        private List<CebuLocation?> NearCebuLocations(CebuLocation baseLocation, int threshold)
+        private Dictionary<CebuLocation, double> GetNearbyLocationsWithDistance(CebuLocation baseLocation, int threshold)
         {
-            var nearby = new List<CebuLocation?>();
+            var nearby = new Dictionary<CebuLocation, double>();
             var baseLoc = Location.From(baseLocation);
 
-            foreach (var kvp in CebuLocationCoordinates.Map)
+            foreach (var (locationEnum, coordinates) in CebuLocationCoordinates.Map)
             {
-                var otherLoc = Location.From(kvp.Key);
+                var otherLoc = new Location(coordinates.Latitude, coordinates.Longitude);
                 double distance = baseLoc.DistanceTo(otherLoc);
                 if (distance <= threshold)
-                    nearby.Add(kvp.Key);
+                {
+                    nearby[locationEnum] = distance;
+                }
             }
 
             return nearby;

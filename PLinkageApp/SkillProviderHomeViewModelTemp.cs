@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PLinkageShared.ApiResponse;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PLinkageApp
 {
@@ -23,6 +24,9 @@ namespace PLinkageApp
         [ObservableProperty] private int pendingSentApplicationsValue = 0;
         [ObservableProperty] private int pendingReceivedOffersValue = 0;
 
+        [ObservableProperty]
+        private bool isBusy = false;
+
         public SkillProviderHomeViewModelTemp(IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, IProjectServiceClient projectServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
@@ -30,9 +34,53 @@ namespace PLinkageApp
             _projectServiceClient = projectServiceClient;
 
             ProjectCards = new ObservableCollection<ProjectCardDto>();
+        }
 
-            _ = GetDashboardStats();
-            _ = GetSuggestedProjects();
+        public async Task InitializeAsync()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                // Run both network calls concurrently and wait for them both to finish
+                await Task.WhenAll(
+                    GetDashboardStats(),
+                    GetSuggestedProjects()
+                );
+            }
+            catch (Exception ex)
+            {
+                // Central place to handle any initialization errors, e.g., show a popup
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task GetNextSuggestedProjectsAsync()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                // Run both network calls concurrently and wait for them both to finish
+                await GetSuggestedProjects();
+            }
+            catch (Exception ex)
+            {
+                // Central place to handle any initialization errors, e.g., show a popup
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task GetDashboardStats()
@@ -47,7 +95,6 @@ namespace PLinkageApp
                 PendingReceivedOffersValue = result.Data.ReceivedOffers;
             }
         }
-
         private async Task GetSuggestedProjects()
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
@@ -68,7 +115,6 @@ namespace PLinkageApp
                     ProjectCards.Add(dto);
                 }
             }
-
         }
 
         private string sortSelection = "All";
