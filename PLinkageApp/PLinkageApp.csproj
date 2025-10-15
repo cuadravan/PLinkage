@@ -83,9 +83,26 @@
 	  <Compile Update="AppShellWindows.xaml.cs">
 	    <DependentUpon>AppShellWindows.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Controls\StatCard.xaml.cs">
+	    <DependentUpon>StatCard.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views To use\AdminViewProjectOwnerProfileView.xaml.cs">
 	    <DependentUpon>AdminViewProjectOwnerProfileView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage5.xaml.cs">
+	    <DependentUpon>RegisterPage5.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage4.xaml.cs">
+	    <DependentUpon>RegisterPage4.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage3.xaml.cs">
+	    <DependentUpon>RegisterPage3.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage2.xaml.cs">
+	    <DependentUpon>RegisterPage2.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage1.xaml.cs">
+	    <DependentUpon>RegisterPage1.xaml</DependentUpon>
 	  <Compile Update="ViewsAndroid\LogoutView.xaml.cs">
 	    <DependentUpon>LogoutView.xaml</DependentUpon>
 	  </Compile>
@@ -131,6 +148,9 @@
 	  <MauiXaml Update="AppShellAndroid.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\StatCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\GlobalNamespaces.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -152,6 +172,22 @@
 	  <MauiXaml Update="ViewsAndroid\ProjectOwnerHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage5.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage4.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage3.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage2.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeViewxaml.xaml">
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -3,6 +3,8 @@
     x:Class="PLinkageApp.Views.AdminHomeView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:models="clr-namespace:PLinkageShared.Models;assembly=PLinkageShared"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="Home - Admin"
     BackgroundColor="White"
@@ -11,34 +13,38 @@
     <ScrollView Padding="50">
         <VerticalStackLayout Spacing="16">
 
-            <!--  Dashboard Stats  -->
-            <Border
-                Padding="16"
-                BackgroundColor="#7C4DFF"
-                Stroke="#CCCCCC"
-                StrokeShape="RoundRectangle 12"
-                StrokeThickness="1">
-                <VerticalStackLayout Spacing="6">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="Welcome, Admin!"
-                        TextColor="White" />
+            <!--  Welcome Header  -->
+            <Label
+                Margin="0,0,0,20"
+                FontAttributes="Bold"
+                FontSize="28"
+                Text="Welcome, Admin!"
+                TextColor="#7C4DFF" />
 
-                    <Label
-                        FontSize="14"
-                        Text="{Binding ActiveProjects, StringFormat='Active Projects: {0}'}"
-                        TextColor="White" />
-                    <Label
-                        FontSize="14"
-                        Text="{Binding CompletedProjects, StringFormat='Completed Projects: {0}'}"
-                        TextColor="White" />
-                    <Label
-                        FontSize="14"
-                        Text="{Binding EmploymentRatio, StringFormat='Employment Ratio (excluding deactivated): {0}'}"
-                        TextColor="White" />
-                </VerticalStackLayout>
-            </Border>
+            <!--  Dashboard Stats Cards  -->
+            <FlexLayout
+                AlignContent="Start"
+                AlignItems="Start"
+                Direction="Row"
+                JustifyContent="Start"
+                Wrap="Wrap">
+
+                <controls:StatCard
+                    Margin="0,0,20,20"
+                    Title="Overall Active Projects"
+                    Value="{Binding ActiveProjects}" />
+
+                <controls:StatCard
+                    Margin="0,0,20,20"
+                    Title="Overall Complete Projects"
+                    Value="{Binding CompletedProjects}" />
+
+                <controls:StatCard
+                    Margin="0,0,20,20"
+                    Title="Employment Ratio"
+                    Value="{Binding EmploymentRatioPercentage}" />
+
+            </FlexLayout>
 
             <!--  Project Filter  -->
             <Border

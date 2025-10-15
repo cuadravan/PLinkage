@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.RegisterPage5"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Register"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Spacing="25"
+            Padding="20">
+
+            <!-- Logo -->
+            <Image
+                Source="plinkage.png"
+                HeightRequest="200"
+                WidthRequest="200"
+                HorizontalOptions="Center" />
+
+            <!-- App Name -->
+            <Label
+                Text="PLinkage"
+                FontAttributes="Bold"
+                FontSize="24"
+                HorizontalOptions="Center"
+                TextColor="#333" />
+
+            <!-- Card -->
+            <Frame
+                BackgroundColor="#7C4DFF"
+                BorderColor="Transparent"
+                CornerRadius="15"
+                Padding="25"
+                HasShadow="True"
+                WidthRequest="320">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Welcome to the Linkage community!"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        HorizontalTextAlignment="Center" />
+
+                    <Label
+                        Text="Login using your inputted credentials and start forming Linkages with busy and talented people!"
+                        FontAttributes="Italic"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        TextColor="White" />
+
+                    <!-- Let's start button -->
+                    <Button
+                        Text="Let's start!"
+                        BackgroundColor="White"
+                        TextColor="#7C4DFF"
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        HeightRequest="45"
+                        Command="{Binding GoToLoginCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
