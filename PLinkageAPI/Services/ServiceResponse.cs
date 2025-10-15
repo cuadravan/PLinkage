@@ -17,7 +17,6 @@
         }
     }
 
-    // Optional non-generic version
     public class ServiceResponse
     {
         public bool Success { get; set; } = true;

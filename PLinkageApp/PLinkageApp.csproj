@@ -119,6 +119,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AndroidControls\ProjectCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\StatCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AppShellAndroid.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

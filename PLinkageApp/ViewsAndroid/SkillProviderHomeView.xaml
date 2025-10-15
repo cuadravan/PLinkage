@@ -1,12 +1,75 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PLinkageApp.ViewsAndroid.SkillProviderHomeView"
-             Title="SkillProviderHomeView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.SkillProviderHomeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp"
+    Title="SkillProviderHomeView"
+    Shell.NavBarIsVisible="False">
+
+    <VerticalStackLayout Spacing="7" VerticalOptions="Center">
+        <Image Source="plinkagenotext.svg" />
+        <Label
+            FontAttributes="Bold"
+            FontSize="20"
+            HorizontalOptions="Center"
+            Text="Welcome, Skill Provider!"
+            TextColor="#212121" />
+        <Grid ColumnSpacing="10" HorizontalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <controls:StatCard
+                Title="Active Projects"
+                Grid.Column="0"
+                Value="{Binding ActiveProjectsValue}" />
+            <controls:StatCard
+                Title="Pending Sent Applications"
+                Grid.Column="1"
+                Value="{Binding PendingSentApplicationsValue}" />
+            <controls:StatCard
+                Title="Received Offers"
+                Grid.Column="2"
+                Value="{Binding PendingReceivedOffersValue}" />
+        </Grid>
+
+        <Label
+            FontAttributes="Bold"
+            FontSize="16"
+            HorizontalOptions="Center"
+            Text="Top Projects For You"
+            TextColor="#212121" />
+        <Border
+            BackgroundColor="White"
+            Stroke="#7C4DFF"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1"
+            WidthRequest="280">
+            <Picker
+                Title="Filter By"
+                FontFamily="Roboto Mono"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                ItemsSource="{Binding SortOptions}"
+                SelectedItem="{Binding SortSelection}"
+                TextColor="#212121" />
+        </Border>
+        <CarouselView ItemsSource="{Binding ProjectCards}" PeekAreaInsets="50">
+
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <controls:ProjectCard
+                        Title="{Binding Title}"
+                        Description="{Binding Description}"
+                        Location="{Binding Location}"
+                        Skills="{Binding Skills}"
+                        Slots="{Binding Slots}" />
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
     </VerticalStackLayout>
+
 </ContentPage>

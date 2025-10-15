@@ -12,6 +12,7 @@ namespace PLinkageApp.Interfaces
         void SetCurrentUser(LoginResultDto loginResultDto);
         Guid GetCurrentUserId();
         UserRole? GetCurrentUserRole();
+        CebuLocation? GetCurrentUserLocation();
         string? GetCurrentUserName();
         void ClearSession();
         bool IsLoggedIn();

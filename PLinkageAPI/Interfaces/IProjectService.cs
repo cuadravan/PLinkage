@@ -9,7 +9,7 @@ namespace PLinkageAPI.Interfaces
     {
         Task<ApiResponse<Project>> GetSpecificProjectAsync(Guid projectId);
 
-        Task<ApiResponse<IEnumerable<Project>>> GetFilteredProjectsAsync(
+        Task<ApiResponse<IEnumerable<ProjectCardDto>>> GetFilteredProjectsAsync(
             string proximity,
             CebuLocation? location,
             string status);

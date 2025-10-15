@@ -9,6 +9,7 @@ namespace PLinkageApp.Services
         private Guid currentUserId = Guid.Empty;
         private UserRole? currentUserRole = null;
         private string? currentUserName = null;
+        private CebuLocation? currentUserLocation = null;
         private Guid visitingProjectOwnerID = Guid.Empty;
         private Guid visitingSkillProviderID = Guid.Empty;
         private Guid visitingProjectID = Guid.Empty;
@@ -41,6 +42,7 @@ namespace PLinkageApp.Services
             currentUserId = loginResultDto.UserId;
             currentUserRole = loginResultDto.UserRole;
             currentUserName = loginResultDto.UserName;
+            currentUserLocation = loginResultDto.UserLocation;
         }
 
         public Guid GetCurrentUserId()
@@ -54,6 +56,10 @@ namespace PLinkageApp.Services
         public string? GetCurrentUserName()
         {
             return currentUserName;
+        }
+        public CebuLocation? GetCurrentUserLocation()
+        {
+            return currentUserLocation;
         }
 
         public void ClearSession()

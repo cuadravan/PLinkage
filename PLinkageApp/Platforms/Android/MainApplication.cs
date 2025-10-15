@@ -24,6 +24,15 @@ public class MainApplication : MauiApplication
                     ColorStateList.ValueOf(global::Android.Graphics.Color.Black));
             }
         });
+
+        Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping(nameof(Picker), (handler, view) =>
+        {
+            if (handler.PlatformView is global::Android.Widget.EditText editText)
+            {
+                // Remove underline
+                editText.BackgroundTintList = ColorStateList.ValueOf(global::Android.Graphics.Color.Transparent);
+            }
+        });
     }
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

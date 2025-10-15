@@ -6,7 +6,6 @@
         public string Message { get; set; } = string.Empty;
         public T? Data { get; set; } 
 
-        // ✅ Static helper methods for convenience
         public static ApiResponse<T> Ok(T data, string message = "Success")
         {
             return new ApiResponse<T> { Success = true, Message = message, Data = data };
@@ -18,7 +17,6 @@
         }
     }
 
-    // Optional non-generic version
     public class ApiResponse
     {
         public bool Success { get; set; } = true;

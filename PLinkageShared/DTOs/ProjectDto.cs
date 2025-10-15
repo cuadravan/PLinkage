@@ -32,6 +32,15 @@ namespace PLinkageShared.DTOs
         public ProjectStatus? ProjectStatus { get; set; } = null;
         public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
     }
+
+    public class ProjectCardDto
+    {
+        public string Title { get; set; }
+        public string Slots { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public List<string> Skills { get; set; }
+    }
 }
 
 public class ProjectMemberDetail

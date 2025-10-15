@@ -41,7 +41,7 @@ namespace PLinkageApp.ViewModels
             "All",
             "Same Place as Me",
             "Nearby (<=10km)",
-            "Within Urban (<=30km)",
+            "Within Urban (<=20km)",
             "Extended (<=50km)"
         };
 

@@ -73,11 +73,16 @@ namespace PLinkageAPI.Services
             return ApiResponse<Project>.Ok(project);
         }
 
-        public async Task<ApiResponse<IEnumerable<Project>>> GetFilteredProjectsAsync(
+        public async Task<ApiResponse<IEnumerable<ProjectCardDto>>> GetFilteredProjectsAsync(
             string proximity,
             CebuLocation? location,
             string status)
         {
+            if (proximity != "All" && proximity != "By Specific Location" && !location.HasValue)
+            {
+                return ApiResponse<IEnumerable<ProjectCardDto>>.Fail("A location must be provided for proximity searches.");
+            }
+
             int range = proximity switch
             {
                 "Nearby (<= 10km)" => 10,
@@ -115,9 +120,39 @@ namespace PLinkageAPI.Services
             var projects = await _projectRepository.FindAsync(filter);
 
             if (projects == null || !projects.Any())
-                return ApiResponse<IEnumerable<Project>>.Fail("No projects found matching the criteria.");
+                return ApiResponse<IEnumerable<ProjectCardDto>>.Fail("No projects found matching the criteria.");
 
-            return ApiResponse<IEnumerable<Project>>.Ok(projects);
+            Location? baseLoc = location.HasValue ? Location.From(location.Value) : null;
+
+            var projectCardDtos = new List<ProjectCardDto>();
+            foreach (var project in projects)
+            {
+                string locationString = project.ProjectLocation?.ToString() ?? "Location not set";
+
+                if (baseLoc != null && project.ProjectLocation.HasValue)
+                {
+                    var projectLoc = Location.From(project.ProjectLocation.Value);
+
+                    double distance = baseLoc.DistanceTo(projectLoc);
+
+                    string formattedDistance = distance.ToString("F0");
+
+                    locationString = $"{project.ProjectLocation.Value}, {formattedDistance} km away";
+                }
+
+                var projectCardDtoTemp = new ProjectCardDto
+                {
+                    Title = project.ProjectName,
+                    Slots = project.ProjectResourcesAvailable.ToString() + " slot/s",
+                    Location = locationString, 
+                    Description = project.ProjectDescription,
+                    Skills = project.ProjectSkillsRequired
+                };
+
+                projectCardDtos.Add(projectCardDtoTemp);
+            }
+
+            return ApiResponse<IEnumerable<ProjectCardDto>>.Ok(projectCardDtos);
         }
 
         private List<CebuLocation?> NearCebuLocations(CebuLocation baseLocation, int threshold)

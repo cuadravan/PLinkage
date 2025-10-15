@@ -8,6 +8,8 @@ using PLinkageApp.Services;
 using PLinkageApp.Services.Http;
 using PLinkageApp.Interfaces;
 using PLinkageApp.Repositories;
+using PLinkageApp.ViewsAndroid;
+
 #if WINDOWS
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -54,7 +56,14 @@ public static class MauiProgram
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
         });
-
+        builder.Services.AddHttpClient<IDashboardServiceClient, DashboardServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+        builder.Services.AddHttpClient<IProjectServiceClient, ProjectServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
@@ -64,8 +73,14 @@ public static class MauiProgram
 
         builder.Services.AddTransient<SplashScreenPage>();
         builder.Services.AddSingleton<App>();
+        builder.Services.AddSingleton<LogoutView>();
+
+        builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
         
-        builder.Services.AddTransient<LoginView>();
+        builder.Services.AddTransient<PLinkageApp.Views.LoginView>();
+        builder.Services.AddTransient<PLinkageApp.ViewsAndroid.LogoutView>();
+
+        builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

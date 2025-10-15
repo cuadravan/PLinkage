@@ -18,6 +18,7 @@ namespace PLinkageShared.DTOs
         public Guid UserId { get; set; } = Guid.Empty;
         public UserRole? UserRole { get; set; } = null;
         public string UserName { get; set; } = null;
+        public CebuLocation? UserLocation { get; set; } = null;
         public string Message { get; set; } = string.Empty;
     }
 

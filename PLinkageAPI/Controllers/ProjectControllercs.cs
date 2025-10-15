@@ -66,8 +66,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            var projectDtos = _mapper.Map<IEnumerable<ProjectDto>>(response.Data);
-            return Ok(ApiResponse<IEnumerable<ProjectDto>>.Ok(projectDtos, response.Message));
+            return Ok(ApiResponse<IEnumerable<ProjectCardDto>>.Ok(response.Data, response.Message));
         }
     }
 }

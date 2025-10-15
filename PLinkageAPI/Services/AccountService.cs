@@ -101,6 +101,7 @@ namespace PLinkageAPI.Services
                         UserId = skillProvider.UserId,
                         UserRole = PLinkageShared.Enums.UserRole.SkillProvider,
                         UserName = skillProvider.UserFirstName + " " + skillProvider.UserLastName,
+                        UserLocation = skillProvider.UserLocation,
                         Message = $"Welcome back, {skillProvider.UserFirstName}!"
                     });
                 }
@@ -119,6 +120,7 @@ namespace PLinkageAPI.Services
                     {
                         UserId = projectOwner.UserId,
                         UserRole = PLinkageShared.Enums.UserRole.ProjectOwner,
+                        UserLocation = projectOwner.UserLocation,
                         UserName = projectOwner.UserFirstName + " " + projectOwner.UserLastName,
                         Message = $"Welcome back, {projectOwner.UserFirstName}!"
                     });
@@ -139,6 +141,7 @@ namespace PLinkageAPI.Services
                         UserId = admin.UserId,
                         UserRole = PLinkageShared.Enums.UserRole.Admin,
                         UserName = admin.UserFirstName + " " + admin.UserLastName,
+                        UserLocation = admin.UserLocation,
                         Message = $"Welcome back, {admin.UserFirstName}!"
                     });
                 }
