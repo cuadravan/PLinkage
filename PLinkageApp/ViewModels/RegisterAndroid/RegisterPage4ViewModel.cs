@@ -9,16 +9,16 @@ namespace PLinkageApp.ViewModels
     public partial class RegisterPage4ViewModel : ObservableObject
     {
         [ObservableProperty]
-        private bool skillProviderSelected;
+        public bool skillProviderSelected;
 
         [ObservableProperty]
-        private bool projectOwnerSelected;
+        public bool projectOwnerSelected;
 
         [ObservableProperty]
-        private Color skillProviderColor = Colors.White;
+        public Color skillProviderColor = Colors.White;
 
         [ObservableProperty]
-        private Color projectOwnerColor = Colors.White;
+        public Color projectOwnerColor = Colors.White;
 
         public ICommand ConfirmCommand { get; }
 
@@ -53,8 +53,8 @@ namespace PLinkageApp.ViewModels
         {
             SkillProviderSelected = true;
             ProjectOwnerSelected = false;
-            skillProviderColor = new Color(0.9f, 0.85f, 1.0f); // light purple
-            projectOwnerColor = Colors.White;
+            SkillProviderColor = new Color(0.9f, 0.85f, 1.0f); // light purple
+            ProjectOwnerColor = Colors.White;
         }
 
         [RelayCommand]
@@ -62,8 +62,8 @@ namespace PLinkageApp.ViewModels
         {
             SkillProviderSelected = false;
             ProjectOwnerSelected = true;
-            projectOwnerColor = new Color(0.9f, 0.85f, 1.0f); // light purple
-            skillProviderColor = Colors.White;
+            ProjectOwnerColor = new Color(0.9f, 0.85f, 1.0f); // light purple
+            SkillProviderColor = Colors.White;
         }
     }
 }

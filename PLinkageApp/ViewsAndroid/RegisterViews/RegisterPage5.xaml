@@ -3,68 +3,60 @@
     x:Class="PLinkageApp.ViewsAndroid.RegisterPage5"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Register"
+    Title=""
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
-    <ScrollView>
+    <ScrollView HorizontalOptions="Center">
         <VerticalStackLayout
+            Padding="20"
             HorizontalOptions="Center"
-            VerticalOptions="Center"
             Spacing="25"
-            Padding="20">
+            VerticalOptions="Center">
 
-            <!-- Logo -->
+            <!--  Logo  -->
             <Image
-                Source="plinkage.png"
                 HeightRequest="200"
-                WidthRequest="200"
-                HorizontalOptions="Center" />
-
-            <!-- App Name -->
-            <Label
-                Text="PLinkage"
-                FontAttributes="Bold"
-                FontSize="24"
                 HorizontalOptions="Center"
-                TextColor="#333" />
+                Source="plinkage.png"
+                WidthRequest="200" />
 
-            <!-- Card -->
+            <!--  Card  -->
             <Frame
+                Padding="25"
                 BackgroundColor="#7C4DFF"
                 BorderColor="Transparent"
                 CornerRadius="15"
-                Padding="25"
                 HasShadow="True"
                 WidthRequest="320">
 
                 <VerticalStackLayout Spacing="15">
 
                     <Label
-                        Text="Welcome to the Linkage community!"
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="Center"
-                        TextColor="White"
-                        HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center"
+                        Text="Welcome to the Linkage community!"
+                        TextColor="White" />
 
                     <Label
-                        Text="Login using your inputted credentials and start forming Linkages with busy and talented people!"
                         FontAttributes="Italic"
                         FontSize="13"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
+                        Text="Login using your inputted credentials and start forming Linkages with busy and talented people!"
                         TextColor="White" />
 
-                    <!-- Let's start button -->
+                    <!--  Let's start button  -->
                     <Button
-                        Text="Let's start!"
                         BackgroundColor="White"
-                        TextColor="#7C4DFF"
-                        FontAttributes="Bold"
+                        Command="{Binding GoToLoginCommand}"
                         CornerRadius="8"
+                        FontAttributes="Bold"
                         HeightRequest="45"
-                        Command="{Binding GoToLoginCommand}" />
+                        Text="Let's start!"
+                        TextColor="#7C4DFF" />
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

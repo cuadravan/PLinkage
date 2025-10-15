@@ -124,7 +124,7 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task GoToRegister()
         {
-            await Shell.Current.GoToAsync(nameof(RegisterPage1));
+            await _navigationService.NavigateToAsync("/RegisterPage1");
         }
     }
 }

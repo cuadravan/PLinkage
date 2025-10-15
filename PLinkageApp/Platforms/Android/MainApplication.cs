@@ -19,9 +19,9 @@ public class MainApplication : MauiApplication
                 handler.PlatformView.BackgroundTintList =
                     ColorStateList.ValueOf(global::Android.Graphics.Color.Transparent);
 
-                // Change placeholder text color
-                handler.PlatformView.SetHintTextColor(
-                    ColorStateList.ValueOf(global::Android.Graphics.Color.Black));
+                //// Change placeholder text color
+                //handler.PlatformView.SetHintTextColor(
+                //    ColorStateList.ValueOf(global::Android.Graphics.Color.Black));
             }
         });
 

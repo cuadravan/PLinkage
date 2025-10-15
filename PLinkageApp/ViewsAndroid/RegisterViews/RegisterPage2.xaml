@@ -3,126 +3,137 @@
     x:Class="PLinkageApp.ViewsAndroid.RegisterPage2"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="RegisterPage2"
-    BackgroundColor="#F8F9FC"
-    Shell.NavBarIsVisible="False">
+    Title=""
+    BackgroundColor="#F8F9FC">
 
-    <ScrollView>
+    <ScrollView HorizontalOptions="Center">
         <VerticalStackLayout
+            Padding="20"
             HorizontalOptions="Center"
-            VerticalOptions="Center"
             Spacing="25"
-            Padding="20">
+            VerticalOptions="Center">
 
-            <!-- Logo -->
+            <!--  Logo  -->
             <Image
-                Source="plinkage.png"
                 HeightRequest="200"
-                WidthRequest="200"
-                HorizontalOptions="Center" />
-
-            <!-- App Name -->
-            <Label
-                Text="PLinkage"
-                FontAttributes="Bold"
-                FontSize="24"
                 HorizontalOptions="Center"
-                TextColor="#333" />
+                Source="plinkage.png"
+                WidthRequest="200" />
 
-            <!-- Card -->
+            <!--  Card  -->
             <Frame
-                BackgroundColor="#7C4DFF"
+                Padding="25"
                 BorderColor="Transparent"
                 CornerRadius="15"
-                Padding="25"
                 HasShadow="True"
                 WidthRequest="320">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="#7C4DFF" />
+                        <GradientStop Offset="1.0" Color="#4A2E99" />
+                    </LinearGradientBrush>
+                </Frame.Background>
 
                 <VerticalStackLayout Spacing="15">
 
                     <Label
-                        Text="Hello, User!"
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="Center"
+                        Text="Hello, User!"
                         TextColor="White" />
 
                     <Label
-                        Text="Input your login credentials!"
                         FontAttributes="Italic"
                         FontSize="13"
                         HorizontalOptions="Center"
+                        Text="Input your login credentials!"
                         TextColor="White" />
 
-                    <!-- Email -->
+                    <!--  Email  -->
                     <VerticalStackLayout>
-                        <Label Text="Email" FontSize="14" TextColor="White" />
+                        <Label
+                            Margin="10,0,0,0"
+                            FontSize="14"
+                            Text="Email"
+                            TextColor="White" />
                         <Border
-                            Stroke="Transparent"
                             BackgroundColor="White"
+                            Stroke="Transparent"
                             StrokeShape="RoundRectangle 10"
                             StrokeThickness="1">
                             <Entry
-                                Placeholder="Must be a unique email address"
+                                Margin="10,0"
+                                BackgroundColor="White"
+                                FontSize="14"
+                                HeightRequest="45"
                                 Keyboard="Email"
-                                BackgroundColor="White"
-                                TextColor="Black"
-                                FontSize="14"
-                                HeightRequest="45"
-                                Margin="10,0"
-                                Text="{Binding Email}" />
+                                Placeholder="Must be a unique email address"
+                                PlaceholderColor="#727171"
+                                Text="{Binding Email}"
+                                TextColor="Black" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <!-- Password -->
+                    <!--  Password  -->
                     <VerticalStackLayout>
-                        <Label Text="Password" FontSize="14" TextColor="White" />
+                        <Label
+                            Margin="10,0,0,0"
+                            FontSize="14"
+                            Text="Password"
+                            TextColor="White" />
                         <Border
-                            Stroke="Transparent"
                             BackgroundColor="White"
+                            Stroke="Transparent"
                             StrokeShape="RoundRectangle 10"
                             StrokeThickness="1">
                             <Entry
-                                Placeholder="At least 8 characters or more"
-                                IsPassword="True"
+                                Margin="10,0"
                                 BackgroundColor="White"
-                                TextColor="Black"
                                 FontSize="14"
                                 HeightRequest="45"
-                                Margin="10,0"
-                                Text="{Binding Password}" />
+                                IsPassword="True"
+                                Placeholder="At least 8 characters or more"
+                                PlaceholderColor="#727171"
+                                Text="{Binding Password}"
+                                TextColor="Black" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <!-- Confirm Password -->
+                    <!--  Confirm Password  -->
                     <VerticalStackLayout>
-                        <Label Text="Confirm Password" FontSize="14" TextColor="White" />
+                        <Label
+                            Margin="10,0,0,0"
+                            FontSize="14"
+                            Text="Confirm Password"
+                            TextColor="White" />
                         <Border
-                            Stroke="Transparent"
                             BackgroundColor="White"
+                            Stroke="Transparent"
                             StrokeShape="RoundRectangle 10"
                             StrokeThickness="1">
                             <Entry
-                                Placeholder="At least 8 characters or more"
-                                IsPassword="True"
+                                Margin="10,0"
                                 BackgroundColor="White"
-                                TextColor="Black"
                                 FontSize="14"
                                 HeightRequest="45"
-                                Margin="10,0"
-                                Text="{Binding ConfirmPassword}" />
+                                IsPassword="True"
+                                Placeholder="At least 8 characters or more"
+                                PlaceholderColor="#727171"
+                                Text="{Binding ConfirmPassword}"
+                                TextColor="Black" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <!-- Next Button -->
+                    <!--  Next Button  -->
                     <Button
-                        Text="Next"
                         BackgroundColor="White"
-                        TextColor="#7C4DFF"
-                        FontAttributes="Bold"
+                        Command="{Binding GoToNextCommand}"
                         CornerRadius="8"
+                        FontAttributes="Bold"
                         HeightRequest="45"
-                        Command="{Binding GoToNextCommand}" />
+                        Text="Next"
+                        TextColor="#7C4DFF" />
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

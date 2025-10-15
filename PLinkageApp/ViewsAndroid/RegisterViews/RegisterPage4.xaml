@@ -3,111 +3,110 @@
     x:Class="PLinkageApp.ViewsAndroid.RegisterPage4"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Register"
-    BackgroundColor="#F8F9FC"
-    Shell.NavBarIsVisible="False">
+    Title=""
+    BackgroundColor="#F8F9FC">
 
-    <ScrollView>
+    <ScrollView HorizontalOptions="Center">
         <VerticalStackLayout
+            Padding="20"
             HorizontalOptions="Center"
-            VerticalOptions="Center"
             Spacing="25"
-            Padding="20">
+            VerticalOptions="Center">
 
-            <!-- Logo -->
+            <!--  Logo  -->
             <Image
-                Source="plinkage.png"
                 HeightRequest="200"
-                WidthRequest="200"
-                HorizontalOptions="Center" />
-
-            <!-- App Name -->
-            <Label
-                Text="PLinkage"
-                FontAttributes="Bold"
-                FontSize="24"
                 HorizontalOptions="Center"
-                TextColor="#333" />
+                Source="plinkage.png"
+                WidthRequest="200" />
 
-            <!-- Card -->
+            <!--  Card  -->
             <Frame
-                BackgroundColor="#7C4DFF"
-                CornerRadius="15"
                 Padding="25"
+                BorderColor="Transparent"
+                CornerRadius="15"
                 HasShadow="True"
                 WidthRequest="320">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="#7C4DFF" />
+                        <GradientStop Offset="1.0" Color="#4A2E99" />
+                    </LinearGradientBrush>
+                </Frame.Background>
 
                 <VerticalStackLayout Spacing="15">
 
                     <Label
-                        Text="Now what role do you want?"
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="Center"
+                        Text="Now what role do you want?"
                         TextColor="White" />
 
                     <Label
-                        Text="Please note, this is a permanent decision."
                         FontAttributes="Italic"
                         FontSize="13"
                         HorizontalOptions="Center"
+                        Text="Please note, this is a permanent decision."
                         TextColor="White" />
 
-                    <!-- Skill Provider Option -->
+                    <!--  Skill Provider Option  -->
                     <Frame
                         x:Name="SkillProviderFrame"
+                        Padding="15"
                         BackgroundColor="{Binding SkillProviderColor}"
                         CornerRadius="10"
-                        Padding="15"
                         HasShadow="False">
                         <Grid>
                             <VerticalStackLayout>
-                                <Label Text="Skill Provider" FontAttributes="Bold" TextColor="#7C4DFF" />
                                 <Label
-                                    Text="You will be contributing your skills to meaningful projects suggested by our app."
+                                    FontAttributes="Bold"
+                                    Text="Skill Provider"
+                                    TextColor="#7C4DFF" />
+                                <Label
                                     FontSize="13"
-                                    TextColor="Black"
-                                    LineBreakMode="WordWrap" />
+                                    LineBreakMode="WordWrap"
+                                    Text="You will be contributing your skills to meaningful projects suggested by our app."
+                                    TextColor="Black" />
                             </VerticalStackLayout>
 
-                            <Button
-                                BackgroundColor="Transparent"
-                                Command="{Binding SelectSkillProviderCommand}" />
+                            <Button BackgroundColor="Transparent" Command="{Binding SelectSkillProviderCommand}" />
                         </Grid>
                     </Frame>
 
-                    <!-- Project Owner Option -->
+                    <!--  Project Owner Option  -->
                     <Frame
                         x:Name="ProjectOwnerFrame"
+                        Padding="15"
                         BackgroundColor="{Binding ProjectOwnerColor}"
                         CornerRadius="10"
-                        Padding="15"
                         HasShadow="False">
                         <Grid>
                             <VerticalStackLayout>
-                                <Label Text="Project Owner" FontAttributes="Bold" TextColor="#7C4DFF" />
                                 <Label
-                                    Text="You will be creating projects to unite and coordinate skilled people in our app."
+                                    FontAttributes="Bold"
+                                    Text="Project Owner"
+                                    TextColor="#7C4DFF" />
+                                <Label
                                     FontSize="13"
-                                    TextColor="Black"
-                                    LineBreakMode="WordWrap" />
+                                    LineBreakMode="WordWrap"
+                                    Text="You will be creating projects to unite and coordinate skilled people in our app."
+                                    TextColor="Black" />
                             </VerticalStackLayout>
 
-                            <Button
-                                BackgroundColor="Transparent"
-                                Command="{Binding SelectProjectOwnerCommand}" />
+                            <Button BackgroundColor="Transparent" Command="{Binding SelectProjectOwnerCommand}" />
                         </Grid>
                     </Frame>
 
-                    <!-- Confirm Button -->
+                    <!--  Confirm Button  -->
                     <Button
-                        Text="Confirm"
                         BackgroundColor="White"
-                        TextColor="#7C4DFF"
-                        FontAttributes="Bold"
+                        Command="{Binding ConfirmCommand}"
                         CornerRadius="8"
+                        FontAttributes="Bold"
                         HeightRequest="45"
-                        Command="{Binding ConfirmCommand}" />
+                        Text="Confirm"
+                        TextColor="#7C4DFF" />
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
