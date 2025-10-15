@@ -54,11 +54,7 @@ namespace PLinkageApp.ViewModels
         {
             await _unitOfWork.ReloadAsync();
             _skillProviderId = _sessionService.VisitingSkillProviderID;
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser != null)
-            {
-                _projectOwnerId = currentUser.UserId;
-            }
+            _projectOwnerId = _sessionService.GetCurrentUserId();
 
             var projects = await _unitOfWork.Projects.GetAllAsync();
             var owned = projects.Where(p =>

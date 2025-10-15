@@ -52,14 +52,14 @@ namespace PLinkageApp.ViewModels
             _unitOfWork = unitOfWork;
             _navigationService = navigationService;
             _sessionService = sessionService;
-            currentUserRole = _sessionService.GetCurrentUserType(); // returns UserRole
+            currentUserRole = _sessionService.GetCurrentUserRole(); // returns UserRole
             _ = LoadCurrentProfile();
         }
 
         // Core Methods
         private async Task LoadCurrentProfile()
         {
-            var userId = _sessionService.GetCurrentUser().UserId;
+            var userId = _sessionService.GetCurrentUserId();
 
             switch (currentUserRole)
             {
@@ -151,7 +151,7 @@ namespace PLinkageApp.ViewModels
 
                     await _unitOfWork.ProjectOwner.UpdateAsync(projectOwner);
                     await _unitOfWork.SaveChangesAsync();
-                    _sessionService.SetCurrentUser(projectOwner);
+                    //_sessionService.SetCurrentUser(projectOwner);
                     break;
 
                 case UserRole.SkillProvider:
@@ -166,7 +166,7 @@ namespace PLinkageApp.ViewModels
 
                     await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
                     await _unitOfWork.SaveChangesAsync();
-                    _sessionService.SetCurrentUser(skillProvider);
+                    //_sessionService.SetCurrentUser(skillProvider);
                     break;
             }
 

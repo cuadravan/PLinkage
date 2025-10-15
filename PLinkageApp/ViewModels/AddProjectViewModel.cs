@@ -137,7 +137,7 @@ namespace PLinkageApp.ViewModels
             var newProject = new Project
             {
                 ProjectId = Guid.NewGuid(),
-                ProjectOwnerId = _sessionService.GetCurrentUser().UserId,
+                ProjectOwnerId = _sessionService.GetCurrentUserId(),
                 ProjectName = ProjectName,
                 ProjectLocation = ProjectLocationSelected,
                 ProjectDescription = ProjectDescription,

@@ -49,8 +49,7 @@ namespace PLinkageApp.ViewModels
 
         public async Task OnViewAppearing()
         {
-            var currentUser = _sessionService.GetCurrentUser();
-            _skillProviderId = currentUser.UserId;
+            _skillProviderId = _sessionService.GetCurrentUserId();
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();

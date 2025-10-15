@@ -41,14 +41,13 @@ namespace PLinkageApp.ViewModels
 
         public void UpdateRoleProperties()
         {
-            var role = _sessionService.GetCurrentUser()?.UserRole;
-
+            var role = _sessionService.GetCurrentUserRole();
+            
             IsAdmin = role == UserRole.Admin;
             IsProjectOwner = role == UserRole.ProjectOwner;
             IsSkillProvider = role == UserRole.SkillProvider;
             IsNotLoggedIn = role == null;
             IsLoggedIn = !IsNotLoggedIn;
-
             if (IsNotLoggedIn)
             {
                 WelcomeMessage = "Welcome to PLinkage!";
@@ -56,9 +55,9 @@ namespace PLinkageApp.ViewModels
             }
             else
             {
-                var user = _sessionService.GetCurrentUser();
-                WelcomeMessage = $"Welcome to PLinkage, {user?.UserFirstName}!";
-                UserRoleMessage = user?.UserRole.ToString();
+                var userType = _sessionService.GetCurrentUserRole();
+                WelcomeMessage = $"Welcome to PLinkage!";
+                UserRoleMessage = userType.ToString();
             }
 
         }

@@ -21,20 +21,20 @@ namespace PLinkageApp.ViewModels
 
         // Properties
         [ObservableProperty] private string projectName;
-        [ObservableProperty] private SkillProvider skillProviderApplying;
+        [ObservableProperty] private string skillProviderFullName;
         [ObservableProperty] private string rateAsked;
         [ObservableProperty] private string timeFrameAsked;
         [ObservableProperty] private Project visitingProject;
 
-        public string SkillProviderFullName =>
-            SkillProviderApplying != null
-                ? $"{SkillProviderApplying.UserFirstName} {SkillProviderApplying.UserLastName}"
-                : string.Empty;
+        //public string SkillProviderFullName =>
+        //    SkillProviderApplying != null
+        //        ? $"{SkillProviderApplying.UserFirstName} {SkillProviderApplying.UserLastName}"
+        //        : string.Empty;
 
-        partial void OnSkillProviderApplyingChanged(SkillProvider value)
-        {
-            OnPropertyChanged(nameof(SkillProviderFullName));
-        }
+        //partial void OnSkillProviderApplyingChanged(SkillProvider value)
+        //{
+        //    OnPropertyChanged(nameof(SkillProviderFullName));
+        //}
 
         public SendApplicationViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
         {
@@ -51,12 +51,14 @@ namespace PLinkageApp.ViewModels
             await _unitOfWork.ReloadAsync();
 
             _projectId = _sessionService.VisitingProjectID;
-            var currentUser = _sessionService.GetCurrentUser();
+            var currentUserId = _sessionService.GetCurrentUserId();
+            var currentUserRole = _sessionService.GetCurrentUserRole();
 
-            if (currentUser != null && currentUser is SkillProvider provider)
+            if (currentUserId != Guid.Empty && currentUserRole is PLinkageShared.Enums.UserRole.SkillProvider)
             {
-                _skillProviderId = provider.UserId;
-                SkillProviderApplying = provider;
+                _skillProviderId = currentUserId;
+                //TODO: this wont work since i am currently overhauling the session service
+                //SkillProviderApplying = provider;
             }
             else
             {

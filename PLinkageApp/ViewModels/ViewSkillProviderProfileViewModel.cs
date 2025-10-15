@@ -59,11 +59,11 @@ namespace PLinkageApp.ViewModels
             SetRoleFlags();
 
             _skillProviderId = _sessionService.VisitingSkillProviderID;
-            var currentUser = _sessionService.GetCurrentUser();
-            if (_skillProviderId == Guid.Empty && currentUser != null)
-                _skillProviderId = currentUser.UserId;
+            var currentUserId = _sessionService.GetCurrentUserId();
+            if (_skillProviderId == Guid.Empty)
+                _skillProviderId = currentUserId;
 
-            IsOwner = currentUser != null && currentUser.UserId == _skillProviderId;
+            IsOwner = currentUserId == _skillProviderId;
 
             await _unitOfWork.ReloadAsync();
 
@@ -97,7 +97,7 @@ namespace PLinkageApp.ViewModels
 
         private void SetRoleFlags()
         {
-            var role = _sessionService.GetCurrentUserType();
+            var role = _sessionService.GetCurrentUserRole();
             IsProjectOwner = role == UserRole.ProjectOwner;
             IsSkillProvider = role == UserRole.SkillProvider;
             IsAdmin = role == UserRole.Admin;

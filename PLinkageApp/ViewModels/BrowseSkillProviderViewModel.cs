@@ -59,8 +59,8 @@ namespace PLinkageApp.ViewModels
         private async Task LoadDashboardData()
         {
             await _unitOfWork.ReloadAsync();
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
+            //var currentUser = _sessionService.GetCurrentUser();
+            //if (currentUser == null) return;
 
             await LoadSuggestedSkillProviders();
         }
@@ -73,7 +73,7 @@ namespace PLinkageApp.ViewModels
                 .ToList();
 
             var currentUser = await _unitOfWork.ProjectOwner
-                .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+                .GetByIdAsync(_sessionService.GetCurrentUserId());
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;
 

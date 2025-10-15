@@ -60,13 +60,13 @@ namespace PLinkageApp.ViewModels
             await _unitOfWork.ReloadAsync();
             // Fast role check using enum
 
-            IsSkillProvider = _sessionService.GetCurrentUserType() == UserRole.SkillProvider;
-            IsSkillproviderOrAdmin = _sessionService.GetCurrentUserType() == UserRole.SkillProvider ||
-                                      _sessionService.GetCurrentUserType() == UserRole.Admin;
+            IsSkillProvider = _sessionService.GetCurrentUserRole() == UserRole.SkillProvider;
+            IsSkillproviderOrAdmin = _sessionService.GetCurrentUserRole() == UserRole.SkillProvider ||
+                                      _sessionService.GetCurrentUserRole() == UserRole.Admin;
 
             await LoadProjectDetailsAsync();
 
-            IsOwner = _sessionService.GetCurrentUser()?.UserId == _projectOwnerId;
+            IsOwner = _sessionService.GetCurrentUserId() == _projectOwnerId;
 
             var duration = ProjectEndDate - ProjectStartDate;
             DurationSummary = $"{(int)duration.TotalDays} days | {Math.Floor(duration.TotalDays / 7)} weeks | {Math.Floor(duration.TotalDays / 30)} months";
@@ -144,15 +144,16 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task Apply()
         {
-            var currentUser = _sessionService.GetCurrentUser();
+            var currentUserRole = _sessionService.GetCurrentUserRole();
+            var currentUserId = _sessionService.GetCurrentUserId();
 
-            if (currentUser == null || currentUser.UserRole != UserRole.SkillProvider)
+            if (currentUserRole != UserRole.SkillProvider)
             {
                 await Shell.Current.DisplayAlert("❗ Error", "Invalid user session. Please log in again.", "OK");
                 return;
             }
 
-            var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(currentUser.UserId);
+            var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(currentUserId);
 
             if (skillProvider == null)
             {

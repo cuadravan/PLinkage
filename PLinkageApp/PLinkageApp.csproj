@@ -48,7 +48,7 @@
 
 		<!-- Splash Screen -->
 		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->
-		<MauiSplashScreen Include="Resources\Splash\splashscreen.svg" Color="#FFFFFF"/>
+		<MauiSplashScreen Include="Resources\Splash\splashscreen.svg" Color="#FFFFFF" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -69,6 +69,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -84,6 +85,12 @@
 	  </Compile>
 	  <Compile Update="Views To use\AdminViewProjectOwnerProfileView.xaml.cs">
 	    <DependentUpon>AdminViewProjectOwnerProfileView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\LogoutView.xaml.cs">
+	    <DependentUpon>LogoutView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderHomeView.xaml.cs">
+	    <DependentUpon>SkillProviderHomeView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsWindows\LoginView.xaml.cs">
 	    <DependentUpon>LoginView.xaml</DependentUpon>
@@ -121,6 +128,9 @@
 	  <MauiXaml Update="ViewsAndroid\AdminHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\LogoutView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\BlankPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -133,7 +143,7 @@
 	  <MauiXaml Update="ViewsAndroid\ProjectOwnerHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeViewxaml.xaml">
+	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsWindows\AdminBrowseProjectOwnerView.xaml">

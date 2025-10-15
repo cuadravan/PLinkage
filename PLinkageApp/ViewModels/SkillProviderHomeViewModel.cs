@@ -59,14 +59,14 @@ namespace PLinkageApp.ViewModels
         private async Task LoadDashboardData()
         {
             await _unitOfWork.ReloadAsync();
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
+            var currentUserName = _sessionService.GetCurrentUserName();
+            var currentUserId = _sessionService.GetCurrentUserId();
 
-            UserName = currentUser.UserFirstName ?? string.Empty;
+            UserName = currentUserName;
             await LoadSuggestedProjects();
-            await CountReceivedOffers(currentUser.UserId);
-            await CountSentApplications(currentUser.UserId);
-            await CountActiveProjects(currentUser.UserId);
+            await CountReceivedOffers(currentUserId);
+            await CountSentApplications(currentUserId);
+            await CountActiveProjects(currentUserId);
 
             SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent applications, and {ReceivedOfferCount} received offers.";
         }
@@ -80,7 +80,7 @@ namespace PLinkageApp.ViewModels
                 .ToList();
 
             var currentUser = await _unitOfWork.SkillProvider
-                .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+                .GetByIdAsync(_sessionService.GetCurrentUserId());
 
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;

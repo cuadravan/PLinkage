@@ -58,7 +58,7 @@ namespace PLinkageApp.ViewModels
         // Core Methods
         public async Task OnViewAppearing()
         {
-            _projectOwnerId = _sessionService.GetCurrentUser().UserId;
+            _projectOwnerId = _sessionService.GetCurrentUserId();
 
             await _unitOfWork.ReloadAsync();
             await LoadProfileAsync();
