@@ -18,6 +18,32 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty] private int completedProjects;
         [ObservableProperty] private string employmentRatio;
 
+        // Computed property for percentage display
+        public string EmploymentRatioPercentage
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(EmploymentRatio))
+                    return "0%";
+
+                var startIndex = EmploymentRatio.IndexOf('(');
+                var endIndex = EmploymentRatio.IndexOf(')');
+
+                if (startIndex >= 0 && endIndex > startIndex)
+                {
+                    var percentageStr = EmploymentRatio.Substring(startIndex + 1, endIndex - startIndex - 1);
+                    percentageStr = percentageStr.Replace("%", "").Trim();
+
+                    if (double.TryParse(percentageStr, out double percentage))
+                    {
+                        return $"{Math.Round(percentage)}%";
+                    }
+                }
+
+                return "0%";
+            }
+        }
+
         // Collections
         [ObservableProperty] private ObservableCollection<Project> filteredProjects = new();
         [ObservableProperty] private ObservableCollection<SkillProvider> filteredSkillProviders = new();
@@ -125,7 +151,11 @@ namespace PLinkageApp.ViewModels
             EmploymentRatio = total == 0
                 ? "N/A"
                 : $"{employed}/{total} employed ({(employed * 100.0 / total):0.##}%)";
+
+            // Notify that EmploymentRatioPercentage has changed
+            OnPropertyChanged(nameof(EmploymentRatioPercentage));
         }
+
         private async Task FilterProjects()
         {
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
@@ -170,12 +200,14 @@ namespace PLinkageApp.ViewModels
 
         [RelayCommand]
         private async Task Refresh() => await LoadDashboardData();
+
         [RelayCommand]
         private async Task ViewProject(Project project)
         {
             _sessionService.VisitingProjectID = project.ProjectId;
             await _navigationService.NavigateToAsync("/ViewProjectView");
         }
+
         [RelayCommand]
         private async Task ViewSkillProvider(SkillProvider skillProvider)
         {

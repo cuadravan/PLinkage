@@ -2,6 +2,7 @@ using Microsoft.Maui.Controls;
 using PLinkageApp.Views;
 using PLinkageApp.ViewModels;
 using PLinkageApp.Interfaces;
+using PLinkageApp.ViewsAndroid; // ? must match your RegisterPage namespaces
 
 namespace PLinkageApp
 {
@@ -29,6 +30,11 @@ namespace PLinkageApp
             //Routing.RegisterRoute("SkillProviderSendApplicationView", typeof(SkillProviderSendApplicationView));
             //Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
             //Routing.RegisterRoute("RegisterView", typeof(RegisterView));
+            Routing.RegisterRoute(nameof(RegisterPage1), typeof(RegisterPage1));
+            Routing.RegisterRoute(nameof(RegisterPage2), typeof(RegisterPage2));
+            Routing.RegisterRoute(nameof(RegisterPage3), typeof(RegisterPage3));
+            Routing.RegisterRoute(nameof(RegisterPage4), typeof(RegisterPage4));
+            Routing.RegisterRoute(nameof(RegisterPage5), typeof(RegisterPage5));
             _startupService = startupService;
             BindingContext = viewModel;
         }
