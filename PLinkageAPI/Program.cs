@@ -1,18 +1,20 @@
-using MongoDB.Driver;
-using PLinkageAPI.Models;
+﻿using MongoDB.Driver;
+using PLinkageAPI.Interfaces;
 using PLinkageAPI.Repository;
+using PLinkageAPI.Services;
+using PLinkageAPI.Controllers;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
-// Registers IMongoClient with a factory method for getting our MongoClient
-// Program.cs
 builder.Services.AddSingleton<IMongoClient>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
@@ -20,36 +22,17 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
     return new MongoClient(connectionString);
 });
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("PLinkageDB")); // Registers IMongoDatabase to instance of the PLinkageDB
-builder.Services.AddScoped<ProjectOwnerRepository>();
-builder.Services.AddScoped<SkillProviderRepository>();
 
-// ProjectOwner has a "UserId"
-builder.Services.AddScoped<IRepository<ProjectOwner>>(sp =>
-    new MongoRepository<ProjectOwner>(
-        sp.GetRequiredService<IMongoDatabase>(),
-        "ProjectOwner",
-        "UserId"
-    )
-);
+builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 
-//// Project has a "ProjectId"
-//builder.Services.AddScoped<IRepository<Project>>(sp =>
-//    new MongoRepository<Project>(
-//        sp.GetRequiredService<IMongoDatabase>(),
-//        "Project",
-//        "ProjectId"
-//    )
-//);
+//builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
+builder.Services.AddScoped<ISkillProviderService, SkillProviderService>();
+builder.Services.AddScoped<IProjectOwnerService, ProjectOwnerService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
-//// OfferApplication has an "OfferApplicationId"
-//builder.Services.AddScoped<IRepository<OfferApplication>>(sp =>
-//    new MongoRepository<OfferApplication>(
-//        sp.GetRequiredService<IMongoDatabase>(),
-//        "OfferApplication",
-//        "OfferApplicationId"
-//    )
-//);
-
+BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
 var app = builder.Build();
 

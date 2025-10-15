@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
+using PLinkageShared.Enums;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -136,7 +137,7 @@ namespace PLinkageApp.ViewModels
             var newProject = new Project
             {
                 ProjectId = Guid.NewGuid(),
-                ProjectOwnerId = _sessionService.GetCurrentUser().UserId,
+                ProjectOwnerId = _sessionService.GetCurrentUserId(),
                 ProjectName = ProjectName,
                 ProjectLocation = ProjectLocationSelected,
                 ProjectDescription = ProjectDescription,

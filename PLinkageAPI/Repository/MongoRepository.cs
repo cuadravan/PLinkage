@@ -1,68 +1,78 @@
 ﻿using MongoDB.Driver;
+using PLinkageAPI.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace PLinkageAPI.Repository
 {
     public class MongoRepository<T> : IRepository<T> where T : class
     {
         private readonly IMongoCollection<T> _collection;
-        private readonly string _idPropertyName;
+        private readonly PropertyInfo? _idProperty;
 
-        public MongoRepository(IMongoDatabase database, string collectionName, string idPropertyName)
+        public MongoRepository(IMongoDatabase database)
         {
+            var collectionName = typeof(T).Name;
             _collection = database.GetCollection<T>(collectionName);
-            _idPropertyName = idPropertyName;
+
+            // Find a property of type Guid to use as the ID
+            _idProperty = typeof(T).GetProperties()
+                                   .FirstOrDefault(p => p.PropertyType == typeof(Guid)
+                                                     && (p.Name.Equals("Id", StringComparison.OrdinalIgnoreCase)
+                                                      || p.Name.EndsWith("Id", StringComparison.OrdinalIgnoreCase)));
         }
 
-        public async Task<List<T>> GetAllAsync()
+        private FilterDefinition<T> IdFilter(Guid id)
         {
-            return await _collection.Find(_ => true).ToListAsync();
+            if (_idProperty == null)
+                throw new InvalidOperationException($"No suitable ID property found on {typeof(T).Name}");
+
+            return Builders<T>.Filter.Eq(_idProperty.Name, id);
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<List<T>> GetAllAsync() =>
+            await _collection.Find(_ => true).ToListAsync();
+
+        public async Task<T?> GetByIdAsync(Guid id) =>
+            await _collection.Find(IdFilter(id)).FirstOrDefaultAsync();
+
+        public async Task<List<T>> GetByIdsAsync(IEnumerable<Guid> ids)
         {
-            var filter = Builders<T>.Filter.Eq(_idPropertyName, id);
-            return await _collection.Find(filter).FirstOrDefaultAsync();
-        }
+            if (_idProperty == null)
+                throw new InvalidOperationException($"No suitable ID property found on {typeof(T).Name}");
 
-        public async Task AddAsync(T entity)
-        {
-            await _collection.InsertOneAsync(entity);
-        }
+            if (ids == null || !ids.Any())
+                return new List<T>();
 
-        public async Task UpdateAsync(T entity)
-        {
-            var idProp = typeof(T).GetProperty(_idPropertyName);
-            if (idProp == null)
-                throw new InvalidOperationException(
-                    $"Type {typeof(T).Name} does not have a property named '{_idPropertyName}'");
-
-            var id = (Guid)idProp.GetValue(entity)!;
-            var filter = Builders<T>.Filter.Eq(_idPropertyName, id);
-
-            await _collection.ReplaceOneAsync(filter, entity);
-        }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            var filter = Builders<T>.Filter.Eq(_idPropertyName, id);
-            await _collection.DeleteOneAsync(filter);
-        }
-
-        public async Task<List<T>> FilterAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _collection.Find(predicate).ToListAsync();
-        }
-
-        public async Task<List<T>> FilterAsync(FilterDefinition<T> filter)
-        {
+            var filter = Builders<T>.Filter.In(_idProperty.Name, ids);
             return await _collection.Find(filter).ToListAsync();
         }
 
-        public async Task<bool> ExistsAsync(Guid id)
+
+        public async Task AddAsync(T entity) =>
+            await _collection.InsertOneAsync(entity);
+
+        public async Task UpdateAsync(T entity)
         {
-            var filter = Builders<T>.Filter.Eq(_idPropertyName, id);
-            return await _collection.Find(filter).AnyAsync();
+            if (_idProperty == null)
+                throw new InvalidOperationException($"No suitable ID property found on {typeof(T).Name}");
+
+            var idValue = (Guid)_idProperty.GetValue(entity)!;
+            var filter = IdFilter(idValue);
+            await _collection.ReplaceOneAsync(filter, entity);
         }
+
+        public async Task DeleteAsync(Guid id) =>
+            await _collection.DeleteOneAsync(IdFilter(id));
+
+        public async Task<IReadOnlyList<T>> FindAsync(FilterDefinition<T> filter) =>
+            await _collection.Find(filter).ToListAsync();
+
+        public async Task<bool> ExistsAsync(Guid id) =>
+            await _collection.Find(IdFilter(id)).AnyAsync();
     }
 }

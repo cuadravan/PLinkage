@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageShared.Models;
-using PLinkageShared.Interfaces;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.ViewModels
@@ -39,10 +38,11 @@ namespace PLinkageApp.ViewModels
             await _unitOfWork.ReloadAsync();
 
             _receiverId = _sessionService.VisitingReceiverID;
-            _senderId = _sessionService.GetCurrentUser().UserId;
+            _senderId = _sessionService.GetCurrentUserId();
 
             // Load sender (current logged-in user)
-            var currentUser = _sessionService.GetCurrentUser();
+            SkillProvider userTemp = new SkillProvider(); // NOTE THIS WILL NOT WORK I AM OVERHAULING
+            var currentUser = userTemp;
             Sender = currentUser; // IUser is base type, this works
 
             // Try finding receiver in SkillProvider repository

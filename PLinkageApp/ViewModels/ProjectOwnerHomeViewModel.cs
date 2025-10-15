@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.ViewModels
 {
@@ -58,18 +59,19 @@ namespace PLinkageApp.ViewModels
         private async Task LoadDashboardData()
         {
             await _unitOfWork.ReloadAsync();
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
+            //var currentUser = _sessionService.GetCurrentUser();
+            //if (currentUser == null) return;
 
-            UserName = currentUser.UserFirstName ?? string.Empty;
+            UserName = _sessionService.GetCurrentUserName();
+            Guid UserId = _sessionService.GetCurrentUserId();
             await LoadSuggestedSkillProviders();
-            await CountSentOffers(currentUser.UserId);
-            await CountReceivedApplications(currentUser.UserId);
-            await CountActiveProjects(currentUser.UserId);
+            await CountSentOffers(UserId);
+            await CountReceivedApplications(UserId);
+            await CountActiveProjects(UserId);
 
             var allProjects = await _unitOfWork.Projects.GetAllAsync();
             var ownedProjects = allProjects
-                .Where(p => p.ProjectOwnerId == currentUser.UserId)
+                .Where(p => p.ProjectOwnerId == UserId)
                 .ToList();
 
             int resignationCount = 0;
@@ -106,7 +108,7 @@ namespace PLinkageApp.ViewModels
                 .ToList();
 
             var currentUser = await _unitOfWork.ProjectOwner
-                .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+                .GetByIdAsync(_sessionService.GetCurrentUserId());
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;
 

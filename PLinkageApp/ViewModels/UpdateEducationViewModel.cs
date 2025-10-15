@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.ViewModels
@@ -44,7 +44,7 @@ namespace PLinkageApp.ViewModels
         // Load existing education
         private async Task LoadEducation()
         {
-            var userId = _sessionService.GetCurrentUser().UserId;
+            var userId = _sessionService.GetCurrentUserId() ;
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(userId);
             var index = _sessionService.VisitingSkillEducationID;
 
@@ -86,14 +86,14 @@ namespace PLinkageApp.ViewModels
             targetEducation.SchoolAttended = SchoolAttended;
             targetEducation.TimeGraduated = TimeGraduated;
 
-            var userId = _sessionService.GetCurrentUser().UserId;
+            var userId = _sessionService.GetCurrentUserId();
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(userId);
 
             if (skillProvider != null)
             {
                 await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
                 await _unitOfWork.SaveChangesAsync();
-                _sessionService.SetCurrentUser(skillProvider);
+                //_sessionService.SetCurrentUser(skillProvider);
                 await Shell.Current.DisplayAlert("Success", "Education updated successfully!", "OK");
                 await _navigationService.GoBackAsync();
             }

@@ -43,10 +43,12 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" /> -->
+		<MauiIcon Include="Resources\AppIcon\appiconplinkage.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->
+		<MauiSplashScreen Include="Resources\Splash\splashscreen.svg" Color="#FFFFFF" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -60,8 +62,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appiconplinkage.svg" />
+	  <None Remove="Resources\Splash\splashscreen.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -95,6 +103,11 @@
 	  </Compile>
 	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage1.xaml.cs">
 	    <DependentUpon>RegisterPage1.xaml</DependentUpon>
+	  <Compile Update="ViewsAndroid\LogoutView.xaml.cs">
+	    <DependentUpon>LogoutView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderHomeView.xaml.cs">
+	    <DependentUpon>SkillProviderHomeView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsWindows\LoginView.xaml.cs">
 	    <DependentUpon>LoginView.xaml</DependentUpon>
@@ -123,6 +136,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AndroidControls\ProjectCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\SkillProviderCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\StatCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AppShellAndroid.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -133,6 +155,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\AdminHomeView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\LogoutView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\BlankPage.xaml">
@@ -163,6 +188,7 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeViewxaml.xaml">
+	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsWindows\AdminBrowseProjectOwnerView.xaml">

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.ViewModels
@@ -45,10 +45,10 @@ namespace PLinkageApp.ViewModels
         private async Task LoadData()
         {
             await _unitOfWork.ReloadAsync();
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
+            //var currentUser = _sessionService.GetCurrentUser();
+            //if (currentUser == null) return;
 
-            var projectOwnerId = currentUser.UserId;
+            var projectOwnerId = _sessionService.GetCurrentUserId();
             var projectOwner = await _unitOfWork.ProjectOwner.GetByIdAsync(projectOwnerId);
             if (projectOwner == null) return;
 

@@ -2,8 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.ViewModels
 {
@@ -51,7 +52,7 @@ namespace PLinkageApp.ViewModels
                 return;
             }
 
-            var userId = _sessionService.GetCurrentUser().UserId;
+            var userId = _sessionService.GetCurrentUserId();
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(userId);
             if (skillProvider == null)
             {
@@ -71,7 +72,7 @@ namespace PLinkageApp.ViewModels
             await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
             await _unitOfWork.SaveChangesAsync();
 
-            _sessionService.SetCurrentUser(skillProvider);
+            //_sessionService.SetCurrentUser(skillProvider);
             await Shell.Current.DisplayAlert("Success", "Education added successfully!", "OK");
             await _navigationService.GoBackAsync();
         }

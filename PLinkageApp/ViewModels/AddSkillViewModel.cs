@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using System;
 using PLinkageApp.Interfaces;
 
@@ -72,7 +72,7 @@ namespace PLinkageApp.ViewModels
                 return;
             }
 
-            var userId = _sessionService.GetCurrentUser().UserId;
+            var userId = _sessionService.GetCurrentUserId();
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(userId);
             if (skillProvider == null)
             {
@@ -94,7 +94,7 @@ namespace PLinkageApp.ViewModels
 
             await _unitOfWork.SkillProvider.UpdateAsync(skillProvider);
             await _unitOfWork.SaveChangesAsync();
-            _sessionService.SetCurrentUser(skillProvider);
+            //_sessionService.SetCurrentUser(skillProvider);
 
             await _navigationService.GoBackAsync();
         }

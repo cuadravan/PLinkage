@@ -1,4 +1,4 @@
-﻿using PLinkageAPI.Models;
+﻿using PLinkageShared.Enums;
 
 namespace PLinkageAPI.Interfaces
 {
@@ -10,11 +10,4 @@ namespace PLinkageAPI.Interfaces
         UserRole UserRole { get; }
         CebuLocation? UserLocation { get; }
     }
-}
-
-public enum UserRole
-{
-    SkillProvider,
-    ProjectOwner,
-    Admin
 }

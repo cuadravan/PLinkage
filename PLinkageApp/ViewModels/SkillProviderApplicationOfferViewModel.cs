@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.ViewModels
@@ -45,10 +45,7 @@ namespace PLinkageApp.ViewModels
         private async Task LoadData()
         {
             await _unitOfWork.ReloadAsync();
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
-
-            var skillProviderId = currentUser.UserId;
+            var skillProviderId = _sessionService.GetCurrentUserId();
             var skillProvider = await _unitOfWork.SkillProvider.GetByIdAsync(skillProviderId);
             if (skillProvider == null) return;
 

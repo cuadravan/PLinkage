@@ -4,15 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using PLinkageApp.ViewModels;
 using PLinkageApp.Views;
 using Microsoft.Maui.LifecycleEvents;
-
-
-using PLinkageApp.Interfaces;
 using PLinkageApp.Services;
+using PLinkageApp.Services.Http;
+using PLinkageApp.Interfaces;
 using PLinkageApp.Repositories;
-
-
-
-
+using PLinkageApp.ViewsAndroid;
 
 #if WINDOWS
 using Microsoft.UI;
@@ -41,19 +37,60 @@ public static class MauiProgram
             ServiceCollectionServiceExtensions.AddSingleton<Shell, AppShellAndroid>(builder.Services);
         #elif WINDOWS
             ServiceCollectionServiceExtensions.AddSingleton<Shell, AppShellWindows>(builder.Services);
-        #endif
+#endif
 
+#if ANDROID
+           const string ApiBaseUrl = "http://10.0.2.2:5015/";
+#elif WINDOWS
+            const string ApiBaseUrl = "https://localhost:5015/";
+#else
+            const string ApiBaseUrl = "http://192.168.1.8:5030/"; // fallback for other platforms
+#endif
+
+        builder.Services.AddHttpClient<BaseApiClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+
+        builder.Services.AddHttpClient<IAccountServiceClient, AccountServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+        builder.Services.AddHttpClient<IDashboardServiceClient, DashboardServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+        builder.Services.AddHttpClient<IProjectServiceClient, ProjectServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+        builder.Services.AddHttpClient<IProjectOwnerServiceClient, ProjectOwnerServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
+        builder.Services.AddHttpClient<ISkillProviderServiceClient, SkillProviderServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
-        builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
+        //builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
 		builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 		builder.Services.AddTransient<IStartupService, StartupService>();
 
         builder.Services.AddTransient<SplashScreenPage>();
         builder.Services.AddSingleton<App>();
+        builder.Services.AddSingleton<LogoutView>();
+
+        builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
+        builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
+        builder.Services.AddTransient<AdminHomeViewModelTemp>();
         
-        builder.Services.AddTransient<LoginView>();
+        builder.Services.AddTransient<PLinkageApp.Views.LoginView>();
+        builder.Services.AddTransient<PLinkageApp.ViewsAndroid.LogoutView>();
+
+        builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

@@ -1,7 +1,10 @@
 ﻿using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
-namespace PLinkageAPI.Repository
+namespace PLinkageAPI.Interfaces
 {
     public interface IRepository<T> where T : class
     {
@@ -10,8 +13,9 @@ namespace PLinkageAPI.Repository
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(Guid id);
-        Task<List<T>> FilterAsync(Expression<Func<T, bool>> predicate);
-        Task<List<T>> FilterAsync(FilterDefinition<T> filter);
+        Task<IReadOnlyList<T>> FindAsync(FilterDefinition<T> filter);
         Task<bool> ExistsAsync(Guid id);
+        Task<List<T>> GetByIdsAsync(IEnumerable<Guid> ids);
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using PLinkageShared.Interfaces;
-
-namespace PLinkageApp.Interfaces
+﻿namespace PLinkageApp.Interfaces
 {
     public interface IAuthenticationService
     {

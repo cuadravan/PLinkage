@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 
@@ -37,7 +37,7 @@ namespace PLinkageApp.ViewModels
             _unitOfWork = unitOfWork;
             _sessionService = sessionService;
             _navigationService = navigationService;
-            _currentUserId = _sessionService.GetCurrentUser().UserId;
+            _currentUserId = _sessionService.GetCurrentUserId();
 
             LoadChatSummariesCommand = new AsyncRelayCommand(LoadChatSummariesAsync);
             ChatSelectedCommand = new AsyncRelayCommand<ChatSummaryViewModel>(OnChatSelectedAsync);
@@ -49,18 +49,18 @@ namespace PLinkageApp.ViewModels
         {
             await _unitOfWork.ReloadAsync();
             SelectedChatMessages = new ObservableCollection<ChatMessageViewModel>();
-            var currentUser = _sessionService.GetCurrentUser();
+            var currentUserId = _sessionService.GetCurrentUserId();
             var allChats = await _unitOfWork.Chat.GetAllAsync();
 
             var summaries = new List<ChatSummaryViewModel>();
 
             foreach (var chat in allChats)
             {
-                if (!chat.MessengerId.Contains(currentUser.UserId))
+                if (!chat.MessengerId.Contains(currentUserId))
                     continue;
 
                 // Get the other user
-                var receiverId = chat.MessengerId.First(id => id != currentUser.UserId);
+                var receiverId = chat.MessengerId.First(id => id != currentUserId);
 
                 // Load name from SkillProvider, ProjectOwner, or Admin repositories
                 string fullName = string.Empty;

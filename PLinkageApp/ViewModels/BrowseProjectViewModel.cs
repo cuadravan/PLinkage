@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkageShared.Models;
+using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.ViewModels
 {
@@ -56,8 +57,8 @@ namespace PLinkageApp.ViewModels
         private async Task LoadDashboardData()
         {
             await _unitOfWork.ReloadAsync();
-            var currentUser = _sessionService.GetCurrentUser();
-            if (currentUser == null) return;
+            //var isLoggedIn = _sessionService.IsLoggedIn;
+            //if (!isLoggedIn) return;
 
             await LoadSuggestedProjects();
         }
@@ -70,7 +71,7 @@ namespace PLinkageApp.ViewModels
                 .ToList();
 
             var currentUser = await _unitOfWork.SkillProvider
-                .GetByIdAsync(_sessionService.GetCurrentUser().UserId);
+                .GetByIdAsync(_sessionService.GetCurrentUserId());
 
             if (currentUser == null || !currentUser.UserLocation.HasValue)
                 return;

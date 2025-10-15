@@ -1,11 +1,15 @@
 ﻿using PLinkageApp.Interfaces;
-using PLinkageShared.Interfaces;
+using PLinkageShared.DTOs;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.Services
 {
     public class SessionService : ISessionService
     {
-        private IUser? _currentUser;
+        private Guid currentUserId = Guid.Empty;
+        private UserRole? currentUserRole = null;
+        private string? currentUserName = null;
+        private CebuLocation? currentUserLocation = null;
         private Guid visitingProjectOwnerID = Guid.Empty;
         private Guid visitingSkillProviderID = Guid.Empty;
         private Guid visitingProjectID = Guid.Empty;
@@ -33,30 +37,43 @@ namespace PLinkageApp.Services
             set => visitingReceiverID = value;
         }
 
-        public void SetCurrentUser(IUser user)
+        public void SetCurrentUser(LoginResultDto loginResultDto)
         {
-            _currentUser = user; // We need login view model now to set user to NULL then in appshell view model, if null, then set to IsNotLoggedIn
+            currentUserId = loginResultDto.UserId;
+            currentUserRole = loginResultDto.UserRole;
+            currentUserName = loginResultDto.UserName;
+            currentUserLocation = loginResultDto.UserLocation;
         }
 
-        public IUser? GetCurrentUser()
+        public Guid GetCurrentUserId()
         {
-            return _currentUser;
+            return currentUserId;
+        }
+        public UserRole? GetCurrentUserRole()
+        {
+            return currentUserRole;
+        }
+        public string? GetCurrentUserName()
+        {
+            return currentUserName;
+        }
+        public CebuLocation? GetCurrentUserLocation()
+        {
+            return currentUserLocation;
         }
 
         public void ClearSession()
         {
-            _currentUser = null;
+            currentUserId = Guid.Empty;
+            currentUserRole = null;
         }
 
         public bool IsLoggedIn()
         {
-            return _currentUser != null;
+            return currentUserId != Guid.Empty;
         }
 
-        public UserRole? GetCurrentUserType()
-        {
-            return _currentUser?.UserRole;
-        }
+        
 
         public int VisitingSkillEducationID
         {

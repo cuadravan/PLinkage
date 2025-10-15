@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PLinkageShared.Interfaces;
+using PLinkageShared.DTOs;
+using PLinkageShared.Enums;
 
 namespace PLinkageApp.Interfaces
 {
     public interface ISessionService
     {
-        void SetCurrentUser(IUser user);
-        IUser? GetCurrentUser();
+        void SetCurrentUser(LoginResultDto loginResultDto);
+        Guid GetCurrentUserId();
+        UserRole? GetCurrentUserRole();
+        CebuLocation? GetCurrentUserLocation();
+        string? GetCurrentUserName();
         void ClearSession();
         bool IsLoggedIn();
-        UserRole? GetCurrentUserType();
+        
         Guid VisitingProjectOwnerID { get; set; }
         Guid VisitingSkillProviderID { get; set; }
         Guid VisitingProjectID { get; set; }
