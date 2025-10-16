@@ -49,7 +49,7 @@ namespace PLinkageApp.ViewModels
             }
 
             // Navigate to next registration step
-            await Shell.Current.GoToAsync(nameof(RegisterPage4));
+            //await Shell.Current.GoToAsync(nameof(RegisterPage4));
         }
     }
 }

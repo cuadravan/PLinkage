@@ -16,17 +16,40 @@ namespace PLinkageApp.Services
         // Also remember: previousProject, previousSkillProvider
         public async Task NavigateToAsync(string route, IDictionary<string, object>? parameters = null)
         {
-            // If route starts with / or ///, use as-is.
-            // Else, treat as shell route and prepend ///
+            // 1. If the route is not an absolute path (// or ///), ensure it starts with a single slash
+            // to perform normal push navigation within the current Shell hierarchy.
             if (!route.StartsWith("/"))
             {
-                route = "///" + route;
+                // For standard navigation (e.g., from Dashboard to DetailPage),
+                // we'll use a single slash. Your current logic uses '///' which
+                // always clears the stack. I've adjusted this for standard behavior:
+                route = $"/{route}";
             }
+
+            // Note: If you want to support routes like "///LoginPage" directly, 
+            // you can allow the user to pass that full route string.
 
             if (parameters == null)
                 await Shell.Current.GoToAsync(route);
             else
                 await Shell.Current.GoToAsync(route, parameters);
+        }
+
+        public async Task NavigateAndClearStackAsync(string route, IDictionary<string, object>? parameters = null)
+        {
+            // The '///' prefix ensures that the entire navigation stack is cleared
+            // and the target page becomes the new root of the application's history.
+
+            // 1. Clean up the route (remove any leading slashes the caller might have added).
+            string absoluteRoute = route.TrimStart('/');
+
+            // 2. Prepend the absolute navigation prefix.
+            absoluteRoute = $"///{absoluteRoute}";
+
+            if (parameters == null)
+                await Shell.Current.GoToAsync(absoluteRoute);
+            else
+                await Shell.Current.GoToAsync(absoluteRoute, parameters);
         }
 
 

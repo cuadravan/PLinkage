@@ -16,10 +16,6 @@
         Title="Login"
         ContentTemplate="{DataTemplate views:LoginView}"
         Route="LoginView" />
-    <ShellContent
-        Title="Register"
-        ContentTemplate="{DataTemplate views:RegisterPage1}"
-        Route="RegisterPage1" />
     <TabBar
         x:Name="MainTabBar"
         Shell.TabBarBackgroundColor="#7C4DFF"

@@ -89,20 +89,20 @@
 	  <Compile Update="Views To use\AdminViewProjectOwnerProfileView.xaml.cs">
 	    <DependentUpon>AdminViewProjectOwnerProfileView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage5.xaml.cs">
-	    <DependentUpon>RegisterPage5.xaml</DependentUpon>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView5.xaml.cs">
+	    <DependentUpon>RegisterView5.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage4.xaml.cs">
-	    <DependentUpon>RegisterPage4.xaml</DependentUpon>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView4.xaml.cs">
+	    <DependentUpon>RegisterView4.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage3.xaml.cs">
-	    <DependentUpon>RegisterPage3.xaml</DependentUpon>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView3.xaml.cs">
+	    <DependentUpon>RegisterView3.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage2.xaml.cs">
-	    <DependentUpon>RegisterPage2.xaml</DependentUpon>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView2.xaml.cs">
+	    <DependentUpon>RegisterView2.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="ViewsAndroid\RegisterViews\RegisterPage1.xaml.cs">
-	    <DependentUpon>RegisterPage1.xaml</DependentUpon>
+	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView1.xaml.cs">
+	    <DependentUpon>RegisterView1.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsAndroid\LogoutView.xaml.cs">
 	    <DependentUpon>LogoutView.xaml</DependentUpon>
@@ -173,19 +173,19 @@
 	  <MauiXaml Update="ViewsAndroid\ProjectOwnerHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage5.xaml">
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterView5.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage4.xaml">
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterView4.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage3.xaml">
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterView3.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage2.xaml">
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterView2.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterPage1.xaml">
+	  <MauiXaml Update="ViewsAndroid\RegisterViews\RegisterView1.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeViewxaml.xaml">

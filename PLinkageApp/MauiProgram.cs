@@ -80,17 +80,24 @@ public static class MauiProgram
 		builder.Services.AddTransient<IStartupService, StartupService>();
 
         builder.Services.AddTransient<SplashScreenPage>();
-        builder.Services.AddSingleton<App>();
-        builder.Services.AddSingleton<LogoutView>();
+        //builder.Services.AddSingleton<App>();
+        //builder.Services.AddSingleton<LogoutView>();            
 
+        //builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
         builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
-        builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
-        builder.Services.AddTransient<AdminHomeViewModelTemp>();
-        
-        builder.Services.AddTransient<PLinkageApp.Views.LoginView>();
-        builder.Services.AddTransient<PLinkageApp.ViewsAndroid.LogoutView>();
 
-        builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
+        //builder.Services.AddTransient<PLinkageApp.ViewsAndroid.ProjectOwnerHomeView>();
+        builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
+
+        //builder.Services.AddTransient<PLinkageApp.ViewsAndroid.AdminHomeView>();
+        builder.Services.AddTransient<AdminHomeViewModelTemp>();
+
+        //builder.Services.AddTransient<RegisterView1>();
+        //builder.Services.AddTransient<RegisterView2>();
+        //builder.Services.AddTransient<RegisterView3>();
+        //builder.Services.AddTransient<RegisterView4>();
+        //builder.Services.AddTransient<RegisterView5>();
+        builder.Services.AddScoped<RegisterViewModelTemp>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

@@ -67,7 +67,7 @@ namespace PLinkageApp.ViewModels
         {
             _sessionService.ClearSession();
             UpdateRoleProperties();
-            await _navigationService.NavigateToAsync(nameof(LoginView));
+            await _navigationService.NavigateAndClearStackAsync("LoginView");
         }
     }
 }

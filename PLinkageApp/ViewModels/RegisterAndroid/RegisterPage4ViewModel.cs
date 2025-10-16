@@ -45,7 +45,7 @@ namespace PLinkageApp.ViewModels
                 $"You have chosen: {selectedRole}",
                 "OK");
 
-            await Shell.Current.GoToAsync(nameof(RegisterPage5));
+            //await Shell.Current.GoToAsync(nameof(RegisterPage5));
         }
 
         [RelayCommand]

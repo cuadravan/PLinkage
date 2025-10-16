@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PLinkageApp.ViewsAndroid.RegisterPage2"
+    x:Class="PLinkageApp.ViewsAndroid.RegisterView3"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title=""
@@ -40,72 +40,92 @@
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="Center"
-                        Text="Hello, User!"
+                        Text="We're almost done!"
                         TextColor="White" />
 
                     <Label
                         FontAttributes="Italic"
                         FontSize="13"
                         HorizontalOptions="Center"
-                        Text="Input your login credentials!"
+                        HorizontalTextAlignment="Center"
+                        Text="Tell us more about you!"
                         TextColor="White" />
 
-                    <!--  Email  -->
+                    <Label
+                        FontAttributes="Italic"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="These information will improve your Linkage experience!"
+                        TextColor="White" />
+
+                    <!--  Birthdate  -->
                     <VerticalStackLayout>
                         <Label
-                            Margin="10,0,0,0"
                             FontSize="14"
-                            Text="Email"
+                            Text="Birthdate"
                             TextColor="White" />
                         <Border
                             BackgroundColor="White"
                             Stroke="Transparent"
                             StrokeShape="RoundRectangle 10"
                             StrokeThickness="1">
-                            <Entry
+                            <DatePicker
                                 Margin="10,0"
-                                BackgroundColor="White"
+                                Date="{Binding Birthdate}"
                                 FontSize="14"
                                 HeightRequest="45"
-                                Keyboard="Email"
-                                Placeholder="Must be a unique email address"
-                                PlaceholderColor="#727171"
-                                Text="{Binding Email}"
                                 TextColor="Black" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <!--  Password  -->
+                    <!--  Gender  -->
                     <VerticalStackLayout>
                         <Label
-                            Margin="10,0,0,0"
                             FontSize="14"
-                            Text="Password"
+                            Text="Gender"
                             TextColor="White" />
                         <Border
                             BackgroundColor="White"
                             Stroke="Transparent"
                             StrokeShape="RoundRectangle 10"
                             StrokeThickness="1">
-                            <Entry
+                            <Picker
                                 Margin="10,0"
-                                BackgroundColor="White"
                                 FontSize="14"
                                 HeightRequest="45"
-                                IsPassword="True"
-                                Placeholder="At least 8 characters or more"
-                                PlaceholderColor="#727171"
-                                Text="{Binding Password}"
+                                ItemsSource="{Binding GenderOptions}"
+                                SelectedItem="{Binding SelectedGender}"
                                 TextColor="Black" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <!--  Confirm Password  -->
+                    <!--  Location  -->
                     <VerticalStackLayout>
                         <Label
-                            Margin="10,0,0,0"
                             FontSize="14"
-                            Text="Confirm Password"
+                            Text="Location"
+                            TextColor="White" />
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1">
+                            <Picker
+                                Margin="10,0"
+                                FontSize="14"
+                                HeightRequest="45"
+                                ItemsSource="{Binding LocationOptions}"
+                                SelectedItem="{Binding SelectedLocation}"
+                                TextColor="Black" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!--  Mobile Number  -->
+                    <VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="Mobile Number"
                             TextColor="White" />
                         <Border
                             BackgroundColor="White"
@@ -117,18 +137,26 @@
                                 BackgroundColor="White"
                                 FontSize="14"
                                 HeightRequest="45"
-                                IsPassword="True"
-                                Placeholder="At least 8 characters or more"
+                                Keyboard="Telephone"
+                                Placeholder="Your contact number"
                                 PlaceholderColor="#727171"
-                                Text="{Binding ConfirmPassword}"
+                                Text="{Binding MobileNumber}"
                                 TextColor="Black" />
                         </Border>
+                        <Label
+                            Margin="0,10,0,0"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                            Text="{Binding ErrorMessage}"
+                            TextColor="#FF6347" />
                     </VerticalStackLayout>
 
                     <!--  Next Button  -->
                     <Button
                         BackgroundColor="White"
-                        Command="{Binding GoToNextCommand}"
+                        Command="{Binding GoToRegisterView4Command}"
                         CornerRadius="8"
                         FontAttributes="Bold"
                         HeightRequest="45"

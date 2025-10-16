@@ -15,6 +15,8 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private string lastName;
 
+
+
         // Command for "Next" button
         public ICommand GoToNextCommand { get; }
 
@@ -33,7 +35,7 @@ namespace PLinkageApp.ViewModels
             }
 
             // Navigate to the next register page
-            await Shell.Current.GoToAsync(nameof(RegisterPage2));
+            //await Shell.Current.GoToAsync(nameof(RegisterPage2));
         }
     }
 }

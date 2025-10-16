@@ -9,7 +9,7 @@ public partial class LogoutView : ContentPage
 	{
 		InitializeComponent();
 		appShellViewModel = viewModel;
-		Logout();
+		_ = Logout();
 	}
 
 	private async Task Logout()

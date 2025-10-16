@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PLinkageApp.ViewsAndroid.RegisterPage1"
+    x:Class="PLinkageApp.ViewsAndroid.RegisterView1"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title=""
@@ -89,12 +89,20 @@
                                 Text="{Binding LastName}"
                                 TextColor="Black" />
                         </Border>
+                        <Label
+                            Margin="0,10,0,0"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            FontSize="14"
+                            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                            Text="{Binding ErrorMessage}"
+                            TextColor="#FF6347" />
                     </VerticalStackLayout>
 
                     <!--  Next Button  -->
                     <Button
                         BackgroundColor="White"
-                        Command="{Binding GoToNextCommand}"
+                        Command="{Binding GoToRegisterView2Command}"
                         CornerRadius="8"
                         FontAttributes="Bold"
                         HeightRequest="45"

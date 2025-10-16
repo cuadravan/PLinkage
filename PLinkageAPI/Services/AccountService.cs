@@ -77,7 +77,34 @@ namespace PLinkageAPI.Services
         //    }
         //}
 
+        public async Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email)
+        {
+            var skillProviderFilter = Builders<SkillProvider>.Filter.Eq(sp => sp.UserEmail, email);
+            var skillProvider = (await _skillProviderRepository.FindAsync(skillProviderFilter)).FirstOrDefault();
 
+            if (skillProvider != null)
+            {
+                return ApiResponse<bool>.Fail($"This email is already in use. Try another email.");
+            }
+
+            var projectOwnerFilter = Builders<ProjectOwner>.Filter.Eq(po => po.UserEmail, email);
+            var projectOwner = (await _projectOwnerRepository.FindAsync(projectOwnerFilter)).FirstOrDefault();
+
+            if (projectOwner != null)
+            {
+                return ApiResponse<bool>.Fail($"This email is already in use. Try another email.");
+            }
+
+            var adminFilter = Builders<Admin>.Filter.Eq(a => a.UserEmail, email);
+            var admin = (await _adminRepository.FindAsync(adminFilter)).FirstOrDefault();
+
+            if (admin != null)
+            {
+                return ApiResponse<bool>.Fail($"This email is already in use. Try another email.");
+            }
+
+            return ApiResponse<bool>.Ok(true, "This email has not yet been used.");
+        }
         public async Task<ApiResponse<LoginResultDto>> AuthenticateUserAsync(string email, string password)
         {
             try

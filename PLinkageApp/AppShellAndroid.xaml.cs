@@ -30,11 +30,11 @@ namespace PLinkageApp
             //Routing.RegisterRoute("SkillProviderSendApplicationView", typeof(SkillProviderSendApplicationView));
             //Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
             //Routing.RegisterRoute("RegisterView", typeof(RegisterView));
-            Routing.RegisterRoute(nameof(RegisterPage1), typeof(RegisterPage1));
-            Routing.RegisterRoute(nameof(RegisterPage2), typeof(RegisterPage2));
-            Routing.RegisterRoute(nameof(RegisterPage3), typeof(RegisterPage3));
-            Routing.RegisterRoute(nameof(RegisterPage4), typeof(RegisterPage4));
-            Routing.RegisterRoute(nameof(RegisterPage5), typeof(RegisterPage5));
+            Routing.RegisterRoute(nameof(RegisterView1), typeof(RegisterView1));
+            Routing.RegisterRoute(nameof(RegisterView2), typeof(RegisterView2));
+            Routing.RegisterRoute(nameof(RegisterView3), typeof(RegisterView3));
+            Routing.RegisterRoute(nameof(RegisterView4), typeof(RegisterView4));
+            Routing.RegisterRoute(nameof(RegisterView5), typeof(RegisterView5));
             _startupService = startupService;
             BindingContext = viewModel;
         }

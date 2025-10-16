@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PLinkageApp.ViewsAndroid.RegisterPage4"
+    x:Class="PLinkageApp.ViewsAndroid.RegisterView4"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title=""
@@ -54,7 +54,7 @@
                     <Frame
                         x:Name="SkillProviderFrame"
                         Padding="15"
-                        BackgroundColor="{Binding SkillProviderColor}"
+                        BackgroundColor="{Binding SkillProviderSelected, Converter={StaticResource BoolToBackgroundColorConverter}}"
                         CornerRadius="10"
                         HasShadow="False">
                         <Grid>
@@ -78,7 +78,7 @@
                     <Frame
                         x:Name="ProjectOwnerFrame"
                         Padding="15"
-                        BackgroundColor="{Binding ProjectOwnerColor}"
+                        BackgroundColor="{Binding ProjectOwnerSelected, Converter={StaticResource BoolToBackgroundColorConverter}}"
                         CornerRadius="10"
                         HasShadow="False">
                         <Grid>
@@ -97,11 +97,18 @@
                             <Button BackgroundColor="Transparent" Command="{Binding SelectProjectOwnerCommand}" />
                         </Grid>
                     </Frame>
-
+                    <Label
+                        Margin="0,10,0,0"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                        Text="{Binding ErrorMessage}"
+                        TextColor="#FF6347" />
                     <!--  Confirm Button  -->
                     <Button
                         BackgroundColor="White"
-                        Command="{Binding ConfirmCommand}"
+                        Command="{Binding GoToRegisterView5Command}"
                         CornerRadius="8"
                         FontAttributes="Bold"
                         HeightRequest="45"

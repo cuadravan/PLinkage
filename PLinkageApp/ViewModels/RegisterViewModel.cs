@@ -90,7 +90,7 @@ namespace PLinkageApp.ViewModels
 
             var today = DateTime.Today;
             var age = today.Year - Birthdate.Year;
-            if (Birthdate.Date > today.AddYears(-age)) age--; // adjust for birthdate not yet occurred this year
+            if (Birthdate.Date > today.AddYears(-age)) age--;
             if (age < 18)
                 return SetError("You must be 18 years old or above to register.");
 

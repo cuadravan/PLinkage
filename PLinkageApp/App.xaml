@@ -15,6 +15,7 @@
                 <Setter Property="FontFamily" Value="RobotoMono" />
             </Style>
 
+            <converters:BoolToBackgroundColorConverter x:Key="BoolToBackgroundColorConverter" />
             <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
             <converters:SortToVisibilityConverter x:Key="SortToVisibilityConverter" />
             <converters:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter" />

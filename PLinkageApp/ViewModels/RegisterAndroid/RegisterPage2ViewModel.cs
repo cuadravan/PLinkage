@@ -47,7 +47,7 @@ namespace PLinkageApp.ViewModels
             }
 
             // Go to RegisterPage3
-            await Shell.Current.GoToAsync(nameof(RegisterPage3));
+            //await Shell.Current.GoToAsync(nameof(RegisterPage3));
         }
     }
 }

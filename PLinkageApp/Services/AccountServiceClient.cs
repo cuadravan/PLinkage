@@ -10,6 +10,7 @@ namespace PLinkageApp.Services
     {
         Task<ApiResponse<LoginResultDto>> LoginAsync(LoginRequestDto request);
         Task<ApiResponse<string>> RegisterAsync(RegisterUserDto request);
+        Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email);
     }
 
     public class AccountServiceClient : BaseApiClient, IAccountServiceClient
@@ -24,6 +25,11 @@ namespace PLinkageApp.Services
         public async Task<ApiResponse<string>> RegisterAsync(RegisterUserDto request)
         {
             return await PostAsync<RegisterUserDto, string>("api/account/register", request);
+        }
+
+        public async Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email)
+        {
+            return await PostAsync<string, bool>("api/account/checkemail", email);
         }
     }
 }

@@ -74,13 +74,13 @@ namespace PLinkageApp.ViewModels
                     switch (_sessionService.GetCurrentUserRole())
                     {
                         case UserRole.SkillProvider:
-                            await _navigationService.NavigateToAsync("SkillProviderHomeView");
+                            await _navigationService.NavigateAndClearStackAsync("SkillProviderHomeView");
                             break;
                         case UserRole.ProjectOwner:
-                            await _navigationService.NavigateToAsync("ProjectOwnerHomeView");
+                            await _navigationService.NavigateAndClearStackAsync("ProjectOwnerHomeView");
                             break;
                         case UserRole.Admin:
-                            await _navigationService.NavigateToAsync("AdminHomeView");
+                            await _navigationService.NavigateAndClearStackAsync("AdminHomeView");
                             break;
                         default:
                             ErrorMessage = "Unknown user role.";
@@ -124,7 +124,11 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task GoToRegister()
         {
-            await _navigationService.NavigateToAsync("/RegisterPage1");
+#if ANDROID
+            await _navigationService.NavigateToAsync("RegisterView1");
+#else
+            await _navigationService.NavigateToAsync("RegisterView");
+#endif
         }
     }
 }

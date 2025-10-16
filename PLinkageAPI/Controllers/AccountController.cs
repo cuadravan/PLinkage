@@ -47,6 +47,17 @@ namespace PLinkageAPI.Controllers
             return Ok(response);
         }
 
+        [HttpPost("checkemail")]
+        public async Task<IActionResult> CheckEmailUniqueness([FromBody] string email)
+        {
+            var response = await _accountService.CheckEmailUniquenessAsync(email);
+
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
         //[HttpPost("migrate-passwords")]
         //public async Task<IActionResult> MigratePasswords()
         //{
