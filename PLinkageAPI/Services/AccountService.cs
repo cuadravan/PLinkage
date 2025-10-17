@@ -221,7 +221,8 @@ namespace PLinkageAPI.Services
                     UserGender = registerUserDto.UserGender,
                     UserPhone = registerUserDto.UserPhone,
                     UserLocation = registerUserDto.UserLocation,
-                    JoinedOn = registerUserDto.JoinedOn
+                    JoinedOn = registerUserDto.JoinedOn,
+                    UserStatus = "Active"
                 };
 
                 skillProviderNew.UserPassword = passwordHasher.HashPassword(skillProviderNew, registerUserDto.UserPassword);
@@ -241,7 +242,8 @@ namespace PLinkageAPI.Services
                     UserGender = registerUserDto.UserGender,
                     UserPhone = registerUserDto.UserPhone,
                     UserLocation = registerUserDto.UserLocation,
-                    JoinedOn = registerUserDto.JoinedOn
+                    JoinedOn = registerUserDto.JoinedOn,
+                    UserStatus = "Active"
                 };
 
                 projectOwnerNew.UserPassword = passwordHasher.HashPassword(projectOwnerNew, registerUserDto.UserPassword);

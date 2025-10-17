@@ -42,7 +42,7 @@ public static class MauiProgram
 #if ANDROID
            const string ApiBaseUrl = "http://10.0.2.2:5015/";
 #elif WINDOWS
-            const string ApiBaseUrl = "https://localhost:5015/";
+            const string ApiBaseUrl = "http://localhost:5015/";
 #else
             const string ApiBaseUrl = "http://192.168.1.8:5030/"; // fallback for other platforms
 #endif

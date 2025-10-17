@@ -1,18 +1,10 @@
-﻿using System.Net.Http; // Add this using for HttpClient
-using System.Threading.Tasks;
-using PLinkageApp.Services.Http;
+﻿using PLinkageApp.Services.Http;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
+using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.Services
 {
-    public interface IDashboardServiceClient
-    {
-        Task<ApiResponse<SkillProviderDashboardDto>> GetSkillProviderDashboardAsync(Guid skillProviderId);
-        Task<ApiResponse<ProjectOwnerDashboardDto>> GetProjectOwnerDashboardAsync(Guid projectOwnerId);
-        Task<ApiResponse<AdminDashboardDto>> GetAdminDashboardAsync(Guid adminId);
-    }
-
     public class DashboardServiceClient : BaseApiClient, IDashboardServiceClient
     {
         public DashboardServiceClient(HttpClient httpClient) : base(httpClient) { }

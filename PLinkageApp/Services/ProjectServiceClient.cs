@@ -1,17 +1,11 @@
-﻿using System.Net.Http; // Add this using for HttpClient
-using System.Threading.Tasks;
-using PLinkageApp.Services.Http;
+﻿using PLinkageApp.Services.Http;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
+using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.Services
 {
-    public interface IProjectServiceClient
-    {
-        Task<ApiResponse<IEnumerable<ProjectCardDto>>> GetFilteredProjectsAsync(string proximity, CebuLocation? location, string status);
-    }
-
     public class ProjectServiceClient : BaseApiClient, IProjectServiceClient
     {
         public ProjectServiceClient(HttpClient httpClient) : base(httpClient) { }

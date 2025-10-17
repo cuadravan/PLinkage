@@ -4,14 +4,10 @@ using PLinkageApp.Services.Http;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
+using PLinkageApp.Interfaces;
 
 namespace PLinkageApp.Services
 {
-    public interface ISkillProviderServiceClient
-    {
-        Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status);
-    }
-
     public class SkillProviderServiceClient : BaseApiClient, ISkillProviderServiceClient
     {
         public SkillProviderServiceClient(HttpClient httpClient) : base(httpClient) { }
