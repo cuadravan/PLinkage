@@ -284,7 +284,7 @@ namespace PLinkageAPI.Services
                 var offerApplication = await _offerApplicationRepository.GetByIdAsync(offerApplicationProcessDto.OfferApplicationId);
                 if(offerApplication == null)
                     return ApiResponse<bool>.Fail("Your data seems to be out of sync in the server. Contact an administrator.");
-                if(offerApplication.OfferApplicationType == "Negotiating")
+                if(offerApplication.OfferApplicationStatus == "Negotiating")
                 {
                     offerApplication.OfferApplicationStatus = "Pending";
                     offerApplication.OfferApplicationRate = offerApplication.OldOfferApplicationRate;
