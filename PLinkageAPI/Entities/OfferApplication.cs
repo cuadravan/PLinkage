@@ -24,5 +24,8 @@ namespace PLinkageAPI.Entities
         public string OfferApplicationStatus { get; set; } = string.Empty; // "Accepted", "Rejected"
         public decimal OfferApplicationRate { get; set; } = 0; // e.g. 1000
         public int OfferApplicationTimeFrame { get; set; } = 0; // hours
+        public int NegotiationCount { get; set; } = 0;
+        public decimal OldOfferApplicationRate { get; set; } = 0; // e.g. 1000
+        public int OldOfferApplicationTimeFrame { get; set; } = 0; // hours 
     }
 }

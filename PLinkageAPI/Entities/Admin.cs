@@ -26,5 +26,12 @@ namespace PLinkageAPI.Entities
         public DateTime JoinedOn { get; set; } = DateTime.Now;
         [BsonRepresentation(BsonType.String)]
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
+
+        //Useless stuff on Admin that can never be used
+        public List<Guid> OfferApplicationId { get; set; }
+        public void AddOfferApplication(Guid guid)
+        {
+
+        }
     }
 }

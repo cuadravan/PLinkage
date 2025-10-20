@@ -29,8 +29,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            var dto = _mapper.Map<SkillProviderDto>(response.Data);
-            return Ok(ApiResponse<SkillProviderDto>.Ok(dto, response.Message));
+            return Ok(ApiResponse<SkillProviderDto>.Ok(response.Data, response.Message));
         }
 
         [HttpPatch("{skillProviderId}")]

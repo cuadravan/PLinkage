@@ -114,6 +114,16 @@ namespace PLinkageAPI.Entities
             return false;
         }
 
+        public void AddOfferApplication(Guid guid)
+        {
+            this.OfferApplicationId.Add(guid);
+        }
+
+        public void AddProject(Guid guid)
+        {
+            this.EmployedProjects.Add(guid);
+        }
+
         //// This is a method that returns a location 
         //// If there is UserLocation, it calls the static factory method which returns a Location object
         //// This is done to reduce massive overhauls of existing database

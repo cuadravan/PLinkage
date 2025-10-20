@@ -7,7 +7,7 @@ namespace PLinkageAPI.Interfaces
 {
     public interface ISkillProviderService
     {
-        Task<ApiResponse<SkillProvider>> GetSpecificSkillProviderAsync(Guid skillProviderId);
+        Task<ApiResponse<SkillProviderDto>> GetSpecificSkillProviderAsync(Guid skillProviderId);
         Task<ApiResponse<bool>> UpdateSkillProviderAsync(Guid skillProviderId, UserProfileUpdateDto skillProviderUpdateDto);
 
         // ---------- Educations ----------

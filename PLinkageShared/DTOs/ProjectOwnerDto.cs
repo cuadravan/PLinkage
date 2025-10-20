@@ -11,12 +11,17 @@ namespace PLinkageShared.DTOs
         public CebuLocation? UserLocation { get; set; } = null;
         public DateTime UserBirthDate { get; set; } = DateTime.Now;
         public string UserGender { get; set; } = string.Empty;
-        public string UserRole { get; set; } = "ProjectOwner";
+        public UserRole UserRole { get; set; }
         public string UserStatus { get; set; } = string.Empty;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
-        public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
-        public List<Guid> OwnedProjectId { get; set; } = new List<Guid>();
-        public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
+        public List<ProjectOwnerProfileProjectDto> ProfileProjects { get; set; } = new List<ProjectOwnerProfileProjectDto>();
+    }
+
+    public class ProjectOwnerProfileProjectDto
+    {
+        public Guid ProjectId { get; set; }
+        public string ProjectName { get; set; }
+        public ProjectStatus? ProjectStatus { get; set; }
     }
 
     public class ProjectOwnerCardDto

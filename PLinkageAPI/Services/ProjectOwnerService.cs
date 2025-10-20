@@ -11,20 +11,48 @@ namespace PLinkageAPI.Services
     public class ProjectOwnerService : IProjectOwnerService
     {
         private readonly IRepository<ProjectOwner> _projectOwnerRepository;
+        private readonly IRepository<Project> _projectRepository;
 
-        public ProjectOwnerService(IRepository<ProjectOwner> repository)
+        public ProjectOwnerService(IRepository<ProjectOwner> repository, IRepository<Project> projectRepository)
         {
             _projectOwnerRepository = repository;
+            _projectRepository = projectRepository;
         }
 
-        public async Task<ApiResponse<ProjectOwner?>> GetSpecificProjectOwnerAsync(Guid projectOwnerId)
+        public async Task<ApiResponse<ProjectOwnerDto?>> GetSpecificProjectOwnerAsync(Guid projectOwnerId)
         {
             var projectOwner = await _projectOwnerRepository.GetByIdAsync(projectOwnerId);
 
             if (projectOwner == null)
-                return ApiResponse<ProjectOwner?>.Fail("Requested project owner with ID not found.");
+                return ApiResponse<ProjectOwnerDto?>.Fail("Requested project owner with ID not found.");
 
-            return ApiResponse<ProjectOwner?>.Ok(projectOwner, "Project owner fetched successfully.");
+            var projectOwnerDto = new ProjectOwnerDto
+            {
+                UserId = projectOwner.UserId,
+                UserFirstName = projectOwner.UserFirstName,
+                UserLastName = projectOwner.UserLastName,
+                UserPhone = projectOwner.UserPhone,
+                UserLocation = projectOwner.UserLocation,
+                UserBirthDate = projectOwner.UserBirthDate,
+                UserGender = projectOwner.UserGender,
+                UserRole = projectOwner.UserRole,
+                UserStatus = projectOwner.UserStatus,
+                JoinedOn = projectOwner.JoinedOn
+            };
+
+            var projects = await _projectRepository.GetByIdsAsync(projectOwner.OwnedProjectId);
+
+            foreach (var project in projects)
+            {
+                projectOwnerDto.ProfileProjects.Add(new ProjectOwnerProfileProjectDto
+                {
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    ProjectStatus = project.ProjectStatus
+                });
+            }
+
+            return ApiResponse<ProjectOwnerDto?>.Ok(projectOwnerDto, "Project owner fetched successfully.");
         }
 
         private static readonly Dictionary<string, int> ProximityRanges = new()

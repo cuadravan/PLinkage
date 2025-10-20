@@ -5,26 +5,66 @@ using PLinkageAPI.Entities;
 using PLinkageAPI.ValueObject;
 using PLinkageShared.DTOs;
 using PLinkageShared.ApiResponse;
+using AutoMapper;
 
 namespace PLinkageAPI.Services
 {
     public class SkillProviderService : ISkillProviderService
     {
         private readonly IRepository<SkillProvider> _skillProviderRepository;
+        private readonly IRepository<Project> _projectRepository;
+        private readonly IMapper _mapper;
 
-        public SkillProviderService(IRepository<SkillProvider> repository)
+        public SkillProviderService(IRepository<SkillProvider> repository, IRepository<Project> projectRepository, IMapper mapper)
         {
             _skillProviderRepository = repository;
+            _projectRepository = projectRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ApiResponse<SkillProvider?>> GetSpecificSkillProviderAsync(Guid skillProviderId)
+        public async Task<ApiResponse<SkillProviderDto?>> GetSpecificSkillProviderAsync(Guid skillProviderId)
         {
             var skillProvider = await _skillProviderRepository.GetByIdAsync(skillProviderId);
 
             if (skillProvider == null)
-                return ApiResponse<SkillProvider?>.Fail($"Skill provider with ID {skillProviderId} not found.");
+                return ApiResponse<SkillProviderDto?>.Fail($"Skill provider with ID {skillProviderId} not found.");
 
-            return ApiResponse<SkillProvider?>.Ok(skillProvider, "Skill provider fetched successfully.");
+            var educationDtos = _mapper.Map<List<EducationDto>>(skillProvider.Educations);
+            var skillDtos = _mapper.Map<List<SkillDto>>(skillProvider.Skills);
+
+            var skillProviderDto = new SkillProviderDto
+            {
+                UserId = skillProvider.UserId,
+                UserFirstName = skillProvider.UserFirstName,
+                UserLastName = skillProvider.UserLastName,
+                UserPhone = skillProvider.UserPhone,
+                UserLocation = skillProvider.UserLocation,
+                UserBirthDate = skillProvider.UserBirthDate,
+                UserGender = skillProvider.UserGender,
+                UserRole = skillProvider.UserRole,
+                UserStatus = skillProvider.UserStatus,
+                JoinedOn = skillProvider.JoinedOn,
+                UserRating = skillProvider.UserRating.ToString("F2") + " ★",
+                Educations = educationDtos,
+                Skills = skillDtos
+            };
+            var projects = await _projectRepository.GetByIdsAsync(skillProvider.EmployedProjects);
+
+            foreach (var project in projects)
+            {
+                var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == skillProviderId);
+                skillProviderDto.ProfileProjects.Add(new SkillProviderProfileProjectsDto
+                {
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    ProjectStatus = project.ProjectStatus,
+                    TimeFrame = member.TimeFrame,
+                    Rate = member.Rate
+
+                });
+            }
+
+            return ApiResponse<SkillProviderDto?>.Ok(skillProviderDto, "Skill provider fetched successfully.");
         }
 
         public async Task<ApiResponse<bool>> UpdateSkillProviderAsync(Guid skillProviderId, UserProfileUpdateDto updateDto)

@@ -46,11 +46,16 @@ namespace PLinkageAPI.Services
             var receivedApplicationCount = offers.Count(o =>
                 o.ReceiverId == projectOwnerId && o.OfferApplicationStatus == "Pending");
 
+            // This counts the total number of members
+            var resignationCount = projects.SelectMany(p => p.ProjectMembers) //Flatten all project members list into one
+                                           .Count(m => m.IsResigning);
+
             var dto = new ProjectOwnerDashboardDto
             {
                 PendingSentOffers = pendingSentOffersCount,
                 ReceivedApplications = receivedApplicationCount,
-                ActiveProjects = activeProjectsCount
+                ActiveProjects = activeProjectsCount,
+                ReportedResignations = resignationCount
             };
 
             return ApiResponse<ProjectOwnerDashboardDto>.Ok(dto);

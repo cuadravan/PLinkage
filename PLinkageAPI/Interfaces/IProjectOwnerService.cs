@@ -7,7 +7,7 @@ namespace PLinkageAPI.Interfaces
 {
     public interface IProjectOwnerService
     {
-        Task<ApiResponse<ProjectOwner?>> GetSpecificProjectOwnerAsync(Guid projectOwnerId);
+        Task<ApiResponse<ProjectOwnerDto?>> GetSpecificProjectOwnerAsync(Guid projectOwnerId);
 
         Task<ApiResponse<IEnumerable<ProjectOwnerCardDto>>> GetFilteredProjectOwnerAsync(
             string proximity,

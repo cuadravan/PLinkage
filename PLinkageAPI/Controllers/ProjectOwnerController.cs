@@ -28,8 +28,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            var mappedData = _mapper.Map<ProjectOwnerDto>(response.Data);
-            return Ok(ApiResponse<ProjectOwnerDto>.Ok(mappedData, response.Message));
+            return Ok(ApiResponse<ProjectOwnerDto>.Ok(response.Data, response.Message));
         }
 
         [HttpPatch("{projectOwnerId}")]

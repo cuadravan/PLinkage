@@ -30,6 +30,7 @@ builder.Services.AddScoped<IProjectOwnerService, ProjectOwnerService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IOfferApplicationService, OfferApplicationService>();
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 

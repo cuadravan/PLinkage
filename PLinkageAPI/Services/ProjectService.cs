@@ -13,12 +13,14 @@ namespace PLinkageAPI.Services
         private readonly IRepository<Project> _projectRepository;
         private readonly IRepository<ProjectOwner> _projectOwnerRepository;
         private readonly IRepository<SkillProvider> _skillProviderRepository;
+        private readonly IMongoClient _mongoClient;
 
-        public ProjectService(IRepository<Project> projectRepository, IRepository<ProjectOwner> projectOwnerRepository, IRepository<SkillProvider> skillProviderRepository)
+        public ProjectService(IMongoClient mongoClient, IRepository<Project> projectRepository, IRepository<ProjectOwner> projectOwnerRepository, IRepository<SkillProvider> skillProviderRepository)
         {
             _projectRepository = projectRepository;
             _projectOwnerRepository = projectOwnerRepository;
             _skillProviderRepository = skillProviderRepository;
+            _mongoClient = mongoClient;
         }
 
         public async Task<ApiResponse<Guid>> AddProjectAsync(ProjectCreationDto projectCreationDto)
@@ -233,26 +235,33 @@ namespace PLinkageAPI.Services
                     }
                 }
             }
-
-            try
+            using (var session = await _mongoClient.StartSessionAsync())
             {
-                await _projectRepository.UpdateAsync(project);
-
-                foreach (var skillProvider in skillProvidersToUpdate)
+                session.StartTransaction();
+                try
                 {
-                    await _skillProviderRepository.UpdateAsync(skillProvider);
+                    var tasks = new List<Task>();
+
+                    tasks.Add(_projectRepository.UpdateAsync(project, session));
+                    foreach (var skillProvider in skillProvidersToUpdate)
+                    {
+                        tasks.Add(_skillProviderRepository.UpdateAsync(skillProvider, session));
+                    }
+                    await Task.WhenAll(tasks);
+                    await session.CommitTransactionAsync();
+                }
+                catch (Exception ex)
+                {
+                    await session.AbortTransactionAsync();
+                    return ApiResponse<bool>.Fail($"A critical error occurred while saving changes: {ex.Message}");
                 }
             }
-            catch (Exception ex)
-            {
-                return ApiResponse<bool>.Fail($"A critical error occurred while saving changes: {ex.Message}");
-            }
-
             if (errors.Any())
             {
-                return ApiResponse<bool>.Fail($"Successfully processed {processResignationDto.processResignationIndividualDtos.Count - errors.Count} resignations for Project ID {processResignationDto.ProjectId}, but skipped {errors.Count} due to errors. Details: {string.Join("; ", errors.Take(3))}...");
+                return ApiResponse<bool>.Fail($"Successfully processed changes for Project ID {processResignationDto.ProjectId}, " +
+                                              $"but {errors.Count} non-critical errors occurred. " +
+                                              $"Details: {string.Join("; ", errors.Take(3))}...");
             }
-
             return ApiResponse<bool>.Ok(true);
         }
 

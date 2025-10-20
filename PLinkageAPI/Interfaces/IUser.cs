@@ -9,5 +9,7 @@ namespace PLinkageAPI.Interfaces
         string UserLastName { get; }
         UserRole UserRole { get; }
         CebuLocation? UserLocation { get; }
+        List<Guid> OfferApplicationId { get; }
+        void AddOfferApplication(Guid guid);
     }
 }

@@ -43,6 +43,22 @@ namespace PLinkageAPI.Entities
             this.ProjectDateUpdated = projectUpdateDto.ProjectDateUpdated;
         }
 
+        public void EmployMember(SkillProvider skillProvider, int timeFrame, decimal rate)
+        {
+            this.ProjectMembers.Add(new ProjectMemberDetail
+            {
+                MemberId = skillProvider.UserId,
+                UserFirstName = skillProvider.UserFirstName,
+                UserLastName = skillProvider.UserLastName,
+                Email = skillProvider.UserEmail,
+                Rate = rate,
+                TimeFrame = timeFrame,
+                IsResigning = false,
+                ResignationReason = string.Empty
+            });
+            this.ProjectResourcesAvailable -= 1;
+        }
+
         public bool RequestResignationByMember(Guid skillProviderId, string resignationReason)
         {
             if(this.ProjectStatus != PLinkageShared.Enums.ProjectStatus.Active)

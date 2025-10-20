@@ -46,5 +46,10 @@ namespace PLinkageAPI.Entities
         {
             OwnedProjectId.Add(projectId);
         }
+
+        public void AddOfferApplication(Guid guid)
+        {
+            OfferApplicationId.Add(guid);
+        }
     }
 }

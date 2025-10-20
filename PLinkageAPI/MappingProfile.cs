@@ -22,6 +22,9 @@ namespace PLinkageAPI
             CreateMap<Project, ProjectDto>();
             CreateMap<ProjectDto, Project>();
 
+            CreateMap<OfferApplication, OfferApplicationDto>();
+            CreateMap<OfferApplicationDto, OfferApplication>();
+
         }
     }
 }

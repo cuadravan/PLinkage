@@ -14,18 +14,22 @@ namespace PLinkageShared.DTOs
         public string UserGender { get; set; } = string.Empty;
         public UserRole UserRole { get; set; } = UserRole.SkillProvider;
         public string UserStatus { get; set; } = string.Empty;
-        public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
         public List<EducationDto> Educations { get; set; } = new List<EducationDto>();
         public List<SkillDto> Skills { get; set; } = new List<SkillDto>();
-        public List <Guid> EmployedProjects { get; set; } = new List<Guid>();
-        public double UserRating { get; set; } = 0.0;
-        public double UserRatingTotal { get; set; } = 0.0;
-        public int UserRatingCount { get; set; } = 0;
-        public double TempRating { get; set; } = 0.0;
+        public List <SkillProviderProfileProjectsDto> ProfileProjects { get; set; } = new List<SkillProviderProfileProjectsDto>();
+        public string UserRating { get; set; } = "0.0";
         public DateTime JoinedOn { get; set; } = DateTime.Now;
-        public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
 
         
+    }
+
+    public class SkillProviderProfileProjectsDto
+    {
+        public Guid ProjectId { get; set; }
+        public string ProjectName { get; set; }
+        public ProjectStatus? ProjectStatus { get; set; }
+        public int TimeFrame { get; set; }
+        public decimal Rate { get; set; }
     }
 
     public class EducationDto
