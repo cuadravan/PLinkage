@@ -13,6 +13,7 @@ namespace PLinkageAPI.Entities
 
         [BsonRepresentation(BsonType.String)]
         public Guid ProjectId { get; set; } = Guid.NewGuid();
+        [BsonRepresentation(BsonType.String)]
         public Guid ProjectOwnerId { get; set; } = Guid.Empty;
         public string ProjectName { get; set; } = string.Empty;
         public CebuLocation? ProjectLocation { get; set; } = null;

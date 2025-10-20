@@ -2,10 +2,9 @@
 using MongoDB.Driver;
 using PLinkageAPI.Entities;
 using PLinkageAPI.Interfaces;
-using PLinkageAPI.Repository;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
-using static System.Net.Mime.MediaTypeNames;
+using PLinkageShared.Enums;
 
 namespace PLinkageAPI.Services
 {
@@ -182,14 +181,42 @@ namespace PLinkageAPI.Services
             }
         }
 
-        public async Task<ApiResponse<string>> RegisterUserAsync(RegisterUserDto registerUserDto)
+        public async Task<UserRole?> DetermineUserRoleAsync(Guid userId)
         {
+            var skillProvider = await _skillProviderRepository.GetByIdAsync(userId);
+
+            if (skillProvider != null)
+            {
+                return UserRole.SkillProvider;
+            }
+
+            var projectOwner = await _projectOwnerRepository.GetByIdAsync(userId);
+
+            if (projectOwner != null)
+            {
+                return UserRole.ProjectOwner;
+            }
+
+            var admin = await _adminRepository.GetByIdAsync(userId);
+
+            if (admin != null)
+            {
+                return UserRole.Admin;
+            }
+
+            return null;
+        }
+
+        public async Task<ApiResponse<Guid>> RegisterUserAsync(RegisterUserDto registerUserDto)
+        {
+            var newId = Guid.NewGuid();
+            
             var skillProviderFilter = Builders<SkillProvider>.Filter.Eq(sp => sp.UserEmail, registerUserDto.UserEmail);
             var skillProvider = (await _skillProviderRepository.FindAsync(skillProviderFilter)).FirstOrDefault();
 
             if (skillProvider != null)
             {
-                return ApiResponse<string>.Fail($"This email is already in use. Try another email.");
+                return ApiResponse<Guid>.Fail($"This email is already in use. Try another email.");
             }
 
             var projectOwnerFilter = Builders<ProjectOwner>.Filter.Eq(po => po.UserEmail, registerUserDto.UserEmail);
@@ -197,7 +224,7 @@ namespace PLinkageAPI.Services
 
             if (projectOwner != null)
             {
-                return ApiResponse<string>.Fail($"This email is already in use. Try another email.");
+                return ApiResponse<Guid>.Fail($"This email is already in use. Try another email.");
             }
 
             var adminFilter = Builders<Admin>.Filter.Eq(a => a.UserEmail, registerUserDto.UserEmail);
@@ -205,7 +232,7 @@ namespace PLinkageAPI.Services
 
             if (admin != null)
             {
-                return ApiResponse<string>.Fail($"This email is already in use. Try another email.");
+                return ApiResponse<Guid>.Fail($"This email is already in use. Try another email.");
             }
 
             if(registerUserDto.UserRole == PLinkageShared.Enums.UserRole.SkillProvider)
@@ -214,6 +241,7 @@ namespace PLinkageAPI.Services
 
                 SkillProvider skillProviderNew = new SkillProvider
                 {
+                    UserId = newId,
                     UserFirstName = registerUserDto.UserFirstName,
                     UserLastName = registerUserDto.UserLastName,
                     UserEmail = registerUserDto.UserEmail,
@@ -227,7 +255,7 @@ namespace PLinkageAPI.Services
 
                 skillProviderNew.UserPassword = passwordHasher.HashPassword(skillProviderNew, registerUserDto.UserPassword);
                 await _skillProviderRepository.AddAsync(skillProviderNew);
-                return ApiResponse<string>.Ok("User successfully registered.");
+                return ApiResponse<Guid>.Ok(newId);
             }
             else if (registerUserDto.UserRole == PLinkageShared.Enums.UserRole.ProjectOwner)
             {
@@ -235,6 +263,7 @@ namespace PLinkageAPI.Services
 
                 ProjectOwner projectOwnerNew = new ProjectOwner
                 {
+                    UserId = newId,
                     UserFirstName = registerUserDto.UserFirstName,
                     UserLastName = registerUserDto.UserLastName,
                     UserEmail = registerUserDto.UserEmail,
@@ -248,11 +277,11 @@ namespace PLinkageAPI.Services
 
                 projectOwnerNew.UserPassword = passwordHasher.HashPassword(projectOwnerNew, registerUserDto.UserPassword);
                 await _projectOwnerRepository.AddAsync(projectOwnerNew);
-                return ApiResponse<string>.Ok("User successfully registered.");
+                return ApiResponse<Guid>.Ok(newId);
             }
             else
             {
-                return ApiResponse<string>.Fail($"Invalid user role to register.");
+                return ApiResponse<Guid>.Fail($"Invalid user role to register.");
             }
         }
 

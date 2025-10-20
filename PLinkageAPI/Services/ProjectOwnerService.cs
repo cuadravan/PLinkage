@@ -80,6 +80,7 @@ namespace PLinkageAPI.Services
 
                 var projectOwnerCardDtos = projectOwners.Select(po => new ProjectOwnerCardDto
                 {
+                    UserId = po.UserId,
                     UserName = po.UserFirstName + " " + po.UserLastName,
                     UserStatus = po.UserStatus,
                     ProjectCount = "Has " + po.OwnedProjectId.Count().ToString() + " project/s"

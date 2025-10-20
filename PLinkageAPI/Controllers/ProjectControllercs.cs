@@ -32,7 +32,7 @@ namespace PLinkageAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProject([FromBody] ProjectDto projectCreationDto)
+        public async Task<IActionResult> AddProject([FromBody] ProjectCreationDto projectCreationDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ApiResponse<bool>.Fail("Invalid project data."));
@@ -42,11 +42,11 @@ namespace PLinkageAPI.Controllers
                 return BadRequest(response);
 
             return CreatedAtAction(nameof(GetSpecific),
-                new { projectId = projectCreationDto.ProjectId },
+                new { projectId = response.Data },
                 response);
         }
 
-        [HttpPut("{projectId}")]
+        [HttpPatch("{projectId}")]
         public async Task<IActionResult> UpdateProject([FromBody] ProjectUpdateDto projectUpdateDto)
         {
             var response = await _projectService.UpdateProjectAsync(projectUpdateDto);
@@ -67,6 +67,39 @@ namespace PLinkageAPI.Controllers
                 return NotFound(response);
 
             return Ok(ApiResponse<IEnumerable<ProjectCardDto>>.Ok(response.Data, response.Message));
+        }
+
+        [HttpPost("requestresignation")]
+        public async Task<IActionResult> RequestResignationAsync([FromBody] RequestResignationDto requestResignationDto)
+        {
+            var response = await _projectService.RequestResignation(requestResignationDto);
+
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
+        [HttpPost("processresignation")]
+        public async Task<IActionResult> ProcessResignationAsync([FromBody] ProcessResignationDto processResignationDto)
+        {
+            var response = await _projectService.ProcessResignation(processResignationDto);
+
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
+        [HttpPatch("ratings")]
+        public async Task<IActionResult> RateSkillProvidersAsync([FromBody] RateSkillProviderDto rateSkillProviderDto)
+        {
+            var response = await _projectService.RateSkillProviders(rateSkillProviderDto);
+
+            if (!response.Success)
+                return NotFound(response);
+
+            return Ok(response);
         }
     }
 }

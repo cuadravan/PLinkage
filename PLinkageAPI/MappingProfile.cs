@@ -2,9 +2,8 @@
 using PLinkageAPI.Entities;
 using PLinkageShared.DTOs;
 
-namespace PLinkageAPI.Controllers
+namespace PLinkageAPI
 {
-    // AutoMapper Profile
     public class MappingProfile : Profile
     {
         public MappingProfile()

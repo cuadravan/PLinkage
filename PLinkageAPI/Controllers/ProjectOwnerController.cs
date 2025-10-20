@@ -3,9 +3,6 @@ using PLinkageAPI.Interfaces;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using PLinkageShared.ApiResponse;
 
 namespace PLinkageAPI.Controllers
@@ -35,7 +32,7 @@ namespace PLinkageAPI.Controllers
             return Ok(ApiResponse<ProjectOwnerDto>.Ok(mappedData, response.Message));
         }
 
-        [HttpPut("{projectOwnerId}")]
+        [HttpPatch("{projectOwnerId}")]
         public async Task<IActionResult> UpdateProjectOwner(Guid projectOwnerId, [FromBody] UserProfileUpdateDto projectOwnerUpdateDto)
         {
             var response = await _projectOwnerService.UpdateProjectOwnerAsync(projectOwnerId, projectOwnerUpdateDto);

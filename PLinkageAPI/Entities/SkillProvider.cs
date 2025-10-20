@@ -2,7 +2,6 @@
 using MongoDB.Bson;
 using PLinkageAPI.Interfaces;
 using PLinkageShared.Enums;
-using PLinkageAPI.ValueObject;
 using PLinkageShared.DTOs;
 
 namespace PLinkageAPI.Entities

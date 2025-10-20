@@ -4,9 +4,6 @@ using PLinkageAPI.Entities;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using PLinkageShared.ApiResponse;
 
 namespace PLinkageAPI.Controllers
@@ -36,7 +33,7 @@ namespace PLinkageAPI.Controllers
             return Ok(ApiResponse<SkillProviderDto>.Ok(dto, response.Message));
         }
 
-        [HttpPut("{skillProviderId}")]
+        [HttpPatch("{skillProviderId}")]
         public async Task<IActionResult> UpdateSkillProvider(Guid skillProviderId, [FromBody] UserProfileUpdateDto updateDto)
         {
             var response = await _skillProviderService.UpdateSkillProviderAsync(skillProviderId, updateDto);

@@ -2,10 +2,10 @@
 using PLinkageAPI.Interfaces;
 using PLinkageAPI.Repository;
 using PLinkageAPI.Services;
-using PLinkageAPI.Controllers;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
+using PLinkageAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,11 +21,10 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
     var connectionString = config.GetConnectionString("MongoDb");
     return new MongoClient(connectionString);
 });
-builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("PLinkageDB")); // Registers IMongoDatabase to instance of the PLinkageDB
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("PLinkageDB"));
 
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
 
-//builder.Services.AddScoped<ISkillProviderRepository, SkillProviderRepository>();
 builder.Services.AddScoped<ISkillProviderService, SkillProviderService>();
 builder.Services.AddScoped<IProjectOwnerService, ProjectOwnerService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
@@ -36,7 +35,6 @@ BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

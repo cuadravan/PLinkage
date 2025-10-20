@@ -28,6 +28,23 @@ namespace PLinkageShared.DTOs
         
     }
 
+    public class EducationDto
+    {
+        public string CourseName { get; set; } = string.Empty;
+        public string SchoolAttended { get; set; } = string.Empty;
+        public DateTime TimeGraduated { get; set; } = DateTime.Now;
+    }
+
+    public class SkillDto
+    {
+        public string SkillName { get; set; } = string.Empty;
+        public string SkillDescription { get; set; } = string.Empty;
+        public int SkillLevel { get; set; } // 0-5
+        public DateTime TimeAcquired { get; set; } = DateTime.Now;
+        public string OrganizationInvolved { get; set; } = string.Empty;
+        public int YearsOfExperience { get; set; }
+    }
+
     public class UserProfileUpdateDto
     {
         public string UserFirstName { get; set; } = string.Empty;
@@ -40,10 +57,18 @@ namespace PLinkageShared.DTOs
 
     public class SkillProviderCardDto
     {
+        public Guid UserId { get; set; }
         public string UserName { get; set; } = string.Empty;
         public string UserRating { get; set; }
         public string Location { get; set; } = string.Empty;
         public string Education { get; set; } = string.Empty;
         public List<string> Skills { get; set; }    
+    }
+
+    public class RequestResignationDto
+    {
+        public Guid ProjectId { get; set; }
+        public Guid SkillProviderId { get; set; }
+        public string Reason { get; set; }
     }
 }

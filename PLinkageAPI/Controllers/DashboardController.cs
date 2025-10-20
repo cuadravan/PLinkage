@@ -1,14 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PLinkageAPI.Interfaces;
-using PLinkageAPI.Entities;
-using PLinkageShared.DTOs;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using PLinkageShared.Enums;
 using AutoMapper;
-using System.Linq;
-using System;
-using PLinkageAPI.Services;
 
 namespace PLinkageAPI.Controllers
 {

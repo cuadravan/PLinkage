@@ -12,24 +12,27 @@ namespace PLinkageAPI.Services
     {
         private readonly IRepository<Project> _projectRepository;
         private readonly IRepository<ProjectOwner> _projectOwnerRepository;
+        private readonly IRepository<SkillProvider> _skillProviderRepository;
 
-        public ProjectService(IRepository<Project> projectRepository, IRepository<ProjectOwner> projectOwnerRepository)
+        public ProjectService(IRepository<Project> projectRepository, IRepository<ProjectOwner> projectOwnerRepository, IRepository<SkillProvider> skillProviderRepository)
         {
             _projectRepository = projectRepository;
             _projectOwnerRepository = projectOwnerRepository;
+            _skillProviderRepository = skillProviderRepository;
         }
 
-        public async Task<ApiResponse<bool>> AddProjectAsync(ProjectDto projectCreationDto)
+        public async Task<ApiResponse<Guid>> AddProjectAsync(ProjectCreationDto projectCreationDto)
         {
             ProjectOwner? projectOwner = await _projectOwnerRepository.GetByIdAsync(projectCreationDto.ProjectOwnerId);
             if (projectOwner == null)
-                return ApiResponse<bool>.Fail($"Project Owner with ID {projectCreationDto.ProjectOwnerId} not found.");
+                return ApiResponse<Guid>.Fail($"Project Owner with ID {projectCreationDto.ProjectOwnerId} not found.");
 
-            projectOwner.AddProject(projectCreationDto.ProjectId);
+            var projectId = Guid.NewGuid();
+            projectOwner.AddProject(projectId);
 
             Project newProject = new Project
             {
-                ProjectId = projectCreationDto.ProjectId,
+                ProjectId = projectId,
                 ProjectOwnerId = projectCreationDto.ProjectOwnerId,
                 ProjectName = projectCreationDto.ProjectName,
                 ProjectLocation = projectCreationDto.ProjectLocation,
@@ -38,7 +41,6 @@ namespace PLinkageAPI.Services
                 ProjectEndDate = projectCreationDto.ProjectEndDate,
                 ProjectStatus = projectCreationDto.ProjectStatus,
                 ProjectSkillsRequired = projectCreationDto.ProjectSkillsRequired,
-                ProjectMembers = projectCreationDto.ProjectMembers,
                 ProjectPriority = projectCreationDto.ProjectPriority,
                 ProjectResourcesNeeded = projectCreationDto.ProjectResourcesNeeded,
                 ProjectResourcesAvailable = projectCreationDto.ProjectResourcesNeeded,
@@ -49,7 +51,7 @@ namespace PLinkageAPI.Services
             await _projectOwnerRepository.UpdateAsync(projectOwner);
             await _projectRepository.AddAsync(newProject);
 
-            return ApiResponse<bool>.Ok(true, "Project successfully created.");
+            return ApiResponse<Guid>.Ok(projectId, "Project successfully created.");
         }
 
         public async Task<ApiResponse<bool>> UpdateProjectAsync(ProjectUpdateDto projectUpdateDto)
@@ -143,6 +145,7 @@ namespace PLinkageAPI.Services
 
                 return new ProjectCardDto
                 {
+                    ProjectId = project.ProjectId,
                     Title = project.ProjectName,
                     Slots = $"{project.ProjectResourcesAvailable} slot/s",
                     Location = locationString,
@@ -154,6 +157,173 @@ namespace PLinkageAPI.Services
             });
 
             return ApiResponse<IEnumerable<ProjectCardDto>>.Ok(projectCardDtos);
+        }
+
+        public async Task<ApiResponse<bool>> RequestResignation(RequestResignationDto requestResignationDto)
+        {
+            var project = await _projectRepository.GetByIdAsync(requestResignationDto.ProjectId);
+            if (project == null)
+                return ApiResponse<bool>.Fail($"Project with ID {requestResignationDto.ProjectId} not found.");
+            var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == requestResignationDto.SkillProviderId);
+            if (member == null)
+                return ApiResponse<bool>.Fail($"Skill provider with ID {requestResignationDto.SkillProviderId} not found.");
+            member.IsResigning = true;
+            member.ResignationReason = requestResignationDto.Reason;
+            await _projectRepository.UpdateAsync(project);
+
+            return ApiResponse<bool>.Ok(true);
+        }
+
+        public async Task<ApiResponse<bool>> ProcessResignation(ProcessResignationDto processResignationDto)
+        {
+            if (processResignationDto.processResignationIndividualDtos == null || processResignationDto.processResignationIndividualDtos.Count == 0)
+            {
+                return ApiResponse<bool>.Fail("No resignation requests were provided for processing.");
+            }
+
+            var errors = new List<string>();
+
+            var project = await _projectRepository.GetByIdAsync(processResignationDto.ProjectId);
+            if (project == null)
+            {
+                return ApiResponse<bool>.Fail($"Project with ID {processResignationDto.ProjectId} not found. Cannot process any resignations.");
+            }
+
+            var approvedSkillProviderIds = processResignationDto.processResignationIndividualDtos
+                .Where(dto => dto.ApproveResignation)
+                .Select(dto => dto.SkillProviderId)
+                .Distinct()
+                .ToList();
+
+            var skillProvidersToUpdate = new List<SkillProvider>();
+
+            if (approvedSkillProviderIds.Any())
+            {
+                var fetchedSkillProviders = await _skillProviderRepository.GetByIdsAsync(approvedSkillProviderIds);
+                var skillProviderMap = fetchedSkillProviders.ToDictionary(sp => sp.UserId, sp => sp);
+
+                foreach (var dto in processResignationDto.processResignationIndividualDtos)
+                {
+                    var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == dto.SkillProviderId);
+
+                    if (member == null)
+                    {
+                        errors.Add($"Skill provider ID {dto.SkillProviderId} not found in project's member list. Skipping.");
+                        continue;
+                    }
+
+                    if (dto.ApproveResignation)
+                    {
+                        if (skillProviderMap.TryGetValue(dto.SkillProviderId, out var skillProvider))
+                        {
+                            project.ProjectMembers.Remove(member);
+                            skillProvider.EmployedProjects.Remove(processResignationDto.ProjectId);
+                            skillProvidersToUpdate.Add(skillProvider);
+                        }
+                        else
+                        {
+                            errors.Add($"Skill provider ID {dto.SkillProviderId} not found in database. Cannot approve removal.");
+                        }
+                    }
+                    else
+                    {
+                        member.IsResigning = false;
+                        member.ResignationReason = string.Empty;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var dto in processResignationDto.processResignationIndividualDtos)
+                {
+                    var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == dto.SkillProviderId);
+
+                    if (member == null)
+                    {
+                        errors.Add($"Skill provider ID {dto.SkillProviderId} not found in project's member list. Skipping.");
+                        continue;
+                    }
+
+                    member.IsResigning = false;
+                    member.ResignationReason = string.Empty;
+                }
+            }
+
+            try
+            {
+                await _projectRepository.UpdateAsync(project);
+
+                foreach (var skillProvider in skillProvidersToUpdate)
+                {
+                    await _skillProviderRepository.UpdateAsync(skillProvider);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<bool>.Fail($"A critical error occurred while saving changes: {ex.Message}");
+            }
+
+            if (errors.Any())
+            {
+                return ApiResponse<bool>.Fail($"Successfully processed {processResignationDto.processResignationIndividualDtos.Count - errors.Count} resignations for Project ID {processResignationDto.ProjectId}, but skipped {errors.Count} due to errors. Details: {string.Join("; ", errors.Take(3))}...");
+            }
+
+            return ApiResponse<bool>.Ok(true);
+        }
+
+        public async Task<ApiResponse<bool>> RateSkillProviders(RateSkillProviderDto rateSkillProviderDto)
+        {
+            if (rateSkillProviderDto.rateSkillProviderIndividualDtos == null || rateSkillProviderDto.rateSkillProviderIndividualDtos.Count == 0)
+            {
+                return ApiResponse<bool>.Fail("No rating requests were provided for processing.");
+            }
+
+            var errors = new List<string>();
+            var skillProvidersToUpdate = new List<SkillProvider>();
+
+            var skillProviderIdsToRate = rateSkillProviderDto.rateSkillProviderIndividualDtos
+                .Select(dto => dto.SkillProviderId)
+                .Distinct()
+                .ToList();
+
+            if (skillProviderIdsToRate.Any())
+            {
+                var fetchedSkillProviders = await _skillProviderRepository.GetByIdsAsync(skillProviderIdsToRate);
+                var skillProviderMap = fetchedSkillProviders.ToDictionary(sp => sp.UserId, sp => sp);
+
+                foreach (var dto in rateSkillProviderDto.rateSkillProviderIndividualDtos)
+                {
+                    if(skillProviderMap.TryGetValue(dto.SkillProviderId, out var skillProvider))
+                    {
+                        skillProvider.UserRatingCount += 1;
+                        skillProvider.UserRatingTotal += dto.SkillProviderRating;
+                        skillProvider.UserRating = skillProvider.UserRatingTotal / skillProvider.UserRatingCount;
+                        skillProvidersToUpdate.Add(skillProvider);
+                    }
+                    else
+                    {
+                        errors.Add($"Skill provider with ID {dto.SkillProviderId} was not found in database.");
+                    }
+                }
+            }
+            try
+            {
+                foreach (var skillProvider in skillProvidersToUpdate)
+                {
+                    await _skillProviderRepository.UpdateAsync(skillProvider);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<bool>.Fail($"A critical error occurred while saving changes: {ex.Message}");
+            }
+
+            if (errors.Any())
+            {
+                return ApiResponse<bool>.Fail($"Successfully processed {rateSkillProviderDto.rateSkillProviderIndividualDtos.Count - errors.Count} resignations, but skipped {errors.Count} due to errors. Details: {string.Join("; ", errors.Take(3))}...");
+            }
+
+            return ApiResponse<bool>.Ok(true);
         }
 
         private Dictionary<CebuLocation, double> GetNearbyLocationsWithDistance(CebuLocation baseLocation, int threshold)

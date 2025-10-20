@@ -198,6 +198,7 @@ namespace PLinkageAPI.Services
 
                     return new SkillProviderCardDto
                     {
+                        UserId = sp.UserId,
                         UserName = sp.UserFirstName + " " + sp.UserLastName,
                         UserRating = sp.UserRating.ToString("F2") + " ☆",
                         Location = locationString,

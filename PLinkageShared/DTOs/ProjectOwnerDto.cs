@@ -21,6 +21,7 @@ namespace PLinkageShared.DTOs
 
     public class ProjectOwnerCardDto
     {
+        public Guid UserId { get; set; }
         public string UserName { get; set; }
         public string UserStatus { get; set; }
         public string ProjectCount { get; set; }

@@ -14,7 +14,13 @@ namespace PLinkageAPI.Interfaces
             CebuLocation? location,
             string status);
 
-        Task<ApiResponse<bool>> AddProjectAsync(ProjectDto projectDto);
+        Task<ApiResponse<Guid>> AddProjectAsync(ProjectCreationDto projectCreationDto);
         Task<ApiResponse<bool>> UpdateProjectAsync(ProjectUpdateDto projectUpdateDto);
+
+        Task<ApiResponse<bool>> RequestResignation(RequestResignationDto requestResignationDto);
+
+        Task<ApiResponse<bool>> ProcessResignation(ProcessResignationDto processResignationDto);
+
+        Task<ApiResponse<bool>> RateSkillProviders(RateSkillProviderDto rateSkillProviderDto);
     }
 }

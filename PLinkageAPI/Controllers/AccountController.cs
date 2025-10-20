@@ -1,14 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PLinkageAPI.Interfaces;
-using PLinkageAPI.Entities;
 using PLinkageShared.DTOs;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using PLinkageShared.Enums;
 using AutoMapper;
-using System.Linq;
-using System;
-using PLinkageAPI.Services;
+using PLinkageShared.ApiResponse;
 
 namespace PLinkageAPI.Controllers
 {
@@ -39,12 +33,28 @@ namespace PLinkageAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ApiResponse<bool>.Fail("Invalid project data."));
+
             var response = await _accountService.RegisterUserAsync(registerUserDto);
 
             if (!response.Success)
                 return BadRequest(response);
 
-            return Ok(response);
+            var userId = response.Data;
+            var userRole = await _accountService.DetermineUserRoleAsync(userId);
+
+
+            if(userRole == PLinkageShared.Enums.UserRole.SkillProvider)
+            {
+                var resourceUri = $"/api/SkillProvider/{userId}";
+                return Created(resourceUri, response);
+            }
+            else
+            {
+                var resourceUri = $"/api/ProjectOwner/{userId}";
+                return Created(resourceUri, response);
+            }
         }
 
         [HttpPost("checkemail")]
