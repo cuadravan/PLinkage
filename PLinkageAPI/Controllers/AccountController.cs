@@ -68,6 +68,17 @@ namespace PLinkageAPI.Controllers
             return Ok(response);
         }
 
+        [HttpPost("status")]
+        public async Task<IActionResult> ActivateDeactivateUser([FromBody] Guid userId)
+        {
+            var response = await _accountService.ActivateDeactivateUserAsync(userId);
+
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
         //[HttpPost("migrate-passwords")]
         //public async Task<IActionResult> MigratePasswords()
         //{

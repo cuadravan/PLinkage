@@ -11,6 +11,7 @@ namespace PLinkageAPI.Interfaces
         Task<ApiResponse<Guid>> RegisterUserAsync(RegisterUserDto registerUserDto);
 
         Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email);
+        Task<ApiResponse<string>> ActivateDeactivateUserAsync(Guid userId);
 
         //Task<ApiResponse<string>> HashAllPasswordsAsync();
     }

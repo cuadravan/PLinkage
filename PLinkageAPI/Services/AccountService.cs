@@ -207,6 +207,29 @@ namespace PLinkageAPI.Services
             return null;
         }
 
+        public async Task<ApiResponse<string>> ActivateDeactivateUserAsync(Guid userId)
+        {
+            var skillProvider = await _skillProviderRepository.GetByIdAsync(userId);
+
+            if (skillProvider != null)
+            {
+                skillProvider.UserStatus = (skillProvider.UserStatus == "Active") ? "Deactivated" : "Active";
+                await _skillProviderRepository.UpdateAsync(skillProvider);
+                return ApiResponse<string>.Ok($"Skill provider account with ID {skillProvider.UserId} is now {skillProvider.UserStatus}");
+            }
+
+            var projectOwner = await _projectOwnerRepository.GetByIdAsync(userId);
+
+            if (projectOwner != null)
+            {
+                projectOwner.UserStatus = (projectOwner.UserStatus == "Active") ? "Deactivated" : "Active";
+                await _projectOwnerRepository.UpdateAsync(projectOwner);
+                return ApiResponse<string>.Ok($"Project Owner account with ID {projectOwner.UserId} is now {projectOwner.UserStatus}");
+            }
+
+            return ApiResponse<string>.Fail("No account found with that ID.");
+        }
+
         public async Task<ApiResponse<Guid>> RegisterUserAsync(RegisterUserDto registerUserDto)
         {
             var newId = Guid.NewGuid();
