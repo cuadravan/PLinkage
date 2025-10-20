@@ -24,6 +24,7 @@ namespace PLinkageAPI.Entities
         public UserRole UserRole { get; set; } = UserRole.Admin;
         public string UserStatus { get; set; } = string.Empty;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
+        [BsonRepresentation(BsonType.String)]
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
     }
 }

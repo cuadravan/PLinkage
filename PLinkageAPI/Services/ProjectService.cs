@@ -164,13 +164,12 @@ namespace PLinkageAPI.Services
             var project = await _projectRepository.GetByIdAsync(requestResignationDto.ProjectId);
             if (project == null)
                 return ApiResponse<bool>.Fail($"Project with ID {requestResignationDto.ProjectId} not found.");
-            var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == requestResignationDto.SkillProviderId);
-            if (member == null)
-                return ApiResponse<bool>.Fail($"Skill provider with ID {requestResignationDto.SkillProviderId} not found.");
-            member.IsResigning = true;
-            member.ResignationReason = requestResignationDto.Reason;
-            await _projectRepository.UpdateAsync(project);
 
+            var process = project.RequestResignationByMember(requestResignationDto.SkillProviderId, requestResignationDto.Reason);
+            if(!process)
+                return ApiResponse<bool>.Fail($"Skill provider with ID {requestResignationDto.SkillProviderId} not found.");
+
+            await _projectRepository.UpdateAsync(project);
             return ApiResponse<bool>.Ok(true);
         }
 
@@ -196,56 +195,42 @@ namespace PLinkageAPI.Services
                 .ToList();
 
             var skillProvidersToUpdate = new List<SkillProvider>();
+            Dictionary<Guid, SkillProvider> skillProviderMap = new Dictionary<Guid, SkillProvider>();
 
             if (approvedSkillProviderIds.Any())
             {
                 var fetchedSkillProviders = await _skillProviderRepository.GetByIdsAsync(approvedSkillProviderIds);
-                var skillProviderMap = fetchedSkillProviders.ToDictionary(sp => sp.UserId, sp => sp);
+                skillProviderMap = fetchedSkillProviders.ToDictionary(sp => sp.UserId, sp => sp);
+            }
 
-                foreach (var dto in processResignationDto.processResignationIndividualDtos)
+            foreach (var dto in processResignationDto.processResignationIndividualDtos)
+            {
+                var process = project.ProcessResignationOfMember(dto.SkillProviderId, dto.ApproveResignation);
+                if (!process)
                 {
-                    var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == dto.SkillProviderId);
+                    errors.Add($"Skill provider ID {dto.SkillProviderId} not found in project's member list. Skipping.");
+                    continue; // Skip to the next DTO
+                }
 
-                    if (member == null)
+                if (dto.ApproveResignation)
+                {
+                    if (skillProviderMap.TryGetValue(dto.SkillProviderId, out var skillProvider))
                     {
-                        errors.Add($"Skill provider ID {dto.SkillProviderId} not found in project's member list. Skipping.");
-                        continue;
-                    }
-
-                    if (dto.ApproveResignation)
-                    {
-                        if (skillProviderMap.TryGetValue(dto.SkillProviderId, out var skillProvider))
+                        var process2 = skillProvider.ResignProject(processResignationDto.ProjectId);
+                        if (!process2)
                         {
-                            project.ProjectMembers.Remove(member);
-                            skillProvider.EmployedProjects.Remove(processResignationDto.ProjectId);
-                            skillProvidersToUpdate.Add(skillProvider);
+
+                            errors.Add($"Data mismatch: Skill provider ID {dto.SkillProviderId} does not list Project ID {processResignationDto.ProjectId} as an employed project. Skipping removal from skill provider.");
                         }
                         else
                         {
-                            errors.Add($"Skill provider ID {dto.SkillProviderId} not found in database. Cannot approve removal.");
+                            skillProvidersToUpdate.Add(skillProvider);
                         }
                     }
                     else
                     {
-                        member.IsResigning = false;
-                        member.ResignationReason = string.Empty;
+                        errors.Add($"Skill provider ID {dto.SkillProviderId} was approved for resignation, but the user was not found in the database. Project list updated, but skill provider was not.");
                     }
-                }
-            }
-            else
-            {
-                foreach (var dto in processResignationDto.processResignationIndividualDtos)
-                {
-                    var member = project.ProjectMembers.FirstOrDefault(pm => pm.MemberId == dto.SkillProviderId);
-
-                    if (member == null)
-                    {
-                        errors.Add($"Skill provider ID {dto.SkillProviderId} not found in project's member list. Skipping.");
-                        continue;
-                    }
-
-                    member.IsResigning = false;
-                    member.ResignationReason = string.Empty;
                 }
             }
 
@@ -295,9 +280,7 @@ namespace PLinkageAPI.Services
                 {
                     if(skillProviderMap.TryGetValue(dto.SkillProviderId, out var skillProvider))
                     {
-                        skillProvider.UserRatingCount += 1;
-                        skillProvider.UserRatingTotal += dto.SkillProviderRating;
-                        skillProvider.UserRating = skillProvider.UserRatingTotal / skillProvider.UserRatingCount;
+                        skillProvider.RateSkillProvider(dto.SkillProviderRating);
                         skillProvidersToUpdate.Add(skillProvider);
                     }
                     else

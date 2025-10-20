@@ -29,6 +29,7 @@ namespace PLinkageAPI.Entities
         public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
         [BsonRepresentation(BsonType.String)]
         public List<Guid> OwnedProjectId { get; set; } = new List<Guid>();
+        [BsonRepresentation(BsonType.String)]
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
 
         public void UpdateProfile(UserProfileUpdateDto skillProviderUpdateDto)

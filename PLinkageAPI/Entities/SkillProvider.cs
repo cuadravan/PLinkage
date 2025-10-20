@@ -35,6 +35,7 @@ namespace PLinkageAPI.Entities
         public int UserRatingCount { get; set; } = 0;
         public double TempRating { get; set; } = 0.0;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
+        [BsonRepresentation(BsonType.String)]
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
 
         public void AddEducation(Education educationToAdd)
@@ -95,6 +96,22 @@ namespace PLinkageAPI.Entities
             this.UserLocation = skillProviderUpdateDto.UserLocation;
             this.UserBirthDate = skillProviderUpdateDto.UserBirthDate;
             this.UserLocation = skillProviderUpdateDto.UserLocation;
+        }
+
+        public void RateSkillProvider(double rating)
+        {
+            this.UserRatingTotal += rating;
+            this.UserRatingCount += 1;
+            this.UserRating = this.UserRatingTotal / this.UserRatingCount;
+        }
+
+        public bool ResignProject(Guid projectId)
+        {
+            if (this.EmployedProjects.Contains(projectId)){
+                this.EmployedProjects.Remove(projectId);
+                return true;
+            }
+            return false;
         }
 
         //// This is a method that returns a location 

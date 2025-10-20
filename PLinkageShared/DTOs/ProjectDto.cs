@@ -13,7 +13,7 @@ namespace PLinkageShared.DTOs
         public DateTime ProjectEndDate { get; set; } = DateTime.Now;
         public ProjectStatus? ProjectStatus { get; set; } = null;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
-        public List<ProjectMemberDetail> ProjectMembers { get; set; } = new List<ProjectMemberDetail>();
+        public List<ProjectMemberDetailDto> ProjectMembers { get; set; } = new List<ProjectMemberDetailDto>();
         public string ProjectPriority { get; set; } = string.Empty;
         public int ProjectResourcesNeeded { get; set; } = 0;
         public int ProjectResourcesAvailable { get; set; } = 0;
@@ -36,6 +36,18 @@ namespace PLinkageShared.DTOs
         public int ProjectResourcesAvailable { get; set; } = 0;
         public DateTime ProjectDateCreated { get; set; } = DateTime.Now;
         public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
+    }
+
+    public class ProjectMemberDetailDto
+    {
+        public Guid MemberId { get; set; }
+        public string UserFirstName { get; set; } // From SkillProvider
+        public string UserLastName { get; set; } // From SkillProvider
+        public string Email { get; set; } // From SkillProvider
+        public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
+        public int TimeFrame { get; set; } = 0; // Hours
+        public bool IsResigning { get; set; } = false;
+        public string? ResignationReason { get; set; } = string.Empty; // Reason for resignation
     }
 
     public class ProjectUpdateDto
@@ -83,14 +95,4 @@ namespace PLinkageShared.DTOs
     }
 }
 
-public class ProjectMemberDetail
-{
-    public Guid MemberId { get; set; }
-    public string UserFirstName { get; set; } // From SkillProvider
-    public string UserLastName { get; set; } // From SkillProvider
-    public string Email { get; set; } // From SkillProvider
-    public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
-    public int TimeFrame { get; set; } = 0; // Hours
-    public bool IsResigning { get; set; } = false;
-    public string? ResignationReason { get; set; } = string.Empty; // Reason for resignation
-}
+

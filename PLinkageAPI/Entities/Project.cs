@@ -2,6 +2,8 @@
 using MongoDB.Bson;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
+using PLinkageShared.ApiResponse;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PLinkageAPI.Entities
 {
@@ -40,5 +42,58 @@ namespace PLinkageAPI.Entities
             this.ProjectStatus = projectUpdateDto.ProjectStatus;
             this.ProjectDateUpdated = projectUpdateDto.ProjectDateUpdated;
         }
+
+        public bool RequestResignationByMember(Guid skillProviderId, string resignationReason)
+        {
+            if(this.ProjectStatus != PLinkageShared.Enums.ProjectStatus.Active)
+            {
+                return false;
+            }
+            var member = this.ProjectMembers.FirstOrDefault(pm => pm.MemberId == skillProviderId);
+            if (member == null)
+                return false;
+            member.IsResigning = true;
+            member.ResignationReason = resignationReason;
+            return true;
+        }
+
+        public bool ProcessResignationOfMember(Guid skillproviderId, bool approveResignation)
+        {
+            var member = this.ProjectMembers.FirstOrDefault(pm => pm.MemberId == skillproviderId);
+
+            if (member == null)
+            {
+                return false;
+            }
+
+            if (approveResignation)
+            {
+                this.ProjectMembers.Remove(member);
+                this.ProjectResourcesAvailable += 1;
+                return true;
+            }
+            else
+            {
+                member.IsResigning = false;
+                member.ResignationReason = string.Empty;
+                return true;
+            }
+
+            
+            
+        }
+    }
+
+    public class ProjectMemberDetail
+    {
+        [BsonRepresentation(BsonType.String)]
+        public Guid MemberId { get; set; }
+        public string UserFirstName { get; set; } // From SkillProvider
+        public string UserLastName { get; set; } // From SkillProvider
+        public string Email { get; set; } // From SkillProvider
+        public decimal Rate { get; set; } = 0; // e.g. 1000 per hour
+        public int TimeFrame { get; set; } = 0; // Hours
+        public bool IsResigning { get; set; } = false;
+        public string? ResignationReason { get; set; } = string.Empty; // Reason for resignation
     }
 }
