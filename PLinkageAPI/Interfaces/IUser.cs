@@ -10,6 +10,9 @@ namespace PLinkageAPI.Interfaces
         UserRole UserRole { get; }
         CebuLocation? UserLocation { get; }
         List<Guid> OfferApplicationId { get; }
+        List<Guid> UserMessagesId { get; }
         void AddOfferApplication(Guid guid);
+
+        bool AddChat(Guid chatId);
     }
 }

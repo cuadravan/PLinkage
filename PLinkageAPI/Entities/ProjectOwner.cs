@@ -44,12 +44,24 @@ namespace PLinkageAPI.Entities
 
         public void AddProject(Guid projectId)
         {
-            OwnedProjectId.Add(projectId);
+            if(!this.OwnedProjectId.Contains(projectId))
+                OwnedProjectId.Add(projectId);
         }
 
         public void AddOfferApplication(Guid guid)
         {
-            OfferApplicationId.Add(guid);
+            if(!this.OfferApplicationId.Contains(guid))
+                OfferApplicationId.Add(guid);
+        }
+
+        public bool AddChat(Guid chatId)
+        {
+            if (this.UserMessagesId.Contains(chatId))
+            {
+                return false; // Not added
+            }
+            this.UserMessagesId.Add(chatId);
+            return true; // Was added
         }
     }
 }

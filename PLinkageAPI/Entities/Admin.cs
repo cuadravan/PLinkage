@@ -28,10 +28,20 @@ namespace PLinkageAPI.Entities
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
 
         //Useless stuff on Admin that can never be used
-        public List<Guid> OfferApplicationId { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public List<Guid> OfferApplicationId { get; set; } = new List<Guid>();
         public void AddOfferApplication(Guid guid)
         {
 
+        }
+        public bool AddChat(Guid chatId)
+        {
+            if (this.UserMessagesId.Contains(chatId))
+            {
+                return false; // Not added
+            }
+            this.UserMessagesId.Add(chatId);
+            return true; // Was added
         }
     }
 }

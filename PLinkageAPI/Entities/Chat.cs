@@ -1,10 +1,13 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace PLinkage.Entities
+namespace PLinkageAPI.Entities
 {
     public class Chat
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         [BsonRepresentation(BsonType.String)]
         public Guid ChatId { get; set; } = Guid.NewGuid();
         [BsonRepresentation(BsonType.String)]

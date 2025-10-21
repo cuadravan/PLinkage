@@ -116,12 +116,24 @@ namespace PLinkageAPI.Entities
 
         public void AddOfferApplication(Guid guid)
         {
-            this.OfferApplicationId.Add(guid);
+            if(!this.OfferApplicationId.Contains(guid))
+                this.OfferApplicationId.Add(guid);
         }
 
         public void AddProject(Guid guid)
         {
-            this.EmployedProjects.Add(guid);
+            if(!this.EmployedProjects.Contains(guid))
+                this.EmployedProjects.Add(guid);
+        }
+
+        public bool AddChat(Guid chatId)
+        {
+            if (this.UserMessagesId.Contains(chatId))
+            {
+                return false; // Not added
+            }
+            this.UserMessagesId.Add(chatId);
+            return true; // Was added
         }
 
         //// This is a method that returns a location 
