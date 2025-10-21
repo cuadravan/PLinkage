@@ -90,6 +90,8 @@ namespace PLinkageApp
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(AdminHomeView)),
                 new TabbarItem("S.Provider", "browsesp.svg", typeof(AdminBrowseSkillProviderView)),
+                new TabbarItem("Projects", "project.svg", typeof(AdminBrowseProjectView)),
+                new TabbarItem("P.Owner", "browsepo.svg", typeof(AdminBrowseProjectOwnerView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 

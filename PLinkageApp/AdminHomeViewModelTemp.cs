@@ -111,6 +111,12 @@ namespace PLinkageApp
         }
 
         [RelayCommand]
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
+        {
+            await Shell.Current.DisplayAlert("Hey!", $"You clicked on skill provider with id: {skillProviderCardDto.UserId}", "Okay");
+        }
+
+        [RelayCommand]
         private async Task ViewProject(ProjectCardDto projectCardDto)
         {
             await Shell.Current.DisplayAlert("Hey!",$"You clicked on project with id: {projectCardDto.ProjectId}","Okay");

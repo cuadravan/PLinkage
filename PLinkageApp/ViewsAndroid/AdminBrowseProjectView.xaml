@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.AdminBrowseProjectView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp"
+    Title="AdminBrowseProjectView"
+    Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <Grid>
+            <Grid RowDefinitions="Auto,*">
+                <FlexLayout
+                    Grid.Row="0"
+                    Padding="10"
+                    AlignItems="Center"
+                    BackgroundColor="#F1F0FC"
+                    Direction="Column"
+                    JustifyContent="Start">
+                    <Image
+                        HeightRequest="90"
+                        Source="plinkagenotext.svg"
+                        WidthRequest="90" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="27"
+                        Text="Browse Projects"
+                        TextColor="#212121" />
+
+                    <controls:LabeledPicker
+                        Margin="0,3,0,0"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                        ItemSource="{Binding CategoryOptions}"
+                        PlaceholderText="Filter By"
+                        SelectedItem="{Binding CategorySelection}"
+                        TitleText="By Location" />
+
+                    <controls:LabeledPicker
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                        IsVisible="{Binding CategorySelection, Converter={StaticResource SortToVisibilityConverter}}"
+                        ItemSource="{Binding LocationOptions}"
+                        PlaceholderText="Filter By"
+                        SelectedItem="{Binding LocationSelection}"
+                        TitleText="Location Selection" />
+
+                    <controls:LabeledPicker
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                        ItemSource="{Binding StatusOptions}"
+                        PlaceholderText="Filter By"
+                        SelectedItem="{Binding StatusSelection}"
+                        TitleText="By Project Status" />
+
+
+                </FlexLayout>
+
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    HorizontalOptions="Center"
+                    Spacing="10">
+
+                    <controls:SearchFilterBar
+                        Margin="0,10,0,0"
+                        FilterItemSource="{Binding SearchFilterOptions}"
+                        FilterSelectedItem="{Binding SearchFilterSelection}"
+                        FilterTitle="By Skills"
+                        FilterWidth="100"
+                        HeightRequest="50"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                        SearchIconSource="search.svg"
+                        SearchPlaceholder="Narrow Results..."
+                        SearchQuery="{Binding SearchQuery}"
+                        SearchWidth="171" />
+
+                    <CollectionView
+                        Margin="0,10,0,0"
+                        ItemsSource="{Binding ProjectCards}"
+                        SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:ProjectCard
+                                    Title="{Binding Title}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseProjectViewModelTemp}}, Path=ViewProjectCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Description="{Binding Description}"
+                                    Location="{Binding Location}"
+                                    Skills="{Binding Skills}"
+                                    Slots="{Binding Slots}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="15" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Grid>
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                Color="#7C4DFF" />
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

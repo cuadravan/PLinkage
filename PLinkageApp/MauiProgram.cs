@@ -100,6 +100,8 @@ public static class MauiProgram
         builder.Services.AddScoped<RegisterViewModelTemp>();
 
         builder.Services.AddTransient<AdminBrowseSkillProviderViewModelTemp>();
+        builder.Services.AddTransient<AdminBrowseProjectViewModelTemp>();
+        builder.Services.AddTransient<AdminBrowseProjectOwnerViewModelTemp>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
