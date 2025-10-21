@@ -10,10 +10,50 @@ namespace PLinkageApp.Services
         private UserRole? currentUserRole = null;
         private string? currentUserName = null;
         private CebuLocation? currentUserLocation = null;
+
+        public void SetCurrentUser(LoginResultDto loginResultDto)
+        {
+            currentUserId = loginResultDto.UserId;
+            currentUserRole = loginResultDto.UserRole;
+            currentUserName = loginResultDto.UserName;
+            currentUserLocation = loginResultDto.UserLocation;
+        }
+
+        public Guid GetCurrentUserId()
+        {
+            return currentUserId;
+        }
+        public string? GetCurrentUserName()
+        {
+            return currentUserName;
+        }
+        public UserRole? GetCurrentUserRole()
+        {
+            return currentUserRole;
+        }
+        public CebuLocation? GetCurrentUserLocation()
+        {
+            return currentUserLocation;
+        }
+
+        public void ClearSession()
+        {
+            currentUserId = Guid.Empty;
+            currentUserName = string.Empty;
+            currentUserRole = null;
+            currentUserLocation = null;
+        }
+        public bool IsLoggedIn()
+        {
+            return currentUserId != Guid.Empty; 
+        }
+
+
         private Guid visitingProjectOwnerID = Guid.Empty;
         private Guid visitingSkillProviderID = Guid.Empty;
         private Guid visitingProjectID = Guid.Empty;
         private Guid visitingReceiverID = Guid.Empty;
+        private int visitingSkillEducationID = 0;
 
         public Guid VisitingProjectOwnerID
         {
@@ -36,52 +76,11 @@ namespace PLinkageApp.Services
             get => visitingReceiverID;
             set => visitingReceiverID = value;
         }
-
-        public void SetCurrentUser(LoginResultDto loginResultDto)
-        {
-            currentUserId = loginResultDto.UserId;
-            currentUserRole = loginResultDto.UserRole;
-            currentUserName = loginResultDto.UserName;
-            currentUserLocation = loginResultDto.UserLocation;
-        }
-
-        public Guid GetCurrentUserId()
-        {
-            return currentUserId;
-        }
-        public UserRole? GetCurrentUserRole()
-        {
-            return currentUserRole;
-        }
-        public string? GetCurrentUserName()
-        {
-            return currentUserName;
-        }
-        public CebuLocation? GetCurrentUserLocation()
-        {
-            return currentUserLocation;
-        }
-
-        public void ClearSession()
-        {
-            currentUserId = Guid.Empty;
-            currentUserRole = null;
-        }
-
-        public bool IsLoggedIn()
-        {
-            return currentUserId != Guid.Empty;
-        }
-
-        
-
         public int VisitingSkillEducationID
         {
             get => visitingSkillEducationID;
             set => visitingSkillEducationID = value;
         }
-
-        private int visitingSkillEducationID = 0;
 
     }
 }
