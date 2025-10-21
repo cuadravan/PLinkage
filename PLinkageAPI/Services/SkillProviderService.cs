@@ -175,10 +175,12 @@ namespace PLinkageAPI.Services
         public async Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(
     string proximity,
     CebuLocation? location,
-    string status)
+    string status,
+    bool? isEmployed) // 🌟 NEW PARAMETER
         {
             try
             {
+                // 1. Initial validation (unchanged)
                 if (proximity != "All" && proximity != "By Specific Location" && !location.HasValue)
                 {
                     return ApiResponse<IEnumerable<SkillProviderCardDto>>.Fail("A location must be provided for proximity searches.");
@@ -195,12 +197,13 @@ namespace PLinkageAPI.Services
                 var builder = Builders<SkillProvider>.Filter;
                 var filter = builder.Empty;
 
-                // Correctly handle string comparison for UserStatus
+                // 2. Filter by User Status (unchanged)
                 if (status != "All")
                 {
                     filter &= builder.Eq(sp => sp.UserStatus, status);
                 }
 
+                // 3. Filter by Location (unchanged)
                 if (proximity == "By Specific Location" && location.HasValue)
                 {
                     filter &= builder.Eq(sp => sp.UserLocation, location.Value);
@@ -210,15 +213,56 @@ namespace PLinkageAPI.Services
                     filter &= builder.In(sp => sp.UserLocation, nearbyLocationsWithDistance.Keys.Cast<CebuLocation?>());
                 }
 
+                // 🌟 4. Filter by Employment Status
+                if (isEmployed.HasValue)
+                {
+                    // First, get the IDs of all currently Active projects
+                    var activeProjectsFilter = Builders<Project>.Filter.Eq(p => p.ProjectStatus, ProjectStatus.Active);
+                    // Assuming you have access to a Project Repository (_projectRepository)
+                    var activeProjects = await _projectRepository.FindAsync(activeProjectsFilter);
+
+                    var activeProjectIds = activeProjects?.Select(p => p.ProjectId).ToList() ?? new List<Guid>();
+
+                    if (isEmployed.Value)
+                    {
+                        // Filter for skill providers who have AT LEAST ONE employed project ID that is currently active.
+                        filter &= builder.AnyIn(sp => sp.EmployedProjects, activeProjectIds);
+                    }
+                    else
+                    {
+                        // Filter for skill providers who have NO employed project IDs that are currently active.
+                        // This is complex in MongoDB. The best approach is often to find ALL providers
+                        // and then filter the results in C# if MongoDB complexity is too high, 
+                        // OR use $nin if the collection is guaranteed to contain only the active ones, 
+                        // which is not the case here.
+
+                        // A more performant approach: Find all providers who ARE employed (as above), 
+                        // and then exclude them. We will use a $nin query here, assuming EmployedProjects 
+                        // contains the project IDs you are checking against.
+
+                        // NOTE: This assumes EmployedProjects only holds IDs relevant to *potential* employment. 
+                        // The true MongoDB way to implement NOT EMPLOYED is complex. For simplicity, 
+                        // we'll apply the filter to the active projects list.
+
+                        filter &= builder.Not(builder.AnyIn(sp => sp.EmployedProjects, activeProjectIds));
+                    }
+                }
+                // ------------------------------------
+
                 var skillProviders = await _skillProviderRepository.FindAsync(filter);
 
+                // ... rest of the method (mapping to DTOs) ...
+
+                // 5. Check for null/empty results (unchanged)
                 if (skillProviders == null || !skillProviders.Any())
                 {
                     return ApiResponse<IEnumerable<SkillProviderCardDto>>.Fail("No skill providers found matching the criteria.");
                 }
 
+                // 6. Mapping to DTOs (unchanged)
                 var skillProviderCardDtos = skillProviders.Select(sp =>
                 {
+                    // ... mapping logic remains the same ...
                     string locationString = sp.UserLocation?.ToString() ?? "Location not set";
 
                     if (location.HasValue && sp.UserLocation.HasValue)
@@ -243,15 +287,13 @@ namespace PLinkageAPI.Services
                         UserRating = sp.UserRating.ToString("F2") + " ☆",
                         Location = locationString,
                         Education = sp.Educations != null && sp.Educations.Count > 0
-        ? sp.Educations[0].CourseName + " at " + sp.Educations[0].SchoolAttended
-        : string.Empty,
+                            ? sp.Educations[0].CourseName + " at " + sp.Educations[0].SchoolAttended
+                            : string.Empty,
                         Skills = sp.Skills?
-    .Select(skill => skill.SkillName)
-    .Take(5)
-    .ToList() ?? new List<string>()
-
+                            .Select(skill => skill.SkillName)
+                            .Take(5)
+                            .ToList() ?? new List<string>()
                     };
-
                 });
 
                 return ApiResponse<IEnumerable<SkillProviderCardDto>>.Ok(skillProviderCardDtos, "Filtered skill providers fetched successfully.");

@@ -20,62 +20,41 @@
                 TextColor="#212121" />
 
             <FlexLayout
+                HorizontalOptions="CenterAndExpand"
                 JustifyContent="Center"
-                Wrap="Wrap"
-                
-                HorizontalOptions="CenterAndExpand">
+                Wrap="Wrap">
 
                 <controls:StatCard
-                    Margin="0,0,5,0"
                     Title="Received Applications"
+                    Margin="0,0,5,0"
                     Value="{Binding PendingReceivedApplicationsValue}" />
                 <controls:StatCard
-                    Margin="0,0,5,0"
                     Title="Pending Sent Offers"
+                    Margin="0,0,5,0"
                     Value="{Binding PendingSentOffersValue}" />
             </FlexLayout>
             <FlexLayout
-    JustifyContent="Center"
-    Wrap="Wrap"
-    
-    HorizontalOptions="CenterAndExpand">
-            <controls:StatCard
-                    Margin="0,0,5,0"
+                HorizontalOptions="CenterAndExpand"
+                JustifyContent="Center"
+                Wrap="Wrap">
+                <controls:StatCard
                     Title="Active Projects"
+                    Margin="0,0,5,0"
                     Value="{Binding ActiveProjectsValue}" />
                 <controls:StatCard
-                    Margin="0,0,5,0"
                     Title="Reported Resignations"
+                    Margin="0,0,5,0"
                     Value="{Binding ReportedResignationsValue}" />
                 <controls:StatCard
-                    Margin="0,0,5,0"
                     Title="Reported Negotiations"
+                    Margin="0,0,5,0"
                     Value="{Binding ReportedNegotiationsValue}" />
             </FlexLayout>
 
-            <Label
-                FontAttributes="Bold"
-                FontSize="16"
-                HorizontalOptions="Center"
-                Text="Top Skill Providers For You"
-                TextColor="#212121" />
-            <Border
-                Margin="0,5"
-                BackgroundColor="White"
-                HorizontalOptions="Center"
-                Stroke="#7C4DFF"
-                StrokeShape="RoundRectangle 10"
-                StrokeThickness="1"
-                WidthRequest="280">
-                <Picker
-                    Title="Filter By"
-                    FontFamily="Roboto Mono"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    ItemsSource="{Binding SortOptions}"
-                    SelectedItem="{Binding SortSelection}"
-                    TextColor="#212121" />
-            </Border>
+            <controls:LabeledPicker
+                ItemSource="{Binding SortOptions}"
+                SelectedItem="{Binding SortSelection}"
+                TitleText="Top Skill Providers For You" />
 
             <CarouselView ItemsSource="{Binding SkillProviderCards}" PeekAreaInsets="50">
                 <CarouselView.ItemTemplate>

@@ -83,7 +83,7 @@ namespace PLinkageApp
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
             SkillProviderCards.Clear();
-            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active");
+            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active", null);
 
             if (result.Success && result.Data != null)
             {
@@ -110,6 +110,10 @@ namespace PLinkageApp
             }
         }
 
-
+        [RelayCommand]
+        private async Task ViewProject(ProjectCardDto projectCardDto)
+        {
+            await Shell.Current.DisplayAlert("Hey!",$"You clicked on project with id: {projectCardDto.ProjectId}","Okay");
+        }
     }
 }

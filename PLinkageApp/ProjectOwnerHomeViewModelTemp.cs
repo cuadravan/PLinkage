@@ -76,7 +76,7 @@ namespace PLinkageApp
             ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
             SkillProviderCards.Clear();
             var selection = sortSelection == "Same Place as Me" ? "By Specific Location" : sortSelection;
-            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync(selection, userLocation, "Active");
+            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync(selection, userLocation, "Active", null);
 
             if (result.Success && result.Data != null)
             {

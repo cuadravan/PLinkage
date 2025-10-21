@@ -99,6 +99,8 @@ public static class MauiProgram
         //builder.Services.AddTransient<RegisterView5>();
         builder.Services.AddScoped<RegisterViewModelTemp>();
 
+        builder.Services.AddTransient<AdminBrowseSkillProviderViewModelTemp>();
+
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<RegisterViewModel>();

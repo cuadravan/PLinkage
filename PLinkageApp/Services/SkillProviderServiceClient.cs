@@ -12,7 +12,7 @@ namespace PLinkageApp.Services
     {
         public SkillProviderServiceClient(HttpClient httpClient) : base(httpClient) { }
 
-        public async Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status)
+        public async Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status, bool? isEmployed)
         {
             string url = "api/skillprovider";
 
@@ -26,6 +26,11 @@ namespace PLinkageApp.Services
             if (location.HasValue)
             {
                 queryParams.Add($"location={(int)location.Value}");
+            }
+
+            if (isEmployed.HasValue)
+            {
+                queryParams.Add($"isEmployed={isEmployed}");
             }
 
             string finalUrl = $"{url}?{string.Join("&", queryParams)}";
