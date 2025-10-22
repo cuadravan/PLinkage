@@ -114,6 +114,9 @@
 	  <Compile Update="ViewsAndroid\SkillProviderHomeView.xaml.cs">
 	    <DependentUpon>SkillProviderHomeView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\MessagesView.xaml.cs">
+	    <DependentUpon>MessagesView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="ViewsWindows\LoginView.xaml.cs">
 	    <DependentUpon>LoginView.xaml</DependentUpon>
 	  </Compile>
@@ -222,6 +225,9 @@
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeViewxaml.xaml">
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\MessagesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsWindows\AdminBrowseProjectOwnerView.xaml">

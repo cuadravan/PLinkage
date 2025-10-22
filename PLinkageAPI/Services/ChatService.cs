@@ -63,6 +63,7 @@ namespace PLinkageAPI.Services
                     summaries.Add(new ChatSummaryDto
                     {
                         ChatId = chat.ChatId,
+                        ReceiverId = receiverId,
                         ReceiverFullName = fullName,
                         MostRecentMessage = latest?.MessageContent ?? "(No message)",
                         MessageDate = latest?.MessageDate ?? DateTime.MinValue
@@ -193,7 +194,8 @@ namespace PLinkageAPI.Services
                     Date = newMessage.MessageDate,
                     IsFromCurrentUser = true,
                     SenderId = newMessage.SenderId,
-                    IsRead = false
+                    IsRead = false,
+                    ChatId = chat.ChatId
                 };
 
                 return ApiResponse<ChatMessageDto>.Ok(resultDto, "Message sent successfully.");

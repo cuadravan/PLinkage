@@ -35,6 +35,7 @@ namespace PLinkageApp
             Routing.RegisterRoute(nameof(RegisterView3), typeof(RegisterView3));
             Routing.RegisterRoute(nameof(RegisterView4), typeof(RegisterView4));
             Routing.RegisterRoute(nameof(RegisterView5), typeof(RegisterView5));
+            Routing.RegisterRoute("MessagesView", typeof(MessagesView));
             _startupService = startupService;
             BindingContext = viewModel;
         }

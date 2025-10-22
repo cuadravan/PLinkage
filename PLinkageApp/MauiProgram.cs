@@ -107,6 +107,7 @@ public static class MauiProgram
         builder.Services.AddTransient<AdminBrowseProjectViewModelTemp>();
         builder.Services.AddTransient<AdminBrowseProjectOwnerViewModelTemp>();
         builder.Services.AddTransient<ChatViewModelTemp>();
+        builder.Services.AddTransient<MessagesViewModelTemp>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

@@ -134,7 +134,8 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewChat(ChatSummaryDto chatSummaryDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on chat with id: {chatSummaryDto.ChatId}", "Okay");
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on chat with id: {chatSummaryDto.ChatId}", "Okay");
+            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", chatSummaryDto.ChatId}, {"ReceiverId", chatSummaryDto.ReceiverId }, { "ReceiverName", chatSummaryDto.ReceiverFullName} });
         }
 
     }

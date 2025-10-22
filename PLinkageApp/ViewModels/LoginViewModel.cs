@@ -62,6 +62,8 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success && result.Data != null)
                 {
+                    Email = string.Empty;
+                    Password = string.Empty;
                     _sessionService.SetCurrentUser(result.Data);
                     _appShellViewModel.UpdateRoleProperties();
                     var userRole = _sessionService.GetCurrentUserRole();

@@ -21,7 +21,7 @@ public partial class SearchInput : ContentView
     }
 
     public static readonly BindableProperty IconSourceProperty =
-        BindableProperty.Create(nameof(IconSource), typeof(string), typeof(SearchInput), "search.svg");
+        BindableProperty.Create(nameof(IconSource), typeof(string), typeof(SearchInput), string.Empty);
 
     public string IconSource
     {
