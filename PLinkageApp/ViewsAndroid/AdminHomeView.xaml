@@ -6,11 +6,13 @@
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     xmlns:viewmodels="clr-namespace:PLinkageApp"
     Title="AdminHomeView"
+    x:DataType="viewmodels:AdminHomeViewModelTemp"
     Shell.NavBarIsVisible="False">
-    <ScrollView>
-        <Grid Padding="0,20">
 
-            <VerticalStackLayout Spacing="7">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+
+        <ScrollView>
+            <VerticalStackLayout Padding="0,20" Spacing="7">
                 <Image Source="plinkagenotext.svg" />
                 <Label
                     FontAttributes="Bold"
@@ -91,14 +93,6 @@
                     </CarouselView.EmptyView>
                 </CarouselView>
             </VerticalStackLayout>
-
-            <ActivityIndicator
-                HorizontalOptions="Center"
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                VerticalOptions="Center"
-                Color="#7C4DFF" />
-
-        </Grid>
-    </ScrollView>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

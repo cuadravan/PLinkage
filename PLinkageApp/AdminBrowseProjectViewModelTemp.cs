@@ -34,8 +34,21 @@ namespace PLinkageApp
             ProjectCards = new ObservableCollection<ProjectCardDto>();
         }
 
+        // --- NEW ---
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            // This command is for an explicit user refresh (e.g., pull-to-refresh).
+            await GetProjects();
+        }
+
+        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
+            // If we already have data, don't fetch it again just on appearing.
+            if (_allProjects.Any())
+                return;
+
             try
             {
                 await GetProjects();
@@ -82,11 +95,11 @@ namespace PLinkageApp
                 {
                     await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
-                FilterSkillProviderCards();
+                FilterSkillProviderCards(); // You might want to rename this to FilterProjectCards()
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting skill providers: {ex.Message}");
+                Console.WriteLine($"Error getting projects: {ex.Message}"); // Updated log message
                 await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
@@ -173,7 +186,7 @@ namespace PLinkageApp
 
         partial void OnSearchFilterSelectionChanged(string value)
         {
-            FilterSkillProviderCards();
+            FilterSkillProviderCards(); // Rename this
         }
 
         // SEARCH QUERY
@@ -183,11 +196,12 @@ namespace PLinkageApp
 
         partial void OnSearchQueryChanged(string value)
         {
-            FilterSkillProviderCards();
+            FilterSkillProviderCards(); // Rename this
         }
 
         private const int FuzzySearchCutoff = 70;
 
+        // NOTE: You should rename this method to FilterProjectCards
         private void FilterSkillProviderCards()
         {
             var query = SearchQuery.Trim().ToLowerInvariant();
@@ -205,7 +219,7 @@ namespace PLinkageApp
                     case "By Name":
                         filteredList = _allProjects
                             .Where(card => Fuzz.PartialRatio(query, card.Title.ToLowerInvariant())
-                                           > FuzzySearchCutoff);
+                                         > FuzzySearchCutoff);
                         break;
 
                     case "By Skills":

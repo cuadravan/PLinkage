@@ -92,6 +92,7 @@ namespace PLinkageApp
                 new TabbarItem("S.Provider", "browsesp.svg", typeof(AdminBrowseSkillProviderView)),
                 new TabbarItem("Projects", "project.svg", typeof(AdminBrowseProjectView)),
                 new TabbarItem("P.Owner", "browsepo.svg", typeof(AdminBrowseProjectOwnerView)),
+                new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 

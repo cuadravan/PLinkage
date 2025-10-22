@@ -34,8 +34,16 @@ namespace PLinkageApp
             SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetSkillProviders();
+        }
+
         public async Task InitializeAsync()
         {
+            if (_allSkillProviders.Any())
+                return;
             try
             {
                 await GetSkillProviders();

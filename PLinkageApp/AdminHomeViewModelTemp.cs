@@ -39,7 +39,27 @@ namespace PLinkageApp
             ProjectCards = new ObservableCollection<ProjectCardDto>();
         }
 
+        // --- NEW ---
+        // This command is for the RefreshView
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadDashboardDataAsync();
+        }
+
+        // --- MODIFIED ---
         public async Task InitializeAsync()
+        {
+            // Only load data if the lists are empty (i.e., first-time load)
+            if (ProjectCards.Any() || SkillProviderCards.Any())
+                return;
+
+            await LoadDashboardDataAsync();
+        }
+
+        // --- NEW ---
+        // Created a central method for all data loading
+        private async Task LoadDashboardDataAsync()
         {
             if (IsBusy)
                 return;
@@ -47,6 +67,10 @@ namespace PLinkageApp
             IsBusy = true;
             try
             {
+                // Clear lists before fetching new data
+                SkillProviderCards.Clear();
+                ProjectCards.Clear();
+
                 // Run both network calls concurrently and wait for them both to finish
                 await Task.WhenAll(
                     GetDashboardStats(),
@@ -58,6 +82,8 @@ namespace PLinkageApp
             {
                 // Central place to handle any initialization errors, e.g., show a popup
                 Console.WriteLine($"Error during initialization: {ex.Message}");
+                // Optionally display an alert to the user
+                await Shell.Current.DisplayAlert("Load Error", "Failed to load dashboard data.", "OK");
             }
             finally
             {
@@ -82,7 +108,7 @@ namespace PLinkageApp
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
-            SkillProviderCards.Clear();
+            // Note: Clear was moved to LoadDashboardDataAsync
             result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active", null);
 
             if (result.Success && result.Data != null)
@@ -98,7 +124,7 @@ namespace PLinkageApp
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<ProjectCardDto>> result = null;
-            ProjectCards.Clear();
+            // Note: Clear was moved to LoadDashboardDataAsync
             result = await _projectServiceClient.GetFilteredProjectsAsync("All", userLocation, "Active");
 
             if (result.Success && result.Data != null)
@@ -119,7 +145,7 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewProject(ProjectCardDto projectCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!",$"You clicked on project with id: {projectCardDto.ProjectId}","Okay");
+            await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
         }
     }
 }

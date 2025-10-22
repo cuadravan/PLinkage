@@ -20,6 +20,7 @@ namespace PLinkageApp
         private readonly ISessionService _sessionService;
 
         private List<ProjectOwnerCardDto> _allProjectOwners;
+
         public ObservableCollection<ProjectOwnerCardDto> ProjectOwnerCards { get; set; }
 
         [ObservableProperty]
@@ -34,8 +35,20 @@ namespace PLinkageApp
             ProjectOwnerCards = new ObservableCollection<ProjectOwnerCardDto>();
         }
 
+        // --- NEW ---
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetProjects();
+        }
+
+        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
+            // Only load data on the first appearance
+            if (_allProjectOwners.Any())
+                return;
+
             try
             {
                 await GetProjects();
@@ -81,11 +94,11 @@ namespace PLinkageApp
                 {
                     await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
-                FilterSkillProviderCards();
+                FilterProjectOwnerCards(); // --- RENAMED ---
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting skill providers: {ex.Message}");
+                Console.WriteLine($"Error getting project owners: {ex.Message}"); // --- FIXED LOG ---
                 await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
@@ -167,12 +180,13 @@ namespace PLinkageApp
 
         partial void OnSearchQueryChanged(string value)
         {
-            FilterSkillProviderCards();
+            FilterProjectOwnerCards(); // --- RENAMED ---
         }
 
         private const int FuzzySearchCutoff = 70;
 
-        private void FilterSkillProviderCards()
+        // --- RENAMED ---
+        private void FilterProjectOwnerCards()
         {
             var query = SearchQuery.Trim().ToLowerInvariant();
 
@@ -186,7 +200,7 @@ namespace PLinkageApp
             {
                 filteredList = _allProjectOwners
                     .Where(card => Fuzz.PartialRatio(query, card.UserName.ToLowerInvariant())
-                                   > FuzzySearchCutoff);
+                                     > FuzzySearchCutoff);
 
             }
             ProjectOwnerCards.Clear();
