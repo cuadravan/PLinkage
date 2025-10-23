@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PLinkageApp.Controls.LabeledEntry">
+
+    <VerticalStackLayout>
+        <!-- Label -->
+        <Label
+            Text="{Binding Source={x:Reference Root}, Path=LabelText}"
+            FontAttributes="Bold"
+            FontSize="14"
+            TextColor="Black"
+            Margin="0,10,0,3" />
+
+        <!-- Entry -->
+        <Frame
+            CornerRadius="8"
+            Padding="0"
+            HasShadow="False"
+            BorderColor="#7C4DFF"
+            BackgroundColor="Transparent">
+            <Entry
+                Text="{Binding Source={x:Reference Root}, Path=Text, Mode=TwoWay}"
+                Placeholder="{Binding Source={x:Reference Root}, Path=Placeholder}"
+                Keyboard="{Binding Source={x:Reference Root}, Path=Keyboard}"
+                VerticalTextAlignment="{Binding Source={x:Reference Root}, Path=VerticalTextAlignment}"
+                TextColor="Black"
+                FontSize="14"
+                HeightRequest="40"
+                BackgroundColor="Transparent" />
+        </Frame>
+    </VerticalStackLayout>
+</ContentView>
