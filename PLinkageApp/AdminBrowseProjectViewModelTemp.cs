@@ -112,8 +112,9 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewProject(ProjectCardDto projectCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
+            await Shell.Current.GoToAsync(nameof(ViewProject));
         }
+
 
         // CATEGORY
 
@@ -241,5 +242,20 @@ namespace PLinkageApp
                 ProjectCards.Add(card);
             }
         }
+    // -------------------------------------------------------------
+// TEMPORARY: Dummy Project Details (for ViewProject preview only)
+// -------------------------------------------------------------
+[ObservableProperty] private string projectTitle = "Lezgooooo";
+        [ObservableProperty] private string projectLocation = "Cebu";
+        [ObservableProperty] private string projectOwner = "Ralph Lima";
+        [ObservableProperty] private string projectDescription = "Let’s gooo!!! kamonnn";
+        [ObservableProperty] private DateTime projectStartDate = new(2025, 9, 4);
+        [ObservableProperty] private DateTime projectEndDate = new(2025, 9, 6);
+        [ObservableProperty] private string projectDuration = "Duration: 2 Day(s)";
+        [ObservableProperty] private string projectPriority = "High";
+        [ObservableProperty] private string projectStatus = "Active";
+        [ObservableProperty] private int projectResourcesNeeded = 3;
+        [ObservableProperty] private List<string> projectRequiredSkills = new() { "Dancing", "Driving" };
+        [ObservableProperty] private List<string> projectEmployedProviders = new() { "John Doe", "Jane Smith" };
     }
 }

@@ -1,7 +1,8 @@
 using Microsoft.Maui.Controls;
-using PLinkageApp.ViewsAndroid;
-using PLinkageApp.ViewModels;
 using PLinkageApp.Interfaces;
+using PLinkageApp.ViewModels;
+using PLinkageApp.Views;
+using PLinkageApp.ViewsAndroid;
 using PLinkageShared.Enums;
 
 namespace PLinkageApp
@@ -35,6 +36,8 @@ namespace PLinkageApp
             Routing.RegisterRoute(nameof(RegisterView3), typeof(RegisterView3));
             Routing.RegisterRoute(nameof(RegisterView4), typeof(RegisterView4));
             Routing.RegisterRoute(nameof(RegisterView5), typeof(RegisterView5));
+            Routing.RegisterRoute(nameof(ViewProject), typeof(Views.ViewProject));
+
             _startupService = startupService;
             BindingContext = viewModel;
         }
@@ -49,6 +52,7 @@ namespace PLinkageApp
             _initialized = true;
             await _startupService.StartAsync();
         }
+
         public void ConfigureTabs(UserRole? role)
         {
             if (role == null)
@@ -60,7 +64,7 @@ namespace PLinkageApp
             {
                 items = GetAdminTabbarItems();
             }
-            else if(role == UserRole.SkillProvider)
+            else if (role == UserRole.SkillProvider)
             {
                 items = GetSkillProviderTabbarItems();
             }
@@ -69,13 +73,14 @@ namespace PLinkageApp
                 items = GetProjectOwnerTabBarItems();
             }
 
-                var tabbarItems = items.Select(i => new ShellContent
-                {
-                    Title = i.Name,
-                    Icon = i.Icon,
-                    Route = i.Type.Name, // Use the class name as route
-                    ContentTemplate = new DataTemplate(i.Type)
-                });
+            var tabbarItems = items.Select(i => new ShellContent
+            {
+                Title = i.Name,
+                Icon = i.Icon,
+                Route = i.Type.Name,
+                ContentTemplate = new DataTemplate(i.Type)
+            });
+
             MainTabBar.Items.Clear();
             foreach (var item in tabbarItems)
             {
@@ -88,38 +93,35 @@ namespace PLinkageApp
         private TabbarItem[] GetAdminTabbarItems()
         {
             TabbarItem[] items = [
-                new TabbarItem("Home", "home.svg", typeof(AdminHomeView)),
-                new TabbarItem("S.Provider", "browsesp.svg", typeof(AdminBrowseSkillProviderView)),
-                new TabbarItem("Projects", "project.svg", typeof(AdminBrowseProjectView)),
-                new TabbarItem("P.Owner", "browsepo.svg", typeof(AdminBrowseProjectOwnerView)),
-                new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
+                new TabbarItem("Home", "home.svg", typeof(PLinkageApp.ViewsAndroid.AdminHomeView)),
+                new TabbarItem("S.Provider", "browsesp.svg", typeof(PLinkageApp.ViewsAndroid.AdminBrowseSkillProviderView)),
+                new TabbarItem("Projects", "project.svg", typeof(PLinkageApp.ViewsAndroid.AdminBrowseProjectView)),
+                new TabbarItem("P.Owner", "browsepo.svg", typeof(PLinkageApp.ViewsAndroid.AdminBrowseProjectOwnerView)),
+                new TabbarItem("Messages", "chat.svg", typeof(PLinkageApp.ViewsAndroid.ChatView)),
+                new TabbarItem("Logout", "logout.svg", typeof(PLinkageApp.ViewsAndroid.LogoutView))
             ];
 
             return items;
-
         }
+
         private TabbarItem[] GetProjectOwnerTabBarItems()
         {
             TabbarItem[] items = [
-                new TabbarItem("Home", "home.svg", typeof(ProjectOwnerHomeView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
+                new TabbarItem("Home", "home.svg", typeof(PLinkageApp.ViewsAndroid.ProjectOwnerHomeView)),
+                new TabbarItem("Logout", "logout.svg", typeof(PLinkageApp.ViewsAndroid.LogoutView))
             ];
 
             return items;
         }
+
         private TabbarItem[] GetSkillProviderTabbarItems()
         {
             TabbarItem[] items = [
-                new TabbarItem("Home", "home.svg", typeof(SkillProviderHomeView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
+                new TabbarItem("Home", "home.svg", typeof(PLinkageApp.ViewsAndroid.SkillProviderHomeView)),
+                new TabbarItem("Logout", "logout.svg", typeof(PLinkageApp.ViewsAndroid.LogoutView))
             ];
 
             return items;
         }
-
-
-
-
     }
 }

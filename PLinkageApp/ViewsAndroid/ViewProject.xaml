@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PLinkageApp"
+             x:DataType="viewmodels:AdminBrowseProjectViewModelTemp"
+             x:Class="PLinkageApp.Views.ViewProject"
+             BackgroundColor="#FAFAFA"
+             Title="Project Details">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="14">
+
+            <Label Text="Project Details"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="#3C3C3C"
+                   HorizontalOptions="Center"/>
+
+            <!-- Project Title -->
+            <Label Text="Project Title" FontAttributes="Bold" />
+            <Entry Text="{Binding ProjectTitle}" IsReadOnly="True"/>
+
+            <!-- Location and Owner -->
+            <HorizontalStackLayout Spacing="10">
+                <VerticalStackLayout WidthRequest="150">
+                    <Label Text="Location" FontAttributes="Bold"/>
+                    <Entry Text="{Binding ProjectLocation}" IsReadOnly="True"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout WidthRequest="150">
+                    <Label Text="Owner" FontAttributes="Bold"/>
+                    <Entry Text="{Binding ProjectOwner}" IsReadOnly="True"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Description -->
+            <Label Text="Description" FontAttributes="Bold"/>
+            <Editor Text="{Binding ProjectDescription}" IsReadOnly="True" HeightRequest="80"/>
+
+            <!-- Dates -->
+            <HorizontalStackLayout Spacing="10">
+                <VerticalStackLayout WidthRequest="150">
+                    <Label Text="Start Date" FontAttributes="Bold"/>
+                    <DatePicker Date="{Binding ProjectStartDate}" IsEnabled="False"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout WidthRequest="150">
+                    <Label Text="End Date" FontAttributes="Bold"/>
+                    <DatePicker Date="{Binding ProjectEndDate}" IsEnabled="False"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Duration -->
+            <Label Text="Duration" FontAttributes="Bold"/>
+            <Entry Text="{Binding ProjectDuration}" IsReadOnly="True"/>
+
+            <!-- Priority -->
+            <Label Text="Priority" FontAttributes="Bold"/>
+            <Frame Padding="5" CornerRadius="10" BackgroundColor="#FFEBE6">
+                <Label Text="{Binding ProjectPriority}" TextColor="#C62828" HorizontalOptions="Center"/>
+            </Frame>
+
+            <!-- Status -->
+            <Label Text="Status" FontAttributes="Bold"/>
+            <Frame Padding="5" CornerRadius="10" BackgroundColor="#E8EAF6">
+                <Label Text="{Binding ProjectStatus}" TextColor="#3F51B5" HorizontalOptions="Center"/>
+            </Frame>
+
+            <!-- Resources -->
+            <Label Text="Resources Needed" FontAttributes="Bold"/>
+            <Entry Text="{Binding ProjectResourcesNeeded}" IsReadOnly="True"/>
+
+            <!-- Required Skills (chips) -->
+            <Label Text="Required Skill Set" FontAttributes="Bold"/>
+            <FlexLayout Wrap="Wrap" Margin="0,6,0,0"
+                        BindableLayout.ItemsSource="{Binding ProjectRequiredSkills}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#E6E1FF"
+                               Padding="8"
+                               Margin="4"
+                               CornerRadius="12"
+                               HasShadow="False">
+                            <Label Text="{Binding .}"
+                                   FontSize="14"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   TextColor="#5B3EBA"/>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <!-- Employed Providers (chips) -->
+            <Label Text="Employed Skill Providers" FontAttributes="Bold" Margin="0,8,0,0"/>
+            <FlexLayout Wrap="Wrap"
+                        BindableLayout.ItemsSource="{Binding ProjectEmployedProviders}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#DFFFE5"
+                               Padding="8"
+                               Margin="4"
+                               CornerRadius="12"
+                               HasShadow="False">
+                            <Label Text="{Binding .}"
+                                   FontSize="14"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   TextColor="#007F4F"/>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
