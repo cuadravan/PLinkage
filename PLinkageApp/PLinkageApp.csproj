@@ -87,6 +87,9 @@
 	  <Compile Update="AndroidControls\FilterButton.xaml.cs">
 	    <DependentUpon>FilterButton.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="AndroidControls\UserProfileCard.xaml.cs">
+	    <DependentUpon>UserProfileCard.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="AppShellWindows.xaml.cs">
 	    <DependentUpon>AppShellWindows.xaml</DependentUpon>
 	  </Compile>
@@ -116,6 +119,9 @@
 	  </Compile>
 	  <Compile Update="ViewsAndroid\MessagesView.xaml.cs">
 	    <DependentUpon>MessagesView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\ViewSkillProviderProfileView.xaml.cs">
+	    <DependentUpon>ViewSkillProviderProfileView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsWindows\LoginView.xaml.cs">
 	    <DependentUpon>LoginView.xaml</DependentUpon>
@@ -150,7 +156,13 @@
 	  <MauiXaml Update="AndroidControls\FilterButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\InformationCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\LabelledPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\UserProfileCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\ProjectCard.xaml">
@@ -228,6 +240,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\MessagesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewProjectOwnerProfileView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewProjectView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewSkillProviderProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsWindows\AdminBrowseProjectOwnerView.xaml">

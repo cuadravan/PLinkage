@@ -37,5 +37,10 @@ namespace PLinkageApp.Services
 
             return await GetAsync<IEnumerable<SkillProviderCardDto>>(finalUrl);
         }
+
+        public async Task<ApiResponse<SkillProviderDto>> GetSpecificAsync(Guid skillProviderId)
+        {
+            return await GetAsync<SkillProviderDto>($"api/skillprovider/{skillProviderId}");
+        }
     }
 }

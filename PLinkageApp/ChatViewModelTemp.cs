@@ -35,17 +35,14 @@ namespace PLinkageApp
             _chatPreviews = new List<ChatSummaryDto>();
         }
 
-        // --- NEW ---
         [RelayCommand]
         private async Task RefreshAsync()
         {
             await GetChatPreviews();
         }
 
-        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
-            // Only load data if the list is empty (first-time load)
             if (_chatPreviews.Any())
                 return;
 
@@ -87,7 +84,7 @@ namespace PLinkageApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting chat previews: {ex.Message}"); // --- FIXED LOG ---
+                Console.WriteLine($"Error getting chat previews: {ex.Message}");
                 await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally

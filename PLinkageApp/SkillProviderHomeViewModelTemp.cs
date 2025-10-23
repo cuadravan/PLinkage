@@ -36,7 +36,6 @@ namespace PLinkageApp
             IsBusy = true;
             try
             {
-                // Run both network calls concurrently and wait for them both to finish
                 await Task.WhenAll(
                     GetDashboardStats(),
                     GetSuggestedProjects()
@@ -44,7 +43,6 @@ namespace PLinkageApp
             }
             catch (Exception ex)
             {
-                // Central place to handle any initialization errors, e.g., show a popup
                 Console.WriteLine($"Error during initialization: {ex.Message}");
             }
             finally
@@ -61,12 +59,10 @@ namespace PLinkageApp
             IsBusy = true;
             try
             {
-                // Run both network calls concurrently and wait for them both to finish
                 await GetSuggestedProjects();
             }
             catch (Exception ex)
             {
-                // Central place to handle any initialization errors, e.g., show a popup
                 Console.WriteLine($"Error during initialization: {ex.Message}");
             }
             finally

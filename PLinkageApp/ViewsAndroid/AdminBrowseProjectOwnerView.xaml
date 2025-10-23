@@ -6,7 +6,6 @@
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     xmlns:viewmodels="clr-namespace:PLinkageApp"
     Title="AdminBrowseProjectOwnerView"
-    x:DataType="viewmodels:AdminBrowseProjectOwnerViewModelTemp"
     Shell.NavBarIsVisible="False">
 
     <Grid RowDefinitions="Auto, Auto, *">

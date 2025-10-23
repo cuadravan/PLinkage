@@ -30,5 +30,10 @@ namespace PLinkageApp.Services
 
             return await GetAsync<IEnumerable<ProjectOwnerCardDto>>(finalUrl);
         }
+
+        public async Task<ApiResponse<ProjectOwnerDto>> GetSpecificAsync(Guid projectOwnerId)
+        {
+            return await GetAsync<ProjectOwnerDto>($"api/projectowner/{projectOwnerId}");
+        }
     }
 }

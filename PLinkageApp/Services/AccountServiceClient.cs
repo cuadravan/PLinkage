@@ -23,5 +23,10 @@ namespace PLinkageApp.Services
         {
             return await PostAsync<string, bool>("api/account/checkemail", email);
         }
+
+        public async Task<ApiResponse<string>> ActivateDeactivateUserAsync(Guid userId)
+        {
+            return await PostAsync<Guid, string>("api/account/status", userId);
+        }
     }
 }

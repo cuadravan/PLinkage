@@ -6,12 +6,14 @@ namespace PLinkageShared.DTOs
     {
         public Guid ProjectId { get; set; } = Guid.NewGuid();
         public Guid ProjectOwnerId { get; set; } = Guid.Empty;
+        public string ProjectOwnerName { get; set; } = string.Empty;
         public string ProjectName { get; set; } = string.Empty;
-        public CebuLocation? ProjectLocation { get; set; } = null;
+        public string ProjectLocation { get; set; } = string.Empty;
+        public string ProjectDuration { get; set; } = string.Empty;
         public string ProjectDescription { get; set; } = string.Empty;
         public DateTime ProjectStartDate { get; set; } = DateTime.Now;
         public DateTime ProjectEndDate { get; set; } = DateTime.Now;
-        public ProjectStatus? ProjectStatus { get; set; } = null;
+        public string ProjectStatus { get; set; } = string.Empty;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
         public List<ProjectMemberDetailDto> ProjectMembers { get; set; } = new List<ProjectMemberDetailDto>();
         public string ProjectPriority { get; set; } = string.Empty;
@@ -41,6 +43,7 @@ namespace PLinkageShared.DTOs
     public class ProjectMemberDetailDto
     {
         public Guid MemberId { get; set; }
+        public string UserName { get; set; }
         public string UserFirstName { get; set; } // From SkillProvider
         public string UserLastName { get; set; } // From SkillProvider
         public string Email { get; set; } // From SkillProvider

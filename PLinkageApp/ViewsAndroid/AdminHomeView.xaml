@@ -6,7 +6,6 @@
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     xmlns:viewmodels="clr-namespace:PLinkageApp"
     Title="AdminHomeView"
-    x:DataType="viewmodels:AdminHomeViewModelTemp"
     Shell.NavBarIsVisible="False">
 
     <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">

@@ -33,7 +33,7 @@ public partial class ProjectOwnerCard : ContentView
     
 
     public static readonly BindableProperty CommandProperty =
-        BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ProjectCard), null);
+        BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ProjectOwnerCard), null);
 
     public static readonly BindableProperty CommandParameterProperty =
         BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(ProjectCard), null);

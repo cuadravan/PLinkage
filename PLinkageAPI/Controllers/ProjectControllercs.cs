@@ -27,8 +27,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            var projectDto = _mapper.Map<ProjectDto>(response.Data);
-            return Ok(ApiResponse<ProjectDto>.Ok(projectDto, response.Message));
+            return Ok(ApiResponse<ProjectDto>.Ok(response.Data, response.Message));
         }
 
         [HttpPost]

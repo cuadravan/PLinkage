@@ -18,6 +18,7 @@ namespace PLinkageApp
     {
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
 
         private List<ProjectOwnerCardDto> _allProjectOwners;
 
@@ -26,26 +27,24 @@ namespace PLinkageApp
         [ObservableProperty]
         private bool isBusy = false;
 
-        public AdminBrowseProjectOwnerViewModelTemp(IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService)
+        public AdminBrowseProjectOwnerViewModelTemp(INavigationService navigationService, IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService)
         {
             _projectOwnerServiceClient = projectOwnerServiceClient;
             _sessionService = sessionService;
+            _navigationService = navigationService;
 
             _allProjectOwners = new List<ProjectOwnerCardDto>();
             ProjectOwnerCards = new ObservableCollection<ProjectOwnerCardDto>();
         }
 
-        // --- NEW ---
         [RelayCommand]
         private async Task RefreshAsync()
         {
             await GetProjects();
         }
 
-        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
-            // Only load data on the first appearance
             if (_allProjectOwners.Any())
                 return;
 
@@ -94,11 +93,11 @@ namespace PLinkageApp
                 {
                     await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
-                FilterProjectOwnerCards(); // --- RENAMED ---
+                FilterProjectOwnerCards();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting project owners: {ex.Message}"); // --- FIXED LOG ---
+                Console.WriteLine($"Error getting project owners: {ex.Message}");
                 await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
@@ -111,7 +110,8 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewProjectOwner(ProjectOwnerCardDto projectOwnerCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on project owner with id: {projectOwnerCardDto.UserId}", "Okay");
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on project owner with id: {projectOwnerCardDto.UserId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewProjectOwnerProfileView", new Dictionary<string, object> { { "ProjectOwnerId", projectOwnerCardDto.UserId} });
         }
 
         // CATEGORY

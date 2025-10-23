@@ -35,16 +35,18 @@ namespace PLinkageAPI.Services
             var skillProviderDto = new SkillProviderDto
             {
                 UserId = skillProvider.UserId,
+                UserName = skillProvider.UserFirstName + " " + skillProvider.UserLastName,
                 UserFirstName = skillProvider.UserFirstName,
                 UserLastName = skillProvider.UserLastName,
                 UserPhone = skillProvider.UserPhone,
-                UserLocation = skillProvider.UserLocation,
+                UserLocation = skillProvider.UserLocation.ToString(),
+                UserEmail = skillProvider.UserEmail,
                 UserBirthDate = skillProvider.UserBirthDate,
                 UserGender = skillProvider.UserGender,
                 UserRole = skillProvider.UserRole,
                 UserStatus = skillProvider.UserStatus,
                 JoinedOn = skillProvider.JoinedOn,
-                UserRating = skillProvider.UserRating.ToString("F2") + " ★",
+                UserRating = skillProvider.UserRating.ToString("F2"),
                 Educations = educationDtos,
                 Skills = skillDtos
             };
@@ -57,7 +59,7 @@ namespace PLinkageAPI.Services
                 {
                     ProjectId = project.ProjectId,
                     ProjectName = project.ProjectName,
-                    ProjectStatus = project.ProjectStatus,
+                    ProjectStatus = project.ProjectStatus.ToString(),
                     TimeFrame = member.TimeFrame,
                     Rate = member.Rate
 

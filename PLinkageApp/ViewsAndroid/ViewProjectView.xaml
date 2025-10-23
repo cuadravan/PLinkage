@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ViewProjectView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="View Project">
+    <ContentPage.Resources>
+        <Color x:Key="PrimaryPurple">#6B4BFF</Color>
+        <Color x:Key="LightPurple">#EAE4FF</Color>
+        <Color x:Key="DisabledBackground">#F5F5F5</Color>
+        <Color x:Key="DarkText">#212121</Color>
+        <Color x:Key="LightText">#424242</Color>
+        <Color x:Key="CardBackground">#FFFFFF</Color>
+        <Color x:Key="DateCardBackground">#EEEEEE</Color>
+
+        <Style TargetType="Entry">
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}" />
+            <Setter Property="TextColor" Value="{StaticResource DarkText}" />
+            <Setter Property="HeightRequest" Value="48" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="Editor">
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}" />
+            <Setter Property="TextColor" Value="{StaticResource DarkText}" />
+            <Setter Property="HeightRequest" Value="120" />
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}" />
+            <Setter Property="TextColor" Value="{StaticResource DarkText}" />
+            <Setter Property="HeightRequest" Value="48" />
+        </Style>
+
+        <Style x:Key="InputFrame" TargetType="Frame">
+            <Setter Property="HasShadow" Value="False" />
+            <Setter Property="BorderColor" Value="{StaticResource PrimaryPurple}" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="10,0" />
+            <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}" />
+        </Style>
+
+        <Style x:Key="FieldLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource DarkText}" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Margin" Value="0,0,0,5" />
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource DarkText}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Margin" Value="0,15,0,10" />
+        </Style>
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="15">
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Project Name" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectName}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource FieldLabel}" Text="Location" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <Entry Text="{Binding Project.ProjectLocation}" />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource FieldLabel}" Text="Owner" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <Entry Text="{Binding Project.ProjectOwnerName}" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Project Description" />
+                <Frame Padding="10" Style="{StaticResource InputFrame}">
+                    <Editor AutoSize="Disabled" Text="{Binding Project.ProjectDescription}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource FieldLabel}" Text="Start Date" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <DatePicker Date="{Binding Project.ProjectStartDate}" Format="M/dd/yyyy" />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource FieldLabel}" Text="End Date" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <DatePicker Date="{Binding Project.ProjectEndDate}" Format="M/dd/yyyy" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Project Duration" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectDuration}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Priority" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectPriority}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Status" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectStatus}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Resources Needed" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectResourcesNeeded}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Required Skill Set" />
+                <Frame
+                    Padding="10"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    BorderColor="{StaticResource PrimaryPurple}"
+                    CornerRadius="8">
+                    <CollectionView HeightRequest="40" ItemsSource="{Binding Project.ProjectSkillsRequired}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="15,8"
+                                    BackgroundColor="{StaticResource LightPurple}"
+                                    StrokeShape="RoundRectangle 15">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="{Binding .}"
+                                        TextColor="{StaticResource PrimaryPurple}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+            </VerticalStackLayout>
+
+
+            <Label Style="{StaticResource SectionTitle}" Text="Employed Skill Providers" />
+            <CollectionView ItemsSource="{Binding Project.ProjectMembers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="0,0,0,10"
+                            Padding="2"
+                            Stroke="{StaticResource PrimaryPurple}"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="2">
+                            <Border
+                                Padding="15"
+                                BackgroundColor="{StaticResource CardBackground}"
+                                StrokeShape="RoundRectangle 8">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Name:"
+                                                TextColor="{StaticResource LightText}" />
+                                            <Label Text="{Binding UserFirstName}" />
+                                            <Label Text="{Binding UserLastName}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Email:"
+                                                TextColor="{StaticResource LightText}" />
+                                            <Label Text="{Binding Email}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Rate:"
+                                                TextColor="{StaticResource LightText}" />
+                                            <Label Text="{Binding Rate, StringFormat='${0:F2} per hour'}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Timeframe:"
+                                                TextColor="{StaticResource LightText}" />
+                                            <Label Text="{Binding TimeFrame, StringFormat='{0} hour(s)'}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+
+                                </Grid>
+                            </Border>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Border
+                Margin="0,10,0,0"
+                Padding="15"
+                BackgroundColor="{StaticResource DateCardBackground}"
+                StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Date Information"
+                            TextColor="{StaticResource DarkText}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="20"
+                        RowDefinitions="Auto,Auto">
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Created:"
+                            TextColor="{StaticResource LightText}" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{Binding Project.ProjectDateCreated, StringFormat='{0:M/dd/yyyy}'}"
+                            TextColor="{StaticResource DarkText}" />
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="Updated:"
+                            TextColor="{StaticResource LightText}" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="{Binding Project.ProjectDateUpdated, StringFormat='{0:M/dd/yyyy}'}"
+                            TextColor="{StaticResource DarkText}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -18,6 +18,7 @@ namespace PLinkageApp
     {
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
 
         private List<ProjectCardDto> _allProjects;
         public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
@@ -25,27 +26,24 @@ namespace PLinkageApp
         [ObservableProperty]
         private bool isBusy = false;
 
-        public AdminBrowseProjectViewModelTemp(IProjectServiceClient projectServiceClient, ISessionService sessionService)
+        public AdminBrowseProjectViewModelTemp(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _sessionService = sessionService;
-
+            _navigationService = navigationService;
             _allProjects = new List<ProjectCardDto>();
             ProjectCards = new ObservableCollection<ProjectCardDto>();
+
         }
 
-        // --- NEW ---
         [RelayCommand]
         private async Task RefreshAsync()
         {
-            // This command is for an explicit user refresh (e.g., pull-to-refresh).
             await GetProjects();
         }
 
-        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
-            // If we already have data, don't fetch it again just on appearing.
             if (_allProjects.Any())
                 return;
 
@@ -95,11 +93,11 @@ namespace PLinkageApp
                 {
                     await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
-                FilterSkillProviderCards(); // You might want to rename this to FilterProjectCards()
+                FilterProjectCards();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting projects: {ex.Message}"); // Updated log message
+                Console.WriteLine($"Error getting projects: {ex.Message}"); 
                 await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
@@ -112,7 +110,9 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewProject(ProjectCardDto projectCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
+
         }
 
         // CATEGORY
@@ -186,7 +186,7 @@ namespace PLinkageApp
 
         partial void OnSearchFilterSelectionChanged(string value)
         {
-            FilterSkillProviderCards(); // Rename this
+            FilterProjectCards(); // Rename this
         }
 
         // SEARCH QUERY
@@ -196,13 +196,13 @@ namespace PLinkageApp
 
         partial void OnSearchQueryChanged(string value)
         {
-            FilterSkillProviderCards(); // Rename this
+            FilterProjectCards(); // Rename this
         }
 
         private const int FuzzySearchCutoff = 70;
 
         // NOTE: You should rename this method to FilterProjectCards
-        private void FilterSkillProviderCards()
+        private void FilterProjectCards()
         {
             var query = SearchQuery.Trim().ToLowerInvariant();
 

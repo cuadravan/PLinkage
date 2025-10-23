@@ -5,10 +5,12 @@ namespace PLinkageShared.DTOs
     public class ProjectOwnerDto
     {
         public Guid UserId { get; set; } = Guid.NewGuid();
+        public string UserName { get; set; } = string.Empty;
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; } = string.Empty;
+        public string UserEmail { get; set; } = string.Empty;
         public string UserPhone { get; set; } = string.Empty;
-        public CebuLocation? UserLocation { get; set; } = null;
+        public string UserLocation { get; set; } = null;
         public DateTime UserBirthDate { get; set; } = DateTime.Now;
         public string UserGender { get; set; } = string.Empty;
         public UserRole UserRole { get; set; }

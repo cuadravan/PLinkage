@@ -18,6 +18,7 @@ namespace PLinkageApp
     {
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
 
         private List<SkillProviderCardDto> _allSkillProviders;
         public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
@@ -25,10 +26,11 @@ namespace PLinkageApp
         [ObservableProperty]
         private bool isBusy = false;
 
-        public AdminBrowseSkillProviderViewModelTemp(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService)
+        public AdminBrowseSkillProviderViewModelTemp(INavigationService navigationService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService)
         {
             _skillProviderServiceClient = skillProviderServiceClient;
             _sessionService = sessionService;
+            _navigationService = navigationService;
 
             _allSkillProviders = new List<SkillProviderCardDto>();
             SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
@@ -113,7 +115,8 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on skill provider with id: {skillProviderCardDto.UserId}", "Okay");
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on skill provider with id: {skillProviderCardDto.UserId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId }});
         }
 
         // CATEGORY

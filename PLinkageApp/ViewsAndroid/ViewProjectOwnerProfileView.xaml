@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ViewProjectOwnerProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp"
+    Title="View Project Owner">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="10">
+                <controls:UserProfileCard
+                    DeactivateActivateCommand="{Binding ToggleUserActivationCommand}"
+                    IsDeactivateActivateButtonVisible="{Binding IsDeactivateButtonVisible}"
+                    IsMessageButtonVisible="{Binding IsMessageButtonVisible}"
+                    IsRatingVisible="{Binding IsRatingVisible}"
+                    IsUserActivated="{Binding IsUserCurrentlyActive, Mode=TwoWay}"
+                    JoinedDate="{Binding ProjectOwnerDto.JoinedOn}"
+                    MessageCommand="{Binding MessageUserCommand}"
+                    UserName="{Binding ProjectOwnerDto.UserName}"
+                    UserRating="{Binding ProjectOwnerDto.UserRating}"
+                    UserSubtitle="{Binding ProjectOwnerDto.UserLocation}" />
+
+                <StackLayout Padding="25,0,25,0">
+                    <controls:InformationCard
+                        Title="Information"
+                        Email="{Binding ProjectOwnerDto.UserEmail}"
+                        Gender="{Binding ProjectOwnerDto.UserGender}"
+                        Mobile="{Binding ProjectOwnerDto.UserPhone}" />
+                    <Label
+                        Margin="5,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Employed Projects"
+                        TextColor="#333333" />
+
+                    <CollectionView ItemsSource="{Binding ProjectOwnerDto.ProfileProjects}">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Margin="0,0,0,5"
+                                    Padding="15"
+                                    BackgroundColor="White"
+                                    Stroke="#8A2BE2"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="2">
+
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+
+                                        <VerticalStackLayout
+                                            Grid.Column="0"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                Text="{Binding ProjectName}"
+                                                TextColor="#333333" />
+
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label
+                                                    FontSize="14"
+                                                    Text="Status:"
+                                                    TextColor="#666666" />
+                                                <Label
+                                                    FontSize="14"
+                                                    Text="{Binding ProjectStatus}"
+                                                    TextColor="#00C853">
+
+                                                    <Label.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding ProjectStatus}"
+                                                            TargetType="Label"
+                                                            Value="Completed">
+                                                            <Setter Property="TextColor" Value="#00C853" />
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding ProjectStatus}"
+                                                            TargetType="Label"
+                                                            Value="Active">
+                                                            <Setter Property="TextColor" Value="#FFAB00" />
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding ProjectStatus}"
+                                                            TargetType="Label"
+                                                            Value="Deactivated">
+                                                            <Setter Property="TextColor" Value="#D50000" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <Path
+                                            Grid.Column="1"
+                                            Data="M12,9C10.9,9 10,9.9 10,11C10,12.1 10.9,13 12,13C13.1,13 14,12.1 14,11C14,9.9 13.1,9 12,9M12,4.5C7,4.5 2.7,7.6 1,12C2.7,16.4 7,19.5 12,19.5C17,19.5 21.3,16.4 23,12C21.3,7.6 17,4.5 12,4.5M12,17C9.2,17 7,14.8 7,12C7,9.2 9.2,7 12,7C14.8,7 17,9.2 17,12C17,14.8 14.8,17 12,17Z"
+                                            Fill="#8A2BE2"
+                                            VerticalOptions="Center">
+
+                                            <Path.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ViewProjectCommand}" />
+                                            </Path.GestureRecognizers>
+                                        </Path>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

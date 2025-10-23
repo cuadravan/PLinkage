@@ -44,10 +44,8 @@ namespace PLinkageApp
             await GetChatMessages();
         }
 
-        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
-            // Only load data if the list is empty (first-time load)
             if (Messages.Any())
                 return;
 
@@ -63,13 +61,14 @@ namespace PLinkageApp
 
         private async Task GetChatMessages()
         {
-            if (ChatId == Guid.Empty)
-                return;
+            
             if (IsBusy)
                 return;
             IsBusy = true;
             try
             {
+                if (ChatId == Guid.Empty)
+                    return;
                 Messages.Clear();
                 var userId = _sessionService.GetCurrentUserId();
                 var result = await _chatServiceClient.GetChatMessagesAsync(ChatId, userId);
@@ -118,24 +117,26 @@ namespace PLinkageApp
 
                 if (result.Success && result.Data != null)
                 {
-                    Messages.Add(result.Data);
                     if (this.ChatId == Guid.Empty)
-                        this.ChatId = result.Data.ChatId;
+                    {
+                        this.ChatId = result.Data.ChatId;                      
+                    }        
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await Shell.Current.DisplayAlert("Failed to Send/Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting chat messages: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                Console.WriteLine($"Error sending chat messages: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending and/or fetching data: {ex.Message}", "Ok");
             }
             finally
             {
                 MessageToSend = string.Empty;
                 IsBusy = false;
+                await GetChatMessages();
             }
         }
 

@@ -19,6 +19,7 @@ namespace PLinkageApp
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly IProjectServiceClient _projectServiceClient;
+        private readonly INavigationService _navigationService;
         public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
         public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
         [ObservableProperty] private int activeProjectsValue = 0;
@@ -28,37 +29,32 @@ namespace PLinkageApp
         [ObservableProperty]
         private bool isBusy = false;
 
-        public AdminHomeViewModelTemp(IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
+        public AdminHomeViewModelTemp(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
             _skillProviderServiceClient = skillProviderServiceClient;
             _projectServiceClient = projectServiceClient;
+            _navigationService = navigationService;
 
             SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
             ProjectCards = new ObservableCollection<ProjectCardDto>();
         }
 
-        // --- NEW ---
-        // This command is for the RefreshView
         [RelayCommand]
         private async Task RefreshAsync()
         {
             await LoadDashboardDataAsync();
         }
 
-        // --- MODIFIED ---
         public async Task InitializeAsync()
         {
-            // Only load data if the lists are empty (i.e., first-time load)
             if (ProjectCards.Any() || SkillProviderCards.Any())
                 return;
 
             await LoadDashboardDataAsync();
         }
 
-        // --- NEW ---
-        // Created a central method for all data loading
         private async Task LoadDashboardDataAsync()
         {
             if (IsBusy)
@@ -67,11 +63,9 @@ namespace PLinkageApp
             IsBusy = true;
             try
             {
-                // Clear lists before fetching new data
                 SkillProviderCards.Clear();
                 ProjectCards.Clear();
 
-                // Run both network calls concurrently and wait for them both to finish
                 await Task.WhenAll(
                     GetDashboardStats(),
                     GetSuggestedSkillProviders(),
@@ -80,9 +74,7 @@ namespace PLinkageApp
             }
             catch (Exception ex)
             {
-                // Central place to handle any initialization errors, e.g., show a popup
                 Console.WriteLine($"Error during initialization: {ex.Message}");
-                // Optionally display an alert to the user
                 await Shell.Current.DisplayAlert("Load Error", "Failed to load dashboard data.", "OK");
             }
             finally
@@ -108,7 +100,6 @@ namespace PLinkageApp
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
-            // Note: Clear was moved to LoadDashboardDataAsync
             result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active", null);
 
             if (result.Success && result.Data != null)
@@ -124,7 +115,6 @@ namespace PLinkageApp
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<ProjectCardDto>> result = null;
-            // Note: Clear was moved to LoadDashboardDataAsync
             result = await _projectServiceClient.GetFilteredProjectsAsync("All", userLocation, "Active");
 
             if (result.Success && result.Data != null)
@@ -139,13 +129,13 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on skill provider with id: {skillProviderCardDto.UserId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
         }
 
         [RelayCommand]
         private async Task ViewProject(ProjectCardDto projectCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
         }
     }
 }
