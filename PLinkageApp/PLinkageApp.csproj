@@ -93,6 +93,9 @@
 	  <Compile Update="Views To use\AdminViewProjectOwnerProfileView.xaml.cs">
 	    <DependentUpon>AdminViewProjectOwnerProfileView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\ViewProjectOwnerProfile.xaml.cs">
+	    <DependentUpon>ViewProjectOwnerProfile.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView5.xaml.cs">
 	    <DependentUpon>RegisterView5.xaml</DependentUpon>
 	  </Compile>
@@ -199,6 +202,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\LoginView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewProjectOwnerProfile.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\ProjectOwnerHomeView.xaml">

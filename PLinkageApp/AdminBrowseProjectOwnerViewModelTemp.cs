@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FuzzySharp;
 using PLinkageApp.Interfaces;
+using PLinkageApp.ViewsAndroid;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
@@ -9,8 +12,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FuzzySharp;
-using CommunityToolkit.Mvvm.Input;
 
 namespace PLinkageApp
 {
@@ -111,8 +112,16 @@ namespace PLinkageApp
         [RelayCommand]
         private async Task ViewProjectOwner(ProjectOwnerCardDto projectOwnerCardDto)
         {
-            await Shell.Current.DisplayAlert("Hey!", $"You clicked on project owner with id: {projectOwnerCardDto.UserId}", "Okay");
+            if (projectOwnerCardDto == null)
+                return;
+
+            await Shell.Current.GoToAsync(nameof(ViewProjectOwnerProfile), true,
+                new Dictionary<string, object>
+                {
+            { "SelectedOwner", projectOwnerCardDto }
+                });
         }
+
 
         // CATEGORY
 
