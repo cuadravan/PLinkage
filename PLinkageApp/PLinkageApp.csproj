@@ -69,6 +69,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FuzzySharp" Version="2.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
@@ -80,6 +81,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="AndroidControls\ChatPreviewCard.xaml.cs">
+	    <DependentUpon>ChatPreviewCard.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="AndroidControls\FilterButton.xaml.cs">
+	    <DependentUpon>FilterButton.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="AndroidControls\UserProfileCard.xaml.cs">
+	    <DependentUpon>UserProfileCard.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="AppShellWindows.xaml.cs">
 	    <DependentUpon>AppShellWindows.xaml</DependentUpon>
 	  </Compile>
@@ -106,6 +116,12 @@
 	  </Compile>
 	  <Compile Update="ViewsAndroid\SkillProviderHomeView.xaml.cs">
 	    <DependentUpon>SkillProviderHomeView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\MessagesView.xaml.cs">
+	    <DependentUpon>MessagesView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\ViewSkillProviderProfileView.xaml.cs">
+	    <DependentUpon>ViewSkillProviderProfileView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsWindows\LoginView.xaml.cs">
 	    <DependentUpon>LoginView.xaml</DependentUpon>
@@ -134,7 +150,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AndroidControls\ChatPreviewCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\FilterButton.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\InformationCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\LabelledPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\UserProfileCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\ProjectCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\ProjectOwnerCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\SearchFilterBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\SearchInput.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\SkillProviderCard.xaml">
@@ -149,7 +189,19 @@
 	  <MauiXaml Update="Resources\Styles\GlobalNamespaces.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\AdminBrowseProjectOwnerView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\AdminBrowseProjectView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\AdminBrowseSkillProviderView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\AdminHomeView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ChatView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\LogoutView.xaml">
@@ -185,6 +237,18 @@
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeViewxaml.xaml">
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderHomeView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\MessagesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewProjectOwnerProfileView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewProjectView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ViewSkillProviderProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsWindows\AdminBrowseProjectOwnerView.xaml">

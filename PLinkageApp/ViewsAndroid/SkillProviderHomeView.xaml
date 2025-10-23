@@ -37,27 +37,10 @@
                     Value="{Binding PendingReceivedOffersValue}" />
             </FlexLayout>
 
-            <Label
-                FontAttributes="Bold"
-                FontSize="16"
-                HorizontalOptions="Center"
-                Text="Top Projects For You"
-                TextColor="#212121" />
-            <Border
-                BackgroundColor="White"
-                Stroke="#7C4DFF"
-                StrokeShape="RoundRectangle 10"
-                StrokeThickness="1"
-                WidthRequest="280">
-                <Picker
-                    Title="Filter By"
-                    FontFamily="Roboto Mono"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    ItemsSource="{Binding SortOptions}"
-                    SelectedItem="{Binding SortSelection}"
-                    TextColor="#212121" />
-            </Border>
+            <controls:LabeledPicker
+                ItemSource="{Binding SortOptions}"
+                SelectedItem="{Binding SortSelection}"
+                TitleText="Top Projects For You" />
             <CarouselView ItemsSource="{Binding ProjectCards}" PeekAreaInsets="50">
 
                 <CarouselView.ItemTemplate>

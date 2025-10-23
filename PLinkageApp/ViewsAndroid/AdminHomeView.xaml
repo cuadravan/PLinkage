@@ -7,10 +7,11 @@
     xmlns:viewmodels="clr-namespace:PLinkageApp"
     Title="AdminHomeView"
     Shell.NavBarIsVisible="False">
-    <ScrollView>
-        <Grid Padding="0,20">
 
-            <VerticalStackLayout Spacing="7">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+
+        <ScrollView>
+            <VerticalStackLayout Padding="0,20" Spacing="7">
                 <Image Source="plinkagenotext.svg" />
                 <Label
                     FontAttributes="Bold"
@@ -50,6 +51,8 @@
                         <DataTemplate>
                             <controls:ProjectCard
                                 Title="{Binding Title}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModelTemp}}, Path=ViewProjectCommand}"
+                                CommandParameter="{Binding .}"
                                 Description="{Binding Description}"
                                 Location="{Binding Location}"
                                 Skills="{Binding Skills}"
@@ -69,6 +72,8 @@
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <controls:SkillProviderCard
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModelTemp}}, Path=ViewSkillProviderCommand}"
+                                CommandParameter="{Binding .}"
                                 Education="{Binding Education}"
                                 Location="{Binding Location}"
                                 Skills="{Binding Skills}"
@@ -87,14 +92,6 @@
                     </CarouselView.EmptyView>
                 </CarouselView>
             </VerticalStackLayout>
-
-            <ActivityIndicator
-                HorizontalOptions="Center"
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                VerticalOptions="Center"
-                Color="#7C4DFF" />
-
-        </Grid>
-    </ScrollView>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

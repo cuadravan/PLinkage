@@ -38,7 +38,6 @@ namespace PLinkageApp
             IsBusy = true;
             try
             {
-                // Run both network calls concurrently and wait for them both to finish
                 await Task.WhenAll(
                     GetDashboardStats(),
                     GetSuggestedSkillProviders()
@@ -46,7 +45,6 @@ namespace PLinkageApp
             }
             catch (Exception ex)
             {
-                // Central place to handle any initialization errors, e.g., show a popup
                 Console.WriteLine($"Error during initialization: {ex.Message}");
             }
             finally
@@ -76,7 +74,7 @@ namespace PLinkageApp
             ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
             SkillProviderCards.Clear();
             var selection = sortSelection == "Same Place as Me" ? "By Specific Location" : sortSelection;
-            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync(selection, userLocation, "Active");
+            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync(selection, userLocation, "Active", null);
 
             if (result.Success && result.Data != null)
             {

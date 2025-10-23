@@ -19,6 +19,7 @@ namespace PLinkageApp
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly IProjectServiceClient _projectServiceClient;
+        private readonly INavigationService _navigationService;
         public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
         public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
         [ObservableProperty] private int activeProjectsValue = 0;
@@ -28,18 +29,33 @@ namespace PLinkageApp
         [ObservableProperty]
         private bool isBusy = false;
 
-        public AdminHomeViewModelTemp(IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
+        public AdminHomeViewModelTemp(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
             _skillProviderServiceClient = skillProviderServiceClient;
             _projectServiceClient = projectServiceClient;
+            _navigationService = navigationService;
 
             SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
             ProjectCards = new ObservableCollection<ProjectCardDto>();
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadDashboardDataAsync();
+        }
+
         public async Task InitializeAsync()
+        {
+            if (ProjectCards.Any() || SkillProviderCards.Any())
+                return;
+
+            await LoadDashboardDataAsync();
+        }
+
+        private async Task LoadDashboardDataAsync()
         {
             if (IsBusy)
                 return;
@@ -47,7 +63,9 @@ namespace PLinkageApp
             IsBusy = true;
             try
             {
-                // Run both network calls concurrently and wait for them both to finish
+                SkillProviderCards.Clear();
+                ProjectCards.Clear();
+
                 await Task.WhenAll(
                     GetDashboardStats(),
                     GetSuggestedSkillProviders(),
@@ -56,8 +74,8 @@ namespace PLinkageApp
             }
             catch (Exception ex)
             {
-                // Central place to handle any initialization errors, e.g., show a popup
                 Console.WriteLine($"Error during initialization: {ex.Message}");
+                await Shell.Current.DisplayAlert("Load Error", "Failed to load dashboard data.", "OK");
             }
             finally
             {
@@ -82,8 +100,7 @@ namespace PLinkageApp
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
-            SkillProviderCards.Clear();
-            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active");
+            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active", null);
 
             if (result.Success && result.Data != null)
             {
@@ -98,7 +115,6 @@ namespace PLinkageApp
         {
             var userLocation = _sessionService.GetCurrentUserLocation();
             ApiResponse<IEnumerable<ProjectCardDto>> result = null;
-            ProjectCards.Clear();
             result = await _projectServiceClient.GetFilteredProjectsAsync("All", userLocation, "Active");
 
             if (result.Success && result.Data != null)
@@ -110,6 +126,16 @@ namespace PLinkageApp
             }
         }
 
+        [RelayCommand]
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
+        }
 
+        [RelayCommand]
+        private async Task ViewProject(ProjectCardDto projectCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
+        }
     }
 }

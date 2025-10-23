@@ -24,6 +24,6 @@ namespace PLinkageAPI.Interfaces
         Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(
             string proximity,
             CebuLocation? location,
-            string status);
+            string status, bool? isEmployed);
     }
 }

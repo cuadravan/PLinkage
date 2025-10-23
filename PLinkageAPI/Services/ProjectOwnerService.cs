@@ -29,10 +29,12 @@ namespace PLinkageAPI.Services
             var projectOwnerDto = new ProjectOwnerDto
             {
                 UserId = projectOwner.UserId,
+                UserName = projectOwner.UserFirstName + " " + projectOwner.UserLastName,
                 UserFirstName = projectOwner.UserFirstName,
                 UserLastName = projectOwner.UserLastName,
+                UserEmail = projectOwner.UserEmail,
                 UserPhone = projectOwner.UserPhone,
-                UserLocation = projectOwner.UserLocation,
+                UserLocation = projectOwner.UserLocation.ToString(),
                 UserBirthDate = projectOwner.UserBirthDate,
                 UserGender = projectOwner.UserGender,
                 UserRole = projectOwner.UserRole,

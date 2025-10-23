@@ -35,6 +35,10 @@ namespace PLinkageApp
             Routing.RegisterRoute(nameof(RegisterView3), typeof(RegisterView3));
             Routing.RegisterRoute(nameof(RegisterView4), typeof(RegisterView4));
             Routing.RegisterRoute(nameof(RegisterView5), typeof(RegisterView5));
+            Routing.RegisterRoute("MessagesView", typeof(MessagesView));
+            Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
+            Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
+            Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
             _startupService = startupService;
             BindingContext = viewModel;
         }
@@ -89,6 +93,10 @@ namespace PLinkageApp
         {
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(AdminHomeView)),
+                new TabbarItem("S.Provider", "browsesp.svg", typeof(AdminBrowseSkillProviderView)),
+                new TabbarItem("Projects", "project.svg", typeof(AdminBrowseProjectView)),
+                new TabbarItem("P.Owner", "browsepo.svg", typeof(AdminBrowseProjectOwnerView)),
+                new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 

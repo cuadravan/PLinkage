@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace PLinkageApp.AndroidControls;
 
 public partial class ProjectCard : ContentView
@@ -45,6 +47,24 @@ public partial class ProjectCard : ContentView
     {
         get => (IEnumerable<string>)GetValue(SkillsProperty);
         set => SetValue(SkillsProperty, value);
+    }
+
+    public static readonly BindableProperty CommandProperty =
+        BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ProjectCard), null);
+
+    public static readonly BindableProperty CommandParameterProperty =
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(ProjectCard), null);
+
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
     }
 
     public ProjectCard()

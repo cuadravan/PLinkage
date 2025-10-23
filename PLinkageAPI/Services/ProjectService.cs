@@ -68,13 +68,68 @@ namespace PLinkageAPI.Services
             return ApiResponse<bool>.Ok(true, "Project updated successfully.");
         }
 
-        public async Task<ApiResponse<Project>> GetSpecificProjectAsync(Guid projectId)
+        public async Task<ApiResponse<ProjectDto>> GetSpecificProjectAsync(Guid projectId)
         {
             var project = await _projectRepository.GetByIdAsync(projectId);
             if (project == null)
-                return ApiResponse<Project>.Fail($"Project with ID {projectId} not found.");
+                return ApiResponse<ProjectDto>.Fail($"Project with ID {projectId} not found.");
 
-            return ApiResponse<Project>.Ok(project);
+            var projectOwner = await _projectOwnerRepository.GetByIdAsync(project.ProjectOwnerId);
+            if (projectOwner == null)
+                return ApiResponse<ProjectDto>.Fail($"Project owner with ID {project.ProjectOwnerId} not found.");
+
+            var projectMembersDto = new List<ProjectMemberDetailDto>();
+
+            foreach(var projectMember in project.ProjectMembers)
+            {
+                projectMembersDto.Add(new ProjectMemberDetailDto
+                {
+                    Email = projectMember.Email,
+                    IsResigning = projectMember.IsResigning,
+                    MemberId = projectMember.MemberId,
+                    Rate = projectMember.Rate,
+                    TimeFrame = projectMember.TimeFrame,
+                    UserFirstName = projectMember.UserFirstName,
+                    UserLastName = projectMember.UserLastName,
+                    ResignationReason = projectMember.ResignationReason,
+                    UserName = projectMember.UserFirstName + " " + projectMember.UserLastName
+                });
+            }
+
+            // Determine the earlier and later dates to ensure a non-negative duration
+            DateTime earlierDate = (project.ProjectStartDate < project.ProjectEndDate) ? project.ProjectStartDate : project.ProjectEndDate;
+            DateTime laterDate = (project.ProjectStartDate < project.ProjectEndDate) ? project.ProjectEndDate : project.ProjectStartDate;
+
+            // Calculate the difference, which is a TimeSpan object
+            TimeSpan duration = laterDate.Subtract(earlierDate);
+
+            // Get the total number of whole days in the duration
+            int days = duration.Days;
+
+            string projectDuration = days.ToString() + " days";
+
+            var projectDto = new ProjectDto
+            {
+                ProjectId = project.ProjectId,
+                ProjectOwnerId = project.ProjectOwnerId,
+                ProjectOwnerName = projectOwner.UserFirstName + " " + projectOwner.UserLastName,
+                ProjectName = project.ProjectName,
+                ProjectLocation = project.ProjectLocation.ToString(),
+                ProjectDescription = project.ProjectDescription,
+                ProjectStartDate = project.ProjectStartDate,
+                ProjectEndDate = project.ProjectEndDate,
+                ProjectStatus = project.ProjectStatus.ToString(),
+                ProjectSkillsRequired = project.ProjectSkillsRequired,
+                ProjectPriority = project.ProjectPriority,
+                ProjectResourcesNeeded = project.ProjectResourcesNeeded,
+                ProjectResourcesAvailable = project.ProjectResourcesAvailable,
+                ProjectDateCreated = project.ProjectDateCreated,
+                ProjectDateUpdated = project.ProjectDateUpdated,
+                ProjectMembers = projectMembersDto,
+                ProjectDuration = projectDuration
+            };
+
+            return ApiResponse<ProjectDto>.Ok(projectDto);
         }
 
         private static readonly Dictionary<string, int> ProximityRanges = new()

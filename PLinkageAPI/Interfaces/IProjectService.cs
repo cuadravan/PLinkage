@@ -7,7 +7,7 @@ namespace PLinkageAPI.Interfaces
 {
     public interface IProjectService
     {
-        Task<ApiResponse<Project>> GetSpecificProjectAsync(Guid projectId);
+        Task<ApiResponse<ProjectDto>> GetSpecificProjectAsync(Guid projectId);
 
         Task<ApiResponse<IEnumerable<ProjectCardDto>>> GetFilteredProjectsAsync(
             string proximity,

@@ -11,6 +11,7 @@ namespace PLinkageApp.Interfaces
 {
     public interface ISkillProviderServiceClient
     {
-        Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status);
+        Task<ApiResponse<IEnumerable<SkillProviderCardDto>>> GetFilteredSkillProvidersAsync(string proximity, CebuLocation? location, string status, bool? isEmployed);
+        Task<ApiResponse<SkillProviderDto>> GetSpecificAsync(Guid skillProviderId);
     }
 }

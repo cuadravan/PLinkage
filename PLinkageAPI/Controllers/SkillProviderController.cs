@@ -46,9 +46,10 @@ namespace PLinkageAPI.Controllers
         public async Task<IActionResult> GetFiltered(
             [FromQuery] string proximity = "All",
             [FromQuery] CebuLocation? location = null,
-            [FromQuery] string status = "All")
+            [FromQuery] string status = "All",
+            [FromQuery] bool? isEmployed = null)
         {
-            var response = await _skillProviderService.GetFilteredSkillProvidersAsync(proximity, location, status);
+            var response = await _skillProviderService.GetFilteredSkillProvidersAsync(proximity, location, status, isEmployed);
             if (!response.Success)
                 return NotFound(response);
             return Ok(ApiResponse<IEnumerable<SkillProviderCardDto>>.Ok(response.Data, response.Message));

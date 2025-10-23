@@ -30,5 +30,10 @@ namespace PLinkageApp.Services
 
             return await GetAsync<IEnumerable<ProjectCardDto>>(finalUrl);
         }
+
+        public async Task<ApiResponse<ProjectDto>> GetSpecificAsync(Guid projectId)
+        {
+            return await GetAsync<ProjectDto>($"api/project/{projectId}");
+        }
     }
 }

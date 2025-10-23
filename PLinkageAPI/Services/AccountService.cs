@@ -118,9 +118,12 @@ namespace PLinkageAPI.Services
 
                 if (skillProvider != null)
                 {
+                    if (skillProvider.UserStatus == "Deactivated")
+                        return ApiResponse<LoginResultDto>.Fail("Your account has been deactivated.");
+
                     var result = passwordHasherSP.VerifyHashedPassword(skillProvider, skillProvider.UserPassword, password);
                     if (result == PasswordVerificationResult.Failed)
-                        return ApiResponse<LoginResultDto>.Fail("Incorrect password for Skill Provider account.");
+                        return ApiResponse<LoginResultDto>.Fail("Incorrect password for account.");
 
                     return ApiResponse<LoginResultDto>.Ok(new LoginResultDto
                     {
@@ -138,9 +141,12 @@ namespace PLinkageAPI.Services
 
                 if (projectOwner != null)
                 {
+                    if (projectOwner.UserStatus == "Deactivated")
+                        return ApiResponse<LoginResultDto>.Fail("Your account has been deactivated.");
+
                     var result = passwordHasherPO.VerifyHashedPassword(projectOwner, projectOwner.UserPassword, password);
                     if (result == PasswordVerificationResult.Failed)
-                        return ApiResponse<LoginResultDto>.Fail("Incorrect password for Project Owner account.");
+                        return ApiResponse<LoginResultDto>.Fail("Incorrect password for account.");
 
                     return ApiResponse<LoginResultDto>.Ok(new LoginResultDto
                     {
@@ -160,7 +166,7 @@ namespace PLinkageAPI.Services
                 {
                     var result = passwordHasherAdmin.VerifyHashedPassword(admin, admin.UserPassword, password);
                     if (result == PasswordVerificationResult.Failed)
-                        return ApiResponse<LoginResultDto>.Fail("Incorrect password for Admin account.");
+                        return ApiResponse<LoginResultDto>.Fail("Incorrect password for account.");
 
                     return ApiResponse<LoginResultDto>.Ok(new LoginResultDto
                     {
@@ -307,6 +313,6 @@ namespace PLinkageAPI.Services
                 return ApiResponse<Guid>.Fail($"Invalid user role to register.");
             }
         }
-
+         
     }
 }
