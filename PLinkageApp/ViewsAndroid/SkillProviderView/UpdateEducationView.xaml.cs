@@ -1,9 +1,12 @@
-namespace PLinkageApp.ViewsAndroid.SkillProviderView;
+using Microsoft.Maui.Controls;
 
-public partial class NewPage1 : ContentPage
+namespace PLinkageApp.ViewsAndroid
 {
-	public NewPage1()
-	{
-		InitializeComponent();
-	}
+    public partial class UpdateEducationView : ContentPage
+    {
+        public UpdateEducationView()
+        {
+            InitializeComponent();
+        }
+    }
 }
