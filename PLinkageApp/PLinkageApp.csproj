@@ -105,6 +105,12 @@
 	  <Compile Update="ViewsAndroid\SkillProviderView\AddEducationView.xaml.cs">
 	    <DependentUpon>AddEducationView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\ApplyView.xaml.cs">
+	    <DependentUpon>ApplyView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\NegotiatingOfferView.xaml.cs">
+	    <DependentUpon>NegotiatingOfferView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="ViewsAndroid\SkillProviderView\UpdateEducationView.xaml.cs">
 	    <DependentUpon>UpdateEducationView.xaml</DependentUpon>
 	  </Compile>
@@ -244,6 +250,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\AddEducationView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\ApplyView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\NegotiatingOfferView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\UpdateEducationView.xaml">

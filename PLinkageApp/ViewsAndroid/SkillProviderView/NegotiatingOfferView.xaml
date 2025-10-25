@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.NegotiatingOfferView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
+
+            <!-- Back to project -->
+            <HorizontalStackLayout HorizontalOptions="End">
+                <Label
+                    Text="Back to project"
+                    FontAttributes="Bold"
+                    TextColor="#7C4DFF"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label
+                    Text=" ✕"
+                    FontAttributes="Bold"
+                    TextColor="#7C4DFF"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Title -->
+            <Label
+                Text="Negotiating Offer"
+                FontAttributes="Bold"
+                FontSize="20"
+                TextColor="Black" />
+
+            <!-- Info Box -->
+            <Border
+                BackgroundColor="#F2ECFF"
+                StrokeThickness="0"
+                Padding="10"
+                StrokeShape="RoundRectangle 10">
+                <HorizontalStackLayout Spacing="10">
+                    <Label
+                        Text="This will send a negotiation request to the project owner."
+                        TextColor="#555"
+                        FontSize="13"
+                        VerticalOptions="Center" />
+                    <Image
+                        Source="plinkage.png"
+                        HeightRequest="22"
+                        WidthRequest="22"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Project Name -->
+            <controls:LabeledEntry
+                LabelText="Project Name"
+                Text="{Binding ProjectName}"
+                IsEnabled="False" />
+
+            <!-- Applying Skill Provider -->
+            <controls:LabeledEntry
+                LabelText="Applying Skill Provider"
+                Text="{Binding SkillProviderName}"
+                IsEnabled="False" />
+
+            <!-- Requested Rate -->
+            <controls:LabeledEntry
+                LabelText="Requested Rate (Php per hour)"
+                Placeholder="How much do you want to be paid?"
+                Keyboard="Numeric"
+                Text="{Binding RequestedRate}" />
+
+            <!-- Requested Time Frame -->
+            <controls:LabeledEntry
+                LabelText="Requested Time Frame (Hour)"
+                Placeholder="How long do you want to work?"
+                Keyboard="Numeric"
+                Text="{Binding RequestedTimeFrame}" />
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="10">
+                <Button
+                    Text="Negotiate"
+                    Command="{Binding NegotiateCommand}"
+                    BackgroundColor="#7C4DFF"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="5"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="45" />
+                <Button
+                    Text="Cancel"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="White"
+                    TextColor="#7C4DFF"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    FontAttributes="Bold"
+                    CornerRadius="5"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="45" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
