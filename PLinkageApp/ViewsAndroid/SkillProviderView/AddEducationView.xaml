@@ -18,7 +18,7 @@
                 TextColor="Black" />
 
             <!-- Info Box -->
-            <Border
+            <!--<Border
                 BackgroundColor="#F2ECFF"
                 StrokeThickness="0"
                 Padding="10"
@@ -35,7 +35,11 @@
                         WidthRequest="22"
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>
-            </Border>
+            </Border>-->
+            
+            <controls:InfoBanner
+                Text="A good education will make you more viable."
+                IconSource="plinkage.png" />
 
             <!-- Course Name -->
             <controls:LabeledEntry

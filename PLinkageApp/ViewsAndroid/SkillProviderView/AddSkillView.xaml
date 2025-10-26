@@ -16,7 +16,7 @@
                    TextColor="Black"
                    Margin="0,0,0,10" />
 
-            <Frame BackgroundColor="#F3EFFF"
+            <!--<Frame BackgroundColor="#F3EFFF"
                    CornerRadius="10"
                    Padding="10"
                    HasShadow="False">
@@ -30,8 +30,11 @@
                            TextColor="Black"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
-            </Frame>
+            </Frame>-->
 
+            <controls:InfoBanner 
+                Text="Skills will make you more attractive to employers."
+                IconSource="plinkage.png" />
             <!-- Skill Name -->
             <controls:LabeledEntry LabelText="Skill Name"
                                      Placeholder="What is your skill?"

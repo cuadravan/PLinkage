@@ -46,7 +46,7 @@ namespace PLinkageApp
             Routing.RegisterRoute(nameof(UpdateEducationView), typeof(UpdateEducationView));
             Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
             Routing.RegisterRoute(nameof(NegotiatingOfferView), typeof(NegotiatingOfferView));
-
+            Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
 
 
 
