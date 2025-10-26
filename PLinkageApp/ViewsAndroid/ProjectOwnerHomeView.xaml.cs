@@ -1,10 +1,12 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class ProjectOwnerHomeView : ContentPage
 {
     private bool _isInitialized = false;
-    private readonly ProjectOwnerHomeViewModelTemp _viewModel;
-    public ProjectOwnerHomeView(ProjectOwnerHomeViewModelTemp viewModelTemp)
+    private readonly ProjectOwnerHomeViewModel _viewModel;
+    public ProjectOwnerHomeView(ProjectOwnerHomeViewModel viewModelTemp)
 	{
 		InitializeComponent();
 		BindingContext = viewModelTemp;

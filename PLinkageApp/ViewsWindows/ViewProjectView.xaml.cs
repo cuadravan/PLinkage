@@ -10,9 +10,10 @@ public partial class ViewProjectView : ContentPage
         BindingContext = viewModel;
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
-        ((ViewProjectViewModel)BindingContext).OnAppearingCommand.Execute(null);
+        if (BindingContext is ViewProjectViewModel vm)
+            await vm.InitializeAsync();
     }
 }

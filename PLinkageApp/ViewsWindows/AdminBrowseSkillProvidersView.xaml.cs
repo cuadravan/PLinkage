@@ -4,7 +4,7 @@ namespace PLinkageApp.Views;
 
 public partial class AdminBrowseSkillProvidersView : ContentPage
 {
-	public AdminBrowseSkillProvidersView(AdminBrowseSkillProviderViewModel viewModel)
+	public AdminBrowseSkillProvidersView(BrowseSkillProviderViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;
@@ -12,7 +12,7 @@ public partial class AdminBrowseSkillProvidersView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is AdminBrowseSkillProviderViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+        if (BindingContext is BrowseSkillProviderViewModel vm)
+            await vm.InitializeAsync();
     }
 }

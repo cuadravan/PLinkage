@@ -35,7 +35,7 @@
                     FontSize="18"
                     LineBreakMode="TailTruncation"
                     MaxLines="2"
-                    Text="{Binding UserName}"
+                    Text="{Binding Source={x:Reference ThisControl}, Path=UserName}"
                     TextColor="White" />
                 <Grid Grid.Row="1" ColumnSpacing="5">
                     <Grid.ColumnDefinitions>
@@ -54,7 +54,7 @@
                             FontSize="12"
                             LineBreakMode="TailTruncation"
                             MaxLines="1"
-                            Text="{Binding UserStatus}"
+                            Text="{Binding Source={x:Reference ThisControl}, Path=UserStatus}"
                             TextColor="#7C4DFF" />
                     </Frame>
                 </Grid>
@@ -68,7 +68,7 @@
                     FontSize="14"
                     LineBreakMode="TailTruncation"
                     MaxLines="5"
-                    Text="{Binding ProjectCount}"
+                    Text="{Binding Source={x:Reference ThisControl}, Path=ProjectCount}"
                     TextColor="Black" />
             </VerticalStackLayout>
 

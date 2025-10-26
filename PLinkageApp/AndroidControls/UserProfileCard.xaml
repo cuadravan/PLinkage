@@ -3,7 +3,8 @@
     x:Class="PLinkageApp.AndroidControls.UserProfileCard"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:PLinkageApp.AndroidControls">
+    xmlns:local="clr-namespace:PLinkageApp.AndroidControls"
+    x:Name="ThisControl">
     <Border
         Padding="20"
         HorizontalOptions="FillAndExpand"
@@ -37,18 +38,18 @@
                 FontAttributes="Bold"
                 FontSize="24"
                 HorizontalOptions="Center"
-                Text="{Binding UserName, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=UserName}"
                 TextColor="#333333" />
 
             <Label
                 FontSize="16"
                 HorizontalOptions="Center"
-                Text="{Binding UserSubtitle, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=UserSubtitle}"
                 TextColor="#666663" />
 
             <HorizontalStackLayout
                 HorizontalOptions="Center"
-                IsVisible="{Binding IsRatingVisible, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsRatingVisible}"
                 Spacing="5">
                 <Label
                     FontSize="16"
@@ -57,7 +58,7 @@
                 <Label
                     FontAttributes="Bold"
                     FontSize="16"
-                    Text="{Binding UserRating, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                    Text="{Binding Source={x:Reference ThisControl}, Path=UserRating}"
                     TextColor="#333333" />
                 <Image
                     HeightRequest="16"
@@ -69,31 +70,31 @@
             <Label
                 FontSize="14"
                 HorizontalOptions="Center"
-                Text="{Binding JoinedDate, StringFormat='Joined on: {0:MMMM dd, yyyy}', Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=JoinedDate, StringFormat='Joined on: {0:MMMM dd, yyyy}'}"
                 TextColor="#999999" />
 
             <Button
                 BackgroundColor="#8A2BE2"
-                Command="{Binding MessageCommand, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                Command="{Binding Source={x:Reference ThisControl}, Path=MessageCommand}"
                 CornerRadius="25"
                 FontAttributes="Bold"
                 FontSize="18"
                 HeightRequest="50"
                 HorizontalOptions="Center"
-                IsVisible="{Binding IsMessageButtonVisible, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsMessageButtonVisible}"
                 Text="Message"
                 TextColor="White"
                 WidthRequest="200" />
 
             <Button
                 x:Name="DeactivateActivateBtn"
-                Command="{Binding DeactivateActivateCommand, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                Command="{Binding Source={x:Reference ThisControl}, Path=DeactivateActivateCommand}"
                 CornerRadius="25"
                 FontAttributes="Bold"
                 FontSize="18"
                 HeightRequest="50"
                 HorizontalOptions="Center"
-                IsVisible="{Binding IsDeactivateActivateButtonVisible, Source={RelativeSource AncestorType={x:Type local:UserProfileCard}}}"
+                IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsDeactivateActivateButtonVisible}"
                 TextColor="White"
                 WidthRequest="200" />
 

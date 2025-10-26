@@ -1,14 +1,16 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class AdminHomeView : ContentPage
 {
-	private readonly AdminHomeViewModelTemp _viewModel;
+	private readonly AdminHomeViewModel _viewModel;
     private bool _isInitialized = false;
-	public AdminHomeView(AdminHomeViewModelTemp viewModelTemp)
+	public AdminHomeView(AdminHomeViewModel viewModel)
 	{
 		InitializeComponent();
-		BindingContext = viewModelTemp;
-		_viewModel = viewModelTemp;
+		BindingContext = viewModel;
+		_viewModel = viewModel;
 	}
 
     protected override async void OnAppearing()

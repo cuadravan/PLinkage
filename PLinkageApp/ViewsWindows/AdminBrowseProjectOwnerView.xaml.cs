@@ -13,6 +13,6 @@ public partial class AdminBrowseProjectOwnerView : ContentPage
     {
         base.OnAppearing();
         if (BindingContext is AdminBrowseProjectOwnerViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+            await vm.InitializeAsync();
     }
 }

@@ -2,14 +2,15 @@
 <ContentView
     x:Class="PLinkageApp.AndroidControls.LabeledPicker"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
 
     <VerticalStackLayout Spacing="3">
         <Label
             FontAttributes="Bold"
             FontSize="14"
             HorizontalOptions="Center"
-            Text="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TitleText}"
+            Text="{Binding Source={x:Reference ThisControl}, Path=TitleText}"
             TextColor="#212121" />
 
         <Border
@@ -18,14 +19,14 @@
             Stroke="#7C4DFF"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1"
-            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ControlWidth}">
+            WidthRequest="{Binding Source={x:Reference ThisControl}, Path=ControlWidth}">
             <Picker
-                Title="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=PlaceholderText}"
-                FontFamily="Roboto Mono"    
+                Title="{Binding Source={x:Reference ThisControl}, Path=PlaceholderText}"
+                FontFamily="Roboto Mono"
                 FontSize="16"
                 HorizontalTextAlignment="Center"
-                ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ItemSource}"
-                SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=SelectedItem}"
+                ItemsSource="{Binding Source={x:Reference ThisControl}, Path=ItemSource}"
+                SelectedItem="{Binding Source={x:Reference ThisControl}, Path=SelectedItem}"
                 TextColor="#212121" />
         </Border>
     </VerticalStackLayout>
