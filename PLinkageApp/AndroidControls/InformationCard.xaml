@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-    1. Make sure this namespace matches your control's folder
--->
 <ContentView
     x:Class="PLinkageApp.AndroidControls.InformationCard"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:PLinkageApp.AndroidControls">
+    xmlns:local="clr-namespace:PLinkageApp.AndroidControls"
+    x:Name="ThisControl">
 
     <VerticalStackLayout Spacing="5">
 
-        <!--  The "Information" Title  -->
         <Label
             Margin="5,0,0,0"
             FontAttributes="Bold"
             FontSize="20"
-            Text="{Binding Title, Source={RelativeSource AncestorType={x:Type local:InformationCard}}}"
+            Text="{Binding Source={x:Reference ThisControl}, Path=Title}"
             TextColor="#333333" />
 
-        <!--  The Purple-Bordered Box  -->
         <Border
             Padding="20"
             BackgroundColor="White"
@@ -29,7 +25,6 @@
 
             <VerticalStackLayout Spacing="15">
 
-                <!--  Row 1: Gender  -->
                 <HorizontalStackLayout Spacing="10">
                     <Label
                         FontAttributes="Bold"
@@ -39,12 +34,11 @@
                         VerticalOptions="Center" />
                     <Label
                         FontSize="16"
-                        Text="{Binding Gender, Source={RelativeSource AncestorType={x:Type local:InformationCard}}}"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=Gender}"
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
-                <!--  Row 2: Email  -->
                 <HorizontalStackLayout Spacing="10">
                     <Label
                         FontAttributes="Bold"
@@ -54,12 +48,11 @@
                         VerticalOptions="Center" />
                     <Label
                         FontSize="16"
-                        Text="{Binding Email, Source={RelativeSource AncestorType={x:Type local:InformationCard}}}"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=Email}"
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
-                <!--  Row 3: Mobile  -->
                 <HorizontalStackLayout Spacing="10">
                     <Label
                         FontAttributes="Bold"
@@ -69,7 +62,7 @@
                         VerticalOptions="Center" />
                     <Label
                         FontSize="16"
-                        Text="{Binding Mobile, Source={RelativeSource AncestorType={x:Type local:InformationCard}}}"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=Mobile}"
                         TextColor="#333333"
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>

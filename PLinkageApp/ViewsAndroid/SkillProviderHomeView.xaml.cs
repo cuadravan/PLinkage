@@ -1,10 +1,12 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class SkillProviderHomeView : ContentPage
 {
     private bool _isInitialized = false;
-    private readonly SkillProviderHomeViewModelTemp _viewModel;
-    public SkillProviderHomeView(SkillProviderHomeViewModelTemp viewModelTemp)
+    private readonly SkillProviderHomeViewModel _viewModel;
+    public SkillProviderHomeView(SkillProviderHomeViewModel viewModelTemp)
 	{
 		InitializeComponent();
         BindingContext = viewModelTemp;

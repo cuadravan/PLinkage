@@ -2,18 +2,18 @@ using PLinkageApp.ViewModels;
 
 namespace PLinkageApp.ViewsAndroid;
 
-public partial class ChatView : ContentPage
+public partial class BrowseProjectView : ContentPage
 {
-	public ChatView(ChatViewModel vm)
+	public BrowseProjectView(BrowseProjectViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
-	}
 
+    }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ChatViewModel vm)
+        if (BindingContext is BrowseProjectViewModel vm)
             await vm.InitializeAsync();
     }
 }

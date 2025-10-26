@@ -70,6 +70,5 @@ public partial class SkillProviderCard : ContentView
     public SkillProviderCard()
     {
         InitializeComponent();
-        BindingContext = this;
     }
 }

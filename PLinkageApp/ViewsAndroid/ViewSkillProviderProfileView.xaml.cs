@@ -1,8 +1,10 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class ViewSkillProviderProfileView : ContentPage
 {
-	public ViewSkillProviderProfileView(ViewSkillProviderProfileViewModelTemp vm)
+	public ViewSkillProviderProfileView(ViewSkillProviderProfileViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
@@ -10,7 +12,7 @@ public partial class ViewSkillProviderProfileView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ViewSkillProviderProfileViewModelTemp vm)
+        if (BindingContext is ViewSkillProviderProfileViewModel vm)
             await vm.InitializeAsync();
     }
 }

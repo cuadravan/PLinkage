@@ -14,6 +14,6 @@ public partial class SkillProviderHomeView : ContentPage
         base.OnAppearing();
 
         if (BindingContext is SkillProviderHomeViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+            await vm.InitializeAsync();
     }
 }

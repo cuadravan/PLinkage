@@ -4,117 +4,206 @@ using System.Collections.ObjectModel;
 using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using FuzzySharp;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
     public partial class AdminBrowseProjectOwnerViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private CebuLocation? selectedLocation = null;
-
-        public ObservableCollection<CebuLocation> CebuLocations { get; } = new(
-            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-        private readonly INavigationService _navigationService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
+
+        private List<ProjectOwnerCardDto> _allProjectOwners;
+
+        public ObservableCollection<ProjectOwnerCardDto> ProjectOwnerCards { get; set; }
 
         [ObservableProperty]
-        private ObservableCollection<ProjectOwner> filteredProjectOwners = new();
+        private bool isBusy = false;
 
-        public ObservableCollection<string> CategorySortOptions { get; } = new()
+        public AdminBrowseProjectOwnerViewModel(INavigationService navigationService, IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService)
+        {
+            _projectOwnerServiceClient = projectOwnerServiceClient;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+
+            _allProjectOwners = new List<ProjectOwnerCardDto>();
+            ProjectOwnerCards = new ObservableCollection<ProjectOwnerCardDto>();
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetProjects();
+        }
+
+        public async Task InitializeAsync()
+        {
+            if (_allProjectOwners.Any())
+                return;
+
+            try
+            {
+                await GetProjects();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+        }
+
+        private async Task GetProjects()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                var userLocation = _sessionService.GetCurrentUserLocation();
+                ApiResponse<IEnumerable<ProjectOwnerCardDto>> result = null;
+
+                _allProjectOwners.Clear();
+                ProjectOwnerCards.Clear();
+                var selection = CategorySelection;
+                var status = StatusSelection switch
+                {
+                    "All" => "All",
+                    "Active Only" => "Active",
+                    "Deactivated Only" => "Deactivated",
+                    _ => throw new NotImplementedException()
+                };
+                var location = LocationSelection;
+                result = await _projectOwnerServiceClient.GetFilteredProjectOwnersAsync(selection, location, status);
+
+                if (result.Success && result.Data != null)
+                {
+
+                    foreach (var dto in result.Data)
+                    {
+                        _allProjectOwners.Add(dto);
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }
+                FilterProjectOwnerCards();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting project owners: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
+
+        [RelayCommand]
+        private async Task ViewProjectOwner(ProjectOwnerCardDto projectOwnerCardDto)
+        {
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on project owner with id: {projectOwnerCardDto.UserId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewProjectOwnerProfileView", new Dictionary<string, object> { { "ProjectOwnerId", projectOwnerCardDto.UserId } });
+        }
+
+        // CATEGORY
+
+        private string categorySelection = "All";
+        public string CategorySelection
+        {
+            get => categorySelection;
+            set
+            {
+                if (SetProperty(ref categorySelection, value))
+                {
+                    _ = GetProjects();
+                }
+            }
+        }
+        public ObservableCollection<string> CategoryOptions { get; } = new()
         {
             "All",
             "By Specific Location"
         };
 
-        public ObservableCollection<string> StatusSortOptions { get; } = new()
+        // LOCATION
+
+        [ObservableProperty]
+        private CebuLocation? locationSelection = CebuLocation.CebuCity;
+
+        partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
+        {
+            if (oldValue != newValue)
+            {
+                _ = GetProjects();
+            }
+        }
+
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
+            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+
+
+        // STATUS
+
+        private string statusSelection = "All";
+        public string StatusSelection
+        {
+            get => statusSelection;
+            set
+            {
+                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
+                    _ = GetProjects();
+            }
+        }
+
+        public ObservableCollection<string> StatusOptions { get; } = new()
         {
             "All",
             "Active Only",
             "Deactivated Only"
         };
 
-        private string categorySortSelection = "All";
-        public string CategorySortSelection
+        // SEARCH FILTER
+
+        // SEARCH QUERY
+
+        [ObservableProperty]
+        private string searchQuery = "";
+
+        partial void OnSearchQueryChanged(string value)
         {
-            get => categorySortSelection;
-            set
+            FilterProjectOwnerCards(); // --- RENAMED ---
+        }
+
+        private const int FuzzySearchCutoff = 70;
+
+        // --- RENAMED ---
+        private void FilterProjectOwnerCards()
+        {
+            var query = SearchQuery.Trim().ToLowerInvariant();
+
+            IEnumerable<ProjectOwnerCardDto> filteredList;
+
+            if (string.IsNullOrEmpty(query))
             {
-                if (SetProperty(ref categorySortSelection, value))
-                    _ = LoadProjectOwners();
+                filteredList = _allProjectOwners;
             }
-        }
-
-        private string statusSortSelection = "All";
-        public string StatusSortSelection
-        {
-            get => statusSortSelection;
-            set
+            else
             {
-                if (SetProperty(ref statusSortSelection, value))
-                    _ = LoadProjectOwners();
+                filteredList = _allProjectOwners
+                    .Where(card => Fuzz.PartialRatio(query, card.UserName.ToLowerInvariant())
+                                     > FuzzySearchCutoff);
+
             }
-        }
-
-        public IAsyncRelayCommand LoadDashboardDataCommand { get; }
-
-        public AdminBrowseProjectOwnerViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
-        {
-            _navigationService = navigationService;
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
-            LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
-        }
-
-        private async Task LoadDashboardData()
-        {
-            await _unitOfWork.ReloadAsync();
-            await LoadProjectOwners();
-        }
-
-        private async Task LoadProjectOwners()
-        {
-            var projectOwners = await _unitOfWork.ProjectOwner.GetAllAsync();
-            var projects = await _unitOfWork.Projects.GetAllAsync();
-
-            IEnumerable<ProjectOwner> filtered = projectOwners;
-
-            // Apply User Status Filter
-            filtered = StatusSortSelection switch
+            ProjectOwnerCards.Clear();
+            foreach (var card in filteredList)
             {
-                "Active Only" => filtered.Where(sp => !string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase)),
-                "Deactivated Only" => filtered.Where(sp => string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase)),
-                _ => filtered
-            };
-
-            // Apply Category Filter
-            filtered = CategorySortSelection switch
-            {
-
-                "By Specific Location" when SelectedLocation.HasValue =>
-                    filtered.Where(sp => sp.UserLocation == SelectedLocation),
-
-                _ => filtered
-            };
-
-            FilteredProjectOwners = new ObservableCollection<ProjectOwner>(filtered);
-        }
-
-        partial void OnSelectedLocationChanged(CebuLocation? value)
-        {
-            if (CategorySortSelection == "By Specific Location")
-                _ = LoadProjectOwners();
-        }
-
-        [RelayCommand]
-        private async Task Refresh() => await LoadDashboardData();
-
-        [RelayCommand]
-        private async Task ViewProjectOwner(ProjectOwner projectOwner)
-        {
-            _sessionService.VisitingProjectOwnerID = projectOwner.UserId;
-            await _navigationService.NavigateToAsync("/ViewProjectOwnerProfileView");
+                ProjectOwnerCards.Add(card);
+            }
         }
     }
 }

@@ -3,216 +3,134 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
     public partial class AdminHomeViewModel : ObservableObject
     {
-        // Services
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDashboardServiceClient _dashboardServiceClient;
+        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly IProjectServiceClient _projectServiceClient;
         private readonly INavigationService _navigationService;
+        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
+        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
+        [ObservableProperty] private int activeProjectsValue = 0;
+        [ObservableProperty] private int completedProjectsValue = 0;
+        [ObservableProperty] private string employmentRatioValue;
 
-        // Summary Stats
-        [ObservableProperty] private int activeProjects;
-        [ObservableProperty] private int completedProjects;
-        [ObservableProperty] private string employmentRatio;
+        [ObservableProperty]
+        private bool isBusy = false;
 
-        // Computed property for percentage display
-        public string EmploymentRatioPercentage
+        public AdminHomeViewModel(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
         {
-            get
-            {
-                if (string.IsNullOrEmpty(EmploymentRatio))
-                    return "0%";
-
-                var startIndex = EmploymentRatio.IndexOf('(');
-                var endIndex = EmploymentRatio.IndexOf(')');
-
-                if (startIndex >= 0 && endIndex > startIndex)
-                {
-                    var percentageStr = EmploymentRatio.Substring(startIndex + 1, endIndex - startIndex - 1);
-                    percentageStr = percentageStr.Replace("%", "").Trim();
-
-                    if (double.TryParse(percentageStr, out double percentage))
-                    {
-                        return $"{Math.Round(percentage)}%";
-                    }
-                }
-
-                return "0%";
-            }
-        }
-
-        // Collections
-        [ObservableProperty] private ObservableCollection<Project> filteredProjects = new();
-        [ObservableProperty] private ObservableCollection<SkillProvider> filteredSkillProviders = new();
-
-        public ObservableCollection<string> ProjectStatusFilterOptions { get; } = new()
-        {
-            "All",
-            "Active",
-            "Completed",
-            "Deactivated"
-        };
-
-        public ObservableCollection<string> SkillProviderFilterOptions { get; } = new()
-        {
-            "All",
-            "Employed",
-            "Unemployed"
-        };
-
-        public ObservableCollection<string> SkillProviderStatusFilterOptions { get; } = new()
-        {
-            "All",
-            "Active",
-            "Deactivated"
-        };
-
-        private string selectedProjectFilter = "All";
-        public string SelectedProjectFilter
-        {
-            get => selectedProjectFilter;
-            set
-            {
-                if (SetProperty(ref selectedProjectFilter, value))
-                    _ = FilterProjects();
-            }
-        }
-
-        private string selectedSkillEmploymentFilter = "All";
-        public string SelectedSkillEmploymentFilter
-        {
-            get => selectedSkillEmploymentFilter;
-            set
-            {
-                if (SetProperty(ref selectedSkillEmploymentFilter, value))
-                    _ = FilterSkillProviders();
-            }
-        }
-
-        private string selectedSkillStatusFilter = "All";
-        public string SelectedSkillStatusFilter
-        {
-            get => selectedSkillStatusFilter;
-            set
-            {
-                if (SetProperty(ref selectedSkillStatusFilter, value))
-                    _ = FilterSkillProviders();
-            }
-        }
-
-        public IAsyncRelayCommand LoadDashboardDataCommand { get; }
-
-        public AdminHomeViewModel(IUnitOfWork unitOfWork, ISessionService sessionService, INavigationService navigationService)
-        {
-            _unitOfWork = unitOfWork;
-            _navigationService = navigationService;
+            _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
-            LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
+            _skillProviderServiceClient = skillProviderServiceClient;
+            _projectServiceClient = projectServiceClient;
+            _navigationService = navigationService;
+
+            SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
+            ProjectCards = new ObservableCollection<ProjectCardDto>();
         }
 
-        private async Task LoadDashboardData()
+        [RelayCommand]
+        private async Task RefreshAsync()
         {
-            await _unitOfWork.ReloadAsync();
-
-            await CountProjects();
-            await CalculateSkillProviderEmploymentRatio();
-            await FilterProjects();
-            await FilterSkillProviders();
+            await LoadDashboardDataAsync();
         }
 
-        private async Task CountProjects()
+        public async Task InitializeAsync()
         {
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
-            ActiveProjects = allProjects.Count(p => p.ProjectStatus == ProjectStatus.Active);
-            CompletedProjects = allProjects.Count(p => p.ProjectStatus == ProjectStatus.Completed);
+            if (ProjectCards.Any() || SkillProviderCards.Any())
+                return;
+
+            await LoadDashboardDataAsync();
         }
 
-        private async Task CalculateSkillProviderEmploymentRatio()
+        private async Task LoadDashboardDataAsync()
         {
-            var allSkillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
+            if (IsBusy)
+                return;
 
-            // Filter out deactivated skill providers
-            var activeSkillProviders = allSkillProviders
-                .Where(sp => !sp.UserStatus.Equals("Deactivated", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            int total = activeSkillProviders.Count;
-            int employed = activeSkillProviders.Count(sp =>
-                allProjects.Any(p =>
-                    p.ProjectMembers.Any(m => m.MemberId == sp.UserId) &&
-                    p.ProjectStatus == ProjectStatus.Active));
-
-            int unemployed = total - employed;
-
-            EmploymentRatio = total == 0
-                ? "N/A"
-                : $"{employed}/{total} employed ({(employed * 100.0 / total):0.##}%)";
-
-            // Notify that EmploymentRatioPercentage has changed
-            OnPropertyChanged(nameof(EmploymentRatioPercentage));
-        }
-
-        private async Task FilterProjects()
-        {
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
-
-            IEnumerable<Project> filtered = SelectedProjectFilter switch
+            IsBusy = true;
+            try
             {
-                "Active" => allProjects.Where(p => p.ProjectStatus == ProjectStatus.Active),
-                "Completed" => allProjects.Where(p => p.ProjectStatus == ProjectStatus.Completed),
-                "Deactivated" => allProjects.Where(p => p.ProjectStatus == ProjectStatus.Deactivated),
-                _ => allProjects
-            };
+                SkillProviderCards.Clear();
+                ProjectCards.Clear();
 
-            FilteredProjects = new ObservableCollection<Project>(filtered);
+                await Task.WhenAll(
+                    GetDashboardStats(),
+                    GetSuggestedSkillProviders(),
+                    GetSuggestedProjects()
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+                await Shell.Current.DisplayAlert("Load Error", "Failed to load dashboard data.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        private async Task FilterSkillProviders()
+        private async Task GetDashboardStats()
         {
-            var allSkillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
+            var userId = _sessionService.GetCurrentUserId();
+            var result = await _dashboardServiceClient.GetAdminDashboardAsync(userId);
 
-            var employedIds = allProjects
-                .Where(p => p.ProjectStatus == ProjectStatus.Active)
-                .SelectMany(p => p.ProjectMembers)
-                .Select(m => m.MemberId)
-                .Distinct()
-                .ToHashSet();
+            if (result.Success && result.Data != null)
+            {
+                ActiveProjectsValue = result.Data.OverallActiveProjects;
+                CompletedProjectsValue = result.Data.OverallCompleteProjects;
+                EmploymentRatioValue = result.Data.EmploymentRatio.ToString("F2");
+            }
+        }
 
-            IEnumerable<SkillProvider> filtered = allSkillProviders;
+        private async Task GetSuggestedSkillProviders()
+        {
+            var userLocation = _sessionService.GetCurrentUserLocation();
+            ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
+            result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync("All", userLocation, "Active", null);
 
-            if (SelectedSkillEmploymentFilter == "Employed")
-                filtered = filtered.Where(sp => employedIds.Contains(sp.UserId));
-            else if (SelectedSkillEmploymentFilter == "Unemployed")
-                filtered = filtered.Where(sp => !employedIds.Contains(sp.UserId));
+            if (result.Success && result.Data != null)
+            {
+                foreach (var dto in result.Data)
+                {
+                    SkillProviderCards.Add(dto);
+                }
+            }
+        }
 
-            if (SelectedSkillStatusFilter == "Active")
-                filtered = filtered.Where(sp => !string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase));
-            else if (SelectedSkillStatusFilter == "Deactivated")
-                filtered = filtered.Where(sp => string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase));
+        private async Task GetSuggestedProjects()
+        {
+            var userLocation = _sessionService.GetCurrentUserLocation();
+            ApiResponse<IEnumerable<ProjectCardDto>> result = null;
+            result = await _projectServiceClient.GetFilteredProjectsAsync("All", userLocation, "Active");
 
-            FilteredSkillProviders = new ObservableCollection<SkillProvider>(filtered);
+            if (result.Success && result.Data != null)
+            {
+                foreach (var dto in result.Data)
+                {
+                    ProjectCards.Add(dto);
+                }
+            }
         }
 
         [RelayCommand]
-        private async Task Refresh() => await LoadDashboardData();
-
-        [RelayCommand]
-        private async Task ViewProject(Project project)
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
         {
-            _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("/ViewProjectView");
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
         }
 
         [RelayCommand]
-        private async Task ViewSkillProvider(SkillProvider skillProvider)
+        private async Task ViewProject(ProjectCardDto projectCardDto)
         {
-            _sessionService.VisitingSkillProviderID = skillProvider.UserId;
-            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
         }
     }
 }

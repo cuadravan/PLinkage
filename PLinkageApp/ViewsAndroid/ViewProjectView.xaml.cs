@@ -1,8 +1,10 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class ViewProjectView : ContentPage
 {
-	public ViewProjectView(ViewProjectViewModelTemp vm)
+	public ViewProjectView(ViewProjectViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
@@ -10,7 +12,7 @@ public partial class ViewProjectView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ViewProjectViewModelTemp vm)
+        if (BindingContext is ViewProjectViewModel vm)
             await vm.InitializeAsync();
     }
 }

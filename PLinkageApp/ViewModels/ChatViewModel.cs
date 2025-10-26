@@ -11,9 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkageApp
+namespace PLinkageApp.ViewModels
 {
-    public partial class ChatViewModelTemp : ObservableObject
+    public partial class ChatViewModel : ObservableObject
     {
         private readonly IChatServiceClient _chatServiceClient;
         private readonly INavigationService _navigationService;
@@ -25,7 +25,7 @@ namespace PLinkageApp
         private List<ChatSummaryDto> _chatPreviews;
         public ObservableCollection<ChatSummaryDto> ChatPreviews { get; set; }
 
-        public ChatViewModelTemp(IChatServiceClient chatServiceClient, INavigationService navigationService, ISessionService sessionService)
+        public ChatViewModel(IChatServiceClient chatServiceClient, INavigationService navigationService, ISessionService sessionService)
         {
             _chatServiceClient = chatServiceClient;
             _navigationService = navigationService;

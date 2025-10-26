@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PLinkageApp.ViewsAndroid.AdminBrowseSkillProviderView"
+    x:Class="PLinkageApp.ViewsAndroid.BrowseProjectView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
-    xmlns:viewmodels="clr-namespace:PLinkageApp"
-    Title="AdminBrowseSkillProviderView"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="BrowseProjectView"
     Shell.NavBarIsVisible="False">
 
     <Grid RowDefinitions="Auto, Auto, *">
@@ -17,7 +17,6 @@
             BackgroundColor="#F1F0FC"
             Direction="Column"
             JustifyContent="Start">
-
             <Image
                 HeightRequest="90"
                 Source="plinkagenotext.svg"
@@ -25,7 +24,7 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="27"
-                Text="Browse Skill Providers"
+                Text="Browse Projects"
                 TextColor="#212121" />
 
             <controls:LabeledPicker
@@ -46,18 +45,11 @@
 
             <controls:LabeledPicker
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                IsVisible="{Binding IsAdmin}"
                 ItemSource="{Binding StatusOptions}"
                 PlaceholderText="Filter By"
                 SelectedItem="{Binding StatusSelection}"
-                TitleText="By User Status" />
-
-            <controls:LabeledPicker
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
-                ItemSource="{Binding EmploymentOptions}"
-                PlaceholderText="Filter By"
-                SelectedItem="{Binding EmploymentSelection}"
-                TitleText="By Employment" />
-
+                TitleText="By Project Status" />
         </FlexLayout>
 
         <controls:SearchFilterBar
@@ -79,21 +71,21 @@
             Grid.Row="2"
             Command="{Binding RefreshCommand}"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+
             <CollectionView
                 Margin="0,10,0,0"
-                ItemsSource="{Binding SkillProviderCards}"
+                ItemsSource="{Binding ProjectCards}"
                 SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:SkillProviderCard
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseSkillProviderViewModelTemp}}, Path=ViewSkillProviderCommand}"
+                        <controls:ProjectCard
+                            Title="{Binding Title}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseProjectViewModel}}, Path=ViewProjectCommand}"
                             CommandParameter="{Binding .}"
-                            Education="{Binding Education}"
-                            HorizontalOptions="Center"
+                            Description="{Binding Description}"
                             Location="{Binding Location}"
                             Skills="{Binding Skills}"
-                            UserName="{Binding UserName}"
-                            UserRating="{Binding UserRating}" />
+                            Slots="{Binding Slots}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.ItemsLayout>

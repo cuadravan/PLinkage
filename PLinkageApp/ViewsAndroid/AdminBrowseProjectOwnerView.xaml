@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
-    xmlns:viewmodels="clr-namespace:PLinkageApp"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="AdminBrowseProjectOwnerView"
     Shell.NavBarIsVisible="False">
 
@@ -72,7 +72,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <controls:ProjectOwnerCard
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseProjectOwnerViewModelTemp}}, Path=ViewProjectOwnerCommand}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseProjectOwnerViewModel}}, Path=ViewProjectOwnerCommand}"
                             CommandParameter="{Binding .}"
                             ProjectCount="{Binding ProjectCount}"
                             UserName="{Binding UserName}"

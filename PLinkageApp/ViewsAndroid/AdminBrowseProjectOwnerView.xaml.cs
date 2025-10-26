@@ -1,17 +1,19 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class AdminBrowseProjectOwnerView : ContentPage
 {
-    public AdminBrowseProjectOwnerView(AdminBrowseProjectOwnerViewModelTemp adminBrowseProjectOwnerViewModelTemp)
+    public AdminBrowseProjectOwnerView(AdminBrowseProjectOwnerViewModel adminBrowseProjectOwnerViewModel)
     {
         InitializeComponent();
-        BindingContext = adminBrowseProjectOwnerViewModelTemp;
+        BindingContext = adminBrowseProjectOwnerViewModel;
 
     }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is AdminBrowseProjectOwnerViewModelTemp vm)
+        if (BindingContext is AdminBrowseProjectOwnerViewModel vm)
             await vm.InitializeAsync();
     }
 }

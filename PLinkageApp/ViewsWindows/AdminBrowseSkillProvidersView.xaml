@@ -131,8 +131,7 @@
                                     Grid.Column="2"
                                     Padding="10,4"
                                     BackgroundColor="#7C4DFF"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseSkillProviderViewModel}}, Path=ViewSkillProviderCommand}"
-                                    CommandParameter="{Binding .}"
+                                    
                                     CornerRadius="6"
                                     Text="View"
                                     VerticalOptions="Center"

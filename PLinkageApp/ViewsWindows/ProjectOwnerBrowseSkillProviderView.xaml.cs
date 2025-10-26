@@ -14,6 +14,6 @@ public partial class ProjectOwnerBrowseSkillProviderView : ContentPage
         base.OnAppearing();
 
         if (BindingContext is BrowseSkillProviderViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+            await vm.InitializeAsync();
     }
 }

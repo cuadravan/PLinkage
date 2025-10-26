@@ -13,6 +13,6 @@ public partial class SkillProviderBrowseProjectsView : ContentPage
     {
         base.OnAppearing();
         if (BindingContext is BrowseProjectViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+            await vm.InitializeAsync();
     }
 }

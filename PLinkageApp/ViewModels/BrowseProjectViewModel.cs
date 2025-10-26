@@ -4,150 +4,297 @@ using System.Collections.ObjectModel;
 using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using FuzzySharp;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
     public partial class BrowseProjectViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private CebuLocation? selectedLocation = null;
-
-        public ObservableCollection<CebuLocation> CebuLocations { get; } = new(
-            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-        private readonly INavigationService _navigationService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
+
+        private List<ProjectCardDto> _allProjects;
+        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
 
         [ObservableProperty]
-        private ObservableCollection<Project> suggestedProjects = new();
+        private bool isBusy = false;
 
-        public IAsyncRelayCommand LoadDashboardDataCommand { get; }
+        [ObservableProperty]
+        private bool isAdmin = false;
 
-        private string sortSelection = "All";
-        public string SortSelection
+        private bool _isInitialized = false;
+
+        public BrowseProjectViewModel(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
-            get => sortSelection;
-            set
+            _projectServiceClient = projectServiceClient;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+            _allProjects = new List<ProjectCardDto>();
+            ProjectCards = new ObservableCollection<ProjectCardDto>();
+
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetProjects();
+        }
+
+        public async Task InitializeAsync()
+        {
+            if (_allProjects.Any())
+                return;
+
+            try
             {
-                if (SetProperty(ref sortSelection, value))
-                    _ = LoadSuggestedProjects();
+                var userRole = _sessionService.GetCurrentUserRole();
+
+                CategoryOptions.Clear();
+
+                CategoryOptions.Add("All");
+                CategoryOptions.Add("By Specific Location");
+
+                if (userRole == UserRole.Admin)
+                {
+                    IsAdmin = true;
+                }
+                else if (userRole == UserRole.SkillProvider)
+                {
+                    IsAdmin = false;
+                    CategoryOptions.Add("Same Location as Me");
+                    CategoryOptions.Add("Nearby (<= 10km)");
+                    CategoryOptions.Add("Within Urban (<= 20km)");
+                    CategoryOptions.Add("Extended (<= 50km)");
+                }
+                else
+                {
+                    // Not allowed
+                    await _navigationService.GoBackAsync();
+                }
+                CategorySelection = CategoryOptions.FirstOrDefault();
+                _isInitialized = true;
+                await GetProjects();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
             }
         }
 
-        public ObservableCollection<string> SortOptions { get; } = new()
+        private async Task GetProjects()
         {
-            "All",
-            "Same Place as Me",
-            "Nearby (<=10km)",
-            "Within Urban (<=30km)",
-            "Extended (<=50km)",
-            "By Specific Location"
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                var userLocation = _sessionService.GetCurrentUserLocation();
+                ApiResponse<IEnumerable<ProjectCardDto>> result = null;
+
+
+
+                _allProjects.Clear();
+                ProjectCards.Clear();
+                var selection = string.Empty;
+                CebuLocation? location = null;
+                if (CategorySelection == "Same Location as Me") // API's same location as me is same as by specific location while location is user's location
+                {
+                    selection = "By Specific Location";
+                    location = _sessionService.GetCurrentUserLocation();
+                }
+                else if (CategorySelection == "By Specific Location")
+                {
+                    selection = "By Specific Location";
+                    location = LocationSelection;
+                }
+                else
+                {
+                    selection = CategorySelection;
+                    location = _sessionService.GetCurrentUserLocation();
+                }
+
+                string status = string.Empty;
+                if (IsAdmin)
+                {
+                    status = StatusSelection switch
+                    {
+                        "All" => "All",
+                        "Active Only" => "Active",
+                        "Completed Only" => "Completed",
+                        "Deactivated Only" => "Deactivated",
+                        _ => throw new NotImplementedException()
+                    };
+                }
+                else
+                {
+                    status = "Active";
+                }
+
+                result = await _projectServiceClient.GetFilteredProjectsAsync(selection, location, status);
+
+                if (result.Success && result.Data != null)
+                {
+
+                    foreach (var dto in result.Data)
+                    {
+                        _allProjects.Add(dto);
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }
+                FilterProjectCards();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting projects: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(ProjectCardDto projectCardDto)
+        {
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
+
+        }
+
+        // CATEGORY
+
+        private string categorySelection = "All";
+        public string CategorySelection
+        {
+            get => categorySelection;
+            set
+            {
+                if (SetProperty(ref categorySelection, value))
+                {
+                    if (!_isInitialized)
+                        return;
+
+                    _ = GetProjects();
+                }
+            }
+        }
+        public ObservableCollection<string> CategoryOptions { get; } = new()
+        {
         };
 
+        // LOCATION
 
-        public BrowseProjectViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
+        [ObservableProperty]
+        private CebuLocation? locationSelection = CebuLocation.CebuCity;
+
+        partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
         {
-            _navigationService = navigationService;
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
-            LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
-        }
-
-        private async Task LoadDashboardData()
-        {
-            await _unitOfWork.ReloadAsync();
-            //var isLoggedIn = _sessionService.IsLoggedIn;
-            //if (!isLoggedIn) return;
-
-            await LoadSuggestedProjects();
-        }
-
-        private async Task LoadSuggestedProjects()
-        {
-            var projects = (await _unitOfWork.Projects.GetAllAsync())
-                .Where(p => p.ProjectStatus != ProjectStatus.Deactivated)
-                .Where(p => p.ProjectStatus != ProjectStatus.Completed)
-                .ToList();
-
-            var currentUser = await _unitOfWork.SkillProvider
-                .GetByIdAsync(_sessionService.GetCurrentUserId());
-
-            if (currentUser == null || !currentUser.UserLocation.HasValue)
-                return;
-
-            var userId = currentUser.UserId;
-
-            projects = projects
-                .Where(p => p.ProjectMembers == null || !p.ProjectMembers
-                    .Any(m => m.MemberId == userId))
-                .ToList();
-
-            var userCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
-
-            IEnumerable<Project> filtered = SortSelection switch
+            if (oldValue != newValue)
             {
-                "Same Place as Me" => projects
-                    .Where(p => p.ProjectLocation == currentUser.UserLocation),
-
-                "Nearby (<=10km)" => projects
-                    .Where(p =>
-                        p.ProjectLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 10),
-
-                "Within Urban (<=30km)" => projects
-                    .Where(p =>
-                        p.ProjectLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 30),
-
-                "Extended (<=50km)" => projects
-                    .Where(p =>
-                        p.ProjectLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 50),
-
-                "By Specific Location" when SelectedLocation.HasValue => projects
-                    .Where(p => p.ProjectLocation == SelectedLocation),
-
-                _ => projects
-            };
-
-
-            SuggestedProjects = new ObservableCollection<Project>(filtered);
+                _ = GetProjects();
+            }
         }
 
-        partial void OnSelectedLocationChanged(CebuLocation? value)
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
+            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+
+
+        // STATUS
+
+        private string statusSelection = "All";
+        public string StatusSelection
         {
-            if (SortSelection == "By Specific Location")
-                _ = LoadSuggestedProjects();
+            get => statusSelection;
+            set
+            {
+                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
+                    _ = GetProjects();
+            }
         }
 
-        [RelayCommand]
-        private async Task Refresh() => await LoadDashboardData();
-
-        [RelayCommand]
-        private async Task ViewProject(Project project)
+        public ObservableCollection<string> StatusOptions { get; } = new()
         {
-            _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("/ViewProjectView");
+            "All",
+            "Active Only",
+            "Completed Only",
+            "Deactivated Only"
+        };
+
+        public ObservableCollection<string> SearchFilterOptions { get; } = new()
+        {
+            "By Skills",
+            "By Name"
+        };
+
+        // SEARCH FILTER
+
+        [ObservableProperty]
+        private string searchFilterSelection = "By Skills";
+
+        partial void OnSearchFilterSelectionChanged(string value)
+        {
+            FilterProjectCards(); // Rename this
         }
 
-        private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)
+        // SEARCH QUERY
+
+        [ObservableProperty]
+        private string searchQuery = "";
+
+        partial void OnSearchQueryChanged(string value)
         {
-            const double EarthRadius = 6371;
+            FilterProjectCards(); // Rename this
+        }
 
-            double lat1Rad = Math.PI * coord1.Latitude / 180;
-            double lat2Rad = Math.PI * coord2.Latitude / 180;
-            double deltaLat = lat2Rad - lat1Rad;
-            double deltaLon = Math.PI * (coord2.Longitude - coord1.Longitude) / 180;
+        private const int FuzzySearchCutoff = 70;
 
-            double a = Math.Pow(Math.Sin(deltaLat / 2), 2) +
-                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
-                       Math.Pow(Math.Sin(deltaLon / 2), 2);
+        // NOTE: You should rename this method to FilterProjectCards
+        private void FilterProjectCards()
+        {
+            var query = SearchQuery.Trim().ToLowerInvariant();
 
-            return EarthRadius * (2 * Math.Asin(Math.Sqrt(a)));
+            IEnumerable<ProjectCardDto> filteredList;
+
+            if (string.IsNullOrEmpty(query))
+            {
+                filteredList = _allProjects;
+            }
+            else
+            {
+                switch (SearchFilterSelection)
+                {
+                    case "By Name":
+                        filteredList = _allProjects
+                            .Where(card => Fuzz.PartialRatio(query, card.Title.ToLowerInvariant())
+                                         > FuzzySearchCutoff);
+                        break;
+
+                    case "By Skills":
+                        filteredList = _allProjects
+                            .Where(card => card.Skills != null && card.Skills
+                                .Any(skill => Fuzz.PartialRatio(query, skill.ToLowerInvariant())
+                                              > FuzzySearchCutoff));
+                        break;
+
+                    default:
+                        filteredList = _allProjects;
+                        break;
+                }
+            }
+
+            ProjectCards.Clear();
+            foreach (var card in filteredList)
+            {
+                ProjectCards.Add(card);
+            }
         }
     }
 }

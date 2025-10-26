@@ -9,6 +9,7 @@ using PLinkageApp.Services.Http;
 using PLinkageApp.Interfaces;
 using PLinkageApp.Repositories;
 using PLinkageApp.ViewsAndroid;
+using Microsoft.Extensions.Caching.Memory;
 
 #if WINDOWS
 using Microsoft.UI;
@@ -78,39 +79,35 @@ public static class MauiProgram
         });
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
-		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();
-        //builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
-		builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();       
 		builder.Services.AddTransient<IStartupService, StartupService>();
-
         builder.Services.AddTransient<SplashScreenPage>();
+
+        builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+        //builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
         //builder.Services.AddSingleton<App>();
         //builder.Services.AddSingleton<LogoutView>();            
-
-        //builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
-        builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
-
-        //builder.Services.AddTransient<PLinkageApp.ViewsAndroid.ProjectOwnerHomeView>();
-        builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
-
-        //builder.Services.AddTransient<PLinkageApp.ViewsAndroid.AdminHomeView>();
-        builder.Services.AddTransient<AdminHomeViewModelTemp>();
-
+        ////builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
+        //builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
+        ////builder.Services.AddTransient<PLinkageApp.ViewsAndroid.ProjectOwnerHomeView>();
+        //builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
+        ////builder.Services.AddTransient<PLinkageApp.ViewsAndroid.AdminHomeView>();
+        //builder.Services.AddTransient<AdminHomeViewModelTemp>();
         //builder.Services.AddTransient<RegisterView1>();
         //builder.Services.AddTransient<RegisterView2>();
         //builder.Services.AddTransient<RegisterView3>();
         //builder.Services.AddTransient<RegisterView4>();
         //builder.Services.AddTransient<RegisterView5>();
-        builder.Services.AddScoped<RegisterViewModelTemp>();
+        //builder.Services.AddScoped<RegisterViewModelTemp>();
+        //builder.Services.AddTransient<AdminBrowseSkillProviderViewModelTemp>();
+        //builder.Services.AddTransient<AdminBrowseProjectViewModelTemp>();
+        //builder.Services.AddTransient<AdminBrowseProjectOwnerViewModelTemp>();
+        //builder.Services.AddTransient<ViewSkillProviderProfileViewModelTemp>();
+        //builder.Services.AddTransient<ViewProjectOwnerProfileViewModelTemp>();
+        //builder.Services.AddTransient<ViewProjectViewModelTemp>();
 
-        builder.Services.AddTransient<AdminBrowseSkillProviderViewModelTemp>();
-        builder.Services.AddTransient<AdminBrowseProjectViewModelTemp>();
-        builder.Services.AddTransient<AdminBrowseProjectOwnerViewModelTemp>();
-        builder.Services.AddTransient<ChatViewModelTemp>();
-        builder.Services.AddTransient<MessagesViewModelTemp>();
-        builder.Services.AddTransient<ViewSkillProviderProfileViewModelTemp>();
-        builder.Services.AddTransient<ViewProjectOwnerProfileViewModelTemp>();
-        builder.Services.AddTransient<ViewProjectViewModelTemp>();
+        builder.Services.AddTransient<ChatViewModel>();
+        builder.Services.AddTransient<MessagesViewModel>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
@@ -139,8 +136,6 @@ public static class MauiProgram
         builder.Services.AddTransient<ViewProjectOwnerProfileViewModel>();
         builder.Services.AddTransient<SkillProviderApplicationOfferViewModel>();
         builder.Services.AddTransient<AdminHomeViewModel>();
-        builder.Services.AddTransient<AdminBrowseProjectsViewModel>();
-        builder.Services.AddTransient<AdminBrowseSkillProviderViewModel>();
         builder.Services.AddTransient<AdminBrowseProjectOwnerViewModel>();
 
 #if WINDOWS

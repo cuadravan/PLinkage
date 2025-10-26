@@ -13,6 +13,6 @@ public partial class ViewSkillProviderProfileView : ContentPage
     {
         base.OnAppearing();
         if (BindingContext is ViewSkillProviderProfileViewModel vm)
-            await vm.OnViewAppearingCommand.ExecuteAsync(null);
+            await vm.InitializeAsync();
     }
 }

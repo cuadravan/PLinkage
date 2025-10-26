@@ -9,16 +9,14 @@ namespace PLinkageApp.AndroidControls
                 nameof(Title),
                 typeof(string),
                 typeof(StatCard),
-                string.Empty,
-                propertyChanged: OnTitleChanged);
+                string.Empty);
 
         public static readonly BindableProperty ValueProperty =
             BindableProperty.Create(
                 nameof(Value),
                 typeof(string),
                 typeof(StatCard),
-                string.Empty,
-                propertyChanged: OnValueChanged);
+                string.Empty);
 
         public string Title
         {
@@ -35,18 +33,6 @@ namespace PLinkageApp.AndroidControls
         public StatCard()
         {
             InitializeComponent();
-        }
-
-        private static void OnTitleChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = (StatCard)bindable;
-            control.TitleLabel.Text = newValue?.ToString() ?? string.Empty;
-        }
-
-        private static void OnValueChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = (StatCard)bindable;
-            control.ValueLabel.Text = newValue?.ToString() ?? string.Empty;
         }
     }
 }

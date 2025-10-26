@@ -93,8 +93,8 @@ namespace PLinkageApp
         {
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(AdminHomeView)),
-                new TabbarItem("S.Provider", "browsesp.svg", typeof(AdminBrowseSkillProviderView)),
-                new TabbarItem("Projects", "project.svg", typeof(AdminBrowseProjectView)),
+                new TabbarItem("S.Provider", "browsesp.svg", typeof(BrowseSkillProviderView)),
+                new TabbarItem("Projects", "project.svg", typeof(BrowseProjectView)),
                 new TabbarItem("P.Owner", "browsepo.svg", typeof(AdminBrowseProjectOwnerView)),
                 new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
@@ -107,6 +107,8 @@ namespace PLinkageApp
         {
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(ProjectOwnerHomeView)),
+                new TabbarItem("Browse", "browsesp.svg", typeof(BrowseSkillProviderView)),
+                new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 
@@ -116,6 +118,8 @@ namespace PLinkageApp
         {
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(SkillProviderHomeView)),
+                new TabbarItem("Browse", "project.svg", typeof(BrowseProjectView)),
+                new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 

@@ -5,176 +5,231 @@ using System.ComponentModel.DataAnnotations;
 using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using PLinkageShared.DTOs;
+using System.Text.RegularExpressions;
 
 namespace PLinkageApp.ViewModels
 {
-    public partial class RegisterViewModel : ObservableValidator
+    public partial class RegisterViewModel : ObservableObject
     {
-        // Services
         private readonly INavigationService _navigationService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAccountServiceClient _accountServiceClient;
 
+        [ObservableProperty]
+        public string firstName = string.Empty;
 
-        // Constructor
-        public RegisterViewModel(INavigationService navigationService, IUnitOfWork unitOfWork)
-        {
-            _navigationService = navigationService;
-            _unitOfWork = unitOfWork;
-            ValidateAllProperties();
-        }
+        [ObservableProperty]
+        public string lastName = string.Empty;
 
-        // Form fields
-        [ObservableProperty, Required(ErrorMessage = "First Name is required"),
-         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid First Name.")]
-        private string firstName;
+        [ObservableProperty]
+        public string email = string.Empty;
 
-        [ObservableProperty, Required(ErrorMessage = "Last Name is required"),
-         RegularExpression(@"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$", ErrorMessage = "Please enter a valid Last Name.")]
-        private string lastName;
+        [ObservableProperty]
+        public string password = string.Empty;
 
-        [ObservableProperty, Required(ErrorMessage = "Email is required"),
-         EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
-        private string email;
+        [ObservableProperty]
+        public string confirmPassword = string.Empty;
 
-        [ObservableProperty, Required(ErrorMessage = "Password is required"),
-         MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
-        private string password;
+        [ObservableProperty]
+        public DateTime birthdate = DateTime.Today;
 
-        [ObservableProperty, Required(ErrorMessage = "Confirm Password is required")]
-        private string confirmPassword;
+        [ObservableProperty]
+        public string selectedGender = string.Empty;
 
-        [ObservableProperty] private DateTime birthdate = DateTime.Now;
-        [ObservableProperty] private bool isMale;
-        [ObservableProperty] private bool isFemale;
+        [ObservableProperty]
+        public CebuLocation? selectedLocation = null;
 
-        [ObservableProperty,
-         Required(ErrorMessage = "Mobile Number is required."),
-         RegularExpression(@"^\d{10,11}$", ErrorMessage = "Mobile number must be 10–11 digits.")]
-        private string mobileNumber;
+        [ObservableProperty]
+        public string mobileNumber = string.Empty;
 
+        [ObservableProperty]
+        private string errorMessage = string.Empty;
 
-        [ObservableProperty] private CebuLocation? selectedLocation;
-        [ObservableProperty, Required(ErrorMessage = "Please select a role.")] private string selectedRole;
-        [ObservableProperty] private string errorMessage;
-
-        public ObservableCollection<CebuLocation> CebuLocations { get; } =
+        public ObservableCollection<CebuLocation> LocationOptions { get; } =
             new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
 
-        public ObservableCollection<string> Roles { get; } = new()
+        public ObservableCollection<string> GenderOptions { get; } = new()
         {
-            "Skill Provider",
-            "Project Owner"
+            "Male",
+            "Female"
         };
 
-        private bool ValidateForm()
-        {
-            ErrorMessage = string.Empty;
-            ValidateAllProperties();
+        [ObservableProperty]
+        public bool skillProviderSelected = false;
 
-            if (HasErrors)
+        [ObservableProperty]
+        public bool projectOwnerSelected = false;
+
+        private UserRole? userRoleSelected = null;
+
+        public RegisterViewModel(INavigationService navigationService, IAccountServiceClient accountServiceClient)
+        {
+            _navigationService = navigationService;
+            _accountServiceClient = accountServiceClient;
+        }
+        [RelayCommand]
+        private async Task GoToRegisterView2()
+        {
+            if (!Regex.IsMatch(FirstName, @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
             {
-                ErrorMessage = GetErrors()
-                    .OfType<ValidationResult>()
-                    .FirstOrDefault()?.ErrorMessage;
-                return false;
+                ErrorMessage = "First Name must be valid name.";
+            }
+            else if (!Regex.IsMatch(LastName, @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
+            {
+                ErrorMessage = "Last Name must be valid name.";
+            }
+            else
+            {
+                ErrorMessage = string.Empty;
+                await _navigationService.NavigateToAsync("RegisterView2");
+            }
+        }
+
+        [RelayCommand]
+        private async Task GoToRegisterView3()
+        {
+            if (!String.IsNullOrEmpty(Email) && Regex.IsMatch(Email, "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"))
+            {
+                var response = await _accountServiceClient.CheckEmailUniquenessAsync(Email);
+                if (!response.Success)
+                {
+                    ErrorMessage = "Email is already in use.";
+                    return;
+                }
+            }
+            else
+            {
+                ErrorMessage = "Email must not be empty or invalid.";
+                return;
+            }
+            if (!Regex.IsMatch(Password, "^.{8,}$"))
+            {
+                ErrorMessage = "Password must at least be 8 characters long.";
+                return;
             }
 
-            if (Password != ConfirmPassword)
-                return SetError("Passwords do not match.");
+            if (!String.Equals(Password, ConfirmPassword))
+            {
+                ErrorMessage = "Passwords must match.";
+                return;
+            }
+            ErrorMessage = string.Empty;
+            await _navigationService.NavigateToAsync("RegisterView3");
+        }
 
-            if (!(IsMale || IsFemale))
-                return SetError("Please select a gender.");
-
-            if (!SelectedLocation.HasValue)
-                return SetError("Please select a location.");
-
+        [RelayCommand]
+        private async Task GoToRegisterView4()
+        {
             var today = DateTime.Today;
             var age = today.Year - Birthdate.Year;
             if (Birthdate.Date > today.AddYears(-age)) age--;
             if (age < 18)
-                return SetError("You must be 18 years old or above to register.");
-
-            return true;
-        }
-
-
-        private bool SetError(string message)
-        {
-            ErrorMessage = message;
-            return false;
-        }
-
-        [RelayCommand]
-        private async Task Register()
-        {
-            if (!ValidateForm()) return;
-
-            var skillProviders = await _unitOfWork.SkillProvider.GetAllAsync();
-            var projectOwners = await _unitOfWork.ProjectOwner.GetAllAsync();
-
-            bool emailExists = skillProviders.Any(sp =>
-                                    (string?)sp.GetType().GetProperty("UserEmail")?.GetValue(sp) == Email)
-                            || projectOwners.Any(po =>
-                                    (string?)po.GetType().GetProperty("UserEmail")?.GetValue(po) == Email);
-
-            if (emailExists)
             {
-                ErrorMessage = "Email is already registered. Please use a different email.";
+                ErrorMessage = "You must be older than 18 years old to use this app.";
                 return;
             }
-
-            if (SelectedRole == "Skill Provider")
+            if (String.IsNullOrEmpty(SelectedGender))
             {
-                var skillProvider = new SkillProvider
-                {
-                    UserFirstName = FirstName,
-                    UserLastName = LastName,
-                    UserEmail = Email,
-                    UserPassword = Password,
-                    UserBirthDate = Birthdate.Date,
-                    UserGender = IsMale ? "Male" : "Female",
-                    UserStatus = "Active",
-                    UserPhone = MobileNumber,
-                    UserLocation = SelectedLocation,
-                    JoinedOn = DateTime.Now,
-                };
-                await _unitOfWork.SkillProvider.AddAsync(skillProvider);
+                ErrorMessage = "Please select your gender.";
+                return;
             }
-            else if (SelectedRole == "Project Owner")
+            if (SelectedLocation == null)
             {
-                var projectOwner = new ProjectOwner
-                {
-                    UserFirstName = FirstName,
-                    UserLastName = LastName,
-                    UserEmail = Email,
-                    UserPassword = Password,
-                    UserBirthDate = Birthdate.Date,
-                    UserGender = IsMale ? "Male" : "Female",
-                    UserStatus = "Active",
-                    UserPhone = MobileNumber,
-                    UserLocation = SelectedLocation,
-                    JoinedOn = DateTime.Now,
-                };
-                await _unitOfWork.ProjectOwner.AddAsync(projectOwner);
+                ErrorMessage = "Please select your location.";
+                return;
             }
-
-            await _unitOfWork.SaveChangesAsync();
-            await Shell.Current.DisplayAlert("✅ Success", "You are successfully registered! Please login now.", "OK");
+            if (!Regex.IsMatch(MobileNumber, @"^\d{10,11}$"))
+            {
+                ErrorMessage = "Phone Number must be 10-11 digits.";
+                return;
+            }
             ErrorMessage = string.Empty;
-            await _navigationService.NavigateToAsync("LoginView");
+            await _navigationService.NavigateToAsync("RegisterView4");
         }
 
         [RelayCommand]
-        private Task Clear()
+        private async Task GoToRegisterView5()
         {
-            FirstName = LastName = Email = Password = ConfirmPassword = MobileNumber = SelectedRole = ErrorMessage = string.Empty;
-            IsMale = IsFemale = false;
-            SelectedLocation = null;
-            Birthdate = DateTime.Now;
-            return Task.CompletedTask;
+            if (userRoleSelected == null)
+            {
+                ErrorMessage = "Select a role first.";
+                return;
+            }
+            ErrorMessage = "";
+            bool finalization = await Shell.Current.DisplayAlert("Please confirm details:",
+                $"First Name: {FirstName}\n" +
+                $"Last Name: {LastName}\n" +
+                $"Email: {Email}\n" +
+                $"Birthdate: {Birthdate: MMMM d, yyyy}\n" +
+                $"Gender: {SelectedGender}\n" +
+                $"Location: {SelectedLocation}\n" +
+                $"Phone Number: {MobileNumber}\n" +
+                $"Role Selected: {userRoleSelected}\n",
+                "Proceed",
+                "Cancel"
+                );
+            if (finalization)
+            {
+                RegisterUserDto registerUserDto = new RegisterUserDto
+                {
+                    UserFirstName = FirstName,
+                    UserLastName = LastName,
+                    UserEmail = Email,
+                    UserPassword = Password,
+                    UserPhone = MobileNumber,
+                    UserLocation = SelectedLocation,
+                    UserBirthDate = Birthdate,
+                    UserGender = SelectedGender,
+                    UserRole = userRoleSelected,
+                    JoinedOn = DateTime.Now
+                };
+                var response = await _accountServiceClient.RegisterAsync(registerUserDto);
+                if (response.Success)
+                {
+                    await _navigationService.NavigateToAsync("RegisterView5");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Please Try Again", "The server is having issues processing your registration. Please try again.", "Ok");
+                }
+            }
         }
 
         [RelayCommand]
-        private async Task BackToLogin() => await _navigationService.NavigateToAsync("LoginView");
+        private async Task GoToLogin()
+        {
+            // Erase stack and go back to loginview
+            await _navigationService.NavigateAndClearStackAsync("LoginView");
+        }
+
+        [RelayCommand]
+        private void SelectSkillProvider()
+        {
+            SkillProviderSelected = true;
+            ProjectOwnerSelected = false;
+            userRoleSelected = UserRole.SkillProvider;
+        }
+
+        [RelayCommand]
+        private void SelectProjectOwner()
+        {
+            SkillProviderSelected = false;
+            ProjectOwnerSelected = true;
+            userRoleSelected = UserRole.ProjectOwner;
+
+        }
+
+        //[RelayCommand]
+        //private Task Clear()
+        //{
+        //    FirstName = LastName = Email = Password = ConfirmPassword = MobileNumber = SelectedRole = ErrorMessage = string.Empty;
+        //    IsMale = IsFemale = false;
+        //    SelectedLocation = null;
+        //    Birthdate = DateTime.Now;
+        //    return Task.CompletedTask;
+        //}
+
+        //[RelayCommand]
+        //private async Task BackToLogin() => await _navigationService.NavigateToAsync("LoginView");
     }
 }

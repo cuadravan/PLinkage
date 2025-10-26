@@ -5,179 +5,160 @@ using PLinkageApp.Models;
 using System.Globalization;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
+    [QueryProperty(nameof(SkillProviderId), "SkillProviderId")]
     public partial class ViewSkillProviderProfileViewModel : ObservableObject
     {
-        // Services
-        private readonly IUnitOfWork _unitOfWork;
+        public Guid SkillProviderId { get; set; }
+
+        [ObservableProperty]
+        public bool isUserCurrentlyActive;
+
+        [ObservableProperty]
+        public bool isRatingVisible;
+
+        [ObservableProperty]
+        public bool isMessageButtonVisible;
+
+        [ObservableProperty]
+        public bool isDeactivateButtonVisible;
+
+        [ObservableProperty]
+        public bool isUserActivated;
+
+        [ObservableProperty]
+        private bool isBusy = false;
+
+        [ObservableProperty]
+        public SkillProviderDto skillProviderDto;
+
+        private bool _isInitialized;
+
         private readonly ISessionService _sessionService;
+        private readonly IAccountServiceClient _accountServiceClient;
+        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly INavigationService _navigationService;
 
-        private Guid _skillProviderId;
-
-        // User Info
-        [ObservableProperty] private string userName;
-        [ObservableProperty] private string userLocation;
-        [ObservableProperty] private DateTime dateJoined;
-        [ObservableProperty] private string userGender;
-        [ObservableProperty] private string userEmail;
-        [ObservableProperty] private string userPhone;
-        [ObservableProperty] private double userRating;
-        [ObservableProperty] private string toggleActivationButtonText;
-
-
-        // Role Flags
-        [ObservableProperty] private bool isProjectOwner;
-        [ObservableProperty] private bool isSkillProvider;
-        [ObservableProperty] private bool isAdmin;
-        [ObservableProperty] private bool isProjectOwnerOrAdmin;
-        [ObservableProperty] private bool isOwner;
-
-
-        // Data Collections
-        [ObservableProperty] private ObservableCollection<Skill> skills = new();
-        [ObservableProperty] private ObservableCollection<Education> educations = new();
-        [ObservableProperty] private ObservableCollection<Project> employedProjects = new();
-
-        public IAsyncRelayCommand OnViewAppearingCommand { get; }
-
-        public ViewSkillProviderProfileViewModel(
-            IUnitOfWork unitOfWork,
-            ISessionService sessionService,
-            INavigationService navigationService)
+        public ViewSkillProviderProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
         {
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
             _navigationService = navigationService;
-            OnViewAppearingCommand = new AsyncRelayCommand(OnViewAppearing);
+            _sessionService = sessionService;
+            _accountServiceClient = accountServiceClient;
+            _skillProviderServiceClient = skillProviderServiceClient;
         }
 
-        public async Task OnViewAppearing()
+        [RelayCommand]
+        private async Task RefreshAsync()
         {
-            SetRoleFlags();
+            await LoadUserDataAsync();
+        }
 
-            _skillProviderId = _sessionService.VisitingSkillProviderID;
-            var currentUserId = _sessionService.GetCurrentUserId();
-            if (_skillProviderId == Guid.Empty)
-                _skillProviderId = currentUserId;
-
-            IsOwner = currentUserId == _skillProviderId;
-
-            await _unitOfWork.ReloadAsync();
-
-            // Load profile and check if user is deactivated
-            var profile = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
-            if (profile == null)
-            {
-                await Shell.Current.DisplayAlert("Error", "Skill Provider not found.", "OK");
-                await _navigationService.GoBackAsync();
+        public async Task InitializeAsync()
+        {
+            if (_isInitialized)
                 return;
-            }
-
-            // Check status and allow only admins to view deactivated profiles
-            if (profile.UserStatus == "Deactivated" && !IsAdmin)
+            try
             {
-                await Shell.Current.DisplayAlert("Access Denied", "This profile is deactivated.", "OK");
-                await _navigationService.GoBackAsync();
+                var currentVisitorUserRole = _sessionService.GetCurrentUserRole();
+                if (currentVisitorUserRole == UserRole.Admin)
+                {
+                    IsMessageButtonVisible = true;
+                    IsDeactivateButtonVisible = true;
+                }
+                else
+                {
+                    IsMessageButtonVisible = true;
+                    IsDeactivateButtonVisible = false;
+                } // TODO: add additional logic for SP, PO, and current user
+                IsRatingVisible = true;
+                await LoadUserDataAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+        }
+
+        private async Task LoadUserDataAsync()
+        {
+            if (IsBusy)
                 return;
-            }
-
-            await LoadProfileAsync();
-            await LoadEmployedProjectsAsync();
-
-            if (IsOwner)
+            IsBusy = true;
+            try
             {
-                await Shell.Current.DisplayAlert("View Mode", "You are currently viewing your profile as a visitor.", "OK");
+
+                ApiResponse<SkillProviderDto> result = null;
+
+                result = await _skillProviderServiceClient.GetSpecificAsync(SkillProviderId);
+
+                if (result.Success && result.Data != null)
+                {
+
+                    SkillProviderDto = result.Data;
+                    if (SkillProviderDto.UserStatus == "Active")
+                    {
+                        IsUserCurrentlyActive = true;
+                    }
+                    else
+                    {
+                        IsUserCurrentlyActive = false;
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }
             }
-        }
-
-
-
-        private void SetRoleFlags()
-        {
-            var role = _sessionService.GetCurrentUserRole();
-            IsProjectOwner = role == UserRole.ProjectOwner;
-            IsSkillProvider = role == UserRole.SkillProvider;
-            IsAdmin = role == UserRole.Admin;
-            IsProjectOwnerOrAdmin = IsProjectOwner || IsAdmin;
-        }
-
-        private async Task LoadProfileAsync()
-        {
-            var profile = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
-            if (profile == null) return;
-
-            UserName = $"{profile.UserFirstName} {profile.UserLastName}";
-            UserLocation = profile.UserLocation?.ToString() ?? "Not specified";
-            DateJoined = profile.JoinedOn;
-            UserGender = profile.UserGender;
-            UserEmail = profile.UserEmail;
-            UserPhone = profile.UserPhone;
-            UserRating = profile.UserRating;
-
-            Educations = new ObservableCollection<Education>(profile.Educations);
-            Skills = new ObservableCollection<Skill>(profile.Skills);
-            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
-        }
-
-        private async Task LoadEmployedProjectsAsync()
-        {
-            EmployedProjects.Clear();
-
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
-            var employedIn = allProjects.Where(p =>
-                p.ProjectMembers.Any(m => m.MemberId == _skillProviderId));
-
-            foreach (var project in employedIn)
+            catch (Exception ex)
             {
-                EmployedProjects.Add(project);
+                Console.WriteLine($"Error getting skill provider profile: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
+
+        [RelayCommand]
+        public async Task MessageUser()
+        {
+            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", Guid.Empty }, { "ReceiverId", SkillProviderDto.UserId }, { "ReceiverName", SkillProviderDto.UserName } });
+        }
+
+        [RelayCommand]
+        public async Task ToggleUserActivation()
+        {
+            IsUserCurrentlyActive = !IsUserCurrentlyActive;
+
+            string status = IsUserCurrentlyActive ? "Activated" : "Deactivated";
+            try
+            {
+                var response = await _accountServiceClient.ActivateDeactivateUserAsync(SkillProviderId);
+                if (response.Success)
+                {
+                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
             }
         }
 
-        // Commands
         [RelayCommand]
-        private async Task SendOffer()
+        public async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
         {
-            _sessionService.VisitingSkillProviderID = _skillProviderId;
-            await _navigationService.NavigateToAsync("/ProjectOwnerSendOfferView");
-        }
-
-        [RelayCommand]
-        private async Task SendMessage()
-        {
-            _sessionService.VisitingReceiverID = _skillProviderId;
-            await _navigationService.NavigateToAsync("/ProjectOwnerSendMessageView");
-        }
-
-        [RelayCommand]
-        private async Task ViewProject(Project project)
-        {
-            _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("/ViewProjectView");
-        }
-
-        [RelayCommand]
-        private async Task ToggleSkillProviderActivation()
-        {
-            var owner = await _unitOfWork.SkillProvider.GetByIdAsync(_skillProviderId);
-            if (owner == null) return;
-
-            string action = owner.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
-
-            bool confirm = await Shell.Current.DisplayAlert(
-                $"Confirm {action}",
-                $"{action} Skill Provider: {owner.UserFirstName} {owner.UserLastName}?",
-                "Yes", "No");
-
-            if (!confirm) return;
-
-            owner.UserStatus = owner.UserStatus == "Deactivated" ? "Active" : "Deactivated";
-
-            await _unitOfWork.SkillProvider.UpdateAsync(owner);
-            await _unitOfWork.SaveChangesAsync();
-            await LoadProfileAsync(); // Updates UI including button text
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
         }
     }
 }

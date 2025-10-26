@@ -9,17 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLinkageApp
+namespace PLinkageApp.ViewModels
 {
     [QueryProperty(nameof(ReceiverName),"ReceiverName")]
     [QueryProperty(nameof(ChatId),"ChatId")]
     [QueryProperty(nameof(ReceiverId), "ReceiverId")]
-    public partial class MessagesViewModelTemp: ObservableObject
+    public partial class MessagesViewModel: ObservableObject
     {
         private readonly IChatServiceClient _chatServiceClient;
         private readonly ISessionService _sessionService;
 
-        public MessagesViewModelTemp(IChatServiceClient chatServiceClient, ISessionService sessionService)
+        public MessagesViewModel(IChatServiceClient chatServiceClient, ISessionService sessionService)
         {
             _chatServiceClient = chatServiceClient;
             _sessionService = sessionService;
