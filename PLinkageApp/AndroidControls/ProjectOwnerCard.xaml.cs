@@ -53,6 +53,5 @@ public partial class ProjectOwnerCard : ContentView
     public ProjectOwnerCard()
     {
         InitializeComponent();
-        BindingContext = this;
     }
 }

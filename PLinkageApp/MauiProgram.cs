@@ -9,6 +9,7 @@ using PLinkageApp.Services.Http;
 using PLinkageApp.Interfaces;
 using PLinkageApp.Repositories;
 using PLinkageApp.ViewsAndroid;
+using Microsoft.Extensions.Caching.Memory;
 
 #if WINDOWS
 using Microsoft.UI;

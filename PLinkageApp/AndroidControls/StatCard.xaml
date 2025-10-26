@@ -2,7 +2,8 @@
 <ContentView
     x:Class="PLinkageApp.AndroidControls.StatCard"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
 
     <Border
         Padding="3"
@@ -25,7 +26,7 @@
                 HorizontalTextAlignment="Center"
                 LineBreakMode="WordWrap"
                 MaxLines="2"
-                Text="{Binding Title}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=Title}"
                 TextColor="White" />
 
             <!--  Value  -->
@@ -34,7 +35,7 @@
                 FontAttributes="Bold"
                 FontSize="36"
                 HorizontalTextAlignment="Center"
-                Text="{Binding Label}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=Label}"
                 TextColor="White" />
 
         </VerticalStackLayout>

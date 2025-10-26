@@ -38,30 +38,10 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Border
-                                    Margin="0,0,0,5"
-                                    Padding="15"
-                                    BackgroundColor="White"
-                                    Stroke="#8A2BE2"
-                                    StrokeShape="RoundRectangle 12"
-                                    StrokeThickness="2">
-                                    <VerticalStackLayout Spacing="5">
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="16"
-                                            Text="{Binding SchoolAttended}"
-                                            TextColor="#333333" />
-                                        <Label
-                                            FontSize="14"
-                                            Text="{Binding CourseName}"
-                                            TextColor="#8A2BE2" />
-                                        <Label
-                                            Margin="0,10,0,0"
-                                            FontSize="14"
-                                            Text="{Binding TimeGraduated, StringFormat='Graduated {0:MMMM yyyy}'}"
-                                            TextColor="#666666" />
-                                    </VerticalStackLayout>
-                                </Border>
+                                <controls:ProfileEducationCard
+                                    CourseName="{Binding CourseName}"
+                                    SchoolAttended="{Binding SchoolAttended}"
+                                    TimeGraduated="{Binding TimeGraduated}" />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -90,18 +70,7 @@
 
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Border
-                                        Margin="0,0,5,5"
-                                        Padding="12,8"
-                                        BackgroundColor="#8A2BE2"
-                                        HorizontalOptions="Start"
-                                        StrokeShape="RoundRectangle 20">
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="14"
-                                            Text="{Binding SkillName}"
-                                            TextColor="White" />
-                                    </Border>
+                                    <controls:SkillPill SkillName="{Binding SkillName}" />
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </FlexLayout>
@@ -118,74 +87,12 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Border
-                                    Margin="0,0,0,5"
-                                    Padding="15"
-                                    BackgroundColor="White"
-                                    Stroke="#8A2BE2"
-                                    StrokeShape="RoundRectangle 12"
-                                    StrokeThickness="2">
-
-                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-
-                                        <VerticalStackLayout
-                                            Grid.Column="0"
-                                            Spacing="2"
-                                            VerticalOptions="Center">
-                                            <Label
-                                                FontAttributes="Bold"
-                                                FontSize="16"
-                                                Text="{Binding ProjectName}"
-                                                TextColor="#333333" />
-
-                                            <HorizontalStackLayout Spacing="5">
-                                                <Label
-                                                    FontSize="14"
-                                                    Text="Status:"
-                                                    TextColor="#666666" />
-
-                                                <Label
-                                                    FontSize="14"
-                                                    Text="{Binding ProjectStatus}"
-                                                    TextColor="#00C853">
-       
-                                                    <Label.Triggers>
-                                                        <DataTrigger
-                                                            Binding="{Binding ProjectStatus}"
-                                                            TargetType="Label"
-                                                            Value="Completed">
-                                                            <Setter Property="TextColor" Value="#00C853" />
-                                                        </DataTrigger>
-                                                        <DataTrigger
-                                                            Binding="{Binding ProjectStatus}"
-                                                            TargetType="Label"
-                                                            Value="Active">
-                                                            <Setter Property="TextColor" Value="#FFAB00" />
-                                                        </DataTrigger>
-                                                        <DataTrigger
-                                                            Binding="{Binding ProjectStatus}"
-                                                            TargetType="Label"
-                                                            Value="Deactivated">
-                                                            <Setter Property="TextColor" Value="#D50000" />
-                                                        </DataTrigger>
-                                                    </Label.Triggers>
-                                                </Label>
-                                            </HorizontalStackLayout>
-                                        </VerticalStackLayout>
-
-
-                                        <Path
-                                            Grid.Column="1"
-                                            Data="M12,9C10.9,9 10,9.9 10,11C10,12.1 10.9,13 12,13C13.1,13 14,12.1 14,11C14,9.9 13.1,9 12,9M12,4.5C7,4.5 2.7,7.6 1,12C2.7,16.4 7,19.5 12,19.5C17,19.5 21.3,16.4 23,12C21.3,7.6 17,4.5 12,4.5M12,17C9.2,17 7,14.8 7,12C7,9.2 9.2,7 12,7C14.8,7 17,9.2 17,12C17,14.8 14.8,17 12,17Z"
-                                            Fill="#8A2BE2"
-                                            VerticalOptions="Center">
-                                            <Path.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding ViewProjectCommand}" />
-                                            </Path.GestureRecognizers>
-                                        </Path>
-
-                                    </Grid>
-                                </Border>
+                                <controls:ProfileProjectCard
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewSkillProviderProfileViewModelTemp}}, Path=ViewProjectCommand}"
+                                    CommandParameter="{Binding .}"
+                                    IsOwner="False"
+                                    ProjectName="{Binding ProjectName}"
+                                    ProjectStatus="{Binding ProjectStatus}" />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

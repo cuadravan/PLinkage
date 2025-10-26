@@ -70,6 +70,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="FuzzySharp" Version="2.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
@@ -160,6 +161,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\LabelledPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\ProfileEducationCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\ProfileProjectCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\SkillPill.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\UserProfileCard.xaml">

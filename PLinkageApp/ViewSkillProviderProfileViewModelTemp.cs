@@ -21,15 +21,6 @@ namespace PLinkageApp
         public bool isUserCurrentlyActive;
 
         [ObservableProperty]
-        public string userName;
-
-        [ObservableProperty]
-        public string userSubtitle;
-
-        [ObservableProperty]
-        public double userRating;
-
-        [ObservableProperty]
         public bool isRatingVisible;
 
         [ObservableProperty]
@@ -40,18 +31,6 @@ namespace PLinkageApp
 
         [ObservableProperty]
         public bool isUserActivated;
-
-        [ObservableProperty]
-        public DateTime joinedDate;
-
-        [ObservableProperty]
-        public string gender;
-
-        [ObservableProperty]
-        public string emailAddress;
-
-        [ObservableProperty]
-        public string mobileNumber;
 
         [ObservableProperty]
         private bool isBusy = false;
@@ -176,6 +155,12 @@ namespace PLinkageApp
             {
                 await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
             }
+        }
+
+        [RelayCommand]
+        public async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
+        {
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
         }
 
     }
