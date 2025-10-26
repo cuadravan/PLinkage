@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.AddEducationView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
+
+            <!-- Title -->
+            <Label
+                Text="Add Education"
+                FontAttributes="Bold"
+                FontSize="20"
+                TextColor="Black" />
+
+            <!-- Info Box -->
+            <!--<Border
+                BackgroundColor="#F2ECFF"
+                StrokeThickness="0"
+                Padding="10"
+                StrokeShape="RoundRectangle 10">
+                <HorizontalStackLayout Spacing="10">
+                    <Label
+                        Text="A good education will make you more viable."
+                        TextColor="#555"
+                        FontSize="13"
+                        VerticalOptions="Center" />
+                    <Image
+                        Source="plinkage.png"
+                        HeightRequest="22"
+                        WidthRequest="22"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>-->
+            
+            <controls:InfoBanner
+                Text="A good education will make you more viable."
+                IconSource="plinkage.png" />
+
+            <!-- Course Name -->
+            <controls:LabeledEntry
+                LabelText="Course Name"
+                Placeholder="What is your course?"
+                Text="{Binding CourseName}" />
+
+            <!-- School Attended -->
+            <controls:LabeledEntry
+                LabelText="School Attended"
+                Placeholder="Where did you get this course?"
+                Text="{Binding SchoolAttended}" />
+
+            <!-- Time Graduated -->
+            <controls:LabeledDatePicker
+                LabelText="Time Graduated"
+                Date="{Binding TimeGraduated}" />
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="10">
+                <Button
+                    Text="Add Education"
+                    Command="{Binding AddEducationCommand}"
+                    BackgroundColor="#7C4DFF"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="5"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="45" />
+
+                <Button
+                    Text="Cancel"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="White"
+                    TextColor="#7C4DFF"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    FontAttributes="Bold"
+                    CornerRadius="5"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="45" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

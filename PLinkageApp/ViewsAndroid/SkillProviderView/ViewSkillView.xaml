@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ViewSkillView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
+
+            <!-- Back to Profile Header -->
+            <HorizontalStackLayout HorizontalOptions="End">
+                <Label
+                    Text="Back to profile"
+                    FontAttributes="Bold"
+                    TextColor="#7C4DFF"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label
+                    Text=" ✕"
+                    FontAttributes="Bold"
+                    TextColor="#7C4DFF"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Update Skill Shortcut -->
+            <Label
+                Text="Not accurate? Update skill ↻"
+                FontAttributes="Bold"
+                FontSize="13"
+                TextColor="#7C4DFF"
+                HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToUpdateCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!-- Title -->
+            <Label
+                Text="View Skill"
+                FontAttributes="Bold"
+                FontSize="20"
+                TextColor="Black" />
+
+            <!-- Info Box -->
+            <!--<Border
+                BackgroundColor="#F2ECFF"
+                StrokeThickness="0"
+                Padding="10"
+                StrokeShape="RoundRectangle 10">
+                <HorizontalStackLayout Spacing="10">
+                    <Label
+                        Text="You are currently viewing a skill from Van Cuadra."
+                        TextColor="#555"
+                        FontSize="13"
+                        VerticalOptions="Center" />
+                    <Image
+                        Source="plinkage.png"
+                        HeightRequest="22"
+                        WidthRequest="22"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>-->
+
+            <controls:InfoBanner 
+                Text="You are currently viewing a skill from Van Cuadra."
+                IconSource="plinkage.png" />
+
+            <!-- Skill Fields -->
+            <controls:LabeledEntry
+                LabelText="Skill Name"
+                Text="{Binding SkillName}"
+                IsEnabled="False" />
+
+            <controls:LabeledEntry
+                LabelText="Description"
+                Text="{Binding SkillDescription}"
+                IsEnabled="False" />
+
+            <controls:LabeledEntry
+                LabelText="Skill Level"
+                Text="{Binding SkillLevel}"
+                IsEnabled="False" />
+
+            <controls:LabeledDatePicker
+                LabelText="Time Acquired"
+                Date="{Binding TimeAcquired}"
+                IsEnabled="False" />
+
+            <controls:LabeledEntry
+                LabelText="Organization Involved"
+                Text="{Binding OrganizationInvolved}"
+                IsEnabled="False" />
+
+            <controls:LabeledEntry
+                LabelText="Years of Experience"
+                Text="{Binding YearsOfExperience}"
+                IsEnabled="False" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

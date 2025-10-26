@@ -88,6 +88,15 @@
 	  <Compile Update="AndroidControls\FilterButton.xaml.cs">
 	    <DependentUpon>FilterButton.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="AndroidControls\LabeledDatePicker.xaml.cs">
+	    <DependentUpon>LabeledDatePicker.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="AndroidControls\LabeledEntry.xaml.cs">
+	    <DependentUpon>LabeledEntry.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="AndroidControls\InfoBanner.xaml.cs">
+	    <DependentUpon>InfoBanner.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="AndroidControls\UserProfileCard.xaml.cs">
 	    <DependentUpon>UserProfileCard.xaml</DependentUpon>
 	  </Compile>
@@ -97,6 +106,27 @@
 	  <Compile Update="Views To use\AdminViewProjectOwnerProfileView.xaml.cs">
 	    <DependentUpon>AdminViewProjectOwnerProfileView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\ProjectOwnerView\SendOfferView.xaml.cs">
+	    <DependentUpon>SendOfferView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\AddEducationView.xaml.cs">
+	    <DependentUpon>AddEducationView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\ApplyView.xaml.cs">
+	    <DependentUpon>ApplyView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\NegotiatingOfferView.xaml.cs">
+	    <DependentUpon>NegotiatingOfferView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\UpdateEducationView.xaml.cs">
+	    <DependentUpon>UpdateEducationView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\ViewSkillView.xaml.cs">
+	    <DependentUpon>ViewSkillView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\UpdateSkillView.xaml.cs">
+	    <DependentUpon>UpdateSkillView.xaml</DependentUpon>
+    </Compile>
 	  <Compile Update="ViewsAndroid\BrowseSkillProviderView.xaml.cs">
 	    <DependentUpon>BrowseSkillProviderView.xaml</DependentUpon>
 	  </Compile>
@@ -126,6 +156,9 @@
 	  </Compile>
 	  <Compile Update="ViewsAndroid\MessagesView.xaml.cs">
 	    <DependentUpon>MessagesView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\AddSkillView.xaml.cs">
+	    <DependentUpon>AddSkillView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsAndroid\ViewSkillProviderProfileView.xaml.cs">
 	    <DependentUpon>ViewSkillProviderProfileView.xaml</DependentUpon>
@@ -169,6 +202,14 @@
 	  <MauiXaml Update="AndroidControls\LabelledPicker.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\LabeledDatePicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\LabeledEntry.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\InfoBanner.xaml">
+    </MauiXaml> 
 	  <MauiXaml Update="AndroidControls\ProfileEducationCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -232,6 +273,27 @@
 	  <MauiXaml Update="ViewsAndroid\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\SendOfferView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\AddEducationView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\ApplyView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\NegotiatingOfferView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\UpdateEducationView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\ViewSkillView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\UpdateSkillView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\ProjectOwnerHomeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -256,6 +318,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\MessagesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\AddSkillView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\ViewProjectOwnerProfileView.xaml">
