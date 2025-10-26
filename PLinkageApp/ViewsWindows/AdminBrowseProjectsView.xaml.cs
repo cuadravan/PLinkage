@@ -4,15 +4,15 @@ namespace PLinkageApp.Views;
 
 public partial class AdminBrowseProjectsView : ContentPage
 {
-	public AdminBrowseProjectsView(AdminBrowseProjectsViewModel viewModel)
+	public AdminBrowseProjectsView(BrowseProjectViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;
     }
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        if (BindingContext is AdminBrowseProjectsViewModel vm)
-            await vm.LoadProjectsCommand.ExecuteAsync(null);
-    }
+    //protected override async void OnAppearing()
+    //{
+    //    base.OnAppearing();
+    //    if (BindingContext is AdminBrowseProjectsViewModel vm)
+    //        await vm.LoadProjectsCommand.ExecuteAsync(null);
+    //}
 }

@@ -13,6 +13,6 @@ public partial class ViewProjectOwnerProfileView : ContentPage
     {
         base.OnAppearing();
         if (BindingContext is ViewProjectOwnerProfileViewModel vm)
-            await vm.OnViewAppearingCommand.ExecuteAsync(null);
+             await vm.InitializeAsync();
     }
 }

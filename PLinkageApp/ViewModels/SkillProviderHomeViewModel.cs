@@ -4,26 +4,109 @@ using System.Collections.ObjectModel;
 using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
     public partial class SkillProviderHomeViewModel : ObservableObject
     {
-        // Services
-        private readonly INavigationService _navigationService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDashboardServiceClient _dashboardServiceClient;
+        private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
+        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
+        [ObservableProperty] private int activeProjectsValue = 0;
+        [ObservableProperty] private int pendingSentApplicationsValue = 0;
+        [ObservableProperty] private int pendingReceivedOffersValue = 0;
 
+        [ObservableProperty]
+        private bool isBusy = false;
 
-        // Properties
-        [ObservableProperty] private string userName;
-        [ObservableProperty] private ObservableCollection<Project> suggestedProjects = new();
-        [ObservableProperty] private int receivedOfferCount;
-        [ObservableProperty] private int sentApplicationCount;
-        [ObservableProperty] private int activeProjects;
-        [ObservableProperty] private string summaryText;
+        public SkillProviderHomeViewModel(IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, IProjectServiceClient projectServiceClient)
+        {
+            _dashboardServiceClient = dashboardServiceClient;
+            _sessionService = sessionService;
+            _projectServiceClient = projectServiceClient;
 
-        public IAsyncRelayCommand LoadDashboardDataCommand { get; }
+            ProjectCards = new ObservableCollection<ProjectCardDto>();
+        }
+
+        public async Task InitializeAsync()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                await Task.WhenAll(
+                    GetDashboardStats(),
+                    GetSuggestedProjects()
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task GetNextSuggestedProjectsAsync()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                await GetSuggestedProjects();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task GetDashboardStats()
+        {
+            var userId = _sessionService.GetCurrentUserId();
+            var result = await _dashboardServiceClient.GetSkillProviderDashboardAsync(userId);
+
+            if (result.Success && result.Data != null)
+            {
+                ActiveProjectsValue = result.Data.ActiveProjects;
+                PendingSentApplicationsValue = result.Data.PendingSentApplications;
+                PendingReceivedOffersValue = result.Data.ReceivedOffers;
+            }
+        }
+        private async Task GetSuggestedProjects()
+        {
+            var userLocation = _sessionService.GetCurrentUserLocation();
+            ApiResponse<IEnumerable<ProjectCardDto>> result = null;
+            ProjectCards.Clear();
+            if (sortSelection == "Same Place as Me")
+            {
+                result = await _projectServiceClient.GetFilteredProjectsAsync("By Specific Location", userLocation, "Active");
+            }
+            else
+            {
+                result = await _projectServiceClient.GetFilteredProjectsAsync(sortSelection, userLocation, "Active");
+            }
+            if (result.Success && result.Data != null)
+            {
+                foreach (var dto in result.Data)
+                {
+                    ProjectCards.Add(dto);
+                }
+            }
+        }
 
         private string sortSelection = "All";
         public string SortSelection
@@ -32,7 +115,7 @@ namespace PLinkageApp.ViewModels
             set
             {
                 if (SetProperty(ref sortSelection, value))
-                    _ = LoadSuggestedProjects();
+                    _ = GetSuggestedProjects();
             }
         }
 
@@ -40,139 +123,9 @@ namespace PLinkageApp.ViewModels
         {
             "All",
             "Same Place as Me",
-            "Nearby (<=10km)",
-            "Within Urban (<=20km)",
-            "Extended (<=50km)"
+            "Nearby (<= 10km)",
+            "Within Urban (<= 20km)",
+            "Extended (<= 50km)"
         };
-
-
-        // Constructor
-        public SkillProviderHomeViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
-        {
-            _navigationService = navigationService;
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
-            LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
-        }
-
-        // Core Methods
-        private async Task LoadDashboardData()
-        {
-            await _unitOfWork.ReloadAsync();
-            var currentUserName = _sessionService.GetCurrentUserName();
-            var currentUserId = _sessionService.GetCurrentUserId();
-
-            UserName = currentUserName;
-            await LoadSuggestedProjects();
-            await CountReceivedOffers(currentUserId);
-            await CountSentApplications(currentUserId);
-            await CountActiveProjects(currentUserId);
-
-            SummaryText = $"You have {ActiveProjects} active projects, {SentApplicationCount} pending sent applications, and {ReceivedOfferCount} received offers.";
-        }
-
-        private async Task LoadSuggestedProjects()
-        {
-            // fetch all and exclude deactivated and completed projects
-            var projects = (await _unitOfWork.Projects.GetAllAsync())
-                .Where(p => p.ProjectStatus != ProjectStatus.Deactivated &&
-                            p.ProjectStatus != ProjectStatus.Completed)
-                .ToList();
-
-            var currentUser = await _unitOfWork.SkillProvider
-                .GetByIdAsync(_sessionService.GetCurrentUserId());
-
-            if (currentUser == null || !currentUser.UserLocation.HasValue)
-                return;
-
-            var userId = currentUser.UserId;
-            var userLocation = currentUser.UserLocation.Value;
-            var userCoord = CebuLocationCoordinates.Map[userLocation];
-
-            // Exclude projects where the current user is already employed
-            projects = projects
-                .Where(p => p.ProjectMembers == null || !p.ProjectMembers
-                    .Any(m => m.MemberId == userId))
-                .ToList();
-
-            IEnumerable<Project> filtered = SortSelection switch
-            {
-                "Same Place as Me" => projects
-                    .Where(p => p.ProjectLocation == userLocation),
-
-                "Nearby (<=10km)" => projects
-                    .Where(p =>
-                        p.ProjectLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 10),
-
-                "Within Urban (<=30km)" => projects
-                    .Where(p =>
-                        p.ProjectLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 30),
-
-                "Extended (<=50km)" => projects
-                    .Where(p =>
-                        p.ProjectLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(p.ProjectLocation.Value) &&
-                        CalculateDistanceKm(userCoord, CebuLocationCoordinates.Map[p.ProjectLocation.Value]) <= 50),
-
-                _ => projects
-            };
-
-
-            SuggestedProjects = new ObservableCollection<Project>(filtered);
-        }
-
-
-
-        private async Task CountReceivedOffers(Guid userId)
-        {
-            var allOffers = await _unitOfWork.OfferApplications.GetAllAsync();
-            ReceivedOfferCount = allOffers.Count(offer => offer.ReceiverId == userId && offer.OfferApplicationStatus == "Pending");
-        }
-
-        private async Task CountSentApplications(Guid userId)
-        {
-            var allApplications = await _unitOfWork.OfferApplications.GetAllAsync();
-            SentApplicationCount = allApplications.Count(app => app.SenderId == userId && app.OfferApplicationStatus == "Pending");
-        }
-
-        private async Task CountActiveProjects(Guid userId)
-        {
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
-            ActiveProjects = allProjects.Count(
-                p => p.ProjectMembers.Any(m => m.MemberId == userId)
-                && p.ProjectStatus == ProjectStatus.Active
-                );
-
-        }
-
-        [RelayCommand]
-        private async Task Refresh() => await LoadDashboardData();
-
-        [RelayCommand]
-        private async Task ViewProject(Project project)
-        {
-            _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("/ViewProjectView");
-        }
-
-        private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)
-        {
-            const double EarthRadius = 6371; // km
-
-            double lat1Rad = Math.PI * coord1.Latitude / 180;
-            double lat2Rad = Math.PI * coord2.Latitude / 180;
-            double deltaLat = lat2Rad - lat1Rad;
-            double deltaLon = Math.PI * (coord2.Longitude - coord1.Longitude) / 180;
-
-            double a = Math.Pow(Math.Sin(deltaLat / 2), 2) +
-                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
-                       Math.Pow(Math.Sin(deltaLon / 2), 2);
-
-            return EarthRadius * (2 * Math.Asin(Math.Sqrt(a)));
-        }
     }
 }

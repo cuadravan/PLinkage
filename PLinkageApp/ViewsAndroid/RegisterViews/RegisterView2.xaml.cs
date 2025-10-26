@@ -4,9 +4,9 @@ namespace PLinkageApp.ViewsAndroid;
 
 public partial class RegisterView2 : ContentPage
 {
-    public RegisterView2(RegisterViewModelTemp viewModelTemp)
+    public RegisterView2(RegisterViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = viewModelTemp;
+        BindingContext = viewModel;
     }
 }

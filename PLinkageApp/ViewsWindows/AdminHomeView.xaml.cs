@@ -14,6 +14,6 @@ public partial class AdminHomeView : ContentPage
         base.OnAppearing();
 
         if (BindingContext is AdminHomeViewModel vm)
-            await vm.LoadDashboardDataCommand.ExecuteAsync(null);
+            await vm.InitializeAsync();
     }
 }

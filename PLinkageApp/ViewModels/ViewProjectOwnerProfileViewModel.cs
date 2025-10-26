@@ -5,181 +5,160 @@ using PLinkageApp.Models;
 using System.Globalization;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
+    [QueryProperty(nameof(ProjectOwnerId), "ProjectOwnerId")]
     public partial class ViewProjectOwnerProfileViewModel : ObservableObject
     {
-        // Services
-        private readonly IUnitOfWork _unitOfWork;
+        public Guid ProjectOwnerId { get; set; }
+
+        [ObservableProperty]
+        public bool isUserCurrentlyActive;
+
+        [ObservableProperty]
+        public bool isRatingVisible;
+
+        [ObservableProperty]
+        public bool isMessageButtonVisible;
+
+        [ObservableProperty]
+        public bool isDeactivateButtonVisible;
+
+        [ObservableProperty]
+        public bool isUserActivated;
+
+        [ObservableProperty]
+        private bool isBusy = false;
+
+        [ObservableProperty]
+        public ProjectOwnerDto projectOwnerDto;
+
+        private bool _isInitialized;
+
         private readonly ISessionService _sessionService;
+        private readonly IAccountServiceClient _accountServiceClient;
+        private readonly IProjectOwnerServiceClient _projectownerServiceClient;
         private readonly INavigationService _navigationService;
 
-        private Guid _projectOwnerId;
-
-        // Properties
-        [ObservableProperty] private string userName;
-        [ObservableProperty] private string userLocation;
-        [ObservableProperty] private DateTime dateJoined;
-        [ObservableProperty] private string userGender;
-        [ObservableProperty] private string userEmail;
-        [ObservableProperty] private string userPhone;
-        [ObservableProperty] private ObservableCollection<Project> ownedProjects = new();
-        [ObservableProperty] private string toggleActivationButtonText;
-
-
-        // Role Flags
-        [ObservableProperty] private bool isSkillProvider;
-        [ObservableProperty] private bool isAdmin;
-        [ObservableProperty] private bool isSkillproviderOrAdmin;
-        [ObservableProperty] private bool isOwner;
-
-        public IAsyncRelayCommand OnViewAppearingCommand { get; }
-
-        private string sortSelection = "All";
-        public string SortSelection
+        public ViewProjectOwnerProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, IProjectOwnerServiceClient projectOwnerServiceClient, INavigationService navigationService)
         {
-            get => sortSelection;
-            set
-            {
-                if (SetProperty(ref sortSelection, value))
-                    _ = LoadProjectsAsync();
-            }
-        }
-
-        public ObservableCollection<string> SortOptions { get; } = new()
-        {
-            "Active",
-            "Completed",
-            "Deactivated",
-            "All"
-        };
-
-        public ViewProjectOwnerProfileViewModel(
-            IUnitOfWork unitOfWork,
-            ISessionService sessionService,
-            INavigationService navigationService)
-        {
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
             _navigationService = navigationService;
-            OnViewAppearingCommand = new AsyncRelayCommand(OnViewAppearing);
+            _sessionService = sessionService;
+            _accountServiceClient = accountServiceClient;
+            _projectownerServiceClient = projectOwnerServiceClient;
         }
 
-        public async Task OnViewAppearing()
+        [RelayCommand]
+        private async Task RefreshAsync()
         {
-            SetRoleFlags();
+            await LoadUserDataAsync();
+        }
 
-            _projectOwnerId = _sessionService.VisitingProjectOwnerID;
-            var currentUserId = _sessionService.GetCurrentUserId();
-            if (_projectOwnerId == Guid.Empty)
-                _projectOwnerId = currentUserId;
-
-            IsOwner = currentUserId == _projectOwnerId;
-
-            await _unitOfWork.ReloadAsync();
-
-            // Load profile directly here to check status early
-            var profile = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
-            if (profile == null)
-            {
-                await Shell.Current.DisplayAlert("Error", "Project Owner not found.", "OK");
-                await _navigationService.GoBackAsync();
+        public async Task InitializeAsync()
+        {
+            if (_isInitialized)
                 return;
-            }
-
-            // Check deactivation status and restrict access if not admin
-            if (profile.UserStatus == "Deactivated" && !IsAdmin)
+            try
             {
-                await Shell.Current.DisplayAlert("Access Denied", "This profile is deactivated.", "OK");
-                await _navigationService.GoBackAsync();
+                var currentVisitorUserRole = _sessionService.GetCurrentUserRole();
+                if (currentVisitorUserRole == UserRole.Admin)
+                {
+                    IsMessageButtonVisible = true;
+                    IsDeactivateButtonVisible = true;
+                }
+                else
+                {
+                    IsMessageButtonVisible = true;
+                    IsDeactivateButtonVisible = false;
+                } // TODO: add additional logic for SP, PO, and current user
+                IsRatingVisible = false;
+                await LoadUserDataAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
+            }
+        }
+
+        private async Task LoadUserDataAsync()
+        {
+            if (IsBusy)
                 return;
+            IsBusy = true;
+            try
+            {
+
+                ApiResponse<ProjectOwnerDto> result = null;
+
+                result = await _projectownerServiceClient.GetSpecificAsync(ProjectOwnerId);
+
+                if (result.Success && result.Data != null)
+                {
+
+                    ProjectOwnerDto = result.Data;
+                    if (ProjectOwnerDto.UserStatus == "Active")
+                    {
+                        IsUserCurrentlyActive = true;
+                    }
+                    else
+                    {
+                        IsUserCurrentlyActive = false;
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting project owner profile: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
             }
 
-            // Now that status check passed, populate UI
-            await LoadProfileAsync();
-            await LoadProjectsAsync();
+        }
 
-            if (IsOwner)
+        [RelayCommand]
+        public async Task MessageUser()
+        {
+            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", Guid.Empty }, { "ReceiverId", ProjectOwnerDto.UserId }, { "ReceiverName", ProjectOwnerDto.UserName } });
+        }
+
+        [RelayCommand]
+        public async Task ToggleUserActivation()
+        {
+            IsUserCurrentlyActive = !IsUserCurrentlyActive;
+
+            string status = IsUserCurrentlyActive ? "Activated" : "Deactivated";
+            try
             {
-                await Shell.Current.DisplayAlert("View Mode", "You are currently viewing your profile as a visitor.", "OK");
+                var response = await _accountServiceClient.ActivateDeactivateUserAsync(ProjectOwnerId);
+                if (response.Success)
+                {
+                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
             }
         }
 
-
-        private void SetRoleFlags()
-        {
-            var role = _sessionService.GetCurrentUserRole();
-            IsSkillProvider = role == UserRole.SkillProvider;
-            IsAdmin = role == UserRole.Admin;
-            IsSkillproviderOrAdmin = role == UserRole.SkillProvider || role == UserRole.Admin;
-        }
-
-        private async Task LoadProfileAsync()
-        {
-            var profile = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
-            if (profile == null) return;
-
-            UserName = $"{profile.UserFirstName} {profile.UserLastName}";
-            UserLocation = profile.UserLocation?.ToString() ?? "Not specified";
-            DateJoined = profile.JoinedOn;
-            UserGender = profile.UserGender;
-            UserEmail = profile.UserEmail;
-            UserPhone = profile.UserPhone;
-
-            // Set the toggle button text
-            ToggleActivationButtonText = profile.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
-        }
-
-
-        private async Task LoadProjectsAsync()
-        {
-            var projects = await _unitOfWork.Projects.GetAllAsync();
-            var owned = projects.Where(p => p.ProjectOwnerId == _projectOwnerId);
-
-            OwnedProjects = SortSelection switch
-            {
-                "Active" => new ObservableCollection<Project>(owned.Where(p => p.ProjectStatus == ProjectStatus.Active)),
-                "Completed" => new ObservableCollection<Project>(owned.Where(p => p.ProjectStatus == ProjectStatus.Completed)),
-                "Deactivated" => new ObservableCollection<Project>(owned.Where(p => p.ProjectStatus == ProjectStatus.Deactivated)),
-                _ => new ObservableCollection<Project>(owned)
-            };
-        }
-
         [RelayCommand]
-        private async Task ViewProject(Project project)
+        public async Task ViewProject(ProjectOwnerProfileProjectDto projectOwnerProfileProjectDto)
         {
-            _sessionService.VisitingProjectID = project.ProjectId;
-            await _navigationService.NavigateToAsync("/ViewProjectView");
-        }
-
-        [RelayCommand]
-        private async Task SendMessage()
-        {
-            _sessionService.VisitingReceiverID = _projectOwnerId;
-            await _navigationService.NavigateToAsync("/ProjectOwnerSendMessageView");
-        }
-
-        [RelayCommand]
-        private async Task ToggleProjectOwnerActivation()
-        {
-            var owner = await _unitOfWork.ProjectOwner.GetByIdAsync(_projectOwnerId);
-            if (owner == null) return;
-
-            string action = owner.UserStatus == "Deactivated" ? "Activate" : "Deactivate";
-
-            bool confirm = await Shell.Current.DisplayAlert(
-                $"Confirm {action}",
-                $"{action} Project Owner: {owner.UserFirstName} {owner.UserLastName}?",
-                "Yes", "No");
-
-            if (!confirm) return;
-
-            owner.UserStatus = owner.UserStatus == "Deactivated" ? "Active" : "Deactivated";
-
-            await _unitOfWork.ProjectOwner.UpdateAsync(owner);
-            await _unitOfWork.SaveChangesAsync();
-            await LoadProfileAsync(); // Updates UI including button text
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectOwnerProfileProjectDto.ProjectId } });
         }
 
     }

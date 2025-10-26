@@ -97,6 +97,12 @@
 	  <Compile Update="Views To use\AdminViewProjectOwnerProfileView.xaml.cs">
 	    <DependentUpon>AdminViewProjectOwnerProfileView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\BrowseSkillProviderView.xaml.cs">
+	    <DependentUpon>BrowseSkillProviderView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\BrowseProjectView.xaml.cs">
+	    <DependentUpon>BrowseProjectView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="ViewsAndroid\RegisterViews\RegisterView5.xaml.cs">
 	    <DependentUpon>RegisterView5.xaml</DependentUpon>
 	  </Compile>
@@ -202,10 +208,10 @@
 	  <MauiXaml Update="ViewsAndroid\AdminBrowseProjectOwnerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\AdminBrowseProjectView.xaml">
+	  <MauiXaml Update="ViewsAndroid\BrowseProjectView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewsAndroid\AdminBrowseSkillProviderView.xaml">
+	  <MauiXaml Update="ViewsAndroid\BrowseSkillProviderView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\AdminHomeView.xaml">

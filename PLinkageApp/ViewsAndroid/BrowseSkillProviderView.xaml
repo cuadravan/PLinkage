@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PLinkageApp.ViewsAndroid.AdminBrowseProjectView"
+    x:Class="PLinkageApp.ViewsAndroid.BrowseSkillProviderView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
-    xmlns:viewmodels="clr-namespace:PLinkageApp"
-    Title="AdminBrowseProjectView"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="BrowseSkillProviderView"
     Shell.NavBarIsVisible="False">
 
     <Grid RowDefinitions="Auto, Auto, *">
@@ -17,6 +17,7 @@
             BackgroundColor="#F1F0FC"
             Direction="Column"
             JustifyContent="Start">
+
             <Image
                 HeightRequest="90"
                 Source="plinkagenotext.svg"
@@ -24,7 +25,7 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="27"
-                Text="Browse Projects"
+                Text="Browse Skill Providers"
                 TextColor="#212121" />
 
             <controls:LabeledPicker
@@ -45,10 +46,20 @@
 
             <controls:LabeledPicker
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                IsVisible="{Binding IsAdmin}"
                 ItemSource="{Binding StatusOptions}"
                 PlaceholderText="Filter By"
                 SelectedItem="{Binding StatusSelection}"
-                TitleText="By Project Status" />
+                TitleText="By User Status" />
+
+            <controls:LabeledPicker
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                IsVisible="{Binding IsAdmin}"
+                ItemSource="{Binding EmploymentOptions}"
+                PlaceholderText="Filter By"
+                SelectedItem="{Binding EmploymentSelection}"
+                TitleText="By Employment" />
+
         </FlexLayout>
 
         <controls:SearchFilterBar
@@ -70,21 +81,21 @@
             Grid.Row="2"
             Command="{Binding RefreshCommand}"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}">
-
             <CollectionView
                 Margin="0,10,0,0"
-                ItemsSource="{Binding ProjectCards}"
+                ItemsSource="{Binding SkillProviderCards}"
                 SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:ProjectCard
-                            Title="{Binding Title}"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminBrowseProjectViewModelTemp}}, Path=ViewProjectCommand}"
+                        <controls:SkillProviderCard
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:BrowseSkillProviderViewModel}}, Path=ViewSkillProviderCommand}"
                             CommandParameter="{Binding .}"
-                            Description="{Binding Description}"
+                            Education="{Binding Education}"
+                            HorizontalOptions="Center"
                             Location="{Binding Location}"
                             Skills="{Binding Skills}"
-                            Slots="{Binding Slots}" />
+                            UserName="{Binding UserName}"
+                            UserRating="{Binding UserRating}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.ItemsLayout>

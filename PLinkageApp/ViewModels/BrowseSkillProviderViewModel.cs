@@ -1,149 +1,325 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using PLinkageApp.Models;
-using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
+using FuzzySharp;
+using PLinkageShared.ApiResponse;
+using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
 {
     public partial class BrowseSkillProviderViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private CebuLocation? selectedLocation = null;
-
-        public ObservableCollection<CebuLocation> CebuLocations { get; } = new(
-            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-        // Services
-        private readonly INavigationService _navigationService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
 
-        [ObservableProperty] private ObservableCollection<SkillProvider> suggestedSkillProviders = new();
+        private List<SkillProviderCardDto> _allSkillProviders;
+        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
 
-        public IAsyncRelayCommand LoadDashboardDataCommand { get; }
+        [ObservableProperty]
+        private bool isBusy = false;
 
-        private string sortSelection = "All";
-        public string SortSelection
+        [ObservableProperty]
+        private bool isAdmin = false;
+
+        private bool _isInitialized = false;
+
+        public BrowseSkillProviderViewModel(INavigationService navigationService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService)
         {
-            get => sortSelection;
-            set
+            _skillProviderServiceClient = skillProviderServiceClient;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+
+            _allSkillProviders = new List<SkillProviderCardDto>();
+            SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetSkillProviders();
+        }
+
+        public async Task InitializeAsync()
+        {
+            if (_allSkillProviders.Any())
+                return;
+            try
             {
-                if (SetProperty(ref sortSelection, value))
-                    _ = LoadSuggestedSkillProviders();
+                var userRole = _sessionService.GetCurrentUserRole();
+
+                CategoryOptions.Clear();
+
+                CategoryOptions.Add("All");
+                CategoryOptions.Add("By Specific Location");
+
+                if (userRole == UserRole.Admin)
+                {
+                    IsAdmin = true;
+                }
+                else if (userRole == UserRole.ProjectOwner)
+                {
+                    IsAdmin = false;
+                    CategoryOptions.Add("Same Location as Me");
+                    CategoryOptions.Add("Nearby (<= 10km)");
+                    CategoryOptions.Add("Within Urban (<= 20km)");
+                    CategoryOptions.Add("Extended (<= 50km)");
+                }
+                else
+                {
+                    // Not allowed
+                    await _navigationService.GoBackAsync();
+                }
+                CategorySelection = CategoryOptions.FirstOrDefault();
+                _isInitialized = true;
+
+                await GetSkillProviders();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during initialization: {ex.Message}");
             }
         }
 
-        public ObservableCollection<string> SortOptions { get; } = new()
+        private async Task GetSkillProviders()
         {
-            "All",
-            "Same Place as Me",
-            "Nearby (<=10km)",
-            "Within Urban (<=30km)",
-            "Extended (<=50km)",
-            "By Specific Location"
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                var userLocation = _sessionService.GetCurrentUserLocation();
+                ApiResponse<IEnumerable<SkillProviderCardDto>> result = null;
+
+                _allSkillProviders.Clear();
+                SkillProviderCards.Clear();
+                var selection = string.Empty;
+                CebuLocation? location = null;
+
+                if (CategorySelection == "Same Location as Me") // API's same location as me is same as by specific location while location is user's location
+                {
+                    selection = "By Specific Location";
+                    location = _sessionService.GetCurrentUserLocation();
+                }
+                else if (CategorySelection == "By Specific Location")
+                {
+                    selection = "By Specific Location";
+                    location = LocationSelection;
+                }
+                else
+                {
+                    selection = CategorySelection;
+                    location = _sessionService.GetCurrentUserLocation();
+                }
+
+                bool? employment = null;
+                string status = string.Empty;
+
+                if (isAdmin)
+                {
+                    employment = EmploymentSelection switch
+                    {
+                        "All" => null,
+                        "Employed Only" => true,
+                        "Unemployed Only" => false,
+                        _ => throw new NotImplementedException()
+                    };
+                    status = StatusSelection switch
+                    {
+                        "All" => "All",
+                        "Active Only" => "Active",
+                        "Deactivated Only" => "Deactivated",
+                        _ => throw new NotImplementedException()
+                    };
+                }
+                else
+                {
+                    employment = null;
+                    status = "Active";
+                }
+                result = await _skillProviderServiceClient.GetFilteredSkillProvidersAsync(selection, location, status, employment);
+
+                if (result.Success && result.Data != null)
+                {
+
+                    foreach (var dto in result.Data)
+                    {
+                        _allSkillProviders.Add(dto);
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }
+                FilterSkillProviderCards();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting skill providers: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
+
+        [RelayCommand]
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
+        {
+            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on skill provider with id: {skillProviderCardDto.UserId}", "Okay");
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
+        }
+
+        // CATEGORY
+
+        private string categorySelection;
+        public string CategorySelection
+        {
+            get => categorySelection;
+            set
+            {
+                if (SetProperty(ref categorySelection, value))
+                {
+                    if (!_isInitialized)
+                        return;
+                    _ = GetSkillProviders();
+                }
+            }
+        }
+        public ObservableCollection<string> CategoryOptions { get; } = new()
+        {
         };
 
+        // LOCATION
 
-        // Constructor
-        public BrowseSkillProviderViewModel(INavigationService navigationService, IUnitOfWork unitOfWork, ISessionService sessionService)
+        [ObservableProperty]
+        private CebuLocation? locationSelection = CebuLocation.CebuCity;
+
+        partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
         {
-            _navigationService = navigationService;
-            _unitOfWork = unitOfWork;
-            _sessionService = sessionService;
-            LoadDashboardDataCommand = new AsyncRelayCommand(LoadDashboardData);
-        }
-
-        // Core Methods
-        private async Task LoadDashboardData()
-        {
-            await _unitOfWork.ReloadAsync();
-            //var currentUser = _sessionService.GetCurrentUser();
-            //if (currentUser == null) return;
-
-            await LoadSuggestedSkillProviders();
-        }
-
-        private async Task LoadSuggestedSkillProviders()
-        {
-            // fetch all and exclude deactivated users
-            var skillProviders = (await _unitOfWork.SkillProvider.GetAllAsync())
-                .Where(sp => !string.Equals(sp.UserStatus, "Deactivated", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            var currentUser = await _unitOfWork.ProjectOwner
-                .GetByIdAsync(_sessionService.GetCurrentUserId());
-            if (currentUser == null || !currentUser.UserLocation.HasValue)
-                return;
-
-            var ownerCoord = CebuLocationCoordinates.Map[currentUser.UserLocation.Value];
-
-            IEnumerable<SkillProvider> filtered = SortSelection switch
+            if (oldValue != newValue)
             {
-                "Same Place as Me" => skillProviders
-                    .Where(sp => sp.UserLocation == currentUser.UserLocation),
-
-                "Nearby (<=10km)" => skillProviders
-                    .Where(sp =>
-                        sp.UserLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
-                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 10),
-
-                "Within Urban (<=30km)" => skillProviders
-                    .Where(sp =>
-                        sp.UserLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
-                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 30),
-
-                "Extended (<=50km)" => skillProviders
-                    .Where(sp =>
-                        sp.UserLocation.HasValue &&
-                        CebuLocationCoordinates.Map.ContainsKey(sp.UserLocation.Value) &&
-                        CalculateDistanceKm(ownerCoord, CebuLocationCoordinates.Map[sp.UserLocation.Value]) <= 50),
-
-                "By Specific Location" when SelectedLocation.HasValue => skillProviders
-                    .Where(sp => sp.UserLocation == SelectedLocation),
-
-                _ => skillProviders
-            };
-
-
-
-            SuggestedSkillProviders = new ObservableCollection<SkillProvider>(filtered);
+                _ = GetSkillProviders();
+            }
         }
 
-        partial void OnSelectedLocationChanged(CebuLocation? value)
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
+            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+
+
+        // STATUS
+
+        private string statusSelection = "All";
+        public string StatusSelection
         {
-            if (SortSelection == "By Specific Location")
-                _ = LoadSuggestedSkillProviders();
+            get => statusSelection;
+            set
+            {
+                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
+                    _ = GetSkillProviders();
+            }
         }
 
-
-        [RelayCommand]
-        private async Task Refresh() => await LoadDashboardData();
-
-        [RelayCommand]
-        private async Task ViewSkillProvider(SkillProvider skillProvider)
+        public ObservableCollection<string> StatusOptions { get; } = new()
         {
-            _sessionService.VisitingSkillProviderID = skillProvider.UserId;
-            await _navigationService.NavigateToAsync("/ViewSkillProviderProfileView");
+            "All",
+            "Active Only",
+            "Deactivated Only"
+        };
+
+        // EMPLOYMENT
+
+        private string employmentSelection = "All";
+        public string EmploymentSelection
+        {
+            get => employmentSelection;
+            set
+            {
+                if (SetProperty(ref employmentSelection, value))
+                    _ = GetSkillProviders();
+            }
         }
 
-        private static double CalculateDistanceKm((double Latitude, double Longitude) coord1, (double Latitude, double Longitude) coord2)
+        public ObservableCollection<string> EmploymentOptions { get; } = new()
         {
-            const double EarthRadius = 6371; // km
+            "All",
+            "Employed Only",
+            "Unemployed Only"
+        };
 
-            double lat1Rad = Math.PI * coord1.Latitude / 180;
-            double lat2Rad = Math.PI * coord2.Latitude / 180;
-            double deltaLat = lat2Rad - lat1Rad;
-            double deltaLon = Math.PI * (coord2.Longitude - coord1.Longitude) / 180;
+        // EMPLOYMENT
 
-            double a = Math.Pow(Math.Sin(deltaLat / 2), 2) +
-                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
-                       Math.Pow(Math.Sin(deltaLon / 2), 2);
+        public ObservableCollection<string> SearchFilterOptions { get; } = new()
+        {
+            "By Skills",
+            "By Name"
+        };
 
-            return EarthRadius * (2 * Math.Asin(Math.Sqrt(a)));
+        // SEARCH FILTER
+
+        [ObservableProperty]
+        private string searchFilterSelection = "By Skills";
+
+        partial void OnSearchFilterSelectionChanged(string value)
+        {
+            FilterSkillProviderCards();
+        }
+
+        // SEARCH QUERY
+
+        [ObservableProperty]
+        private string searchQuery = "";
+
+        partial void OnSearchQueryChanged(string value)
+        {
+            FilterSkillProviderCards();
+        }
+
+        private const int FuzzySearchCutoff = 70;
+
+        private void FilterSkillProviderCards()
+        {
+            var query = SearchQuery.Trim().ToLowerInvariant();
+
+            IEnumerable<SkillProviderCardDto> filteredList;
+
+            if (string.IsNullOrEmpty(query))
+            {
+                filteredList = _allSkillProviders;
+            }
+            else
+            {
+                switch (SearchFilterSelection)
+                {
+                    case "By Name":
+                        filteredList = _allSkillProviders
+                            .Where(card => Fuzz.PartialRatio(query, card.UserName.ToLowerInvariant())
+                                           > FuzzySearchCutoff);
+                        break;
+
+                    case "By Skills":
+                        filteredList = _allSkillProviders
+                            .Where(card => card.Skills != null && card.Skills
+                                .Any(skill => Fuzz.PartialRatio(query, skill.ToLowerInvariant())
+                                              > FuzzySearchCutoff));
+                        break;
+
+                    default:
+                        filteredList = _allSkillProviders;
+                        break;
+                }
+            }
+
+            SkillProviderCards.Clear();
+            foreach (var card in filteredList)
+            {
+                SkillProviderCards.Add(card);
+            }
         }
     }
 }

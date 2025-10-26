@@ -32,6 +32,24 @@ public partial class ProfileProjectCard : ContentView
         set => SetValue(ProjectStatusProperty, value);
     }
 
+    public static readonly BindableProperty TimeFrameProperty =
+        BindableProperty.Create(nameof(TimeFrame), typeof(string), typeof(ProfileProjectCard), string.Empty);
+
+    public string TimeFrame
+    {
+        get => (string)GetValue(TimeFrameProperty);
+        set => SetValue(TimeFrameProperty, value);
+    }
+
+    public static readonly BindableProperty RateProperty =
+        BindableProperty.Create(nameof(Rate), typeof(string), typeof(ProfileProjectCard), string.Empty);
+
+    public string Rate
+    {
+        get => (string)GetValue(RateProperty);
+        set => SetValue(RateProperty, value);
+    }
+
     public static readonly BindableProperty CommandProperty =
         BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ProfileProjectCard), null);
 

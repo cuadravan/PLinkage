@@ -1,8 +1,10 @@
+using PLinkageApp.ViewModels;
+
 namespace PLinkageApp.ViewsAndroid;
 
 public partial class MessagesView : ContentPage
 {
-	public MessagesView(MessagesViewModelTemp vm)
+	public MessagesView(MessagesViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
@@ -10,7 +12,7 @@ public partial class MessagesView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is MessagesViewModelTemp vm)
+        if (BindingContext is MessagesViewModel vm)
             await vm.InitializeAsync();
     }
 }
