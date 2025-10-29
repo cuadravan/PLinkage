@@ -14,9 +14,11 @@
                     IsDeactivateActivateButtonVisible="{Binding IsDeactivateButtonVisible}"
                     IsMessageButtonVisible="{Binding IsMessageButtonVisible}"
                     IsRatingVisible="{Binding IsRatingVisible}"
+                    IsSendOfferButtonVisible="{Binding IsSendOfferButtonVisible}"
                     IsUserActivated="{Binding IsUserCurrentlyActive, Mode=TwoWay}"
                     JoinedDate="{Binding SkillProviderDto.JoinedOn}"
                     MessageCommand="{Binding MessageUserCommand}"
+                    SendOfferCommand="{Binding SendOfferCommand}"
                     UserName="{Binding SkillProviderDto.UserName}"
                     UserRating="{Binding SkillProviderDto.UserRating}"
                     UserSubtitle="{Binding SkillProviderDto.UserLocation}" />

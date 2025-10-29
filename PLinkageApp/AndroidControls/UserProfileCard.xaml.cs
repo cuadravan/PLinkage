@@ -31,6 +31,9 @@ namespace PLinkageApp.AndroidControls
         public static readonly BindableProperty IsDeactivateActivateButtonVisibleProperty =
             BindableProperty.Create(nameof(IsDeactivateActivateButtonVisible), typeof(bool), typeof(UserProfileCard), false);
 
+        public static readonly BindableProperty IsSendOfferButtonVisibleProperty =
+            BindableProperty.Create(nameof(IsSendOfferButtonVisible), typeof(bool), typeof(UserProfileCard), false);
+
         public string UserName
         {
             get => (string)GetValue(UserNameProperty);
@@ -72,6 +75,11 @@ namespace PLinkageApp.AndroidControls
             set => SetValue(IsDeactivateActivateButtonVisibleProperty, value);
         }
 
+        public bool IsSendOfferButtonVisible
+        {
+            get => (bool)GetValue(IsSendOfferButtonVisibleProperty);
+            set => SetValue(IsSendOfferButtonVisibleProperty, value);
+        }
 
         public UserProfileCard()
         {
@@ -102,6 +110,9 @@ namespace PLinkageApp.AndroidControls
         public static readonly BindableProperty MessageCommandProperty =
             BindableProperty.Create(nameof(MessageCommand), typeof(ICommand), typeof(UserProfileCard), null);
 
+        public static readonly BindableProperty SendOfferCommandProperty =
+            BindableProperty.Create(nameof(SendOfferCommand), typeof(ICommand), typeof(UserProfileCard), null);
+
         public static readonly BindableProperty DeactivateActivateCommandProperty =
             BindableProperty.Create(nameof(DeactivateActivateCommand), typeof(ICommand), typeof(UserProfileCard), null);
 
@@ -109,6 +120,12 @@ namespace PLinkageApp.AndroidControls
         {
             get => (ICommand)GetValue(MessageCommandProperty);
             set => SetValue(MessageCommandProperty, value);
+        }
+
+        public ICommand SendOfferCommand
+        {
+            get => (ICommand)GetValue(SendOfferCommandProperty);
+            set => SetValue(SendOfferCommandProperty, value);
         }
 
         public ICommand DeactivateActivateCommand

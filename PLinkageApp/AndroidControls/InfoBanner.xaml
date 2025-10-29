@@ -6,22 +6,23 @@
     x:Name="Root">
 
     <Border
-        BackgroundColor="{Binding Source={x:Reference Root}, Path=BannerBackgroundColor}"
-        StrokeThickness="0"
         Padding="10"
-        StrokeShape="RoundRectangle 10">
+        BackgroundColor="{Binding Source={x:Reference Root}, Path=BannerBackgroundColor}"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0">
         <HorizontalStackLayout Spacing="10">
             <Label
+                FontAttributes="Bold"
+                FontSize="14"
+                LineBreakMode="WordWrap"
                 Text="{Binding Source={x:Reference Root}, Path=Text}"
-                TextColor="#555"
-                FontSize="13"
-                VerticalOptions="Center"
-                LineBreakMode="WordWrap" />
-            <Image
-                Source="{Binding Source={x:Reference Root}, Path=IconSource}"
-                HeightRequest="22"
-                WidthRequest="22"
+                TextColor="#696767"
                 VerticalOptions="Center" />
+            <Image
+                HeightRequest="50"
+                Source="{Binding Source={x:Reference Root}, Path=IconSource}"
+                VerticalOptions="Center"
+                WidthRequest="50" />
         </HorizontalStackLayout>
     </Border>
 </ContentView>

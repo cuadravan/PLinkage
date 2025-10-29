@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
     x:Class="PLinkageApp.ViewsAndroid.SendOfferView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
     <ScrollView>
         <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
 
-            <!-- Back to Profile -->
+            <!--  Back to Profile  -->
             <HorizontalStackLayout HorizontalOptions="End">
                 <Label
-                    Text="Back to profile"
                     FontAttributes="Bold"
+                    Text="Back to profile"
                     TextColor="#7C4DFF"
                     VerticalOptions="Center">
                     <Label.GestureRecognizers>
@@ -22,71 +22,65 @@
                     </Label.GestureRecognizers>
                 </Label>
                 <Label
-                    Text=" ✕"
                     FontAttributes="Bold"
+                    Text=" ✕"
                     TextColor="#7C4DFF"
                     VerticalOptions="Center" />
             </HorizontalStackLayout>
 
-            <!-- Title -->
+            <!--  Title  -->
             <Label
-                Text="Send Offer"
                 FontAttributes="Bold"
                 FontSize="20"
+                Text="Send Offer"
                 TextColor="#000" />
 
-            <!-- Reusable InfoBanner Component -->
-            <controls:InfoBanner
-                Text="The first step to Linkage is to make an offer."
-                IconSource="plinkage.png" />
+            <!--  Reusable InfoBanner Component  -->
+            <controls:InfoBanner IconSource="plinkagenotext.png" Text="The first step to Linkage is to make an offer." />
 
-            <!-- Select Project -->
-            <controls:LabeledEntry
-                LabelText="Select Project"
-                Text="{Binding ProjectName}" />
+            <!--  Select Project  -->
+            <controls:LabeledEntry LabelText="Select Project" Text="{Binding ProjectName}" />
 
-            <!-- Skill Provider -->
-            <controls:LabeledEntry
-                LabelText="Skill Provider"
-                Text="{Binding SkillProviderName}" />
+            <!--  Skill Provider  -->
+            <controls:LabeledEntry LabelText="Skill Provider" Text="{Binding SkillProviderName}" />
 
-            <!-- Requested Rate -->
+            <!--  Requested Rate  -->
             <controls:LabeledEntry
+                Keyboard="Numeric"
                 LabelText="Requested Rate (Php per hour)"
                 Placeholder="How much do you want to be paid?"
-                Keyboard="Numeric"
                 Text="{Binding RequestedRate}" />
 
-            <!-- Requested Time Frame -->
+            <!--  Requested Time Frame  -->
             <controls:LabeledEntry
+                Keyboard="Numeric"
                 LabelText="Requested Time Frame (Hour)"
                 Placeholder="How long do you want to work?"
-                Keyboard="Numeric"
                 Text="{Binding RequestedTimeFrame}" />
 
-            <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10">
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                 <Button
-                    Text="Send Offer"
-                    Command="{Binding SendOfferCommand}"
                     BackgroundColor="#7C4DFF"
-                    TextColor="White"
-                    FontAttributes="Bold"
+                    Command="{Binding SendOfferCommand}"
                     CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
                     HorizontalOptions="FillAndExpand"
-                    HeightRequest="45" />
+                    Text="Send Offer"
+                    TextColor="White" />
 
                 <Button
-                    Text="Cancel"
-                    Command="{Binding CancelCommand}"
                     BackgroundColor="White"
-                    TextColor="#7C4DFF"
                     BorderColor="#7C4DFF"
                     BorderWidth="1"
-                    FontAttributes="Bold"
+                    Command="{Binding CancelCommand}"
                     CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
                     HorizontalOptions="FillAndExpand"
-                    HeightRequest="45" />
+                    Text="Cancel"
+                    TextColor="#7C4DFF" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

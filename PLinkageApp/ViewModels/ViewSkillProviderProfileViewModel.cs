@@ -28,6 +28,9 @@ namespace PLinkageApp.ViewModels
         public bool isDeactivateButtonVisible;
 
         [ObservableProperty]
+        public bool isSendOfferButtonVisible;
+
+        [ObservableProperty]
         public bool isUserActivated;
 
         [ObservableProperty]
@@ -68,12 +71,20 @@ namespace PLinkageApp.ViewModels
                 {
                     IsMessageButtonVisible = true;
                     IsDeactivateButtonVisible = true;
+                    IsSendOfferButtonVisible = false;
                 }
-                else
+                else if(currentVisitorUserRole == UserRole.ProjectOwner)
                 {
                     IsMessageButtonVisible = true;
                     IsDeactivateButtonVisible = false;
-                } // TODO: add additional logic for SP, PO, and current user
+                    IsSendOfferButtonVisible = true;
+                }
+                else
+                {
+                    IsMessageButtonVisible = false;
+                    IsDeactivateButtonVisible = false;
+                    IsSendOfferButtonVisible = false;
+                }
                 IsRatingVisible = true;
                 await LoadUserDataAsync();
             }
@@ -159,6 +170,12 @@ namespace PLinkageApp.ViewModels
         public async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
         {
             await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
+        }
+
+        [RelayCommand]
+        public async Task SendOffer()
+        {
+            await _navigationService.NavigateToAsync("SendOfferView", new Dictionary<string, object> { { "SkillProviderId", SkillProviderId }, { "SkillProviderName", SkillProviderDto.UserName } });
         }
     }
 }

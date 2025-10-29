@@ -73,6 +73,8 @@
                 Text="{Binding Source={x:Reference ThisControl}, Path=JoinedDate, StringFormat='Joined on: {0:MMMM dd, yyyy}'}"
                 TextColor="#999999" />
 
+
+
             <Button
                 BackgroundColor="#8A2BE2"
                 Command="{Binding Source={x:Reference ThisControl}, Path=MessageCommand}"
@@ -83,6 +85,19 @@
                 HorizontalOptions="Center"
                 IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsMessageButtonVisible}"
                 Text="Message"
+                TextColor="White"
+                WidthRequest="200" />
+
+            <Button
+                BackgroundColor="#8A2BE2"
+                Command="{Binding Source={x:Reference ThisControl}, Path=SendOfferCommand}"
+                CornerRadius="25"
+                FontAttributes="Bold"
+                FontSize="18"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsSendOfferButtonVisible}"
+                Text="Send Offer"
                 TextColor="White"
                 WidthRequest="200" />
 
