@@ -47,7 +47,7 @@ namespace PLinkageAPI.Controllers
                 return NotFound(response);
 
             var offerApplicationDto = _mapper.Map<OfferApplicationDto>(response.Data);
-            return Ok(ApiResponse<OfferApplicationDto>.Ok(offerApplicationDto, response.Message));
+            return Ok(response);
         }
 
         [HttpGet]
@@ -57,7 +57,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            return Ok(ApiResponse<OfferApplicationPageDto>.Ok(response.Data));
+            return Ok(response);
         }
 
         [HttpPost("process")] // Approve, Reject, Negotiate
@@ -67,7 +67,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            return Ok(ApiResponse<bool>.Ok(response.Data));
+            return Ok(response);
         }
     }
 }

@@ -42,5 +42,35 @@ namespace PLinkageApp.Services
         {
             return await GetAsync<SkillProviderDto>($"api/skillprovider/{skillProviderId}");
         }
+
+        public async Task<ApiResponse<bool>> UpdateSkillProviderAsync(Guid skillProviderId, UserProfileUpdateDto skillProviderUpdateDto)
+        {
+            return await PatchAsync<UserProfileUpdateDto, bool>($"api/skillprovider/{skillProviderId}", skillProviderUpdateDto);
+        }
+        public async Task<ApiResponse<bool>> AddEducationAsync(Guid skillProviderId, EducationDto educationToAdd)
+        {
+            return await PostAsync<EducationDto, bool>($"api/skillprovider/{skillProviderId}/educations", educationToAdd);
+        }
+        public async Task<ApiResponse<bool>> UpdateEducationAsync(Guid skillProviderId, int indexToUpdate, EducationDto educationToUpdate)
+        {
+            return await PatchAsync<EducationDto, bool>($"api/skillprovider/{skillProviderId}/educations/{indexToUpdate}", educationToUpdate);
+        }
+        public async Task<ApiResponse<bool>> DeleteEducationAsync(Guid skillProviderId, int indexToDelete)
+        {
+            return await DeleteAsync<bool>($"api/skillprovider/{skillProviderId}/educations/{indexToDelete}");
+        }
+
+        public async Task<ApiResponse<bool>> AddSkillAsync(Guid skillProviderId, SkillDto skillToAdd)
+        {
+            return await PostAsync<SkillDto, bool>($"api/skillprovider/{skillProviderId}/skills", skillToAdd);
+        }
+        public async Task<ApiResponse<bool>> UpdateSkillAsync(Guid skillProviderId, int indexToUpdate, SkillDto skillToUpdate)
+        {
+            return await PatchAsync<SkillDto, bool>($"api/skillprovider/{skillProviderId}/skills/{indexToUpdate}", skillToUpdate);
+        }
+        public async Task<ApiResponse<bool>> DeleteSkillAsync(Guid skillProviderId, int indexToDelete)
+        {
+            return await DeleteAsync<bool>($"api/skillprovider/{skillProviderId}/skills/{indexToDelete}");
+        }
     }
 }

@@ -64,6 +64,18 @@ namespace PLinkageApp.Services.Http
                 return ApiResponse<TResult>.Fail($"An error occurred during the DELETE request: {ex.Message}");
             }
         }
+        protected async Task<ApiResponse<TResult>> PatchAsync<TRequest, TResult>(string url, TRequest payload)
+        {
+            try
+            {
+                var response = await _httpClient.PatchAsJsonAsync(url, payload);
+                return await HandleResponse<TResult>(response);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<TResult>.Fail($"An error occurred during the PATCH request: {ex.Message}");
+            }
+        }
 
         private static async Task<ApiResponse<TResult>> HandleResponse<TResult>(HttpResponseMessage response)
         {

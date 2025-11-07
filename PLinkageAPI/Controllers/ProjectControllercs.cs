@@ -27,7 +27,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            return Ok(ApiResponse<ProjectDto>.Ok(response.Data, response.Message));
+            return Ok(response);
         }
 
         [HttpPost]
@@ -65,7 +65,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            return Ok(ApiResponse<IEnumerable<ProjectCardDto>>.Ok(response.Data, response.Message));
+            return Ok(response);
         }
 
         [HttpPost("requestresignation")]

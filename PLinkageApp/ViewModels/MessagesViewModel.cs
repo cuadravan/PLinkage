@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
+using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
 using System;
 using System.Collections.Generic;
@@ -67,8 +68,18 @@ namespace PLinkageApp.ViewModels
             IsBusy = true;
             try
             {
-                if (ChatId == Guid.Empty)
-                    return;
+                ApiResponse<Guid> response = null;
+                if (ChatId == Guid.Empty){
+                    response = await _chatServiceClient.GetChatIdAsync(_sessionService.GetCurrentUserId(), ReceiverId);
+                    if(response.Success && response.Data != Guid.Empty)
+                    {
+                        ChatId = response.Data;
+                    }
+                    else
+                    {
+                        return;
+                    }            
+                }
                 Messages.Clear();
                 var userId = _sessionService.GetCurrentUserId();
                 var result = await _chatServiceClient.GetChatMessagesAsync(ChatId, userId);

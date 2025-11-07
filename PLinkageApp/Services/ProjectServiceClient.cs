@@ -35,5 +35,29 @@ namespace PLinkageApp.Services
         {
             return await GetAsync<ProjectDto>($"api/project/{projectId}");
         }
+
+        public async Task<ApiResponse<Guid>> AddProjectAsync(ProjectCreationDto projectCreationDto)
+        {
+            return await PostAsync<ProjectCreationDto, Guid>("api/project", projectCreationDto);
+        }
+        public async Task<ApiResponse<bool>> UpdateProjectAsync(ProjectUpdateDto projectUpdateDto)
+        {
+            return await PatchAsync<ProjectUpdateDto, bool>($"api/project/{projectUpdateDto.ProjectId}", projectUpdateDto);
+        }
+
+        public async Task<ApiResponse<bool>> RequestResignationAsync(RequestResignationDto requestResignationDto)
+        {
+            return await PostAsync<RequestResignationDto, bool>("api/project/requestresignation", requestResignationDto);
+        }
+
+        public async Task<ApiResponse<bool>> ProcessResignationAsync(ProcessResignationDto processResignationDto)
+        {
+            return await PostAsync<ProcessResignationDto, bool>("api/project/processresignation", processResignationDto);
+        }
+
+        public async Task<ApiResponse<bool>> RateSkillProvidersAsync(RateSkillProviderDto rateSkillProviderDto)
+        {
+            return await PatchAsync<RateSkillProviderDto, bool>("api/project/ratings", rateSkillProviderDto);
+        }
     }
 }

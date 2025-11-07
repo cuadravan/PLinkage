@@ -207,6 +207,26 @@ namespace PLinkageAPI.Services
             }
         }
 
+        public async Task<ApiResponse<Guid>> GetChatIdAsync(Guid senderId, Guid receiverId)
+        {
+            var filter = Builders<Chat>.Filter.And(
+                    Builders<Chat>.Filter.AnyEq(c => c.MessengerId, senderId),
+                    Builders<Chat>.Filter.AnyEq(c => c.MessengerId, receiverId),
+                    Builders<Chat>.Filter.Size(c => c.MessengerId, 2)
+                );
+
+            var chat = (await _chatRepository.FindAsync(filter)).FirstOrDefault();
+            
+            if(chat == null)
+            {
+                return ApiResponse<Guid>.Fail("No chat exists for these users yet");
+            }
+            else
+            {
+                return ApiResponse<Guid>.Ok(chat.ChatId, "Found chat");
+            }
+        }
+
         private async Task<string> GetUserNameAsync(Guid userId)
         {
             var sp = await _skillProviderRepository.GetByIdAsync(userId);

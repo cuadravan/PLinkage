@@ -13,6 +13,8 @@ namespace PLinkageApp.Interfaces
     {
         Task<ApiResponse<IEnumerable<ProjectOwnerCardDto>>> GetFilteredProjectOwnersAsync(string proximity, CebuLocation? location, string status);
         Task<ApiResponse<ProjectOwnerDto>> GetSpecificAsync(Guid projectOwnerId);
+
+        Task<ApiResponse<string>> UpdateProjectOwnerAsync(Guid projectOwnerId, UserProfileUpdateDto projectOwnerUpdateDto);
     }
 
 }
