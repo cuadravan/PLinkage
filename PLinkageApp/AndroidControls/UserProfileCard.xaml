@@ -102,6 +102,19 @@
                 WidthRequest="200" />
 
             <Button
+                BackgroundColor="#8A2BE2"
+                Command="{Binding Source={x:Reference ThisControl}, Path=UpdateProfileCommand}"
+                CornerRadius="25"
+                FontAttributes="Bold"
+                FontSize="18"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsUpdateProfileButtonVisible}"
+                Text="Update Profile"
+                TextColor="White"
+                WidthRequest="200" />
+
+            <Button
                 x:Name="DeactivateActivateBtn"
                 Command="{Binding Source={x:Reference ThisControl}, Path=DeactivateActivateCommand}"
                 CornerRadius="25"
@@ -112,6 +125,8 @@
                 IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsDeactivateActivateButtonVisible}"
                 TextColor="White"
                 WidthRequest="200" />
+
+
 
         </VerticalStackLayout>
     </Border>

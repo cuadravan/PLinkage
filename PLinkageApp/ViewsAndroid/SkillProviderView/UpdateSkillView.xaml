@@ -3,23 +3,24 @@
     x:Class="PLinkageApp.ViewsAndroid.UpdateSkillView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="25,40,25,25"
-            Spacing="20">
+            Spacing="20"
+            VerticalOptions="Center">
 
-            <!-- Page Title -->
+            <!--  Page Title  -->
             <Label
-                Text="Update Skill"
                 FontAttributes="Bold"
                 FontSize="20"
+                Text="Update Skill"
                 TextColor="Black" />
 
-            <!-- Info Box -->
+            <!--  Info Box  -->
             <!--<Border
                 BackgroundColor="#F2ECFF"
                 StrokeThickness="0"
@@ -39,68 +40,61 @@
                 </HorizontalStackLayout>
             </Border>-->
 
-            <controls:InfoBanner 
-                Text="Make sure your skill accurately reflects you."
-                IconSource="plinkage.png" />
+            <controls:InfoBanner IconSource="plinkage.png" Text="Make sure your skill accurately reflects you." />
 
-            <!-- Skill Name -->
+            <!--  Skill Name  -->
             <controls:LabeledEntry
                 LabelText="Skill Name"
                 Placeholder="What is your skill?"
                 Text="{Binding SkillName}" />
 
-            <!-- Description -->
+            <!--  Description  -->
             <controls:LabeledEntry
                 LabelText="Description"
                 Placeholder="Tell us more about it."
                 Text="{Binding SkillDescription}" />
 
-            <!-- Skill Level -->
-            <controls:LabeledEntry
-                LabelText="Skill Level"
-                Placeholder="How skilled are you from 1 to 5?"
-                Text="{Binding SkillLevel}" />
+            <!--  Skill Level  -->
+            <controls:LabeledPickerNonBrowse LabelText="Skill Level" PlaceholderText="How skilled are you from 1 to 5?" />
 
-            <!-- Time Acquired -->
-            <controls:LabeledDatePicker
-                LabelText="Time Acquired"
-                Date="{Binding TimeAcquired}" />
+            <!--  Time Acquired  -->
+            <controls:LabeledDatePicker Date="{Binding TimeAcquired}" LabelText="Time Acquired" />
 
-            <!-- Organization Involved -->
+            <!--  Organization Involved  -->
             <controls:LabeledEntry
                 LabelText="Organization Involved"
                 Placeholder="With whom did you get this skill?"
                 Text="{Binding OrganizationInvolved}" />
 
-            <!-- Years of Experience -->
+            <!--  Years of Experience  -->
             <controls:LabeledEntry
                 LabelText="Years of Experience"
                 Placeholder="How long did you practice this skill?"
                 Text="{Binding YearsOfExperience}" />
 
-            <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10">
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                 <Button
-                    Text="Update"
-                    Command="{Binding UpdateSkillCommand}"
                     BackgroundColor="#7C4DFF"
-                    TextColor="White"
-                    FontAttributes="Bold"
+                    Command="{Binding UpdateSkillCommand}"
                     CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
                     HorizontalOptions="FillAndExpand"
-                    HeightRequest="45" />
+                    Text="Update"
+                    TextColor="White" />
 
                 <Button
-                    Text="Cancel"
-                    Command="{Binding CancelCommand}"
                     BackgroundColor="White"
-                    TextColor="#7C4DFF"
                     BorderColor="#7C4DFF"
                     BorderWidth="1"
-                    FontAttributes="Bold"
+                    Command="{Binding CancelCommand}"
                     CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
                     HorizontalOptions="FillAndExpand"
-                    HeightRequest="45" />
+                    Text="Cancel"
+                    TextColor="#7C4DFF" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

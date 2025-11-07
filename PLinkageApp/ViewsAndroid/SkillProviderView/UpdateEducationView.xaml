@@ -3,12 +3,12 @@
     x:Class="PLinkageApp.ViewsAndroid.UpdateEducationView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
+        <VerticalStackLayout Padding="25,40,25,25" Spacing="20" VerticalOptions="Center">
 
             <!-- Title -->
             <Label
@@ -57,7 +57,7 @@
                 Date="{Binding TimeGraduated}" />
 
             <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10">
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                 <Button
                     Text="Update Education"
                     Command="{Binding UpdateEducationCommand}"

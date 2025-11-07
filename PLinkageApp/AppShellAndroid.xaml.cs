@@ -39,14 +39,14 @@ namespace PLinkageApp
             Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
             Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
             Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
-            Routing.RegisterRoute(nameof(AddSkillView), typeof(AddSkillView));
-            Routing.RegisterRoute(nameof(UpdateSkillView), typeof(UpdateSkillView));
-            Routing.RegisterRoute(nameof(ViewSkillView), typeof(ViewSkillView));
-            Routing.RegisterRoute(nameof(AddEducationView), typeof(AddEducationView));
-            Routing.RegisterRoute(nameof(UpdateEducationView), typeof(UpdateEducationView));
-            Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
-            Routing.RegisterRoute(nameof(NegotiatingOfferView), typeof(NegotiatingOfferView));
-            Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
+            //Routing.RegisterRoute(nameof(AddSkillView), typeof(AddSkillView));
+            //Routing.RegisterRoute(nameof(UpdateSkillView), typeof(UpdateSkillView));
+            //Routing.RegisterRoute(nameof(ViewSkillView), typeof(ViewSkillView));
+            //Routing.RegisterRoute(nameof(AddEducationView), typeof(AddEducationView));
+            //Routing.RegisterRoute(nameof(UpdateEducationView), typeof(UpdateEducationView));
+            //Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
+            //Routing.RegisterRoute(nameof(NegotiatingOfferView), typeof(NegotiatingOfferView));
+            //Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
 
 
 
@@ -119,9 +119,17 @@ namespace PLinkageApp
         {
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(ProjectOwnerHomeView)),
+                new TabbarItem("Profile", "browsepo.svg", typeof(ProjectOwnerProfileView)),
                 new TabbarItem("Browse", "browsesp.svg", typeof(BrowseSkillProviderView)),
+                new TabbarItem("Linkages", "linkages.svg", typeof(ProjectOwnerLinkagesView)),
                 new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
+                new TabbarItem("Logout", "logout.svg", typeof(LogoutView)),
+                new TabbarItem("[DEBUG] Send Offer", "home.svg", typeof(SendOfferView)),
+                new TabbarItem("[Debug] Update Profile", "home.svg", typeof(UpdateProfileView)),
+                new TabbarItem("[Debug] Rate Skill Providers", "home.svg", typeof(RateSkillProviderView)),
+                new TabbarItem("[Debug] Resign Skill Providers", "home.svg", typeof(ResignSkillProviderView)),
+                new TabbarItem("[Debug] Add Project", "home.svg", typeof(AddProjectView)),
+                new TabbarItem("[Debug] Update Project", "home.svg", typeof(UpdateProjectView))
             ];
 
             return items;
@@ -130,9 +138,20 @@ namespace PLinkageApp
         {
             TabbarItem[] items = [
                 new TabbarItem("Home", "home.svg", typeof(SkillProviderHomeView)),
+                new TabbarItem("Profile", "browsepo.svg", typeof(SkillProviderProfileView)),
                 new TabbarItem("Browse", "project.svg", typeof(BrowseProjectView)),
+                new TabbarItem("Linkages", "linkages.svg", typeof(SkillProviderLinkagesView)),
                 new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
+                new TabbarItem("Logout", "logout.svg", typeof(LogoutView)),
+                new TabbarItem("[DEBUG] Add Education", "home.svg", typeof(AddEducationView)),
+                new TabbarItem("[DEBUG] Add Skill", "home.svg", typeof(AddSkillView)),
+                new TabbarItem("[DEBUG] Apply", "home.svg", typeof(ApplyView)),
+                new TabbarItem("[DEBUG] Negotiating Offer", "home.svg", typeof(NegotiatingOfferView)),
+                new TabbarItem("[DEBUG] Update Education", "home.svg", typeof(UpdateEducationView)),
+                new TabbarItem("[DEBUG] Update Skill", "home.svg", typeof(UpdateSkillView)),
+                new TabbarItem("[DEBUG] View Skill", "home.svg", typeof(ViewSkillView)),
+                new TabbarItem("[Debug] Update Profile", "home.svg", typeof(UpdateProfileView)),
+                new TabbarItem("[Debug] Resign Project", "home.svg", typeof(ResignProjectView))
             ];
 
             return items;

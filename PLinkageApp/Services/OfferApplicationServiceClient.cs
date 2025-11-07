@@ -24,7 +24,7 @@ namespace PLinkageApp.Services
         {
             return await GetAsync<OfferApplicationDto>($"api/offerapplication/{offerApplicationId}");
         }
-        public async Task<ApiResponse<OfferApplicationPageDto>> GetOfferApplicationOfUser(Guid userId, UserRole userRole)
+        public async Task<ApiResponse<OfferApplicationPageDto>> GetOfferApplicationOfUser(Guid userId, UserRole? userRole)
         {
             string url = "api/offerapplication";
 

@@ -2,7 +2,7 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="PLinkageApp.Controls.LabeledDatePicker"
+    x:Class="PLinkageApp.AndroidControls.LabeledDatePicker"
     x:Name="Root">
 
     <VerticalStackLayout>
@@ -17,11 +17,12 @@
         <!-- DatePicker -->
         <Frame
             CornerRadius="8"
-            Padding="0"
+            Padding="10,0,0,0"
             HasShadow="False"
             BorderColor="#7C4DFF"
             BackgroundColor="Transparent">
             <DatePicker
+                
                 Date="{Binding Source={x:Reference Root}, Path=Date, Mode=TwoWay}"
                 TextColor="Black"
                 FontSize="14"

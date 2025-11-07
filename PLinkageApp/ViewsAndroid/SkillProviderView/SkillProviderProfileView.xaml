@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.SkillProviderProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="SkillProviderProfileView"
+    Shell.NavBarIsVisible="False">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="10">
+                <controls:UserProfileCard
+                    DeactivateActivateCommand="{Binding ToggleUserActivationCommand}"
+                    IsDeactivateActivateButtonVisible="false"
+                    IsMessageButtonVisible="false"
+                    IsRatingVisible="false"
+                    IsSendOfferButtonVisible="false"
+                    IsUpdateProfileButtonVisible="true"
+                    IsUserActivated="{Binding IsUserCurrentlyActive, Mode=TwoWay}"
+                    JoinedDate="{Binding SkillProviderDto.JoinedOn}"
+                    MessageCommand="{Binding MessageUserCommand}"
+                    SendOfferCommand="{Binding SendOfferCommand}"
+                    UserName="{Binding SkillProviderDto.UserName}"
+                    UserRating="{Binding SkillProviderDto.UserRating}"
+                    UserSubtitle="{Binding SkillProviderDto.UserLocation}" />
+
+                <StackLayout Padding="25,0,25,0">
+                    <controls:InformationCard
+                        Title="Information"
+                        Email="{Binding SkillProviderDto.UserEmail}"
+                        Gender="{Binding SkillProviderDto.UserGender}"
+                        Mobile="{Binding SkillProviderDto.UserPhone}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label
+                            Grid.Column="0"
+                            Margin="5,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="Education"
+                            TextColor="#333333"
+                            VerticalOptions="Center" />
+                        <ImageButton
+                            Aspect="Center"
+                            BackgroundColor="Transparent"
+                            Command="{Binding AddEducationCommand}"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            Source="addicon.png"
+                            VerticalOptions="Center"
+                            WidthRequest="24" />
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding SkillProviderDto.Educations}">
+                        <CollectionView.EmptyView>
+                            <StackLayout Padding="20">
+                                <Label
+                                    FontAttributes="Italic"
+                                    FontSize="16"
+                                    HorizontalOptions="Center"
+                                    Text="No education details have been added yet."
+                                    TextColor="Gray"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:ProfileEducationCard
+                                    CourseName="{Binding CourseName}"
+                                    SchoolAttended="{Binding SchoolAttended}"
+                                    TimeGraduated="{Binding TimeGraduated}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Label
+                        Margin="5,0,0,0"
+                        FontSize="14"
+                        Text="Tip: Tap on education to update/delete."
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label
+                            Grid.Column="0"
+                            Margin="5,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="Skills"
+                            TextColor="#333333"
+                            VerticalOptions="Center" />
+                        <ImageButton
+                            Aspect="Center"
+                            BackgroundColor="Transparent"
+                            Command="{Binding AddSkillCommand}"
+                            HeightRequest="24"
+                            HorizontalOptions="End"
+                            Source="addicon.png"
+                            VerticalOptions="Center"
+                            WidthRequest="24" />
+                    </Grid>
+
+                    <Border
+                        Padding="15"
+                        BackgroundColor="White"
+                        HorizontalOptions="FillAndExpand"
+                        Stroke="#8A2BE2"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="2">
+
+                        <FlexLayout
+                            AlignItems="Start"
+                            BindableLayout.ItemsSource="{Binding SkillProviderDto.Skills}"
+                            JustifyContent="Start"
+                            Wrap="Wrap">
+                            <BindableLayout.EmptyView>
+                                <StackLayout>
+                                    <Label
+                                        FontAttributes="Italic"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        Text="No skills have been added yet."
+                                        TextColor="Gray"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </BindableLayout.EmptyView>
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:SkillPill SkillName="{Binding SkillName}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </Border>
+                    <Label
+                        Margin="5,0,0,0"
+                        FontSize="14"
+                        Text="Tip: Tap on skill to view"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+                    <Label
+                        Margin="5,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Employed Projects"
+                        TextColor="#333333" />
+
+                    <CollectionView ItemsSource="{Binding SkillProviderDto.ProfileProjects}">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:ProfileProjectCard
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewSkillProviderProfileViewModel}}, Path=ViewProjectCommand}"
+                                    CommandParameter="{Binding .}"
+                                    IsOwner="True"
+                                    ProjectName="{Binding ProjectName}"
+                                    ProjectStatus="{Binding ProjectStatus}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

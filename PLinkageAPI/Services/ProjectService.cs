@@ -119,6 +119,7 @@ namespace PLinkageAPI.Services
                 ProjectStartDate = project.ProjectStartDate,
                 ProjectEndDate = project.ProjectEndDate,
                 ProjectStatus = project.ProjectStatus.ToString(),
+                ProjectStatusPicker = project.ProjectStatus,
                 ProjectSkillsRequired = project.ProjectSkillsRequired,
                 ProjectPriority = project.ProjectPriority,
                 ProjectResourcesNeeded = project.ProjectResourcesNeeded,

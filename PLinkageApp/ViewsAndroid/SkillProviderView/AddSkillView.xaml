@@ -3,12 +3,12 @@
     x:Class="PLinkageApp.ViewsAndroid.AddSkillView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <VerticalStackLayout Padding="25,50,25,25" Spacing="10">
+        <VerticalStackLayout Padding="25,50,25,25" Spacing="5" VerticalOptions="Center">
 
             <Label Text="Add Skill"
                    FontAttributes="Bold"
@@ -39,51 +39,32 @@
             <controls:LabeledEntry LabelText="Skill Name"
                                      Placeholder="What is your skill?"
                                      Text="{Binding SkillName}" />
-            <Label Text="{Binding Path=(Validation.Errors)[SkillName][0].ErrorMessage, FallbackValue=' '}"
-                   FontSize="12"
-                   TextColor="Red" />
 
             <!-- Description -->
             <controls:LabeledEntry LabelText="Description"
                                      Placeholder="Tell us more about it."
                                      Text="{Binding SkillDescription}" />
-            <Label Text="{Binding Path=(Validation.Errors)[SkillDescription][0].ErrorMessage, FallbackValue=' '}"
-                   FontSize="12"
-                   TextColor="Red" />
 
             <!-- Skill Level -->
-            <controls:LabeledEntry LabelText="Skill Level"
-                                     Placeholder="How skilled are you from 1 to 5?"
-                                     Text="{Binding SkillLevel}" />
-            <Label Text="{Binding Path=(Validation.Errors)[SkillLevel][0].ErrorMessage, FallbackValue=' '}"
-                   FontSize="12"
-                   TextColor="Red" />
+            <controls:LabeledPickerNonBrowse LabelText="Skill Level"
+                                     PlaceholderText="How skilled are you from 1 to 5?" />
 
             <!-- Time Acquired -->
             <controls:LabeledDatePicker LabelText="Time Acquired"
                                           Date="{Binding TimeAcquired}" />
-            <Label Text="{Binding Path=(Validation.Errors)[TimeAcquired][0].ErrorMessage, FallbackValue=' '}"
-                   FontSize="12"
-                   TextColor="Red" />
 
             <!-- Organization -->
             <controls:LabeledEntry LabelText="Organization Involved"
                                      Placeholder="With whom did you get this skill?"
                                      Text="{Binding OrganizationInvolved}" />
-            <Label Text="{Binding Path=(Validation.Errors)[OrganizationInvolved][0].ErrorMessage, FallbackValue=' '}"
-                   FontSize="12"
-                   TextColor="Red" />
 
             <!-- Years of Experience -->
             <controls:LabeledEntry LabelText="Years of Experience"
                                      Placeholder="How long did you practice this skill?"
                                      Text="{Binding YearsOfExperience}" />
-            <Label Text="{Binding Path=(Validation.Errors)[YearsOfExperience][0].ErrorMessage, FallbackValue=' '}"
-                   FontSize="12"
-                   TextColor="Red" />
 
             <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                 <Button Text="Add Skill"
                         BackgroundColor="#7C4DFF"
                         TextColor="White"

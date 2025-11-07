@@ -13,7 +13,7 @@ namespace PLinkageApp.Interfaces
     {
         Task<ApiResponse<Guid>> CreateApplicationOffer(OfferApplicationCreationDto offerApplicationCreationDto);
         Task<ApiResponse<OfferApplicationDto>> GetSpecificOfferApplication(Guid offerApplicationId);
-        Task<ApiResponse<OfferApplicationPageDto>> GetOfferApplicationOfUser(Guid userId, UserRole userRole);
+        Task<ApiResponse<OfferApplicationPageDto>> GetOfferApplicationOfUser(Guid userId, UserRole? userRole);
         Task<ApiResponse<bool>> ProcessOfferApplication(OfferApplicationProcessDto offerApplicationProcessDto);
     }
 }

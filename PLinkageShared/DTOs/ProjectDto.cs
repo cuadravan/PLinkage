@@ -14,6 +14,7 @@ namespace PLinkageShared.DTOs
         public DateTime ProjectStartDate { get; set; } = DateTime.Now;
         public DateTime ProjectEndDate { get; set; } = DateTime.Now;
         public string ProjectStatus { get; set; } = string.Empty;
+        public ProjectStatus? ProjectStatusPicker { get; set; } = null;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
         public List<ProjectMemberDetailDto> ProjectMembers { get; set; } = new List<ProjectMemberDetailDto>();
         public string ProjectPriority { get; set; } = string.Empty;

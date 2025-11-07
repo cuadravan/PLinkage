@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ResignSkillProviderView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    Title="ResignSkillProviderView"
+    Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="25,40,25,25"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <!--  Title  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Process Resigning Skill Providers"
+                TextColor="#000" />
+
+            <!--  Reusable InfoBanner Component  -->
+            <controls:InfoBanner IconSource="plinkagenotext.png" Text="These skill providers requested for resignation." />
+
+            <CollectionView ItemsSource="{Binding SkillProviders}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ResignSkillProviderCard FullName="{Binding FullName}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <controls:ResignSkillProviderCard FullName="Van Cuadra" Reason="I am so tired." />
+
+
+            <Button
+                BackgroundColor="White"
+                BorderColor="#7C4DFF"
+                BorderWidth="1"
+                Command="{Binding CancelCommand}"
+                CornerRadius="5"
+                FontAttributes="Bold"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand"
+                Text="Return to Profile"
+                TextColor="#7C4DFF" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -8,7 +8,7 @@
     Title="AdminHomeView"
     Shell.NavBarIsVisible="False">
 
-    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
 
         <ScrollView>
             <VerticalStackLayout Padding="0,20" Spacing="7">

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ResignProjectView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    Title="Resign Project"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="25,50,25,25"
+            Spacing="5"
+            VerticalOptions="Center">
+
+            <Label
+                Margin="0,0,0,10"
+                FontAttributes="Bold"
+                FontSize="22"
+                Text="Resign Project"
+                TextColor="Black" />
+
+            <controls:InfoBanner IconSource="plinkage.png" Text="This will send a resignation request to be approved by the project owner." />
+            <!--  Skill Level  -->
+            <controls:LabeledPickerNonBrowse LabelText="Project To Resign" PlaceholderText="Select project to resign from" />
+
+            <controls:LabeledEntry
+                LabelText="Reason of Resignation"
+                Placeholder="Please input your reason for resigning."
+                Text="{Binding SkillDescription}" />
+
+            <!--  Buttons  -->
+            <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="Center" Spacing="10">
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding AddSkillCommand}"
+                    CornerRadius="8"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Send Request"
+                    TextColor="White" />
+
+                <Button
+                    BackgroundColor="Transparent"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    Command="{Binding CancelCommand}"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Cancel"
+                    TextColor="#7C4DFF" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

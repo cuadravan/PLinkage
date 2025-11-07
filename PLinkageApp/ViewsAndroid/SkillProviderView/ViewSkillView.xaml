@@ -3,51 +3,24 @@
     x:Class="PLinkageApp.ViewsAndroid.ViewSkillView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
+        <VerticalStackLayout
+            Padding="25,40,25,25"
+            Spacing="20"
+            VerticalOptions="Center">
 
-            <!-- Back to Profile Header -->
-            <HorizontalStackLayout HorizontalOptions="End">
-                <Label
-                    Text="Back to profile"
-                    FontAttributes="Bold"
-                    TextColor="#7C4DFF"
-                    VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label
-                    Text=" ✕"
-                    FontAttributes="Bold"
-                    TextColor="#7C4DFF"
-                    VerticalOptions="Center" />
-            </HorizontalStackLayout>
-
-            <!-- Update Skill Shortcut -->
+            <!--  Title  -->
             <Label
-                Text="Not accurate? Update skill ↻"
-                FontAttributes="Bold"
-                FontSize="13"
-                TextColor="#7C4DFF"
-                HorizontalOptions="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GoToUpdateCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
-
-            <!-- Title -->
-            <Label
-                Text="View Skill"
                 FontAttributes="Bold"
                 FontSize="20"
+                Text="View Skill"
                 TextColor="Black" />
 
-            <!-- Info Box -->
+            <!--  Info Box  -->
             <!--<Border
                 BackgroundColor="#F2ECFF"
                 StrokeThickness="0"
@@ -67,40 +40,62 @@
                 </HorizontalStackLayout>
             </Border>-->
 
-            <controls:InfoBanner 
-                Text="You are currently viewing a skill from Van Cuadra."
-                IconSource="plinkage.png" />
+            <controls:InfoBanner IconSource="plinkage.png" Text="You are currently viewing a skill from Van Cuadra." />
 
-            <!-- Skill Fields -->
+            <!--  Skill Fields  -->
             <controls:LabeledEntry
+                IsEnabled="False"
                 LabelText="Skill Name"
-                Text="{Binding SkillName}"
-                IsEnabled="False" />
+                Text="{Binding SkillName}" />
 
             <controls:LabeledEntry
+                IsEnabled="False"
                 LabelText="Description"
-                Text="{Binding SkillDescription}"
-                IsEnabled="False" />
+                Text="{Binding SkillDescription}" />
 
             <controls:LabeledEntry
+                IsEnabled="False"
                 LabelText="Skill Level"
-                Text="{Binding SkillLevel}"
-                IsEnabled="False" />
+                Text="{Binding SkillLevel}" />
 
             <controls:LabeledDatePicker
-                LabelText="Time Acquired"
                 Date="{Binding TimeAcquired}"
-                IsEnabled="False" />
+                IsEnabled="False"
+                LabelText="Time Acquired" />
 
             <controls:LabeledEntry
+                IsEnabled="False"
                 LabelText="Organization Involved"
-                Text="{Binding OrganizationInvolved}"
-                IsEnabled="False" />
+                Text="{Binding OrganizationInvolved}" />
 
             <controls:LabeledEntry
+                IsEnabled="False"
                 LabelText="Years of Experience"
-                Text="{Binding YearsOfExperience}"
-                IsEnabled="False" />
+                Text="{Binding YearsOfExperience}" />
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding UpdateSkillCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Update Skill"
+                    TextColor="White" />
+
+                <Button
+                    BackgroundColor="White"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    Command="{Binding CancelCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Return"
+                    TextColor="#7C4DFF" />
+            </HorizontalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

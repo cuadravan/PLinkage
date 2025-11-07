@@ -69,12 +69,17 @@ namespace PLinkageApp.ViewModels
                     IsMessageButtonVisible = true;
                     IsDeactivateButtonVisible = true;
                 }
-                else
+                else if(currentVisitorUserRole == UserRole.SkillProvider)
                 {
                     IsMessageButtonVisible = true;
                     IsDeactivateButtonVisible = false;
-                } // TODO: add additional logic for SP, PO, and current user
-                IsRatingVisible = false;
+                }
+                else
+                {
+                    IsMessageButtonVisible = false;
+                    IsDeactivateButtonVisible = false;
+                }
+                    IsRatingVisible = false;
                 await LoadUserDataAsync();
             }
             catch (Exception ex)
