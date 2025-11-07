@@ -54,5 +54,15 @@ namespace PLinkageAPI.Controllers
                 return NotFound(response);
             return Ok(response);
         }
+
+        [HttpGet("{projectOwnerId}/resignations")]
+        public async Task<IActionResult> GetResignations([FromQuery] Guid projectOwnerId)
+        {
+            var response = await _projectOwnerService.GetResignations(projectOwnerId);
+
+            if (!response.Success)
+                return NotFound(response);
+            return Ok(response);
+        }
     }
 }

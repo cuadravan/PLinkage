@@ -60,19 +60,26 @@ namespace PLinkageShared.DTOs
         public DateTime ProjectStartDate { get; set; } = DateTime.Now;
         public string ProjectPriority { get; set; } = string.Empty;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
+        public bool ProjectMembersChanged { get; set; } = false;
+        public List<ProjectMemberDetailDto> ProjectMembers { get; set; } = new List<ProjectMemberDetailDto>();
         public int ProjectResourcesNeeded { get; set; } = 0;
         public ProjectStatus? ProjectStatus { get; set; } = null;
         public DateTime ProjectDateUpdated { get; set; } = DateTime.Now;
     }
+    public class ResignationItemDto
+    {
+        public Guid ProjectId { get; set; }
+        public Guid SkillProviderId { get; set; }
+        public string ProjectName { get; set; }
+        public string SkillProviderName { get; set; }
+    }
+
     public class ProcessResignationDto
     {
         public Guid ProjectId { get; set; }
-        public List<ProcessResignationIndividualDto>? processResignationIndividualDtos { get; set; }
-    }
-
-    public class ProcessResignationIndividualDto
-    {
         public Guid SkillProviderId { get; set; }
+        public string ProjectName { get; set; }
+        public string SkillProviderName { get; set; }
         public bool ApproveResignation { get; set; }
     }
 
@@ -84,6 +91,7 @@ namespace PLinkageShared.DTOs
     public class RateSkillProviderIndividualDto
     {
         public Guid SkillProviderId { get; set; }
+        public string FullName { get; set; } = string.Empty;
         public double SkillProviderRating { get; set; }
     }
 

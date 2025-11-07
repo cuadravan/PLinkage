@@ -144,6 +144,35 @@ namespace PLinkageAPI.Services
             }
         }
 
+        public async Task<ApiResponse<List<ResignationItemDto>>> GetResignations(Guid projectOwnerId)
+        {
+            var projectOwner = await _projectOwnerRepository.GetByIdAsync(projectOwnerId);
+            if (projectOwner == null)
+                return ApiResponse<List<ResignationItemDto>>.Fail("Requested project owner ID not found.");
+
+            var projects = await _projectRepository.GetByIdsAsync(projectOwner.OwnedProjectId);
+
+            var resignationItemDto = new List<ResignationItemDto>();
+            foreach(var project in projects)
+            {
+                foreach(var member in project.ProjectMembers)
+                {
+                    if (member.IsResigning)
+                    {
+                        resignationItemDto.Add(new ResignationItemDto
+                        {
+                            ProjectId = project.ProjectId,
+                            SkillProviderId = member.MemberId,
+                            ProjectName = project.ProjectName,
+                            SkillProviderName = member.UserFirstName + " " + member.UserLastName
+                        });
+                    }
+                }
+            }
+
+            return ApiResponse<List<ResignationItemDto>>.Ok(resignationItemDto);
+        }
+
         private Dictionary<CebuLocation, double> GetNearbyLocationsWithDistance(CebuLocation baseLocation, int threshold)
         {
             var nearby = new Dictionary<CebuLocation, double>();

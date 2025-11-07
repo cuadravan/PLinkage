@@ -38,9 +38,27 @@ namespace PLinkageAPI.Entities
             this.ProjectStartDate = projectUpdateDto.ProjectStartDate;
             this.ProjectSkillsRequired = projectUpdateDto.ProjectSkillsRequired;
             this.ProjectResourcesNeeded = projectUpdateDto.ProjectResourcesNeeded;
-            this.ProjectResourcesAvailable = this.ProjectResourcesNeeded - this.ProjectMembers.Count;
             this.ProjectStatus = projectUpdateDto.ProjectStatus;
             this.ProjectDateUpdated = projectUpdateDto.ProjectDateUpdated;
+            if (projectUpdateDto.ProjectMembersChanged)
+            {
+                this.ProjectMembers.Clear();
+                foreach (var member in projectUpdateDto.ProjectMembers)
+                {
+                    this.ProjectMembers.Add(new ProjectMemberDetail
+                    {
+                        MemberId = member.MemberId,
+                        UserFirstName = member.UserFirstName,
+                        UserLastName = member.UserLastName,
+                        Email = member.Email,
+                        Rate = member.Rate,
+                        TimeFrame = member.TimeFrame,
+                        IsResigning = member.IsResigning,
+                        ResignationReason = member.ResignationReason
+                    });
+                }
+            }
+            this.ProjectResourcesAvailable = this.ProjectResourcesNeeded - this.ProjectMembers.Count;
         }
 
         public void EmployMember(SkillProvider skillProvider, int timeFrame, decimal rate)
