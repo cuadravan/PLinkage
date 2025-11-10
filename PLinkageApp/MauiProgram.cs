@@ -77,6 +77,10 @@ public static class MauiProgram
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
         });
+        builder.Services.AddHttpClient<IOfferApplicationServiceClient, OfferApplicationServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        });
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
 		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();       
@@ -108,6 +112,9 @@ public static class MauiProgram
 
         builder.Services.AddTransient<ChatViewModel>();
         builder.Services.AddTransient<MessagesViewModel>();
+
+        builder.Services.AddTransient<ProjectOwnerLinkagesViewModel>();
+        builder.Services.AddTransient<SkillProviderLinkagesViewModel>();
 
         builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

@@ -5,10 +5,9 @@ namespace PLinkageApp.ViewsAndroid
 {
     public partial class ViewSkillView : ContentPage
     {
-        public ViewSkillView(ViewSkillViewModelTemp viewModel)
+        public ViewSkillView()
         {
             InitializeComponent();
-            BindingContext = viewModel;
         }
     }
 }

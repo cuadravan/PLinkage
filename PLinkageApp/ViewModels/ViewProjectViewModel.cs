@@ -19,6 +19,15 @@ namespace PLinkageApp.ViewModels
         private bool isBusy = false;
 
         [ObservableProperty]
+        private bool isOwner = true;
+
+        [ObservableProperty]
+        private bool isEmployed = false;
+
+        [ObservableProperty]
+        private bool isNotEmployed = false;
+
+        [ObservableProperty]
         public ProjectDto project;
 
         private bool _isInitialized;

@@ -185,10 +185,10 @@ namespace PLinkageAPI.Services
                     continue;
                 }
 
-                var dto = CreateDisplayDto(offerApplicationItem, project, sender, receiver);
+                var dto = CreateDisplayDto(offerApplicationItem, project, sender, receiver, userId);
 
                 bool isSender = offerApplicationItem.SenderId == userId;
-                bool isPendingOrNegotiating = offerApplicationItem.OfferApplicationStatus == "Pending" || offerApplicationItem.OfferApplicationStatus == "Negotiating";
+                bool isPendingOrNegotiating = offerApplicationItem.OfferApplicationStatus == "Pending";
 
                 if (isSender && isPendingOrNegotiating)
                     pendingSent.Add(dto);
@@ -211,18 +211,62 @@ namespace PLinkageAPI.Services
             return ApiResponse<OfferApplicationPageDto>.Ok(newOfferApplicationPageDto);
         }
 
-        private OfferApplicationDisplayDto CreateDisplayDto(OfferApplication item, Project project, IUser sender, IUser receiver)
+        private OfferApplicationDisplayDto CreateDisplayDto(OfferApplication item, Project project, IUser sender, IUser receiver, Guid userId)
         {
+            // We determine the name to display in the linkage and the ID to link to
+            string formattedConcernedName = string.Empty;
+            Guid concernedPersonId = Guid.Empty;
+            if (userId == receiver.UserId)
+            {
+                formattedConcernedName = $"Sent by: " + sender.UserFirstName + " " + sender.UserLastName;
+                concernedPersonId = sender.UserId;
+            }
+            else
+            {
+                formattedConcernedName = $"Received by: " + receiver.UserFirstName + " " + receiver.UserLastName;
+                concernedPersonId = receiver.UserId;
+            }
+            // We determine the format and rate to be displayed (which varies if its negotiated or not)
+            string formattedRate = string.Empty;
+            string formattedTimeFrame = string.Empty;
+            if (item.IsNegotiating)
+            {
+                formattedRate = $"₱{item.OfferApplicationRate:N2} per hour (prev. ₱{item.OldOfferApplicationRate:N2} per hour)";
+                formattedTimeFrame = $"{item.OfferApplicationTimeFrame:N0} hrs (prev. {item.OldOfferApplicationTimeFrame:N0} hrs)";
+            }
+            else
+            {
+                formattedRate = $"₱{item.OfferApplicationRate:N2} per hour";
+                formattedTimeFrame = $"{item.OfferApplicationTimeFrame:N0} hrs";
+            }
+            bool awaitingResponse = false; // Accept or Reject
+            bool isNegotiable = false;      
+            if (item.OfferApplicationStatus == "Pending" && userId == receiver.UserId && item.IsNegotiating == false)
+            { // If user is receiver of a pending linkage, and it is not negotiating
+                awaitingResponse = true; // They can respond
+            }
+            if (item.OfferApplicationStatus == "Pending" && userId == receiver.UserId && item.IsNegotiating == false && receiver.UserRole == UserRole.SkillProvider)
+            { // If user is receiver of a pending linkage, and it is not negotiating, and user is a skill provider
+                isNegotiable = true; // They can respond and additionally negotiate
+            }
+            if (item.OfferApplicationStatus == "Pending" && userId == sender.UserId && item.IsNegotiating)
+            { // If user is the sender of a pending linkage and it is in negotiating mode
+                awaitingResponse = true;
+            }
+
             return new OfferApplicationDisplayDto
             {
                 OfferApplicationId = item.OfferApplicationId,
                 ProjectName = project.ProjectName,
-                SenderName = sender.UserFirstName + " " + sender.UserLastName,
-                ReceiverName = receiver.UserFirstName + " " + receiver.UserLastName,
+                FormattedConcernedName = formattedConcernedName,
+                ConcernedId = concernedPersonId,
                 OfferApplicationType = item.OfferApplicationType,
                 OfferApplicationStatus = item.OfferApplicationStatus,
-                FormattedRate = $"₱{item.OfferApplicationRate:N2} per hour",
-                FormattedTimeFrame = $"{item.OfferApplicationTimeFrame:N0} hrs"
+                FormattedRate = formattedRate,
+                FormattedTimeFrame = formattedTimeFrame,
+                AwaitingResponse = awaitingResponse,
+                IsNegotiating = item.IsNegotiating,
+                IsNegotiable = isNegotiable
             };
         }
         public async Task<ApiResponse<bool>> ProcessOfferApplication(OfferApplicationProcessDto offerApplicationProcessDto)
@@ -252,6 +296,7 @@ namespace PLinkageAPI.Services
                 else if (project.ProjectStatus == ProjectStatus.Active && project.ProjectResourcesAvailable > 0 && !project.ProjectMembers.Any(pm => pm.MemberId == skillProvider.UserId))
                 {
                     offerApplication.OfferApplicationStatus = "Accepted";
+                    offerApplication.IsNegotiating = false;
                     project.EmployMember(skillProvider, offerApplication.OfferApplicationTimeFrame, offerApplication.OfferApplicationRate);
                     skillProvider.AddProject(project.ProjectId);
                 }
@@ -284,9 +329,9 @@ namespace PLinkageAPI.Services
                 var offerApplication = await _offerApplicationRepository.GetByIdAsync(offerApplicationProcessDto.OfferApplicationId);
                 if(offerApplication == null)
                     return ApiResponse<bool>.Fail("Your data seems to be out of sync in the server. Contact an administrator.");
-                if(offerApplication.OfferApplicationStatus == "Negotiating")
+                if(offerApplication.IsNegotiating)
                 {
-                    offerApplication.OfferApplicationStatus = "Pending";
+                    offerApplication.IsNegotiating = false;
                     offerApplication.OfferApplicationRate = offerApplication.OldOfferApplicationRate;
                     offerApplication.OfferApplicationTimeFrame = offerApplication.OldOfferApplicationTimeFrame;
                 }
@@ -313,7 +358,7 @@ namespace PLinkageAPI.Services
                     offerApplication.OldOfferApplicationTimeFrame = offerApplication.OfferApplicationTimeFrame;
                     offerApplication.OfferApplicationTimeFrame = offerApplicationProcessDto.NegotiatedTimeFrame;
                     offerApplication.NegotiationCount += 1;
-                    offerApplication.OfferApplicationStatus = "Negotiating";
+                    offerApplication.IsNegotiating = true;
                 }
                 else
                 {

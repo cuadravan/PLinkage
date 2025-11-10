@@ -14,9 +14,9 @@ namespace PLinkageApp.Services
             return await PostAsync<LoginRequestDto, LoginResultDto>("api/account/login", request);
         }
 
-        public async Task<ApiResponse<string>> RegisterAsync(RegisterUserDto request)
+        public async Task<ApiResponse<Guid>> RegisterAsync(RegisterUserDto request)
         {
-            return await PostAsync<RegisterUserDto, string>("api/account/register", request);
+            return await PostAsync<RegisterUserDto, Guid>("api/account/register", request);
         }
 
         public async Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email)

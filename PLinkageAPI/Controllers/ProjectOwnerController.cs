@@ -28,7 +28,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            return Ok(ApiResponse<ProjectOwnerDto>.Ok(response.Data, response.Message));
+            return Ok(response);
         }
 
         [HttpPatch("{projectOwnerId}")]
@@ -52,7 +52,17 @@ namespace PLinkageAPI.Controllers
 
             if (!response.Success)
                 return NotFound(response);
-            return Ok(ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Ok(response.Data, response.Message));
+            return Ok(response);
+        }
+
+        [HttpGet("{projectOwnerId}/resignations")]
+        public async Task<IActionResult> GetResignations([FromQuery] Guid projectOwnerId)
+        {
+            var response = await _projectOwnerService.GetResignations(projectOwnerId);
+
+            if (!response.Success)
+                return NotFound(response);
+            return Ok(response);
         }
     }
 }

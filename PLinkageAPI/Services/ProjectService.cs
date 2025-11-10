@@ -119,6 +119,7 @@ namespace PLinkageAPI.Services
                 ProjectStartDate = project.ProjectStartDate,
                 ProjectEndDate = project.ProjectEndDate,
                 ProjectStatus = project.ProjectStatus.ToString(),
+                ProjectStatusPicker = project.ProjectStatus,
                 ProjectSkillsRequired = project.ProjectSkillsRequired,
                 ProjectPriority = project.ProjectPriority,
                 ProjectResourcesNeeded = project.ProjectResourcesNeeded,
@@ -232,64 +233,22 @@ namespace PLinkageAPI.Services
 
         public async Task<ApiResponse<bool>> ProcessResignation(ProcessResignationDto processResignationDto)
         {
-            if (processResignationDto.processResignationIndividualDtos == null || processResignationDto.processResignationIndividualDtos.Count == 0)
-            {
-                return ApiResponse<bool>.Fail("No resignation requests were provided for processing.");
-            }
-
-            var errors = new List<string>();
-
             var project = await _projectRepository.GetByIdAsync(processResignationDto.ProjectId);
             if (project == null)
             {
                 return ApiResponse<bool>.Fail($"Project with ID {processResignationDto.ProjectId} not found. Cannot process any resignations.");
             }
 
-            var approvedSkillProviderIds = processResignationDto.processResignationIndividualDtos
-                .Where(dto => dto.ApproveResignation)
-                .Select(dto => dto.SkillProviderId)
-                .Distinct()
-                .ToList();
+            var skillProvider = await _skillProviderRepository.GetByIdAsync(processResignationDto.SkillProviderId);
 
-            var skillProvidersToUpdate = new List<SkillProvider>();
-            Dictionary<Guid, SkillProvider> skillProviderMap = new Dictionary<Guid, SkillProvider>();
-
-            if (approvedSkillProviderIds.Any())
+            if(skillProvider == null)
             {
-                var fetchedSkillProviders = await _skillProviderRepository.GetByIdsAsync(approvedSkillProviderIds);
-                skillProviderMap = fetchedSkillProviders.ToDictionary(sp => sp.UserId, sp => sp);
+                return ApiResponse<bool>.Fail($"Skill provider with ID {processResignationDto.SkillProviderId} not found. Cannot process any resignations.");
             }
 
-            foreach (var dto in processResignationDto.processResignationIndividualDtos)
-            {
-                var process = project.ProcessResignationOfMember(dto.SkillProviderId, dto.ApproveResignation);
-                if (!process)
-                {
-                    errors.Add($"Skill provider ID {dto.SkillProviderId} not found in project's member list. Skipping.");
-                    continue; // Skip to the next DTO
-                }
+            skillProvider.ResignProject(processResignationDto.ProjectId);
+            project.ProcessResignationOfMember(processResignationDto.SkillProviderId, processResignationDto.ApproveResignation);
 
-                if (dto.ApproveResignation)
-                {
-                    if (skillProviderMap.TryGetValue(dto.SkillProviderId, out var skillProvider))
-                    {
-                        var process2 = skillProvider.ResignProject(processResignationDto.ProjectId);
-                        if (!process2)
-                        {
-
-                            errors.Add($"Data mismatch: Skill provider ID {dto.SkillProviderId} does not list Project ID {processResignationDto.ProjectId} as an employed project. Skipping removal from skill provider.");
-                        }
-                        else
-                        {
-                            skillProvidersToUpdate.Add(skillProvider);
-                        }
-                    }
-                    else
-                    {
-                        errors.Add($"Skill provider ID {dto.SkillProviderId} was approved for resignation, but the user was not found in the database. Project list updated, but skill provider was not.");
-                    }
-                }
-            }
             using (var session = await _mongoClient.StartSessionAsync())
             {
                 session.StartTransaction();
@@ -298,10 +257,7 @@ namespace PLinkageAPI.Services
                     var tasks = new List<Task>();
 
                     tasks.Add(_projectRepository.UpdateAsync(project, session));
-                    foreach (var skillProvider in skillProvidersToUpdate)
-                    {
-                        tasks.Add(_skillProviderRepository.UpdateAsync(skillProvider, session));
-                    }
+                    tasks.Add(_skillProviderRepository.UpdateAsync(skillProvider, session));
                     await Task.WhenAll(tasks);
                     await session.CommitTransactionAsync();
                 }
@@ -310,12 +266,6 @@ namespace PLinkageAPI.Services
                     await session.AbortTransactionAsync();
                     return ApiResponse<bool>.Fail($"A critical error occurred while saving changes: {ex.Message}");
                 }
-            }
-            if (errors.Any())
-            {
-                return ApiResponse<bool>.Fail($"Successfully processed changes for Project ID {processResignationDto.ProjectId}, " +
-                                              $"but {errors.Count} non-critical errors occurred. " +
-                                              $"Details: {string.Join("; ", errors.Take(3))}...");
             }
             return ApiResponse<bool>.Ok(true);
         }

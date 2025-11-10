@@ -121,6 +121,9 @@
 	  <Compile Update="ViewsAndroid\SkillProviderView\NegotiatingOfferView.xaml.cs">
 	    <DependentUpon>NegotiatingOfferView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\ResignProjectView.xaml.cs">
+	    <DependentUpon>ResignProjectView.xaml</DependentUpon>
+     </Compile>
 	  <Compile Update="ViewsAndroid\SkillProviderView\SentApplicationsHistoryView.xaml.cs">
 	    <DependentUpon>SentApplicationsHistoryView.xaml</DependentUpon>
 	  </Compile>
@@ -208,6 +211,12 @@
 	  <MauiXaml Update="AndroidControls\InformationCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\LabeledLabel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\LabeledPickerNonBrowse.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\LabelledPicker.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -219,6 +228,8 @@
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\InfoBanner.xaml">
     </MauiXaml>
+	  <MauiXaml Update="AndroidControls\OfferApplicationCard.xaml">
+     </MauiXaml>
 	  <MauiXaml Update="AndroidControls\SegmentedControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml> 
@@ -226,6 +237,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\ProfileProjectCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\RateSkillProviderCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AndroidControls\ResignSkillProviderCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="AndroidControls\SkillPill.xaml">
@@ -285,7 +302,31 @@
 	  <MauiXaml Update="ViewsAndroid\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerLinkagesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\AddProjectView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\ProjectOwnerProfileView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\RateSkillProviderView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\ResignSkillProviderView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\SendOfferView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\ProjectOwnerView\UpdateProjectView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderLinkagesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\SkillProviderProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\AddEducationView.xaml">
@@ -297,6 +338,8 @@
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\NegotiatingOfferView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\ResignProjectView.xaml">
+    </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\SentApplicationsHistoryView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -339,6 +382,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\AddSkillView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\UpdateProfileView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\ViewProjectOwnerProfileView.xaml">

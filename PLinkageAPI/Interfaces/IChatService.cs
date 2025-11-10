@@ -10,5 +10,7 @@ namespace PLinkageAPI.Interfaces
         Task<ApiResponse<IEnumerable<ChatMessageDto>>> GetChatMessagesAsync(Guid chatId, Guid currentUserId);
 
         Task<ApiResponse<ChatMessageDto>> SendMessageAsync(SendMessageDto messageDto, Guid senderId);
+
+        Task<ApiResponse<Guid>> GetChatIdAsync(Guid senderId, Guid receiverId);
     }
 }

@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
-    Title="View Project Owner">
+    Title="View Project Owner"
+    Shell.NavBarIsVisible="False">
     <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
         <ScrollView>
             <VerticalStackLayout Spacing="10">

@@ -34,6 +34,9 @@ namespace PLinkageApp.AndroidControls
         public static readonly BindableProperty IsSendOfferButtonVisibleProperty =
             BindableProperty.Create(nameof(IsSendOfferButtonVisible), typeof(bool), typeof(UserProfileCard), false);
 
+        public static readonly BindableProperty IsUpdateProfileButtonVisibleProperty =
+            BindableProperty.Create(nameof(IsUpdateProfileButtonVisible), typeof(bool), typeof(UserProfileCard), false);
+
         public string UserName
         {
             get => (string)GetValue(UserNameProperty);
@@ -81,6 +84,12 @@ namespace PLinkageApp.AndroidControls
             set => SetValue(IsSendOfferButtonVisibleProperty, value);
         }
 
+        public bool IsUpdateProfileButtonVisible
+        {
+            get => (bool)GetValue(IsUpdateProfileButtonVisibleProperty);
+            set => SetValue(IsUpdateProfileButtonVisibleProperty, value);
+        }
+
         public UserProfileCard()
         {
             InitializeComponent();
@@ -110,6 +119,9 @@ namespace PLinkageApp.AndroidControls
         public static readonly BindableProperty MessageCommandProperty =
             BindableProperty.Create(nameof(MessageCommand), typeof(ICommand), typeof(UserProfileCard), null);
 
+        public static readonly BindableProperty UpdateProfileCommandProperty =
+            BindableProperty.Create(nameof(UpdateProfileCommand), typeof(ICommand), typeof(UserProfileCard), null);
+
         public static readonly BindableProperty SendOfferCommandProperty =
             BindableProperty.Create(nameof(SendOfferCommand), typeof(ICommand), typeof(UserProfileCard), null);
 
@@ -120,6 +132,12 @@ namespace PLinkageApp.AndroidControls
         {
             get => (ICommand)GetValue(MessageCommandProperty);
             set => SetValue(MessageCommandProperty, value);
+        }
+
+        public ICommand UpdateProfileCommand
+        {
+            get => (ICommand)GetValue(UpdateProfileCommandProperty);
+            set => SetValue(UpdateProfileCommandProperty, value);
         }
 
         public ICommand SendOfferCommand

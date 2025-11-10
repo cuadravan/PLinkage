@@ -20,7 +20,7 @@
             <TapGestureRecognizer Command="{Binding Source={x:Reference ThisControl}, Path=Command}" CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}" />
         </Frame.GestureRecognizers>
 
-        <VerticalStackLayout>
+        <VerticalStackLayout>   
 
             <!--  Header  -->
             <Grid Padding="12" BackgroundColor="#7B5CF4">

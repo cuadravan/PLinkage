@@ -3,30 +3,12 @@
     x:Class="PLinkageApp.ViewsAndroid.ApplyView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
-
-            <!-- Back to project -->
-            <HorizontalStackLayout HorizontalOptions="End">
-                <Label
-                    Text="Back to project"
-                    FontAttributes="Bold"
-                    TextColor="#7C4DFF"
-                    VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label
-                    Text=" ✕"
-                    FontAttributes="Bold"
-                    TextColor="#7C4DFF"
-                    VerticalOptions="Center" />
-            </HorizontalStackLayout>
+        <VerticalStackLayout Padding="25,40,25,25" Spacing="20" VerticalOptions="Center">
 
             <!-- Title -->
             <Label
@@ -86,7 +68,7 @@
                 Text="{Binding RequestedTimeFrame}" />
 
             <!-- Buttons -->
-            <HorizontalStackLayout Spacing="10">
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                 <Button
                     Text="Apply"
                     Command="{Binding ApplyCommand}"

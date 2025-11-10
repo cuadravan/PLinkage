@@ -30,6 +30,22 @@ namespace PLinkageAPI.Controllers
             return Ok(messages);
         }
 
+        [HttpGet("chatId")]
+        public async Task<ActionResult<Guid>> GetChatId([FromQuery] Guid senderId, [FromQuery] Guid receiverId)
+        {
+            var response = await _chatService.GetChatIdAsync(senderId, receiverId);
+
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound(response);
+            }
+        }
+
+
         [HttpPost("send/{senderId}")]
         public async Task<ActionResult<ChatMessageDto>> SendMessage(Guid senderId, [FromBody] SendMessageDto messageDto)
         {

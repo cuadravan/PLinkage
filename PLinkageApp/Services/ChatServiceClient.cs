@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PLinkageApp.Services
 {
-    public class ChatServiceClient: BaseApiClient, IChatServiceClient
+    public class ChatServiceClient : BaseApiClient, IChatServiceClient
     {
         public ChatServiceClient(HttpClient httpClient) : base(httpClient) { }
         public async Task<ApiResponse<IEnumerable<ChatSummaryDto>>> GetChatSummariesAsync(Guid userId)
@@ -26,5 +26,19 @@ namespace PLinkageApp.Services
             return await PostAsync<SendMessageDto, ChatMessageDto>($"api/chat/send/{userId}", sendMessageDto);
         }
 
+        public async Task<ApiResponse<Guid>> GetChatIdAsync(Guid senderId, Guid receiverId)
+        {
+            string url = "api/Chat/chatId";
+
+            var queryParams = new List<string>
+            {
+                $"senderid={senderId}",
+                $"receiverid={receiverId}"
+            };
+
+            string finalUrl = $"{url}?{string.Join("&", queryParams)}";
+
+            return await GetAsync<Guid>(finalUrl);
+        }
     }
 }

@@ -52,9 +52,6 @@ namespace PLinkageApp.ViewModels
 
         private async Task LoadDashboardDataAsync()
         {
-            if (IsBusy)
-                return;
-
             IsBusy = true;
             try
             {

@@ -27,5 +27,7 @@ namespace PLinkageAPI.Entities
         public int NegotiationCount { get; set; } = 0;
         public decimal OldOfferApplicationRate { get; set; } = 0; // e.g. 1000
         public int OldOfferApplicationTimeFrame { get; set; } = 0; // hours 
+
+        public bool IsNegotiating { get; set; } = false;
     }
 }

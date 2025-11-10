@@ -69,7 +69,7 @@
                 <HorizontalStackLayout IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsOwner}" Spacing="5">
                     <Label
                         FontSize="14"
-                        Text="Timeframe:"
+                        Text="Rate:"
                         TextColor="#000000" />
                     <Label
                         FontSize="14"

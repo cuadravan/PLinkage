@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.UpdateProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    Title="UpdateProfileView"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="25,40,25,25"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <!--  Title  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Update Profile"
+                TextColor="Black" />
+
+            <controls:InfoBanner IconSource="plinkage.png" Text="Please input the correct details." />
+
+            <!--  Course Name  -->
+            <controls:LabeledEntry
+                LabelText="First Name"
+                Placeholder="Input new first name."
+                Text="{Binding FirstName}" />
+
+            <!--  School Attended  -->
+            <controls:LabeledEntry
+                LabelText="Last Name"
+                Placeholder="Input new last name."
+                Text="{Binding LastName}" />
+
+            <!--  Time Graduated  -->
+            <controls:LabeledDatePicker Date="{Binding Birthdate}" LabelText="Birthdate" />
+
+            <controls:LabeledPickerNonBrowse LabelText="Gender" PlaceholderText="Select new gender" />
+
+            <controls:LabeledPickerNonBrowse LabelText="Location" PlaceholderText="Select new location" />
+
+            <controls:LabeledEntry
+                LabelText="Mobile Number"
+                Placeholder="Input new mobile number."
+                Text="{Binding MobileNumber}" />
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Change Password"
+                TextColor="Black" />
+
+            <controls:InfoBanner IconSource="plinkage.png" Text="Leave empty if not changing passwords." />
+
+            <controls:LabeledEntry
+                LabelText="New Password"
+                Placeholder="Leave empty if not changing password"
+                Text="{Binding Password}" />
+
+            <controls:LabeledEntry
+                LabelText="Confirm New Password"
+                Placeholder="Leave empty if not changing password"
+                Text="{Binding Password}" />
+
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding AddEducationCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Update Profile"
+                    TextColor="White" />
+
+                <Button
+                    BackgroundColor="White"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    Command="{Binding CancelCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Reset"
+                    TextColor="#7C4DFF" />
+
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding AddEducationCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Return"
+                    TextColor="White" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Maui.Controls;
 
-namespace PLinkageApp.Controls
+namespace PLinkageApp.AndroidControls
 {
     public partial class LabeledDatePicker : ContentView
     {

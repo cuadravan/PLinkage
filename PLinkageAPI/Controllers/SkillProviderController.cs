@@ -29,7 +29,7 @@ namespace PLinkageAPI.Controllers
             if (!response.Success)
                 return NotFound(response);
 
-            return Ok(ApiResponse<SkillProviderDto>.Ok(response.Data, response.Message));
+            return Ok(response);
         }
 
         [HttpPatch("{skillProviderId}")]
@@ -52,7 +52,7 @@ namespace PLinkageAPI.Controllers
             var response = await _skillProviderService.GetFilteredSkillProvidersAsync(proximity, location, status, isEmployed);
             if (!response.Success)
                 return NotFound(response);
-            return Ok(ApiResponse<IEnumerable<SkillProviderCardDto>>.Ok(response.Data, response.Message));
+            return Ok(response);
         }
 
         // ----------------- EDUCATIONS -----------------

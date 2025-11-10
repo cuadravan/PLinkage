@@ -11,7 +11,7 @@ namespace PLinkageApp.Interfaces
     public interface IAccountServiceClient
     {
         Task<ApiResponse<LoginResultDto>> LoginAsync(LoginRequestDto request);
-        Task<ApiResponse<string>> RegisterAsync(RegisterUserDto request);
+        Task<ApiResponse<Guid>> RegisterAsync(RegisterUserDto request);
         Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email);
         Task<ApiResponse<string>> ActivateDeactivateUserAsync(Guid userId);
     }
