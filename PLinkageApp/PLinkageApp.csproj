@@ -97,6 +97,9 @@
 	  <Compile Update="AndroidControls\InfoBanner.xaml.cs">
 	    <DependentUpon>InfoBanner.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="AndroidControls\SegmentedControl.xaml.cs">
+	    <DependentUpon>SegmentedControl.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="AndroidControls\UserProfileCard.xaml.cs">
 	    <DependentUpon>UserProfileCard.xaml</DependentUpon>
 	  </Compile>
@@ -120,6 +123,12 @@
 	  </Compile>
 	  <Compile Update="ViewsAndroid\SkillProviderView\ResignProjectView.xaml.cs">
 	    <DependentUpon>ResignProjectView.xaml</DependentUpon>
+     </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\SentApplicationsHistoryView.xaml.cs">
+	    <DependentUpon>SentApplicationsHistoryView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewsAndroid\SkillProviderView\SentApplicationsPendingView.xaml.cs">
+	    <DependentUpon>SentApplicationsPendingView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ViewsAndroid\SkillProviderView\UpdateEducationView.xaml.cs">
 	    <DependentUpon>UpdateEducationView.xaml</DependentUpon>
@@ -220,6 +229,8 @@
 	  <MauiXaml Update="AndroidControls\InfoBanner.xaml">
     </MauiXaml>
 	  <MauiXaml Update="AndroidControls\OfferApplicationCard.xaml">
+     </MauiXaml>
+	  <MauiXaml Update="AndroidControls\SegmentedControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml> 
 	  <MauiXaml Update="AndroidControls\ProfileEducationCard.xaml">
@@ -328,6 +339,11 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\ResignProjectView.xaml">
+    </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\SentApplicationsHistoryView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewsAndroid\SkillProviderView\SentApplicationsPendingView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ViewsAndroid\SkillProviderView\UpdateEducationView.xaml">

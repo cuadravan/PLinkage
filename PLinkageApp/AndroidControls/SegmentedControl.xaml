@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    x:Class="PLinkageApp.Controls.SegmentedControl"
+    x:Name="Root"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <HorizontalStackLayout x:Name="RootLayout" Spacing="8" Padding="0,10" HorizontalOptions="Center">
+        <CollectionView 
+            ItemsSource="{Binding Segments, Source={x:Reference Root}}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedSegment, Source={x:Reference Root}, Mode=TwoWay}"
+            HorizontalScrollBarVisibility="Never">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        Padding="18,8"
+                        CornerRadius="10"
+                        HasShadow="False"
+                        BackgroundColor="{Binding ., Converter={StaticResource SegmentColorConverter}, ConverterParameter={x:Reference Root}}">
+                        <Label
+                            Text="{Binding .}"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            TextColor="{Binding ., Converter={StaticResource SegmentTextColorConverter}, ConverterParameter={x:Reference Root}}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </HorizontalStackLayout>
+</ContentView>

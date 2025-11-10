@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    x:Class="PLinkageApp.ViewsAndroid.SentApplicationsPendingView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25,40,25,25" Spacing="20">
+
+            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                <Image Source="plinkage.png" HeightRequest="24" />
+                <Label Text="Your Linkages"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       TextColor="Black" />
+            </HorizontalStackLayout>
+
+            <!-- Top Segment -->
+            <controls:SegmentedControl
+                Segments="{Binding MainSegments}"
+                SelectedSegment="{Binding SelectedMainSegment}" />
+
+            <!-- Second Segment -->
+            <controls:SegmentedControl
+                Segments="{Binding SubSegments}"
+                SelectedSegment="{Binding SelectedSubSegment}" />
+
+            <!-- Example application cards -->
+            <VerticalStackLayout Spacing="10">
+                <Frame CornerRadius="10" Padding="15" BackgroundColor="White" HasShadow="False" BorderColor="#EEE">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="● Application" TextColor="#FF7043" FontAttributes="Bold" />
+                        <Label Text="project1" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="Sent to: Van Cuadra" TextColor="#7C4DFF" />
+                        <Label Text="Rate Offered: ₱20.00 per hour" FontSize="13" />
+                        <Label Text="Timeframe Offered: 3 hrs" FontSize="13" />
+                        <Label Text="Pending" TextColor="#FFA000" FontAttributes="Bold" HorizontalOptions="End" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="10" Padding="15" BackgroundColor="White" HasShadow="False" BorderColor="#EEE">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="● Application" TextColor="#FF7043" FontAttributes="Bold" />
+                        <Label Text="project2" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="Sent to: Lebron James" TextColor="#7C4DFF" />
+                        <Label Text="Rate Offered: ₱10.50 per hour" FontSize="13" />
+                        <Label Text="Timeframe Offered: 2 hrs" FontSize="13" />
+                        <Label Text="Pending" TextColor="#FFA000" FontAttributes="Bold" HorizontalOptions="End" />
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

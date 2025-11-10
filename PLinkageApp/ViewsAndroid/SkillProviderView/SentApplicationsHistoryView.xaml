@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.SentApplicationsHistoryView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls;assembly=PLinkageApp"
+    BackgroundColor="#F8F9FC"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25,50,25,25" Spacing="20">
+
+            <!-- Header -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Image Source="plinkage.png" HeightRequest="26" WidthRequest="26" VerticalOptions="Center" />
+                <Label Text="Your Linkages"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       VerticalOptions="Center"
+                       TextColor="#000" />
+            </HorizontalStackLayout>
+
+            <!-- Top Segmented Control -->
+            <controls:SegmentedControl
+                Segments="{Binding TopSegments}"
+                SelectedSegment="{Binding SelectedTopSegment}" />
+
+            <!-- Second Segmented Control -->
+            <controls:SegmentedControl
+                Segments="{Binding StatusSegments}"
+                SelectedSegment="{Binding SelectedStatusSegment}" />
+
+            <!-- Applications List -->
+            <VerticalStackLayout Spacing="12">
+                <!-- card 1 -->
+                <Frame BackgroundColor="White"
+                       CornerRadius="12"
+                       Padding="15"
+                       HasShadow="False"
+                       BorderColor="#EEE">
+
+                    <VerticalStackLayout Spacing="4">
+                        <HorizontalStackLayout>
+                            <Label Text="● Application"
+                                   FontAttributes="Bold"
+                                   TextColor="OrangeRed"
+                                   FontSize="13" />
+
+                            <!-- status badge (use Frame instead of Label CornerRadius) -->
+                            <Frame
+                                HorizontalOptions="EndAndExpand"
+                                BackgroundColor="#DFFFE0"
+                                CornerRadius="12"
+                                Padding="8,2"
+                                HasShadow="False"
+                                BorderColor="Transparent">
+                                <Label Text="Accepted"
+                                       TextColor="#1A7D1A"
+                                       FontSize="12" />
+                            </Frame>
+                        </HorizontalStackLayout>
+
+                        <Label Text="project3"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="#000" />
+
+                        <Label Text="Sent to: Van Cuadra"
+                               FontSize="13"
+                               TextColor="#7C4DFF" />
+
+                        <BoxView HeightRequest="1" BackgroundColor="#DDD" Margin="0,5" />
+
+                        <HorizontalStackLayout>
+                            <Label Text="Rate Offered:" FontAttributes="Bold" FontSize="13" />
+                            <Label Text="$20.00 per hour" FontSize="13" />
+                            <Label Text="⏱ 3 hrs" FontSize="13" HorizontalOptions="EndAndExpand" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- card 2 -->
+                <Frame BackgroundColor="White"
+                       CornerRadius="12"
+                       Padding="15"
+                       HasShadow="False"
+                       BorderColor="#EEE">
+
+                    <VerticalStackLayout Spacing="4">
+                        <HorizontalStackLayout>
+                            <Label Text="● Application"
+                                   FontAttributes="Bold"
+                                   TextColor="OrangeRed"
+                                   FontSize="13" />
+
+                            <!-- status badge (Declined) -->
+                            <Frame
+                                HorizontalOptions="EndAndExpand"
+                                BackgroundColor="#FFECEC"
+                                CornerRadius="12"
+                                Padding="8,2"
+                                HasShadow="False"
+                                BorderColor="Transparent">
+                                <Label Text="Declined"
+                                       TextColor="#A30000"
+                                       FontSize="12" />
+                            </Frame>
+                        </HorizontalStackLayout>
+
+                        <Label Text="project4"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="#000" />
+
+                        <Label Text="Sent to: Van Cuadra"
+                               FontSize="13"
+                               TextColor="#7C4DFF" />
+
+                        <BoxView HeightRequest="1" BackgroundColor="#DDD" Margin="0,5" />
+
+                        <HorizontalStackLayout>
+                            <Label Text="Rate Offered:" FontAttributes="Bold" FontSize="13" />
+                            <Label Text="$20.00 per hour" FontSize="13" />
+                            <Label Text="⏱ 3 hrs" FontSize="13" HorizontalOptions="EndAndExpand" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
