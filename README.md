@@ -41,7 +41,7 @@ The app simplifies project collaboration through **project management, user prof
 ## Architecture Overview of the Application (TBD; TODO)
 
 * **MVVM Pattern** – Clean separation of UI, business logic, and data.
-* **Service Layers** – Centralized logic for reusability and maintainability.
+* **ServiceClient Layers** – Centralized logic for reusability and maintainability.
 * **Repositories & Interfaces** – Abstracted data access for better testing and flexibility.
 * **Dependency Injection** – Promotes modular, testable, and maintainable code.
 
