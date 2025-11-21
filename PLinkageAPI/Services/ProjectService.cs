@@ -39,15 +39,16 @@ namespace PLinkageAPI.Services
                 ProjectName = projectCreationDto.ProjectName,
                 ProjectLocation = projectCreationDto.ProjectLocation,
                 ProjectDescription = projectCreationDto.ProjectDescription,
-                ProjectStartDate = projectCreationDto.ProjectStartDate,
-                ProjectEndDate = projectCreationDto.ProjectEndDate,
+                ProjectStartDate = DateTime.SpecifyKind(projectCreationDto.ProjectStartDate.Date, DateTimeKind.Utc),
+                ProjectEndDate = DateTime.SpecifyKind(projectCreationDto.ProjectEndDate.Date, DateTimeKind.Utc)
+                                 .AddDays(1).AddSeconds(-1),
                 ProjectStatus = projectCreationDto.ProjectStatus,
                 ProjectSkillsRequired = projectCreationDto.ProjectSkillsRequired,
                 ProjectPriority = projectCreationDto.ProjectPriority,
                 ProjectResourcesNeeded = projectCreationDto.ProjectResourcesNeeded,
                 ProjectResourcesAvailable = projectCreationDto.ProjectResourcesNeeded,
-                ProjectDateCreated = projectCreationDto.ProjectDateCreated,
-                ProjectDateUpdated = projectCreationDto.ProjectDateUpdated
+                ProjectDateCreated = DateTime.SpecifyKind(projectCreationDto.ProjectDateCreated, DateTimeKind.Utc),
+                ProjectDateUpdated = DateTime.SpecifyKind(projectCreationDto.ProjectDateUpdated, DateTimeKind.Utc)
             };
 
             await _projectOwnerRepository.UpdateAsync(projectOwner);
@@ -62,8 +63,33 @@ namespace PLinkageAPI.Services
             if (project == null)
                 return ApiResponse<bool>.Fail($"Project with ID {projectUpdateDto.ProjectId} not found.");
 
+            var originalMemberIds = project.ProjectMembers.Select(m => m.MemberId).ToHashSet();
+
             project.UpdateProject(projectUpdateDto);
             await _projectRepository.UpdateAsync(project);
+
+            if (projectUpdateDto.ProjectMembersChanged)
+            {
+                var newMemberIds = project.ProjectMembers.Select(m => m.MemberId).ToHashSet();
+
+                // Logic to find who is in 'original' but NOT in 'new'
+                // 'Except' is very fast with HashSets.
+                var removedIds = originalMemberIds.Except(newMemberIds).ToList();
+
+                if (removedIds.Any())
+                {
+                    var resignationTasks = removedIds.Select(async memberId =>
+                    {
+                        var skillProvider = await _skillProviderRepository.GetByIdAsync(memberId);
+                        if (skillProvider != null)
+                        {
+                            skillProvider.ResignProject(project.ProjectId);
+                            await _skillProviderRepository.UpdateAsync(skillProvider);
+                        }
+                    });
+                    await Task.WhenAll(resignationTasks);
+                }
+            }
 
             return ApiResponse<bool>.Ok(true, "Project updated successfully.");
         }
@@ -80,32 +106,53 @@ namespace PLinkageAPI.Services
 
             var projectMembersDto = new List<ProjectMemberDetailDto>();
 
-            foreach(var projectMember in project.ProjectMembers)
+            // ---------------------------------------------------------
+            // OPTIMIZATION START
+            // ---------------------------------------------------------
+
+            // 1. Collect all Member IDs efficiently
+            var memberIds = project.ProjectMembers.Select(pm => pm.MemberId).Distinct().ToList();
+
+            // 2. Batch fetch all user profiles in one database call
+            var memberProfiles = await _skillProviderRepository.GetByIdsAsync(memberIds);
+
+            // 3. Create a Dictionary for O(1) lookup speed during the loop
+            //    (Assuming 'UserId' is the primary key property on your SkillProvider entity)
+            var profilesDict = memberProfiles.ToDictionary(p => p.UserId, p => p);
+
+            foreach (var projectMember in project.ProjectMembers)
             {
+                // 4. Try to find the live profile in our dictionary
+                profilesDict.TryGetValue(projectMember.MemberId, out var liveProfile);
+
+                // 5. Use live data if found, otherwise fall back to the snapshot data
+                string firstName = liveProfile?.UserFirstName ?? projectMember.UserFirstName;
+                string lastName = liveProfile?.UserLastName ?? projectMember.UserLastName;
+
                 projectMembersDto.Add(new ProjectMemberDetailDto
                 {
-                    Email = projectMember.Email,
+                    Email = liveProfile?.UserEmail ?? projectMember.Email, // Try to get fresh email too
                     IsResigning = projectMember.IsResigning,
                     MemberId = projectMember.MemberId,
                     Rate = projectMember.Rate,
                     TimeFrame = projectMember.TimeFrame,
-                    UserFirstName = projectMember.UserFirstName,
-                    UserLastName = projectMember.UserLastName,
+
+                    // Fresh names
+                    UserFirstName = firstName,
+                    UserLastName = lastName,
+                    UserName = firstName + " " + lastName,
+
                     ResignationReason = projectMember.ResignationReason,
-                    UserName = projectMember.UserFirstName + " " + projectMember.UserLastName
                 });
             }
+            // ---------------------------------------------------------
+            // OPTIMIZATION END
+            // ---------------------------------------------------------
 
-            // Determine the earlier and later dates to ensure a non-negative duration
             DateTime earlierDate = (project.ProjectStartDate < project.ProjectEndDate) ? project.ProjectStartDate : project.ProjectEndDate;
             DateTime laterDate = (project.ProjectStartDate < project.ProjectEndDate) ? project.ProjectEndDate : project.ProjectStartDate;
-
-            // Calculate the difference, which is a TimeSpan object
             TimeSpan duration = laterDate.Subtract(earlierDate);
-
-            // Get the total number of whole days in the duration
             int days = duration.Days;
-
             string projectDuration = days.ToString() + " days";
 
             var projectDto = new ProjectDto
@@ -246,7 +293,8 @@ namespace PLinkageAPI.Services
                 return ApiResponse<bool>.Fail($"Skill provider with ID {processResignationDto.SkillProviderId} not found. Cannot process any resignations.");
             }
 
-            skillProvider.ResignProject(processResignationDto.ProjectId);
+            if(processResignationDto.ApproveResignation)
+                skillProvider.ResignProject(processResignationDto.ProjectId);
             project.ProcessResignationOfMember(processResignationDto.SkillProviderId, processResignationDto.ApproveResignation);
 
             using (var session = await _mongoClient.StartSessionAsync())

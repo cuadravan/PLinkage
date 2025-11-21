@@ -6,7 +6,6 @@
     x:Name="ThisControl">
 
     <VerticalStackLayout>
-        <!--  Label  -->
         <Label
             Margin="20,0,0,5"
             FontAttributes="Bold"
@@ -14,14 +13,17 @@
             Text="{Binding Source={x:Reference ThisControl}, Path=LabelText}"
             TextColor="Black" />
 
-        <!--  Entry  -->
+
+        <!--  Label  -->
         <Border
             Padding="10,0,0,0"
             BackgroundColor="Transparent"
             Stroke="#7C4DFF"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
-            <Entry
+
+            <Editor
+                AutoSize="TextChanges"
                 BackgroundColor="Transparent"
                 FontSize="14"
                 Keyboard="{Binding Source={x:Reference ThisControl}, Path=Keyboard}"
@@ -29,6 +31,7 @@
                 Text="{Binding Source={x:Reference ThisControl}, Path=Text, Mode=TwoWay}"
                 TextColor="Black"
                 VerticalTextAlignment="{Binding Source={x:Reference ThisControl}, Path=VerticalTextAlignment}" />
+
         </Border>
 
     </VerticalStackLayout>

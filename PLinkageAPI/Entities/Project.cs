@@ -35,11 +35,15 @@ namespace PLinkageAPI.Entities
         {
             this.ProjectDescription = projectUpdateDto.ProjectDescription;
             this.ProjectPriority = projectUpdateDto.ProjectPriority;
-            this.ProjectStartDate = projectUpdateDto.ProjectStartDate;
+
+            this.ProjectStartDate = DateTime.SpecifyKind(projectUpdateDto.ProjectStartDate.Date, DateTimeKind.Utc);
+            this.ProjectEndDate = DateTime.SpecifyKind(projectUpdateDto.ProjectEndDate.Date, DateTimeKind.Utc);
+
+            this.ProjectDateUpdated = DateTime.SpecifyKind(projectUpdateDto.ProjectDateUpdated, DateTimeKind.Utc);
             this.ProjectSkillsRequired = projectUpdateDto.ProjectSkillsRequired;
             this.ProjectResourcesNeeded = projectUpdateDto.ProjectResourcesNeeded;
             this.ProjectStatus = projectUpdateDto.ProjectStatus;
-            this.ProjectDateUpdated = projectUpdateDto.ProjectDateUpdated;
+
             if (projectUpdateDto.ProjectMembersChanged)
             {
                 this.ProjectMembers.Clear();

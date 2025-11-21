@@ -37,9 +37,8 @@
                 Grid.Row="2"
                 FillColor="Gold"
                 HorizontalOptions="Center"
-                IsReadOnly="True"
                 MaximumRating="5"
-                Rating="{Binding Source={x:Reference ThisControl}, Path=Rating}" />
+                Rating="{Binding Source={x:Reference ThisControl}, Path=Rating, Mode=TwoWay}" />
         </Grid>
 
     </Frame>

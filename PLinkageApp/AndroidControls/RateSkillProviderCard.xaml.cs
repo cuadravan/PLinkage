@@ -17,7 +17,7 @@ public partial class RateSkillProviderCard : ContentView
     }
 
     public static readonly BindableProperty RatingProperty =
-        BindableProperty.Create(nameof(Rating), typeof(double), typeof(RateSkillProviderCard), 0.0);
+        BindableProperty.Create(nameof(Rating), typeof(double), typeof(RateSkillProviderCard), 0.0, defaultBindingMode: BindingMode.TwoWay);
 
     public double Rating
     {

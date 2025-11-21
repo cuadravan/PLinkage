@@ -1,7 +1,27 @@
+using System.Windows.Input;
+
 namespace PLinkageApp.AndroidControls;
 
 public partial class ProfileEducationCard : ContentView
 {
+    public static readonly BindableProperty CommandProperty =
+    BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ProfileEducationCard), null);
+
+    public static readonly BindableProperty CommandParameterProperty =
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(ProfileEducationCard), null);
+
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
     public static readonly BindableProperty SchoolAttendedProperty =
         BindableProperty.Create(nameof(SchoolAttended), typeof(string), typeof(ProfileEducationCard), string.Empty);
 

@@ -105,6 +105,7 @@
                     <Button
                         BackgroundColor="#7C4DFF"
                         Command="{Binding Source={x:Reference thisControl}, Path=AcceptCommand}"
+                        CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}"
                         HeightRequest="15"
                         Text="Accept"
                         TextColor="White"
@@ -114,6 +115,7 @@
                         BorderColor="#7C4DFF"
                         BorderWidth="1"
                         Command="{Binding Source={x:Reference thisControl}, Path=DeclineCommand}"
+                        CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}"
                         HeightRequest="20"
                         Text="Decline"
                         TextColor="#7C4DFF"
@@ -123,6 +125,7 @@
                         BorderColor="#F97316"
                         BorderWidth="1"
                         Command="{Binding Source={x:Reference thisControl}, Path=NegotiateCommand}"
+                        CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}"
                         HeightRequest="20"
                         IsVisible="{Binding Source={x:Reference thisControl}, Path=IsNegotiable}"
                         Text="Negotiate"

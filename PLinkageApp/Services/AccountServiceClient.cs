@@ -28,5 +28,10 @@ namespace PLinkageApp.Services
         {
             return await PostAsync<Guid, string>("api/account/status", userId);
         }
+
+        public async Task<ApiResponse<bool>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
+        {
+            return await PostAsync<ChangePasswordDto, bool>("api/account/changepassword", changePasswordDto);
+        }
     }
 }

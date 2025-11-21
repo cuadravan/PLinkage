@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="ThisControl">
+
     <Border
         Margin="0,0,5,5"
         Padding="12,8"
@@ -15,5 +16,9 @@
             FontSize="14"
             Text="{Binding Source={x:Reference ThisControl}, Path=SkillName}"
             TextColor="White" />
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisControl}, Path=Command}" CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}" />
+        </Border.GestureRecognizers>
     </Border>
 </ContentView>

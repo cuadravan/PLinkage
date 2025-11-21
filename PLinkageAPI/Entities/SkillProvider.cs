@@ -95,7 +95,12 @@ namespace PLinkageAPI.Entities
             this.UserPhone = skillProviderUpdateDto.UserPhone;
             this.UserLocation = skillProviderUpdateDto.UserLocation;
             this.UserBirthDate = skillProviderUpdateDto.UserBirthDate;
-            this.UserLocation = skillProviderUpdateDto.UserLocation;
+            this.UserGender = skillProviderUpdateDto.UserGender;
+        }
+
+        public void UpdatePassword(string newPassword)
+        {
+            this.UserPassword = newPassword;
         }
 
         public void RateSkillProvider(double rating)

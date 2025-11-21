@@ -50,7 +50,9 @@ namespace PLinkageAPI.Services
                 {
                     ProjectId = project.ProjectId,
                     ProjectName = project.ProjectName,
-                    ProjectStatus = project.ProjectStatus
+                    ProjectStatus = project.ProjectStatus,
+                    ProjectStartDate = project.ProjectStartDate,
+                    ProjectEndDate = project.ProjectEndDate
                 });
             }
 
@@ -164,7 +166,8 @@ namespace PLinkageAPI.Services
                             ProjectId = project.ProjectId,
                             SkillProviderId = member.MemberId,
                             ProjectName = project.ProjectName,
-                            SkillProviderName = member.UserFirstName + " " + member.UserLastName
+                            SkillProviderName = member.UserFirstName + " " + member.UserLastName,
+                            Reason = member.ResignationReason
                         });
                     }
                 }

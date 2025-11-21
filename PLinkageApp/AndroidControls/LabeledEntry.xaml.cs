@@ -58,5 +58,14 @@ namespace PLinkageApp.AndroidControls
             get => (TextAlignment)GetValue(VerticalTextAlignmentProperty);
             set => SetValue(VerticalTextAlignmentProperty, value);
         }
+
+        public static readonly BindableProperty IsPasswordProperty =
+            BindableProperty.Create(nameof(IsPassword), typeof(bool), typeof(LabeledEntry), false);
+
+        public bool IsPassword
+        {
+            get => (bool)GetValue(IsPasswordProperty);
+            set => SetValue(IsPasswordProperty, value);
+        }
     }
 }

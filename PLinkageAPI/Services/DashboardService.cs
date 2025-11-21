@@ -50,12 +50,15 @@ namespace PLinkageAPI.Services
             var resignationCount = projects.SelectMany(p => p.ProjectMembers) //Flatten all project members list into one
                                            .Count(m => m.IsResigning);
 
+            var negotiationCount = offers.Count(o => o.IsNegotiating == true);
+
             var dto = new ProjectOwnerDashboardDto
             {
                 PendingSentOffers = pendingSentOffersCount,
                 ReceivedApplications = receivedApplicationCount,
                 ActiveProjects = activeProjectsCount,
-                ReportedResignations = resignationCount
+                ReportedResignations = resignationCount,
+                ReportedNegotiations = negotiationCount
             };
 
             return ApiResponse<ProjectOwnerDashboardDto>.Ok(dto);

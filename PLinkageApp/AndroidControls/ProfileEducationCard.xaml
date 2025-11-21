@@ -15,17 +15,20 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="16"
-                Text="{Binding  Source={x:Reference ThisControl}, Path=SchoolAttended}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=SchoolAttended}"
                 TextColor="#333333" />
             <Label
                 FontSize="14"
-                Text="{Binding  Source={x:Reference ThisControl}, Path=CourseName}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=CourseName}"
                 TextColor="#8A2BE2" />
             <Label
                 Margin="0,10,0,0"
                 FontSize="14"
-                Text="{Binding  Source={x:Reference ThisControl}, Path=TimeGraduated, StringFormat='Graduated {0:MMMM yyyy}'}"
+                Text="{Binding Source={x:Reference ThisControl}, Path=TimeGraduated, StringFormat='Graduated {0:MMMM yyyy}'}"
                 TextColor="#666666" />
         </VerticalStackLayout>
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisControl}, Path=Command}" CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}" />
+        </Border.GestureRecognizers>
     </Border>
 </ContentView>

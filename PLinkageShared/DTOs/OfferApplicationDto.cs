@@ -46,6 +46,11 @@ namespace PLinkageShared.DTOs
         public bool AwaitingResponse { get; set; } = false; // Whether there should be Accept and Decline buttons
         public bool IsNegotiating { get; set; } = false; // Negotiating indicator
         public bool IsNegotiable { get; set; } = false; // Whether there should be a Negotiate button
+
+        // Purpose of the properties below are for processing only
+        public Guid SenderId { get; set; }
+        public Guid ReceiverId { get; set; }
+        public Guid ProjectId { get; set; }
     }
 
     public class OfferApplicationProcessDto

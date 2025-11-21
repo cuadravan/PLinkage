@@ -24,6 +24,8 @@ namespace PLinkageShared.DTOs
         public Guid ProjectId { get; set; }
         public string ProjectName { get; set; }
         public ProjectStatus? ProjectStatus { get; set; }
+        public DateTime ProjectStartDate { get; set; } = DateTime.Now;
+        public DateTime ProjectEndDate { get; set; } = DateTime.Now;
     }
 
     public class ProjectOwnerCardDto

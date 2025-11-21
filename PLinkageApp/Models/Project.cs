@@ -22,13 +22,6 @@ namespace PLinkageApp.Models
     }
 }
 
-public enum ProjectStatus
-{
-    Active,
-    Completed,
-    Deactivated,
-}
-
 public class ProjectMemberDetail
 {
     public Guid MemberId { get; set; }

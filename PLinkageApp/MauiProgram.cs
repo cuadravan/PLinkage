@@ -112,6 +112,10 @@ public static class MauiProgram
 
         builder.Services.AddTransient<ChatViewModel>();
         builder.Services.AddTransient<MessagesViewModel>();
+        builder.Services.AddTransient<ViewSkillViewModel>();
+        builder.Services.AddTransient<ResignProjectViewModel>();
+        builder.Services.AddTransient<NegotiateViewModel>();
+        builder.Services.AddTransient<ProcessResignationViewModel>();
 
         builder.Services.AddTransient<ProjectOwnerLinkagesViewModel>();
         builder.Services.AddTransient<SkillProviderLinkagesViewModel>();
@@ -137,7 +141,6 @@ public static class MauiProgram
         builder.Services.AddTransient<AddEducationViewModel>();
         builder.Services.AddTransient<UpdateEducationViewModel>();
         builder.Services.AddTransient<AddSkillViewModel>();
-        builder.Services.AddTransient<UpdateSkillViewModel>();
 		builder.Services.AddTransient<BrowseProjectViewModel>();
         builder.Services.AddTransient<SendApplicationViewModel>();
         builder.Services.AddTransient<ViewProjectOwnerProfileViewModel>();

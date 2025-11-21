@@ -40,7 +40,7 @@ namespace PLinkageApp.Services
         }
         public async Task<ApiResponse<bool>> ProcessOfferApplication(OfferApplicationProcessDto offerApplicationProcessDto)
         {
-            return await PostAsync<OfferApplicationProcessDto, bool>("api/offerapplication", offerApplicationProcessDto);
+            return await PostAsync<OfferApplicationProcessDto, bool>("api/offerapplication/process", offerApplicationProcessDto);
         }
     }
 }

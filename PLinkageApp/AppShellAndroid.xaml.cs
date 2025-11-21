@@ -15,41 +15,28 @@ namespace PLinkageApp
         {
             InitializeComponent();
 
-            //Routing.RegisterRoute("ProjectOwnerUpdateProfileView", typeof(ProjectOwnerUpdateProfileView));
-            //Routing.RegisterRoute("ProjectOwnerAddProjectView", typeof(ProjectOwnerAddProjectView));
-            //Routing.RegisterRoute("ProjectOwnerUpdateProjectView", typeof(ProjectOwnerUpdateProjectView));
-            //Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
-            //Routing.RegisterRoute("ProjectOwnerRateSkillProviderView", typeof(ProjectOwnerRateSkillProviderView));
-            //Routing.RegisterRoute("ProjectOwnerSendOfferView", typeof(ProjectOwnerSendOfferView));
-            //Routing.RegisterRoute("ProjectOwnerSendMessageView", typeof(ProjectOwnerSendMessageView));
-            //Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
-            //Routing.RegisterRoute("SkillProviderAddEducationView", typeof(SkillProviderAddEducationView));
-            //Routing.RegisterRoute("SkillProviderUpdateEducationView", typeof(SkillProviderUpdateEducationView));
-            //Routing.RegisterRoute("SkillProviderAddSkillView", typeof(SkillProviderAddSkillView));
-            //Routing.RegisterRoute("SkillProviderUpdateSkillView", typeof(SkillProviderUpdateSkillView));
-            //Routing.RegisterRoute("SkillProviderSendApplicationView", typeof(SkillProviderSendApplicationView));
-            //Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
-            //Routing.RegisterRoute("RegisterView", typeof(RegisterView));
             Routing.RegisterRoute(nameof(RegisterView1), typeof(RegisterView1));
             Routing.RegisterRoute(nameof(RegisterView2), typeof(RegisterView2));
             Routing.RegisterRoute(nameof(RegisterView3), typeof(RegisterView3));
             Routing.RegisterRoute(nameof(RegisterView4), typeof(RegisterView4));
             Routing.RegisterRoute(nameof(RegisterView5), typeof(RegisterView5));
-            Routing.RegisterRoute("MessagesView", typeof(MessagesView));
-            Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
-            Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
-            Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
-            //Routing.RegisterRoute(nameof(AddSkillView), typeof(AddSkillView));
-            //Routing.RegisterRoute(nameof(UpdateSkillView), typeof(UpdateSkillView));
-            //Routing.RegisterRoute(nameof(ViewSkillView), typeof(ViewSkillView));
-            //Routing.RegisterRoute(nameof(AddEducationView), typeof(AddEducationView));
-            //Routing.RegisterRoute(nameof(UpdateEducationView), typeof(UpdateEducationView));
-            //Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
-            //Routing.RegisterRoute(nameof(NegotiatingOfferView), typeof(NegotiatingOfferView));
-            //Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
-
-
-
+            Routing.RegisterRoute(nameof(MessagesView), typeof(MessagesView));
+            Routing.RegisterRoute(nameof(ViewSkillProviderProfileView), typeof(ViewSkillProviderProfileView));
+            Routing.RegisterRoute(nameof(ViewProjectOwnerProfileView), typeof(ViewProjectOwnerProfileView));
+            Routing.RegisterRoute(nameof(ViewProjectView), typeof(ViewProjectView));
+            Routing.RegisterRoute(nameof(AddSkillView), typeof(AddSkillView));
+            Routing.RegisterRoute(nameof(ViewSkillView), typeof(ViewSkillView));
+            Routing.RegisterRoute(nameof(AddEducationView), typeof(AddEducationView));
+            Routing.RegisterRoute(nameof(UpdateEducationView), typeof(UpdateEducationView));
+            Routing.RegisterRoute(nameof(UpdateProfileView), typeof(UpdateProfileView));
+            Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
+            Routing.RegisterRoute(nameof(ResignProjectView), typeof(ResignProjectView));
+            Routing.RegisterRoute(nameof(NegotiatingOfferView), typeof(NegotiatingOfferView));
+            Routing.RegisterRoute(nameof(ProcessResignationView), typeof(ProcessResignationView));
+            Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
+            Routing.RegisterRoute(nameof(AddProjectView), typeof(AddProjectView));
+            Routing.RegisterRoute(nameof(UpdateProjectView), typeof(UpdateProjectView));
+            Routing.RegisterRoute(nameof(RateSkillProviderView), typeof(RateSkillProviderView));
 
             _startupService = startupService;
             BindingContext = viewModel;
@@ -123,13 +110,7 @@ namespace PLinkageApp
                 new TabbarItem("Browse", "browsesp.svg", typeof(BrowseSkillProviderView)),
                 new TabbarItem("Linkages", "linkages.svg", typeof(ProjectOwnerLinkagesView)),
                 new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView)),
-                new TabbarItem("[DEBUG] Send Offer", "home.svg", typeof(SendOfferView)),
-                new TabbarItem("[Debug] Update Profile", "home.svg", typeof(UpdateProfileView)),
-                new TabbarItem("[Debug] Rate Skill Providers", "home.svg", typeof(RateSkillProviderView)),
-                new TabbarItem("[Debug] Resign Skill Providers", "home.svg", typeof(ResignSkillProviderView)),
-                new TabbarItem("[Debug] Add Project", "home.svg", typeof(AddProjectView)),
-                new TabbarItem("[Debug] Update Project", "home.svg", typeof(UpdateProjectView))
+                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 
             return items;
@@ -142,16 +123,7 @@ namespace PLinkageApp
                 new TabbarItem("Browse", "project.svg", typeof(BrowseProjectView)),
                 new TabbarItem("Linkages", "linkages.svg", typeof(SkillProviderLinkagesView)),
                 new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
-                new TabbarItem("Logout", "logout.svg", typeof(LogoutView)),
-                new TabbarItem("[DEBUG] Add Education", "home.svg", typeof(AddEducationView)),
-                new TabbarItem("[DEBUG] Add Skill", "home.svg", typeof(AddSkillView)),
-                new TabbarItem("[DEBUG] Apply", "home.svg", typeof(ApplyView)),
-                new TabbarItem("[DEBUG] Negotiating Offer", "home.svg", typeof(NegotiatingOfferView)),
-                new TabbarItem("[DEBUG] Update Education", "home.svg", typeof(UpdateEducationView)),
-                new TabbarItem("[DEBUG] Update Skill", "home.svg", typeof(UpdateSkillView)),
-                new TabbarItem("[DEBUG] View Skill", "home.svg", typeof(ViewSkillView)),
-                new TabbarItem("[Debug] Update Profile", "home.svg", typeof(UpdateProfileView)),
-                new TabbarItem("[Debug] Resign Project", "home.svg", typeof(ResignProjectView))
+                new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 
             return items;

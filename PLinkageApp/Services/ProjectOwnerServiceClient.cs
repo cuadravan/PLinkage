@@ -40,5 +40,10 @@ namespace PLinkageApp.Services
         {
             return await PatchAsync<UserProfileUpdateDto, string>($"api/projectowner/{projectOwnerId}", projectOwnerUpdateDto);
         }
+
+        public async Task<ApiResponse<List<ResignationItemDto>>> GetResignationAsync(Guid projectOwnerId)
+        {
+            return await GetAsync<List<ResignationItemDto>>($"api/projectowner/{projectOwnerId}/resignations");
+        }
     }
 }

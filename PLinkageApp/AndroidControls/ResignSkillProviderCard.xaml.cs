@@ -18,6 +18,15 @@ public partial class ResignSkillProviderCard : ContentView
         set => SetValue(FullNameProperty, value);
     }
 
+    public static readonly BindableProperty ProjectNameProperty =
+        BindableProperty.Create(nameof(ProjectName), typeof(string), typeof(ResignSkillProviderCard), string.Empty);
+
+    public string ProjectName
+    {
+        get => (string)GetValue(ProjectNameProperty);
+        set => SetValue(ProjectNameProperty, value);
+    }
+
     public static readonly BindableProperty ReasonProperty =
         BindableProperty.Create(nameof(Reason), typeof(string), typeof(ResignSkillProviderCard), string.Empty);
 

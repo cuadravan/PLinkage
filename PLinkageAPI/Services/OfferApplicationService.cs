@@ -266,7 +266,10 @@ namespace PLinkageAPI.Services
                 FormattedTimeFrame = formattedTimeFrame,
                 AwaitingResponse = awaitingResponse,
                 IsNegotiating = item.IsNegotiating,
-                IsNegotiable = isNegotiable
+                IsNegotiable = isNegotiable,
+                SenderId = item.SenderId,
+                ReceiverId = item.ReceiverId,
+                ProjectId = item.ProjectId
             };
         }
         public async Task<ApiResponse<bool>> ProcessOfferApplication(OfferApplicationProcessDto offerApplicationProcessDto)
@@ -302,7 +305,7 @@ namespace PLinkageAPI.Services
                 }
                 else
                 {
-                    return ApiResponse<bool>.Fail("You cannot be employed if project is not active, already full, or you are already employed in the project.");
+                    return ApiResponse<bool>.Fail("Cannot employ user if project is not active, already full, or user is already employed in the project.");
                 }
                 using (var session = await _mongoClient.StartSessionAsync())
                 {
@@ -351,7 +354,7 @@ namespace PLinkageAPI.Services
                 if(offerApplication.OfferApplicationType == "Application")
                     return ApiResponse<bool>.Fail("Cannot negotiate an application.");
 
-                if (offerApplication.NegotiationCount < 2)
+                if (offerApplication.NegotiationCount < 3)
                 {
                     offerApplication.OldOfferApplicationRate = offerApplication.OfferApplicationRate;
                     offerApplication.OfferApplicationRate = offerApplicationProcessDto.NegotiatedRate;

@@ -22,8 +22,6 @@
             <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
             <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
             <converters:BoolToColorTextConverter x:Key="BoolToColorTextConverter" />
-            <converters:SegmentColorConverter x:Key="SegmentColorConverter" />
-            <converters:SegmentTextColorConverter x:Key="SegmentTextColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

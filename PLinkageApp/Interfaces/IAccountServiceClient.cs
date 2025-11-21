@@ -14,5 +14,6 @@ namespace PLinkageApp.Interfaces
         Task<ApiResponse<Guid>> RegisterAsync(RegisterUserDto request);
         Task<ApiResponse<bool>> CheckEmailUniquenessAsync(string email);
         Task<ApiResponse<string>> ActivateDeactivateUserAsync(Guid userId);
+        Task<ApiResponse<bool>> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
     }
 }

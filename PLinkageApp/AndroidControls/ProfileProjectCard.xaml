@@ -63,7 +63,7 @@
                         TextColor="#000000" />
                     <Label
                         FontSize="14"
-                        Text="{Binding Source={x:Reference ThisControl}, Path=TimeFrame}"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=TimeFrame, StringFormat='{0} hours'}"
                         TextColor="#000000" />
                 </HorizontalStackLayout>
                 <HorizontalStackLayout IsVisible="{Binding Source={x:Reference ThisControl}, Path=IsOwner}" Spacing="5">
@@ -73,7 +73,7 @@
                         TextColor="#000000" />
                     <Label
                         FontSize="14"
-                        Text="{Binding Source={x:Reference ThisControl}, Path=Rate}"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=Rate, StringFormat='₱{0} per hour'}"
                         TextColor="#000000" />
                 </HorizontalStackLayout>
             </VerticalStackLayout>

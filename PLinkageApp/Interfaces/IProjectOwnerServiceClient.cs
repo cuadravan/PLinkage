@@ -15,6 +15,7 @@ namespace PLinkageApp.Interfaces
         Task<ApiResponse<ProjectOwnerDto>> GetSpecificAsync(Guid projectOwnerId);
 
         Task<ApiResponse<string>> UpdateProjectOwnerAsync(Guid projectOwnerId, UserProfileUpdateDto projectOwnerUpdateDto);
+        Task<ApiResponse<List<ResignationItemDto>>> GetResignationAsync(Guid projectOwnerId);
     }
 
 }

@@ -178,6 +178,15 @@ public partial class OfferApplicationCard : ContentView
         set => SetValue(NegotiateCommandProperty, value);
     }
 
+    public static readonly BindableProperty CommandParameterProperty =
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(OfferApplicationCard), null);
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
     public OfferApplicationCard()
     {
         InitializeComponent();

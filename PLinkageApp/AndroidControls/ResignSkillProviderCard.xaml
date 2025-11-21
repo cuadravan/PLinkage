@@ -10,7 +10,7 @@
         CornerRadius="16"
         HasShadow="True">
 
-        <Grid RowDefinitions="60, *, *, *">
+        <Grid RowDefinitions="60, *, *, *, *">
             <!--  Avatar Circle  -->
             <Border
                 Grid.Row="0"
@@ -32,12 +32,18 @@
 
             <Label
                 Grid.Row="2"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="{Binding Source={x:Reference ThisControl}, Path=ProjectName}" />
+
+            <Label
+                Grid.Row="3"
                 Padding="10,0,10,0"
                 FontSize="16"
                 Text="{Binding Source={x:Reference ThisControl}, Path=Reason}" />
 
             <HorizontalStackLayout
-                Grid.Row="3"
+                Grid.Row="4"
                 HorizontalOptions="Center"
                 Spacing="10">
                 <Button

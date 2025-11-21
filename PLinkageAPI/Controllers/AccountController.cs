@@ -79,6 +79,17 @@ namespace PLinkageAPI.Controllers
             return Ok(response);
         }
 
+        [HttpPost("changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            var response = await _accountService.ChangePasswordAsync(changePasswordDto);
+
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
         //[HttpPost("migrate-passwords")]
         //public async Task<IActionResult> MigratePasswords()
         //{
