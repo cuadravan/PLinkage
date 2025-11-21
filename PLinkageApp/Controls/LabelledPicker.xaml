@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PLinkageApp.Controls.LabeledPicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
+
+    <ContentView.Content>
+        <OnPlatform x:TypeArguments="View">
+
+            <On Platform="Android">
+                <VerticalStackLayout Spacing="3">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=TitleText}"
+                        TextColor="#212121" />
+
+                    <Border
+                        BackgroundColor="White"
+                        HorizontalOptions="Center"
+                        Stroke="#7C4DFF"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="1"
+                        WidthRequest="{Binding Source={x:Reference ThisControl}, Path=ControlWidth}">
+                        <Picker
+                            Title="{Binding Source={x:Reference ThisControl}, Path=PlaceholderText}"
+                            FontFamily="Roboto Mono"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            ItemsSource="{Binding Source={x:Reference ThisControl}, Path=ItemSource}"
+                            SelectedItem="{Binding Source={x:Reference ThisControl}, Path=SelectedItem}"
+                            TextColor="#212121" />
+                    </Border>
+                </VerticalStackLayout>
+            </On>
+
+            <On Platform="WinUI">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontFamily="Roboto Mono"
+                        FontSize="20"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=TitleText}"
+                        TextColor="Black" />
+
+                    <Picker
+                        Title="{Binding Source={x:Reference ThisControl}, Path=PlaceholderText}"
+                        FontFamily="Roboto Mono"
+                        FontSize="16"
+                        ItemsSource="{Binding Source={x:Reference ThisControl}, Path=ItemSource}"
+                        SelectedItem="{Binding Source={x:Reference ThisControl}, Path=SelectedItem}"
+                        TextColor="#212121" />
+                </VerticalStackLayout>
+            </On>
+
+        </OnPlatform>
+    </ContentView.Content>
+</ContentView>  

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsWindows.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Login Page"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout
+                Padding="10"
+                HorizontalOptions="Center"
+                Spacing="20"
+                VerticalOptions="Center">
+                <Border
+                    Padding="25"
+                    BackgroundColor="#FFFFFF"
+                    HorizontalOptions="Fill"
+                    WidthRequest="350">
+                    <VerticalStackLayout Spacing="25">
+                        <Image
+                            HeightRequest="150"
+                            HorizontalOptions="Center"
+                            Source="plinkage.png"
+                            VerticalOptions="Center"
+                            WidthRequest="150" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Text="Welcome, Project Enthusiast!"
+                            TextColor="#333" />
+                        <Label
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Text="Please sign in to continue."
+                            TextColor="#333" />
+                        <Entry
+                            x:Name="EmailEntry"
+                            BackgroundColor="White"
+                            FontSize="14"
+                            HeightRequest="50"
+                            HorizontalOptions="Fill"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                            Keyboard="Email"
+                            Placeholder="Email Address"
+                            Text="{Binding Email}" />
+                        <Entry
+                            x:Name="PasswordEntry"
+                            BackgroundColor="White"
+                            FontSize="14"
+                            HeightRequest="50"
+                            HorizontalOptions="Fill"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                            IsPassword="True"
+                            Placeholder="Password"
+                            Text="{Binding Password}" />
+                        <Label
+                            FontAttributes="Italic"
+                            FontSize="13"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                            Text="{Binding ErrorMessage}"
+                            TextColor="Red" />
+                        <Button
+                            BackgroundColor="#7C4DFF"
+                            Command="{Binding LoginCommand}"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HeightRequest="50"
+                            HorizontalOptions="Fill"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                            Text="Login"
+                            TextColor="White" />
+                        <Button
+                            BackgroundColor="#6A33CC"
+                            Command="{Binding GoToRegisterCommand}"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HeightRequest="50"
+                            HorizontalOptions="Fill"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
+                            Text="Register"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="0"
+            BackgroundColor="#80000000"
+            IsVisible="{Binding IsBusy}">
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                Scale="1.5"
+                VerticalOptions="Center"
+                Color="#7C4DFF" />
+
+        </Grid>
+    </Grid>
+</ContentPage>

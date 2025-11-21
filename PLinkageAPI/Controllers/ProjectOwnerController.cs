@@ -56,7 +56,7 @@ namespace PLinkageAPI.Controllers
         }
 
         [HttpGet("{projectOwnerId}/resignations")]
-        public async Task<IActionResult> GetResignations([FromQuery] Guid projectOwnerId)
+        public async Task<IActionResult> GetResignations(Guid projectOwnerId)
         {
             var response = await _projectOwnerService.GetResignations(projectOwnerId);
 

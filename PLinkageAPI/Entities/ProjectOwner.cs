@@ -32,16 +32,20 @@ namespace PLinkageAPI.Entities
         [BsonRepresentation(BsonType.String)]
         public List<Guid> UserMessagesId { get; set; } = new List<Guid>();
 
-        public void UpdateProfile(UserProfileUpdateDto skillProviderUpdateDto)
+        public void UpdateProfile(UserProfileUpdateDto userProfileUpdateDto)
         {
-            this.UserFirstName = skillProviderUpdateDto.UserFirstName;
-            this.UserLastName = skillProviderUpdateDto.UserLastName;
-            this.UserPhone = skillProviderUpdateDto.UserPhone;
-            this.UserLocation = skillProviderUpdateDto.UserLocation;
-            this.UserBirthDate = skillProviderUpdateDto.UserBirthDate;
-            this.UserLocation = skillProviderUpdateDto.UserLocation;
+            this.UserFirstName = userProfileUpdateDto.UserFirstName;
+            this.UserLastName = userProfileUpdateDto.UserLastName;
+            this.UserPhone = userProfileUpdateDto.UserPhone;
+            this.UserLocation = userProfileUpdateDto.UserLocation;
+            this.UserBirthDate = userProfileUpdateDto.UserBirthDate;
+            this.UserGender = userProfileUpdateDto.UserGender;
         }
 
+        public void UpdatePassword(string newPassword)
+        {
+            this.UserPassword = newPassword;
+        }
         public void AddProject(Guid projectId)
         {
             if(!this.OwnedProjectId.Contains(projectId))

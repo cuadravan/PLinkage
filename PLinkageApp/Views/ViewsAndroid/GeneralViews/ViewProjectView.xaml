@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ViewProjectView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="View Project">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="25,40,25,25"
+            Spacing="10"
+            VerticalOptions="Center">
+
+            <controls:LabeledLabel LabelText="Project Name" Text="{Binding Project.ProjectName}" />
+
+            <Grid ColumnDefinitions="*,*">
+                <controls:LabeledLabel
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    LabelText="Location"
+                    Text="{Binding Project.ProjectLocation}" />
+                <controls:LabeledLabel
+                    Grid.Column="1"
+                    Command="{Binding ViewProjectOwnerCommand}"
+                    IsLink="True"
+                    LabelText="Owner"
+                    Text="{Binding Project.ProjectOwnerName}" />
+            </Grid>
+
+            <controls:LabeledLabel LabelText="Project Description" Text="{Binding Project.ProjectDescription}" />
+
+
+
+            <Grid ColumnDefinitions="*,*">
+                <controls:LabeledLabel
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    LabelText="Start Date"
+                    Text="{Binding Project.ProjectStartDate, StringFormat='{0:M/dd/yyyy}'}" />
+                <controls:LabeledLabel
+                    Grid.Column="1"
+                    LabelText="End Date"
+                    Text="{Binding Project.ProjectEndDate, StringFormat='{0:M/dd/yyyy}'}" />
+            </Grid>
+
+            <controls:LabeledLabel LabelText="Project Duration" Text="{Binding Project.ProjectDuration}" />
+
+            <controls:LabeledLabel LabelText="Priority" Text="{Binding Project.ProjectPriority}" />
+
+            <controls:LabeledLabel LabelText="Status" Text="{Binding Project.ProjectStatus}" />
+
+            <controls:LabeledLabel LabelText="Resources Needed" Text="{Binding Project.ProjectResourcesNeeded}" />
+
+            <Label
+                Margin="20,0,0,5"
+                FontAttributes="Bold"
+                FontSize="14"
+                Text="Required Skillset"
+                TextColor="Black" />
+            <Border
+                Padding="15"
+                BackgroundColor="White"
+                HorizontalOptions="FillAndExpand"
+                Stroke="#7C4DFF"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <FlexLayout
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding Project.ProjectSkillsRequired}"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+                    <BindableLayout.EmptyView>
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Italic"
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="No skills have been added yet."
+                                TextColor="Gray"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SkillPill SkillName="{Binding .}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Border>
+
+            <Label
+                Margin="20,0,0,5"
+                FontAttributes="Bold"
+                FontSize="14"
+                Text="Employed Skill Providers"
+                TextColor="Black" />
+            <Border
+                Padding="2"
+                Stroke="#7C4DFF"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                <CollectionView ItemsSource="{Binding Project.ProjectMembers}" MinimumHeightRequest="30">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Italic"
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="No skill providers have been employed yet."
+                                TextColor="Gray"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="15"
+                                BackgroundColor="#FFFFFF"
+                                StrokeShape="RoundRectangle 8">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Name:"
+                                                TextColor="#050202" />
+                                            <Label Text="{Binding UserFirstName}" />
+                                            <Label Text="{Binding UserLastName}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Email:"
+                                                TextColor="#050202" />
+                                            <Label Text="{Binding Email}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=IsOwner}" Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Rate:"
+                                                TextColor="#050202" />
+                                            <Label Text="{Binding Rate, StringFormat='${0:F2} per hour'}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=IsOwner}" Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="Timeframe:"
+                                                TextColor="#050202" />
+                                            <Label Text="{Binding TimeFrame, StringFormat='{0} hour(s)'}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                    <ImageButton
+                                        Grid.Column="1"
+                                        Aspect="Center"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=ViewSkillProviderCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="15"
+                                        Source="viewproject.png"
+                                        WidthRequest="15" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+
+
+            <Border
+                Padding="15"
+                BackgroundColor="#EBEBEB"
+                StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Date Information"
+                            TextColor="#606060"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="20"
+                        RowDefinitions="Auto,Auto">
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Created:"
+                            TextColor="#606060" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{Binding Project.ProjectDateCreated, StringFormat='{0:M/dd/yyyy}'}"
+                            TextColor="#606060" />
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="Updated:"
+                            TextColor="#606060" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="{Binding Project.ProjectDateUpdated, StringFormat='{0:M/dd/yyyy}'}"
+                            TextColor="#606060" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding UpdateProjectCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding CanUpdate}"
+                    Text="Update Project"
+                    TextColor="White" />
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding ApplyCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding CanApply}"
+                    Text="Apply"
+                    TextColor="White" />
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding ResignCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsEmployed}"
+                    Text="Resign"
+                    TextColor="White" />
+
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+    <!--<ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="15">
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Project Name" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectName}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource FieldLabel}" Text="Location" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <Entry Text="{Binding Project.ProjectLocation}" />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource FieldLabel}" Text="Owner" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <Entry Text="{Binding Project.ProjectOwnerName}" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Project Description" />
+                <Frame Padding="10" Style="{StaticResource InputFrame}">
+                    <Editor AutoSize="Disabled" Text="{Binding Project.ProjectDescription}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Style="{StaticResource FieldLabel}" Text="Start Date" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <DatePicker Date="{Binding Project.ProjectStartDate}" Format="M/dd/yyyy" />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Style="{StaticResource FieldLabel}" Text="End Date" />
+                    <Frame Style="{StaticResource InputFrame}">
+                        <DatePicker Date="{Binding Project.ProjectEndDate}" Format="M/dd/yyyy" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Project Duration" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectDuration}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Priority" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectPriority}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Status" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectStatus}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Resources Needed" />
+                <Frame Style="{StaticResource InputFrame}">
+                    <Entry Text="{Binding Project.ProjectResourcesNeeded}" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Style="{StaticResource FieldLabel}" Text="Required Skill Set" />
+                <Frame
+                    Padding="10"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    BorderColor="{StaticResource PrimaryPurple}"
+                    CornerRadius="8">
+                    <CollectionView HeightRequest="40" ItemsSource="{Binding Project.ProjectSkillsRequired}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="15,8"
+                                    BackgroundColor="{StaticResource LightPurple}"
+                                    StrokeShape="RoundRectangle 15">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="{Binding .}"
+                                        TextColor="{StaticResource PrimaryPurple}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+            </VerticalStackLayout>
+
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>-->
+</ContentPage>

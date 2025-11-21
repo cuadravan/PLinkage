@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsWindows.ChatWindowsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="Messages"
+    Shell.NavBarIsVisible="False">
+
+    <Grid BackgroundColor="#F5F5F5" ColumnDefinitions="400, 1, *">
+
+        <Grid Grid.Column="0" RowDefinitions="Auto, *">
+
+            <!--  Header  -->
+            <VerticalStackLayout
+                Grid.Row="0"
+                Margin="20,20,20,10"
+                Spacing="10">
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="28"
+                        Text="Messages"
+                        TextColor="#212121" />
+
+                    <!--  Refresh Button  -->
+                    <Button
+                        Grid.Column="1"
+                        Padding="5"
+                        Command="{Binding RefreshCommand}"
+                        FontSize="20"
+                        Text="⟳" />
+                </Grid>
+
+                <controls:SearchInput
+                    ControlWidth="360"
+                    HorizontalOptions="Fill"
+                    IconSource="search.svg"
+                    SearchPlaceholder="Search for user..."
+                    SearchQuery="{Binding SearchQuery}" />
+            </VerticalStackLayout>
+
+            <RefreshView
+                Grid.Row="1"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+
+                <CollectionView
+                    Margin="10,0"
+                    ItemsSource="{Binding ChatPreviews}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ChatPreviewCard
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatViewModel}}, Path=ViewChatCommand}"
+                                CommandParameter="{Binding .}"
+                                MessageText="{Binding MostRecentMessage}"
+                                SenderName="{Binding ReceiverFullName}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+
+        <BoxView
+            Grid.Column="1"
+            VerticalOptions="Fill"
+            WidthRequest="1"
+            Color="#E0E0E0" />
+
+        <Grid Grid.Column="2">
+
+            <VerticalStackLayout
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsChatSelected, Converter={StaticResource InvertedBooleanConverter}}"
+                Spacing="20"
+                VerticalOptions="Center">
+                <Image
+                    HeightRequest="150"
+                    Opacity="0.3"
+                    Source="plinkagenotext.png"
+                    WidthRequest="150" />
+                <Label
+                    FontSize="18"
+                    Text="Select a conversation to start messaging"
+                    TextColor="Gray" />
+            </VerticalStackLayout>
+
+            <Grid
+                BackgroundColor="#F0F0F0"
+                BindingContext="{Binding SelectedMessageViewModel}"
+                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatViewModel}}, Path=IsChatSelected}"
+                RowDefinitions="Auto, *, Auto">
+
+                <Border
+                    Grid.Row="0"
+                    Padding="20,15"
+                    BackgroundColor="White"
+                    StrokeThickness="0">
+                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="{Binding ReceiverName}"
+                            TextColor="#212121"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.1"
+                            Radius="5"
+                            Offset="0,2" />
+                    </Border.Shadow>
+                </Border>
+
+                <RefreshView
+                    Grid.Row="1"
+                    Command="{Binding RefreshCommand}"
+                    IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+                    <CollectionView Margin="10,0" ItemsSource="{Binding Messages}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5,5" HorizontalOptions="Fill">
+                                    <Border
+                                        Padding="12"
+                                        BackgroundColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorConverter}}"
+                                        HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}"
+                                        StrokeShape="RoundRectangle 15"
+                                        StrokeThickness="1">
+                                        <VerticalStackLayout MaximumWidthRequest="450" Spacing="4">
+                                            <Label
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Content}"
+                                                TextColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorTextConverter}}" />
+                                            <Label
+                                                FontSize="10"
+                                                HorizontalOptions="End"
+                                                Opacity="0.7"
+                                                Text="{Binding Date, StringFormat='{0:MMM dd, h:mm tt}'}"
+                                                TextColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorTextConverter}}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+
+                <Grid
+                    Grid.Row="2"
+                    Padding="20"
+                    BackgroundColor="White"
+                    ColumnDefinitions="*, Auto"
+                    ColumnSpacing="10">
+
+                    <controls:SearchInput
+                        Grid.Column="0"
+                        HorizontalOptions="Fill"
+                        SearchPlaceholder="Type a message..."
+                        SearchQuery="{Binding MessageToSend}" />
+
+                    <Button
+                        Grid.Column="1"
+                        Padding="10"
+                        BackgroundColor="#7C4DFF"
+                        Command="{Binding SendMessageCommand}"
+                        CornerRadius="10"
+                        HeightRequest="48"
+                        Text="Send"
+                        WidthRequest="60" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

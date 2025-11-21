@@ -3,18 +3,19 @@
     x:Class="PLinkageApp.AppShellAndroid"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:PLinkageApp.ViewsAndroid"
+    xmlns:viewsAndroid="clr-namespace:PLinkageApp.ViewsAndroid"
+    xmlns:viewsCommon="clr-namespace:PLinkageApp.Views"
     Title="PLinkage"
     Shell.FlyoutBehavior="Disabled">
 
 
     <ShellContent
         Title="Start"
-        ContentTemplate="{DataTemplate views:BlankPage}"
+        ContentTemplate="{DataTemplate viewsCommon:BlankPage}"
         Route="StartView" />
     <ShellContent
         Title="Login"
-        ContentTemplate="{DataTemplate views:LoginView}"
+        ContentTemplate="{DataTemplate viewsAndroid:LoginView}"
         Route="LoginView" />
     <TabBar
         x:Name="MainTabBar"

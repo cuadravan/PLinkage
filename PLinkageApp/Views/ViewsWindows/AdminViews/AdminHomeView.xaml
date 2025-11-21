@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsWindows.AdminHomeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="Home - Admin"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+        <ScrollView Padding="50">
+            <VerticalStackLayout Spacing="16">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            Text="Welcome, Admin!"
+                            TextColor="#212121" />
+                    </VerticalStackLayout>
+
+                    <!--  Refresh Button  -->
+                    <Button
+                        Grid.Column="1"
+                        Padding="5"
+                        Command="{Binding RefreshCommand}"
+                        FontSize="20"
+                        Text="⟳" />
+                </Grid>
+
+
+                <FlexLayout
+                    Direction="Row"
+                    JustifyContent="SpaceBetween"
+                    Wrap="Wrap">
+
+                    <controls:StatCard
+                        Title="Active Projects"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding ActiveProjectsValue}" />
+
+                    <controls:StatCard
+                        Title="Completed Projects"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding CompletedProjectsValue}" />
+
+                    <controls:StatCard
+                        Title="Employment Ratio"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding EmploymentRatioValue}" />
+                </FlexLayout>
+
+                <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Quick View of Active Projects"
+                    TextColor="#212121" />
+
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding ProjectCards}"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProjectCard
+                                Title="{Binding Title}"
+                                Margin="0,0,10,10"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
+                                CommandParameter="{Binding .}"
+                                Description="{Binding Description}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                Slots="{Binding Slots}"
+                                WidthRequest="340" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+
+                <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Quick View of Active Skill Providers For You"
+                    TextColor="#212121" />
+
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding SkillProviderCards}"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SkillProviderCard
+                                Margin="0,0,10,10"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
+                                CommandParameter="{Binding .}"
+                                Education="{Binding Education}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                UserName="{Binding UserName}"
+                                UserRating="{Binding UserRating}"
+                                WidthRequest="340" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                    <FlexLayout.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SkillProviderCards.Count}"
+                            TargetType="FlexLayout"
+                            Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </FlexLayout.Triggers>
+                </FlexLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

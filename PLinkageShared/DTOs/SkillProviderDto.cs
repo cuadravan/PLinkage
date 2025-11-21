@@ -1,5 +1,4 @@
 ﻿using PLinkageShared.Enums;
-using System.Text.Json.Serialization;
 
 namespace PLinkageShared.DTOs
 {

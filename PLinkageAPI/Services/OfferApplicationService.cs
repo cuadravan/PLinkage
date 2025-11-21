@@ -216,15 +216,18 @@ namespace PLinkageAPI.Services
             // We determine the name to display in the linkage and the ID to link to
             string formattedConcernedName = string.Empty;
             Guid concernedPersonId = Guid.Empty;
+            UserRole? concernedUserRole = null;
             if (userId == receiver.UserId)
             {
                 formattedConcernedName = $"Sent by: " + sender.UserFirstName + " " + sender.UserLastName;
                 concernedPersonId = sender.UserId;
+                concernedUserRole = sender.UserRole;
             }
             else
             {
                 formattedConcernedName = $"Received by: " + receiver.UserFirstName + " " + receiver.UserLastName;
                 concernedPersonId = receiver.UserId;
+                concernedUserRole = receiver.UserRole;
             }
             // We determine the format and rate to be displayed (which varies if its negotiated or not)
             string formattedRate = string.Empty;
@@ -260,13 +263,17 @@ namespace PLinkageAPI.Services
                 ProjectName = project.ProjectName,
                 FormattedConcernedName = formattedConcernedName,
                 ConcernedId = concernedPersonId,
+                ConcernedUserRole = concernedUserRole,
                 OfferApplicationType = item.OfferApplicationType,
                 OfferApplicationStatus = item.OfferApplicationStatus,
                 FormattedRate = formattedRate,
                 FormattedTimeFrame = formattedTimeFrame,
                 AwaitingResponse = awaitingResponse,
                 IsNegotiating = item.IsNegotiating,
-                IsNegotiable = isNegotiable
+                IsNegotiable = isNegotiable,
+                SenderId = item.SenderId,
+                ReceiverId = item.ReceiverId,
+                ProjectId = item.ProjectId
             };
         }
         public async Task<ApiResponse<bool>> ProcessOfferApplication(OfferApplicationProcessDto offerApplicationProcessDto)
@@ -302,7 +309,7 @@ namespace PLinkageAPI.Services
                 }
                 else
                 {
-                    return ApiResponse<bool>.Fail("You cannot be employed if project is not active, already full, or you are already employed in the project.");
+                    return ApiResponse<bool>.Fail("Cannot employ user if project is not active, already full, or user is already employed in the project.");
                 }
                 using (var session = await _mongoClient.StartSessionAsync())
                 {
@@ -351,7 +358,7 @@ namespace PLinkageAPI.Services
                 if(offerApplication.OfferApplicationType == "Application")
                     return ApiResponse<bool>.Fail("Cannot negotiate an application.");
 
-                if (offerApplication.NegotiationCount < 2)
+                if (offerApplication.NegotiationCount < 3)
                 {
                     offerApplication.OldOfferApplicationRate = offerApplication.OfferApplicationRate;
                     offerApplication.OfferApplicationRate = offerApplicationProcessDto.NegotiatedRate;

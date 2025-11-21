@@ -59,6 +59,7 @@ namespace PLinkageShared.DTOs
         public Guid ProjectId { get; set; } = Guid.NewGuid();
         public string ProjectDescription { get; set; } = string.Empty;
         public DateTime ProjectStartDate { get; set; } = DateTime.Now;
+        public DateTime ProjectEndDate { get; set; } = DateTime.Now;
         public string ProjectPriority { get; set; } = string.Empty;
         public List<string> ProjectSkillsRequired { get; set; } = new List<string>();
         public bool ProjectMembersChanged { get; set; } = false;
@@ -73,6 +74,7 @@ namespace PLinkageShared.DTOs
         public Guid SkillProviderId { get; set; }
         public string ProjectName { get; set; }
         public string SkillProviderName { get; set; }
+        public string Reason { get; set; }
     }
 
     public class ProcessResignationDto
@@ -104,6 +106,7 @@ namespace PLinkageShared.DTOs
         public string Location { get; set; }
         public string Description { get; set; }
         public List<string> Skills { get; set; }
+        public List<Guid> EmployedProviderIds { get; set; }
     }
 }
 

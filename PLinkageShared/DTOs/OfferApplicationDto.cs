@@ -39,6 +39,7 @@ namespace PLinkageShared.DTOs
         public string ProjectName { get; set; } = string.Empty; // Name of the project
         public Guid ConcernedId { get; set; }
         public string FormattedConcernedName { get; set; } = string.Empty; // Sent to: Van Cuadra or Received by: Van Cuadra
+        public UserRole? ConcernedUserRole { get; set; }
         public string OfferApplicationType { get; set; } = string.Empty; // Offer or Application
         public string OfferApplicationStatus { get; set; } = string.Empty; // Pending, Accepted, Declined
         public string FormattedRate { get; set; } = string.Empty; // The offered rate
@@ -46,6 +47,11 @@ namespace PLinkageShared.DTOs
         public bool AwaitingResponse { get; set; } = false; // Whether there should be Accept and Decline buttons
         public bool IsNegotiating { get; set; } = false; // Negotiating indicator
         public bool IsNegotiable { get; set; } = false; // Whether there should be a Negotiate button
+
+        // Purpose of the properties below are for processing only
+        public Guid SenderId { get; set; }
+        public Guid ReceiverId { get; set; }
+        public Guid ProjectId { get; set; }
     }
 
     public class OfferApplicationProcessDto

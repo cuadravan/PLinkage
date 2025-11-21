@@ -258,7 +258,11 @@ namespace PLinkageAPI.Services
                 // 5. Check for null/empty results (unchanged)
                 if (skillProviders == null || !skillProviders.Any())
                 {
-                    return ApiResponse<IEnumerable<SkillProviderCardDto>>.Fail("No skill providers found matching the criteria.");
+                    // Use Enumerable.Empty<T>() to create a typed, empty collection
+                    return ApiResponse<IEnumerable<SkillProviderCardDto>>.Ok(
+                        Enumerable.Empty<SkillProviderCardDto>(),
+                        "No skill providers found matching the criteria."
+                    );
                 }
 
                 // 6. Mapping to DTOs (unchanged)
@@ -293,7 +297,6 @@ namespace PLinkageAPI.Services
                             : string.Empty,
                         Skills = sp.Skills?
                             .Select(skill => skill.SkillName)
-                            .Take(5)
                             .ToList() ?? new List<string>()
                     };
                 });

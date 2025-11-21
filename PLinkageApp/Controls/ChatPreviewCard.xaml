@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PLinkageApp.Controls.ChatPreviewCard"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
+
+    <Border
+        Padding="12"
+        BackgroundColor="White"
+        HorizontalOptions="Fill"
+        Stroke="MediumPurple"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="2"
+        WidthRequest="366">
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisControl}, Path=Command}" CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}" />
+        </Border.GestureRecognizers>
+        <Grid ColumnDefinitions="Auto,*">
+            <Image Grid.Column="0" Source="chatperson.svg" Margin="0,0,10,0"/>
+            <VerticalStackLayout Grid.Column="1" Spacing="4">
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="{Binding Source={x:Reference ThisControl}, Path=SenderName}"
+                    TextColor="#333333" />
+
+                <Label
+                    FontSize="14"
+                    Text="{Binding Source={x:Reference ThisControl}, Path=MessageText}"
+                    TextColor="#555555" />
+
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>
