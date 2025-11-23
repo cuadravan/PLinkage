@@ -1,10 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageApp.Models;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
@@ -16,12 +12,13 @@ namespace PLinkageApp.ViewModels
     public partial class SendOfferViewModel : ObservableObject
     {
         // Services
-        private readonly IProjectServiceClient _projectServiceClient;
         private readonly IOfferApplicationServiceClient _offerApplicationServiceClient;
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
-        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+
+        private bool _isInitialized = false;
+        private ProjectOwnerDto ownerDto;
 
         // Properties
         [ObservableProperty] private ProjectOwnerProfileProjectDto selectedProject;
@@ -29,19 +26,15 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty] private string rateAsked;
         [ObservableProperty] private string timeFrameAsked;
         [ObservableProperty] private string errorMessage;
+        [ObservableProperty] private bool isBusy = false;
         public Guid SkillProviderId { get; set; }
-
-        //private SkillProviderDto skillProviderDto;
-        private ProjectOwnerDto ownerDto;
-
+       
         public ObservableCollection<ProjectOwnerProfileProjectDto> Projects { get; set; } = new();
 
-        public SendOfferViewModel(IProjectOwnerServiceClient projectOwnerServiceClient, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public SendOfferViewModel(IProjectOwnerServiceClient projectOwnerServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
-            _projectServiceClient = projectServiceClient;
             _offerApplicationServiceClient = offerApplicationServiceClient;
             _projectOwnerServiceClient = projectOwnerServiceClient;
-            _skillProviderServiceClient = skillProviderServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
         }
@@ -59,17 +52,6 @@ namespace PLinkageApp.ViewModels
 
             try
             {
-                // First fetch the Skill Provider's information
-                //var result = await _skillProviderServiceClient.GetSpecificAsync(SkillProviderId);
-                //if (!result.Success || result.Data == null)
-                //{
-                //    await Shell.Current.DisplayAlert("Error", "Could not fetch the skill provider's information", "Ok");
-                //    await _navigationService.GoBackAsync();
-                //    return;
-                //}
-                //skillProviderDto = result.Data;
-                //SkillProviderFullName = skillProviderDto.UserName;
-
                 var result = await _projectOwnerServiceClient.GetSpecificAsync(currentUserId);
                 if (!result.Success || result.Data == null)
                 {
@@ -84,6 +66,7 @@ namespace PLinkageApp.ViewModels
                     if(project.ProjectStatus is ProjectStatus.Active) // Can only send offer with active projects
                         Projects.Add(project);
                 }
+                _isInitialized = true;
             }
             catch (Exception ex)
             {
@@ -96,6 +79,8 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task SendOffer()
         {
+            if (!_isInitialized || IsBusy)
+                return;
             if (string.IsNullOrWhiteSpace(RateAsked) ||
                 string.IsNullOrWhiteSpace(TimeFrameAsked) ||
                 SelectedProject == null)
@@ -134,7 +119,7 @@ namespace PLinkageApp.ViewModels
                 OfferApplicationRate = rate,
                 OfferApplicationTimeFrame = hours
             };
-
+            IsBusy = true;
             try
             {
                 var result = await _offerApplicationServiceClient.CreateApplicationOffer(offer);
@@ -152,11 +137,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Error", $"Could not send offer due to following error: {ex}", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.GoBackAsync();
         }
     }

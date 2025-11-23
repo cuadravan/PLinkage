@@ -4,8 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="ThisControl">
+
     <VerticalStackLayout>
-        <!--  Label  -->
+
+        <VerticalStackLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisControl}, Path=Command}" CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}" />
+        </VerticalStackLayout.GestureRecognizers>
+
         <Label
             Margin="20,0,0,5"
             FontAttributes="Bold"
@@ -13,20 +18,32 @@
             Text="{Binding Source={x:Reference ThisControl}, Path=LabelText}"
             TextColor="Black" />
 
-        <!--  Entry  -->
         <Border
             Padding="10,0,0,0"
             BackgroundColor="Transparent"
             Stroke="#7C4DFF"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
+
             <Label
-                HeightRequest="50"
                 BackgroundColor="Transparent"
                 FontSize="14"
+                HeightRequest="50"
                 Text="{Binding Source={x:Reference ThisControl}, Path=Text, Mode=TwoWay}"
                 TextColor="Black"
-                VerticalTextAlignment="{Binding Source={x:Reference ThisControl}, Path=VerticalTextAlignment}" />
+                VerticalTextAlignment="{Binding Source={x:Reference ThisControl}, Path=VerticalTextAlignment}">
+
+                <Label.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference ThisControl}, Path=IsLink}"
+                        TargetType="Label"
+                        Value="True">
+                        <Setter Property="TextColor" Value="#2196F3" />
+                        <Setter Property="TextDecorations" Value="Underline" />
+                    </DataTrigger>
+                </Label.Triggers>
+
+            </Label>
         </Border>
 
     </VerticalStackLayout>

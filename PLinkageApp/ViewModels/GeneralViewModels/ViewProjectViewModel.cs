@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageApp.Models;
-using System.Globalization;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
 using PLinkageShared.ApiResponse;
@@ -14,45 +11,25 @@ namespace PLinkageApp.ViewModels
     [QueryProperty(nameof(ForceReset), "ForceReset")]
     public partial class ViewProjectViewModel : ObservableObject
     {
+        private readonly ISessionService _sessionService;
+        private readonly IProjectServiceClient _projectServiceClient;
+        private readonly INavigationService _navigationService;
 
-        bool _forceReset;
-
-        public bool ForceReset
-        {
-            get => _forceReset;
-            set
-            {
-                _forceReset = value;
-                if (_forceReset)
-                {
-                    _ = InitializeAsync(); // Trigger logic when property is set
-                }
-            }
-        }
-
-        public Guid ProjectId { get; set; }
+        private bool _isInitialized = false;
 
         [ObservableProperty]
         private bool isBusy = false;
-
         [ObservableProperty]
         private bool isOwner = false;
-
         [ObservableProperty]
         private bool isEmployed = false;
-
         [ObservableProperty]
         private bool canApply = false;
-
         [ObservableProperty]
-        public ProjectDto project;
+        private ProjectDto project;
 
-        private bool _isInitialized;
-
-        private readonly ISessionService _sessionService;
-        private readonly IAccountServiceClient _accountServiceClient;
-        private readonly IProjectServiceClient _projectServiceClient;
-        private readonly INavigationService _navigationService;
+        public Guid ProjectId { get; set; } = Guid.Empty;
+        public bool ForceReset { get; set; }
 
         public ViewProjectViewModel(ISessionService sessionService, IProjectServiceClient projectServiceClient, INavigationService navigationService)
         {
@@ -61,18 +38,11 @@ namespace PLinkageApp.ViewModels
             _projectServiceClient = projectServiceClient;
         }
 
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await LoadProjectDataAsync();
-        }
-
         public async Task InitializeAsync()
         {
             if (_isInitialized && !ForceReset) //If already initialized, or not a force reset, then don't initialize
                 return;
             ForceReset = false;
-            _isInitialized = true;
             try
             {
                 await LoadProjectDataAsync();
@@ -81,6 +51,54 @@ namespace PLinkageApp.ViewModels
             {
                 Console.WriteLine($"Error during initialization: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadProjectDataAsync();
+        }
+
+        [RelayCommand]
+        private async Task Resign()
+        {
+            if (!_isInitialized)
+                return;
+            if (!IsEmployed)
+                return;
+            await _navigationService.NavigateToAsync("ResignProjectView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
+        }
+
+        [RelayCommand]
+        private async Task Apply()
+        {
+            if (!_isInitialized)
+                return;
+            if (_sessionService.GetCurrentUserRole() != UserRole.SkillProvider)
+                return;
+            await _navigationService.NavigateToAsync("ApplyView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
+        }
+
+        [RelayCommand]
+        private async Task UpdateProject()
+        {
+            if (!_isInitialized)
+                return;
+            if (_sessionService.GetCurrentUserRole() != UserRole.ProjectOwner)
+                return;
+            await _navigationService.NavigateToAsync("UpdateProjectView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
+        }
+
+        [RelayCommand]
+        private async Task ViewProjectOwner()
+        {
+            await _navigationService.NavigateToAsync("ViewProjectOwnerProfileView", new Dictionary<string, object> { { "ProjectOwnerId", project.ProjectOwnerId } });
+        }
+
+        [RelayCommand]
+        private async Task ViewSkillProvider(ProjectMemberDetailDto projectMemberDetailDto)
+        {
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", projectMemberDetailDto.MemberId } });
         }
 
         private async Task LoadProjectDataAsync()
@@ -92,6 +110,9 @@ namespace PLinkageApp.ViewModels
             {
 
                 ApiResponse<ProjectDto> result = null;
+                IsOwner = false;
+                IsEmployed = false;
+                CanApply = false;
 
                 result = await _projectServiceClient.GetSpecificAsync(ProjectId);
 
@@ -101,22 +122,18 @@ namespace PLinkageApp.ViewModels
                     Project = result.Data;
                     var userId = _sessionService.GetCurrentUserId();
                     var userRole = _sessionService.GetCurrentUserRole();
-                    IsOwner = false;
-                    IsEmployed = false;
-                    CanApply = false;
+                    
                     if (userId == Project.ProjectOwnerId && Project.ProjectStatus != "Completed")
                         IsOwner = true; // Owner can update Active or Deactivated project
                     else if (Project.ProjectMembers.Any(pm => pm.MemberId == userId) && Project.ProjectStatus == "Active")
                         IsEmployed = true; // Members can resign from active projects
                     else if (!IsEmployed && userRole == UserRole.SkillProvider && Project.ProjectStatus == "Active")
                         CanApply = true; // SP can apply to active projects
-
-
-
+                    _isInitialized = true;
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await Shell.Current.DisplayAlert("Failed to Fetch Project", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
@@ -128,40 +145,6 @@ namespace PLinkageApp.ViewModels
             {
                 IsBusy = false;
             }
-
-        }
-
-        [RelayCommand]
-        public async Task Resign()
-        {
-            if (!IsEmployed)
-                return;
-            await _navigationService.NavigateToAsync("ResignProjectView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
-        }
-
-        [RelayCommand]
-        public async Task Apply()
-        {
-            if (_sessionService.GetCurrentUserRole() != UserRole.SkillProvider)
-                return;
-            await _navigationService.NavigateToAsync("ApplyView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
-        }
-
-        [RelayCommand]
-        public async Task UpdateProject()
-        {
-            if (_sessionService.GetCurrentUserRole() != UserRole.ProjectOwner)
-                return;
-            await _navigationService.NavigateToAsync("UpdateProjectView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
         }
     }
-}
-
-public class EmployedSkillProviderWrapper
-{
-    public Guid MemberId { get; set; }
-    public string FullName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public decimal Rate { get; set; }
-    public int TimeFrame { get; set; }
 }

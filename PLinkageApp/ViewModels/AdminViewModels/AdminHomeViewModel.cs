@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
@@ -15,14 +14,18 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly INavigationService _navigationService;
-        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
-        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
-        [ObservableProperty] private int activeProjectsValue = 0;
-        [ObservableProperty] private int completedProjectsValue = 0;
-        [ObservableProperty] private string employmentRatioValue;
-
-        [ObservableProperty]
+        
+        [ObservableProperty] 
+        private int activeProjectsValue = 0;
+        [ObservableProperty] 
+        private int completedProjectsValue = 0;
+        [ObservableProperty] 
+        private string employmentRatioValue = string.Empty;
+        [ObservableProperty] 
         private bool isBusy = false;
+
+        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; } = new ObservableCollection<SkillProviderCardDto>();
+        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; } = new ObservableCollection<ProjectCardDto>();
 
         public AdminHomeViewModel(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
         {
@@ -31,15 +34,6 @@ namespace PLinkageApp.ViewModels
             _skillProviderServiceClient = skillProviderServiceClient;
             _projectServiceClient = projectServiceClient;
             _navigationService = navigationService;
-
-            SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
-            ProjectCards = new ObservableCollection<ProjectCardDto>();
-        }
-
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await LoadDashboardDataAsync();
         }
 
         public async Task InitializeAsync()
@@ -48,6 +42,24 @@ namespace PLinkageApp.ViewModels
                 return;
 
             await LoadDashboardDataAsync();
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadDashboardDataAsync();
+        }
+
+        [RelayCommand]
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(ProjectCardDto projectCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
         }
 
         private async Task LoadDashboardDataAsync()
@@ -116,18 +128,6 @@ namespace PLinkageApp.ViewModels
                     ProjectCards.Add(dto);
                 }
             }
-        }
-
-        [RelayCommand]
-        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
-        {
-            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
-        }
-
-        [RelayCommand]
-        private async Task ViewProject(ProjectCardDto projectCardDto)
-        {
-            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
-        }
+        }        
     }
 }

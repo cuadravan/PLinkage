@@ -22,6 +22,8 @@
                     Text="{Binding Project.ProjectLocation}" />
                 <controls:LabeledLabel
                     Grid.Column="1"
+                    Command="{Binding ViewProjectOwnerCommand}"
+                    IsLink="True"
                     LabelText="Owner"
                     Text="{Binding Project.ProjectOwnerName}" />
             </Grid>
@@ -152,7 +154,14 @@
                                             <Label Text="{Binding TimeFrame, StringFormat='{0} hour(s)'}" />
                                         </HorizontalStackLayout>
                                     </VerticalStackLayout>
-
+                                    <ImageButton
+                                        Grid.Column="1"
+                                        Aspect="Center"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ViewProjectViewModel}}, Path=ViewSkillProviderCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="15"
+                                        Source="viewproject.png"
+                                        WidthRequest="15" />
                                 </Grid>
                             </Border>
                         </DataTemplate>

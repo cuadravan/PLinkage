@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
 using FuzzySharp;
@@ -11,17 +10,64 @@ using PLinkageShared.DTOs;
 namespace PLinkageApp.ViewModels
 {
     public partial class AdminBrowseProjectOwnerViewModel : ObservableObject
-    {
+    {      
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
 
-        private List<ProjectOwnerCardDto> _allProjectOwners;
+        private List<ProjectOwnerCardDto> _allProjectOwners = new List<ProjectOwnerCardDto>(); // Storing original results
 
-        public ObservableCollection<ProjectOwnerCardDto> ProjectOwnerCards { get; set; }
+        private string categorySelection = "All";
+        private string statusSelection = "All";
+
+        private const int FuzzySearchCutoff = 70;
 
         [ObservableProperty]
         private bool isBusy = false;
+
+        [ObservableProperty]
+        private CebuLocation? locationSelection = CebuLocation.CebuCity;
+
+        [ObservableProperty]
+        private string searchQuery = "";
+
+        public ObservableCollection<ProjectOwnerCardDto> ProjectOwnerCards { get; set; }
+
+        public string CategorySelection
+        {
+            get => categorySelection;
+            set
+            {
+                if (SetProperty(ref categorySelection, value))
+                {
+                    _ = GetProjects();
+                }
+            }
+        }
+
+        public ObservableCollection<string> CategoryOptions { get; } = new()
+        {
+            "All",
+            "By Specific Location"
+        };
+
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+        public string StatusSelection
+        {
+            get => statusSelection;
+            set
+            {
+                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
+                    _ = GetProjects();
+            }
+        }
+
+        public ObservableCollection<string> StatusOptions { get; } = new()
+        {
+            "All",
+            "Active Only",
+            "Deactivated Only"
+        };
 
         public AdminBrowseProjectOwnerViewModel(INavigationService navigationService, IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService)
         {
@@ -33,17 +79,10 @@ namespace PLinkageApp.ViewModels
             ProjectOwnerCards = new ObservableCollection<ProjectOwnerCardDto>();
         }
 
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await GetProjects();
-        }
-
         public async Task InitializeAsync()
         {
             if (_allProjectOwners.Any())
                 return;
-
             try
             {
                 await GetProjects();
@@ -52,6 +91,31 @@ namespace PLinkageApp.ViewModels
             {
                 Console.WriteLine($"Error during initialization: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetProjects();
+        }
+
+        [RelayCommand]
+        private async Task ViewProjectOwner(ProjectOwnerCardDto projectOwnerCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewProjectOwnerProfileView", new Dictionary<string, object> { { "ProjectOwnerId", projectOwnerCardDto.UserId } });
+        }
+
+        partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
+        {
+            if (oldValue != newValue)
+            {
+                _ = GetProjects();
+            }
+        }
+
+        partial void OnSearchQueryChanged(string value)
+        {
+            FilterProjectOwnerCards();
         }
 
         private async Task GetProjects()
@@ -103,85 +167,6 @@ namespace PLinkageApp.ViewModels
 
         }
 
-        [RelayCommand]
-        private async Task ViewProjectOwner(ProjectOwnerCardDto projectOwnerCardDto)
-        {
-            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on project owner with id: {projectOwnerCardDto.UserId}", "Okay");
-            await _navigationService.NavigateToAsync("ViewProjectOwnerProfileView", new Dictionary<string, object> { { "ProjectOwnerId", projectOwnerCardDto.UserId } });
-        }
-
-        // CATEGORY
-
-        private string categorySelection = "All";
-        public string CategorySelection
-        {
-            get => categorySelection;
-            set
-            {
-                if (SetProperty(ref categorySelection, value))
-                {
-                    _ = GetProjects();
-                }
-            }
-        }
-        public ObservableCollection<string> CategoryOptions { get; } = new()
-        {
-            "All",
-            "By Specific Location"
-        };
-
-        // LOCATION
-
-        [ObservableProperty]
-        private CebuLocation? locationSelection = CebuLocation.CebuCity;
-
-        partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
-        {
-            if (oldValue != newValue)
-            {
-                _ = GetProjects();
-            }
-        }
-
-        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
-            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-
-        // STATUS
-
-        private string statusSelection = "All";
-        public string StatusSelection
-        {
-            get => statusSelection;
-            set
-            {
-                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
-                    _ = GetProjects();
-            }
-        }
-
-        public ObservableCollection<string> StatusOptions { get; } = new()
-        {
-            "All",
-            "Active Only",
-            "Deactivated Only"
-        };
-
-        // SEARCH FILTER
-
-        // SEARCH QUERY
-
-        [ObservableProperty]
-        private string searchQuery = "";
-
-        partial void OnSearchQueryChanged(string value)
-        {
-            FilterProjectOwnerCards(); // --- RENAMED ---
-        }
-
-        private const int FuzzySearchCutoff = 70;
-
-        // --- RENAMED ---
         private void FilterProjectOwnerCards()
         {
             var query = SearchQuery.Trim().ToLowerInvariant();
@@ -195,9 +180,7 @@ namespace PLinkageApp.ViewModels
             else
             {
                 filteredList = _allProjectOwners
-                    .Where(card => Fuzz.PartialRatio(query, card.UserName.ToLowerInvariant())
-                                     > FuzzySearchCutoff);
-
+                    .Where(card => Fuzz.PartialRatio(query, card.UserName.ToLowerInvariant()) > FuzzySearchCutoff);
             }
             ProjectOwnerCards.Clear();
             foreach (var card in filteredList)

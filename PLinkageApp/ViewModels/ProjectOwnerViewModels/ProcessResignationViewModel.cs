@@ -3,12 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PLinkageApp.ViewModels
 {
@@ -19,6 +14,9 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+
+        [ObservableProperty]
+        private bool isBusy = false;
 
         public ObservableCollection<ResignationItemDto> ResignationItems { get; set; } = new ObservableCollection<ResignationItemDto>();
 
@@ -33,6 +31,8 @@ namespace PLinkageApp.ViewModels
 
         public async Task InitializeAsync()
         {
+            if (IsBusy)
+                return;
             var currentUserId = _sessionService.GetCurrentUserId();
             var currentUserRole = _sessionService.GetCurrentUserRole();
 
@@ -42,33 +42,41 @@ namespace PLinkageApp.ViewModels
                 return;
             }
 
+            IsBusy = true;
             try
             {
                 var result = await _projectOwnerServiceClient.GetResignationAsync(currentUserId);
                 if (!result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Project Not Found", $"Server returned the following message: {result.Message}. Please contact administrator.", "OK");
-                    await _navigationService.GoBackAsync();
-                    return;
+                    await Shell.Current.DisplayAlert("Resignations Not Found", $"Server returned the following message: {result.Message}. Please contact administrator.", "OK");
+                    await _navigationService.GoBackAsync();                  
                 }
-                ResignationItems.Clear();
-                foreach(var item in result.Data)
+                else
                 {
-                    ResignationItems.Add(item);
-                }
-
+                    ResignationItems.Clear();
+                    foreach (var item in result.Data)
+                    {
+                        ResignationItems.Add(item);
+                    }
+                }                  
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Error", $"Could not retrieve resignations due to following error: {ex}", "Ok");
                 await _navigationService.GoBackAsync();
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task ApproveResignation(ResignationItemDto dto)
         {
-
+            if (IsBusy)
+                return;
+            IsBusy = true;
             var processResignationDto = new ProcessResignationDto
             {
                 ProjectId = dto.ProjectId,
@@ -96,12 +104,18 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Error", $"There was an error in processing the resignation. Error: {ex}", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task RejectResignation(ResignationItemDto dto)
         {
-
+            if (IsBusy)
+                return;
+            IsBusy = true;
             var processResignationDto = new ProcessResignationDto
             {
                 ProjectId = dto.ProjectId,
@@ -129,11 +143,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Error", $"There was an error in processing the resignation. Error: {ex}", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", false } });
         }
     }

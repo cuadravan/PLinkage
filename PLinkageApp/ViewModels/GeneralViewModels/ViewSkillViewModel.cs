@@ -2,13 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PLinkageApp.ViewModels
 {
@@ -21,12 +16,7 @@ namespace PLinkageApp.ViewModels
         private readonly INavigationService _navigationService;
 
         private bool _isUpdated = false;
-        public int SkillIndex { get; set; }
-        public Guid SkillProviderId { get; set; }
-        [ObservableProperty]
-        public bool isOwner = false;
-
-        public SkillDto specificSkillDto;
+        private bool _isInitialized = false;
 
         // Form Fields
         [ObservableProperty]
@@ -56,12 +46,22 @@ namespace PLinkageApp.ViewModels
         private int yearsOfExperience;
 
         [ObservableProperty]
+        private bool isBusy = false;
+
+        [ObservableProperty]
+        public bool isOwner = false;
+
+        [ObservableProperty]
         private string errorMessage;
 
         public ObservableCollection<int> SkillLevelOptions { get; } = new ObservableCollection<int>()
         {
             1, 2, 3, 4, 5
         };
+
+        public int SkillIndex { get; set; }
+        public Guid SkillProviderId { get; set; }
+        public SkillDto specificSkillDto { get; set; }
 
         public ViewSkillViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
@@ -70,7 +70,6 @@ namespace PLinkageApp.ViewModels
             _navigationService = navigationService;
         }
 
-        // Load education
         public async Task InitializeAsync()
         {
             var userId = _sessionService.GetCurrentUserId();
@@ -84,6 +83,7 @@ namespace PLinkageApp.ViewModels
                 if (result.Success && result.Data != null)
                 {
                     specificSkillDto = result.Data.Skills[SkillIndex];
+                    _isInitialized = true;
                     await Reset();
                 }
                 else
@@ -99,10 +99,11 @@ namespace PLinkageApp.ViewModels
             }
         }
 
-        // Commands
         [RelayCommand]
         private async Task UpdateSkill()
         {
+            if (!_isInitialized)
+                return;
             if (!IsOwner)
                 return;
 
@@ -116,7 +117,6 @@ namespace PLinkageApp.ViewModels
                 return;
             }
 
-            // Validate time acquired vs years of experience
             if (!ValidateExperienceDates())
             {
                 return;
@@ -134,8 +134,11 @@ namespace PLinkageApp.ViewModels
                 YearsOfExperience = YearsOfExperience
             };
             var userId = _sessionService.GetCurrentUserId();
+            if (IsBusy)
+                return;
             try
             {
+                IsBusy = true;
                 var result = await _skillProviderServiceClient.UpdateSkillAsync(userId, SkillIndex, skillDto);
                 if (result.Success)
                 {
@@ -157,35 +160,18 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Skill update failed due to following error: {ex}. Please try again.", "Ok");
             }
-        }
-
-        private bool ValidateExperienceDates()
-        {
-            // Calculate the expected start year based on years of experience
-            var expectedStartYear = DateTime.Now.Year - YearsOfExperience;
-
-            // Check if the acquired date makes sense with the years of experience
-            if (TimeAcquired.Year > expectedStartYear)
+            finally
             {
-                ErrorMessage = $"Years of experience ({YearsOfExperience}) doesn't match the acquired date. " +
-                             $"Based on your experience, the skill should have been acquired by {expectedStartYear} or earlier.";
-                return false;
+                IsBusy = false;
             }
-
-            // Check if the acquired date is in the future
-            if (TimeAcquired > DateTime.Now)
-            {
-                ErrorMessage = "Time acquired cannot be in the future.";
-                return false;
-            }
-
-            return true;
         }
 
         [RelayCommand]
         private async Task DeleteSkill()
         {
             if (!IsOwner)
+                return;
+            if (!_isInitialized)
                 return;
             var userId = _sessionService.GetCurrentUserId();
             try
@@ -211,6 +197,8 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task Reset()
         {
+            if (!_isInitialized)
+                return;
             SkillName = specificSkillDto.SkillName;
             SkillLevel = specificSkillDto.SkillLevel;
             SkillDescription = specificSkillDto.SkillDescription;
@@ -222,10 +210,35 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task Return()
         {
+            if (IsBusy)
+                return;
             if (_isUpdated)
                 await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
             else
                 await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", false } });
+        }
+
+        private bool ValidateExperienceDates()
+        {
+            // Calculate the expected start year based on years of experience
+            var expectedStartYear = DateTime.Now.Year - YearsOfExperience;
+
+            // Check if the acquired date makes sense with the years of experience
+            if (TimeAcquired.Year > expectedStartYear)
+            {
+                ErrorMessage = $"Years of experience ({YearsOfExperience}) doesn't match the acquired date. " +
+                             $"Based on your experience, the skill should have been acquired by {expectedStartYear} or earlier.";
+                return false;
+            }
+
+            // Check if the acquired date is in the future
+            if (TimeAcquired > DateTime.Now)
+            {
+                ErrorMessage = "Time acquired cannot be in the future.";
+                return false;
+            }
+
+            return true;
         }
     }
 }

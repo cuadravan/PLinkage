@@ -1,10 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PLinkageApp.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.Input;
@@ -17,16 +11,40 @@ namespace PLinkageApp.ViewModels
     [QueryProperty(nameof(ProjectId), "ProjectId")]
     public partial class UpdateProjectViewModel : ObservableValidator
     {
-        public Guid ProjectId { get; set; }
-
-        private ProjectDto _projectDto;
-
-        private bool _projectMembersChanged = false;
-
         // Services
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+
+        private ProjectDto _projectDto;
+
+        private bool _isInitialized = false;
+        private bool _projectMembersChanged = false;
+
+        [ObservableProperty] private CebuLocation? projectLocationSelected;
+        [ObservableProperty, Required(ErrorMessage = "Project name is required.")] private string projectName;
+        [ObservableProperty, Required(ErrorMessage = "Project description is required.")] private string projectDescription;
+        [ObservableProperty] private DateTime projectStartDate = DateTime.Now;
+        [ObservableProperty] private DateTime projectEndDate = DateTime.Now;
+        [ObservableProperty, Required(ErrorMessage = "Project status is required.")] private ProjectStatus? projectStatusSelected;
+        [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
+        [ObservableProperty] private ObservableCollection<ProjectMemberDetailDto> projectMembers = new();
+        [ObservableProperty, Required(ErrorMessage = "Priority is required.")] private string projectPrioritySelected;
+        [ObservableProperty, Range(1, int.MaxValue, ErrorMessage = "Resources needed must be at least 1.")] private int projectResourcesNeeded;
+        [ObservableProperty] private DateTime projectDateCreated;
+        [ObservableProperty] private DateTime projectDateUpdated;
+        [ObservableProperty] private string errorMessage;
+        [ObservableProperty] private string durationSummary;
+        [ObservableProperty] private string selectedSkill;
+        [ObservableProperty] private DateTime projectMinStartDate;
+        [ObservableProperty] private bool isBusy = false;
+
+        public Guid ProjectId { get; set; }
+
+        public ObservableCollection<ProjectStatus> StatusOptions { get; } = new(Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>());
+        public ObservableCollection<string> PriorityOptions { get; } = new() { "Low", "Medium", "High" };
+        public ObservableCollection<CebuLocation> CebuLocations { get; } =
+            new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
 
         // Constructor
         public UpdateProjectViewModel(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
@@ -39,13 +57,18 @@ namespace PLinkageApp.ViewModels
         public async Task InitializeAsync()
         {
             var userId = _sessionService.GetCurrentUserId();
+            IsBusy = true;
             try
             {
                 var result = await _projectServiceClient.GetSpecificAsync(ProjectId);
                 if (result.Success && result.Data != null)
                 {
                     if (result.Data.ProjectOwnerId != userId)
+                    {
+                        IsBusy = false;
                         return;
+                    }
+                        
                     _projectDto = result.Data;
                     if (_projectDto.ProjectStartDate.Date < DateTime.Now.Date)
                     {
@@ -55,6 +78,7 @@ namespace PLinkageApp.ViewModels
                     {
                         ProjectMinStartDate = DateTime.Now.Date;
                     }
+                    _isInitialized = true;
                     await Reset();
                 }
                 else
@@ -67,13 +91,19 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Loading project failed due to following error: {ex}. Please try again.", "Ok");
             }
-
+            finally
+            {
+                IsBusy = false;
+            }
             
         }
 
         [RelayCommand]
-        public async Task Reset()
+        private async Task Reset()
         {
+            if (IsBusy || !_isInitialized)
+                return;
+
             ProjectLocationSelected = (CebuLocation?)Enum.Parse(typeof(CebuLocation), _projectDto.ProjectLocation);
             ProjectName = _projectDto.ProjectName;
             ProjectDescription = _projectDto.ProjectDescription;
@@ -93,36 +123,116 @@ namespace PLinkageApp.ViewModels
             ProjectDateUpdated = DateTime.Now;
             UpdateDurationSummary();
         }
+        
+        [RelayCommand]
+        private async Task Submit()
+        {
+            if (IsBusy || !_isInitialized)
+                return;
+            if (!ValidateForm())
+                return;
 
-        // Form fields
-        [ObservableProperty] private CebuLocation? projectLocationSelected;
-        [ObservableProperty, Required(ErrorMessage = "Project name is required.")] private string projectName;
-        [ObservableProperty, Required(ErrorMessage = "Project description is required.")] private string projectDescription;
-        [ObservableProperty] private DateTime projectStartDate = DateTime.Now;
-        [ObservableProperty] private DateTime projectEndDate = DateTime.Now;
-        [ObservableProperty, Required(ErrorMessage = "Project status is required.")] private ProjectStatus? projectStatusSelected;
-        [ObservableProperty] private ObservableCollection<string> projectSkillsRequired = new();
-        [ObservableProperty] private ObservableCollection<ProjectMemberDetailDto> projectMembers = new();
-        [ObservableProperty, Required(ErrorMessage = "Priority is required.")] private string projectPrioritySelected;
-        [ObservableProperty, Range(1, int.MaxValue, ErrorMessage = "Resources needed must be at least 1.")] private int projectResourcesNeeded;
-        [ObservableProperty] private DateTime projectDateCreated;
-        [ObservableProperty] private DateTime projectDateUpdated;
-        [ObservableProperty] private string errorMessage;
-        [ObservableProperty] private string durationSummary;
-        [ObservableProperty] private string selectedSkill;
+            ErrorMessage = string.Empty;
 
-        [ObservableProperty]
-        private DateTime projectMinStartDate;
+            var projectUpdateDto = new ProjectUpdateDto
+            {
+                ProjectId = _projectDto.ProjectId,
+                ProjectDescription = ProjectDescription,
+                ProjectStartDate = ProjectStartDate,
+                ProjectEndDate = _projectDto.ProjectEndDate,
+                ProjectStatus = ProjectStatusSelected,
+                ProjectSkillsRequired = ProjectSkillsRequired.ToList(),
+                ProjectPriority = ProjectPrioritySelected,
+                ProjectResourcesNeeded = ProjectResourcesNeeded,
+                ProjectDateUpdated = ProjectDateUpdated,
+                ProjectMembers = ProjectMembers.ToList(),
+                ProjectMembersChanged = _projectMembersChanged
+            };
+            IsBusy = true;
+            try
+            {
+                if(projectUpdateDto.ProjectStatus is ProjectStatus.Completed)
+                {
+                    ProjectEndDate = DateTime.Now.Date; // Update this to trigger change in duration summary for display of completion details
+                    projectUpdateDto.ProjectEndDate = DateTime.Now.Date; //Update project to end at when it was marked completed
+                    await ShowProjectSummary();
+                    await Shell.Current.DisplayAlert("Proceed To Rating Employed Providers", "You will now be redirected to rate your skill providers. Please note that you must submit the ratings in order to update the project, otherwise it will be forgone.", "Ok");
+                    await _navigationService.NavigateToAsync("RateSkillProviderView", new Dictionary<string, object> { { "ProjectUpdateDto", projectUpdateDto} });
+                }
+                else
+                {
+                    var result = await _projectServiceClient.UpdateProjectAsync(projectUpdateDto);
+                    if (result.Success)
+                    {
+                        await Shell.Current.DisplayAlert("Success", "Successfully updated project!", "Ok");
+                        await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("Failed", $"Server returned following message. {result.Message}. Please try again.", "Ok");
+                    }
+                }  
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Failed", $"Project update failed due to following error: {ex}. Please try again.", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
 
-        public ObservableCollection<ProjectStatus> StatusOptions { get; } =
-        new(Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>());
 
-        public ObservableCollection<string> PriorityOptions { get; } = new() { "Low", "Medium", "High" };
 
-        public ObservableCollection<CebuLocation> CebuLocations { get; } =
-            new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+        [RelayCommand]
+        private async Task Cancel()
+        {
+            if (IsBusy)
+                return;
+            await _navigationService.GoBackAsync();
+        }
 
-        // Auto-update duration summary
+        [RelayCommand]
+        private void AddSkill()
+        {
+            if (IsBusy || !_isInitialized)
+                return;
+            var skill = SelectedSkill?.Trim();
+            if (!string.IsNullOrWhiteSpace(skill) && !ProjectSkillsRequired.Contains(skill))
+            {
+                ProjectSkillsRequired.Add(skill);
+                SelectedSkill = string.Empty;
+            }
+        }
+
+        [RelayCommand]
+        private void RemoveSkill(string skill)
+        {
+            if (IsBusy || !_isInitialized)
+                return;
+            if (ProjectSkillsRequired.Contains(skill))
+                ProjectSkillsRequired.Remove(skill);
+        }
+
+        [RelayCommand]
+        private async Task RemoveSkillProvider(ProjectMemberDetailDto member)
+        {
+            if (IsBusy || !_isInitialized)
+                return;
+            var confirm = await Shell.Current.DisplayAlert(
+                "Remove Skill Provider",
+                "Are you sure you want to remove this skill provider? This change won't be permanent until you submit the form.",
+                "Yes",
+                "No");
+
+            if (!confirm)
+                return;
+
+            ProjectMembers.Remove(ProjectMembers.FirstOrDefault(m => m.MemberId == member.MemberId));
+            _projectMembersChanged = true;
+        }
+
         partial void OnProjectStartDateChanged(DateTime value) => UpdateDurationSummary();
         partial void OnProjectEndDateChanged(DateTime value) => UpdateDurationSummary();
 
@@ -215,100 +325,6 @@ namespace PLinkageApp.ViewModels
             }
 
             return true;
-        }
-
-
-
-        [RelayCommand]
-        private async Task Submit()
-        {
-            if (!ValidateForm())
-                return;
-
-            ErrorMessage = string.Empty;
-
-            var projectUpdateDto = new ProjectUpdateDto
-            {
-                ProjectId = _projectDto.ProjectId,
-                ProjectDescription = ProjectDescription,
-                ProjectStartDate = ProjectStartDate,
-                ProjectEndDate = _projectDto.ProjectEndDate,
-                ProjectStatus = ProjectStatusSelected,
-                ProjectSkillsRequired = ProjectSkillsRequired.ToList(),
-                ProjectPriority = ProjectPrioritySelected,
-                ProjectResourcesNeeded = ProjectResourcesNeeded,
-                ProjectDateUpdated = ProjectDateUpdated,
-                ProjectMembers = ProjectMembers.ToList(),
-                ProjectMembersChanged = _projectMembersChanged
-            };
-
-            try
-            {
-                if(projectUpdateDto.ProjectStatus is ProjectStatus.Completed)
-                {
-                    ProjectEndDate = DateTime.Now.Date; // Update this to trigger change in duration summary for display of completion details
-                    projectUpdateDto.ProjectEndDate = DateTime.Now.Date; //Update project to end at when it was marked completed
-                    await ShowProjectSummary();
-                    await Shell.Current.DisplayAlert("Proceed To Rating Employed Providers", "You will now be redirected to rate your skill providers. Please note that you must submit the ratings in order to update the project, otherwise it will be forgone.", "Ok");
-                    await _navigationService.NavigateToAsync("RateSkillProviderView", new Dictionary<string, object> { { "ProjectUpdateDto", projectUpdateDto} });
-                }
-                else
-                {
-                    var result = await _projectServiceClient.UpdateProjectAsync(projectUpdateDto);
-                    if (result.Success)
-                    {
-                        await Shell.Current.DisplayAlert("Success", "Successfully updated project!", "Ok");
-                        await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("Failed", $"Server returned following message. {result.Message}. Please try again.", "Ok");
-                    }
-                }  
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Failed", $"Project update failed due to following error: {ex}. Please try again.", "Ok");
-            }
-        }
-
-        
-
-        [RelayCommand]
-        private async Task Cancel() => await _navigationService.GoBackAsync();
-
-        [RelayCommand]
-        private void AddSkill()
-        {
-            var skill = SelectedSkill?.Trim();
-            if (!string.IsNullOrWhiteSpace(skill) && !ProjectSkillsRequired.Contains(skill))
-            {
-                ProjectSkillsRequired.Add(skill);
-                SelectedSkill = string.Empty;
-            }
-        }
-
-        [RelayCommand]
-        private void RemoveSkill(string skill)
-        {
-            if (ProjectSkillsRequired.Contains(skill))
-                ProjectSkillsRequired.Remove(skill);
-        }
-
-        [RelayCommand]
-        private async Task RemoveSkillProvider(ProjectMemberDetailDto member)
-        {
-            var confirm = await Shell.Current.DisplayAlert(
-                "Remove Skill Provider",
-                "Are you sure you want to remove this skill provider? This change won't be permanent until you submit the form.",
-                "Yes",
-                "No");
-
-            if (!confirm)
-                return;
-
-            ProjectMembers.Remove(ProjectMembers.FirstOrDefault(m => m.MemberId == member.MemberId));
-            _projectMembersChanged = true;
         }
         private async Task ShowProjectSummary()
         {

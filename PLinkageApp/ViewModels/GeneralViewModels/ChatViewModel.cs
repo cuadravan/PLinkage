@@ -2,14 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using FuzzySharp;
 using PLinkageApp.Interfaces;
-using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PLinkageApp.ViewModels
 {
@@ -19,26 +13,22 @@ namespace PLinkageApp.ViewModels
         private readonly INavigationService _navigationService;
         private readonly ISessionService _sessionService;
 
-        [ObservableProperty]
-        public bool isBusy;
+        private const int FuzzySearchCutoff = 70;
 
-        private List<ChatSummaryDto> _chatPreviews;
-        public ObservableCollection<ChatSummaryDto> ChatPreviews { get; set; }
+        private List<ChatSummaryDto> _chatPreviews = new List<ChatSummaryDto>();
+
+        [ObservableProperty]
+        private bool isBusy;
+        [ObservableProperty]
+        private string searchQuery = "";
+
+        public ObservableCollection<ChatSummaryDto> ChatPreviews { get; set; } = new ObservableCollection<ChatSummaryDto>();
 
         public ChatViewModel(IChatServiceClient chatServiceClient, INavigationService navigationService, ISessionService sessionService)
         {
             _chatServiceClient = chatServiceClient;
             _navigationService = navigationService;
             _sessionService = sessionService;
-
-            ChatPreviews = new ObservableCollection<ChatSummaryDto>();
-            _chatPreviews = new List<ChatSummaryDto>();
-        }
-
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await GetChatPreviews();
         }
 
         public async Task InitializeAsync()
@@ -54,6 +44,17 @@ namespace PLinkageApp.ViewModels
             {
                 Console.WriteLine($"Error during initialization: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetChatPreviews();
+        }
+        [RelayCommand]
+        private async Task ViewChat(ChatSummaryDto chatSummaryDto)
+        {
+            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", chatSummaryDto.ChatId }, { "ReceiverId", chatSummaryDto.ReceiverId }, { "ReceiverName", chatSummaryDto.ReceiverFullName } });
         }
 
         private async Task GetChatPreviews()
@@ -94,15 +95,10 @@ namespace PLinkageApp.ViewModels
 
         }
 
-        [ObservableProperty]
-        private string searchQuery = "";
-
         partial void OnSearchQueryChanged(string value)
         {
             FilterChatPreviews();
         }
-
-        private const int FuzzySearchCutoff = 70;
 
         private void FilterChatPreviews()
         {
@@ -128,12 +124,7 @@ namespace PLinkageApp.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task ViewChat(ChatSummaryDto chatSummaryDto)
-        {
-            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on chat with id: {chatSummaryDto.ChatId}", "Okay");
-            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", chatSummaryDto.ChatId}, {"ReceiverId", chatSummaryDto.ReceiverId }, { "ReceiverName", chatSummaryDto.ReceiverFullName} });
-        }
+        
 
     }
 }

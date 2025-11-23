@@ -1,10 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
-using PLinkageShared.Enums;
 using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
@@ -14,14 +11,6 @@ namespace PLinkageApp.ViewModels
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
-
-        public AddEducationViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
-        {
-            _skillProviderServiceClient = skillProviderServiceClient;
-            _sessionService = sessionService;
-            _navigationService = navigationService;
-            TimeGraduated = DateTime.Today;
-        }
 
         // Fields
         [ObservableProperty]
@@ -38,11 +27,25 @@ namespace PLinkageApp.ViewModels
 
         [ObservableProperty]
         private string errorMessage;
+        [ObservableProperty]
+        private bool isBusy = false;
+
+        public AddEducationViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
+        {
+            _skillProviderServiceClient = skillProviderServiceClient;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+            TimeGraduated = DateTime.Today;
+        }
+
+        
 
         // Commands
         [RelayCommand]
         private async Task AddEducation()
         {
+            if (IsBusy)
+                return;
             ValidateAllProperties();
 
             if (HasErrors)
@@ -61,7 +64,7 @@ namespace PLinkageApp.ViewModels
                 SchoolAttended = SchoolAttended,
                 TimeGraduated = TimeGraduated
             };
-
+            IsBusy = true;
             try
             {
                 var result = await _skillProviderServiceClient.AddEducationAsync(userId, educationDto);
@@ -79,11 +82,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Education addition failed due to following error: {ex}. Please try again.", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", false } });
         }
     }

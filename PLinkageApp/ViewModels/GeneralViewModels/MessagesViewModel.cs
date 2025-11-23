@@ -3,12 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PLinkageApp.ViewModels
 {
@@ -20,36 +15,27 @@ namespace PLinkageApp.ViewModels
         private readonly IChatServiceClient _chatServiceClient;
         private readonly ISessionService _sessionService;
 
-        public MessagesViewModel(IChatServiceClient chatServiceClient, ISessionService sessionService)
-        {
-            _chatServiceClient = chatServiceClient;
-            _sessionService = sessionService;
-            Messages = new ObservableCollection<ChatMessageDto>();
-        }
-        public ObservableCollection<ChatMessageDto> Messages { get; set; }
+        public ObservableCollection<ChatMessageDto> Messages { get; set; } = new ObservableCollection<ChatMessageDto>();
 
         [ObservableProperty]
-        public bool isBusy;
-
+        private bool isBusy = false;
         [ObservableProperty]
-        public string receiverName = string.Empty;
+        private string receiverName = string.Empty;
         [ObservableProperty]
-        public string messageToSend = string.Empty;
+        private string messageToSend = string.Empty;
 
         public Guid ChatId { get; set; } = Guid.Empty;
         public Guid ReceiverId { get; set; } = Guid.Empty;
 
-        [RelayCommand]
-        private async Task RefreshAsync()
+        public MessagesViewModel(IChatServiceClient chatServiceClient, ISessionService sessionService)
         {
-            await GetChatMessages();
+            _chatServiceClient = chatServiceClient;
+            _sessionService = sessionService;
         }
-
         public async Task InitializeAsync()
         {
             if (Messages.Any())
                 return;
-
             try
             {
                 await GetChatMessages();
@@ -60,9 +46,56 @@ namespace PLinkageApp.ViewModels
             }
         }
 
-        private async Task GetChatMessages()
+        [RelayCommand]
+        private async Task RefreshAsync()
         {
-            
+            await GetChatMessages();
+        }
+
+        [RelayCommand]
+        private async Task SendMessage()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                var userId = _sessionService.GetCurrentUserId();
+
+                var newMessageDto = new SendMessageDto
+                {
+                    ReceiverId = ReceiverId,
+                    Content = MessageToSend
+                };
+                var result = await _chatServiceClient.SendMessageAsync(userId, newMessageDto);
+
+                if (result.Success && result.Data != null)
+                {
+                    if (this.ChatId == Guid.Empty)
+                    {
+                        this.ChatId = result.Data.ChatId;
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Failed to Send/Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending chat messages: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending and/or fetching data: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                MessageToSend = string.Empty;
+                IsBusy = false;
+                await GetChatMessages();
+            }
+        }
+
+        private async Task GetChatMessages()
+        {  
             if (IsBusy)
                 return;
             IsBusy = true;
@@ -77,6 +110,7 @@ namespace PLinkageApp.ViewModels
                     }
                     else
                     {
+                        IsBusy = false;
                         return;
                     }            
                 }
@@ -108,49 +142,5 @@ namespace PLinkageApp.ViewModels
             }
 
         }
-
-        [RelayCommand]
-        private async Task SendMessage()
-        {
-            if (IsBusy)
-                return;
-            IsBusy = true;
-            try
-            {
-                var userId = _sessionService.GetCurrentUserId();
-
-                var newMessageDto = new SendMessageDto
-                {
-                    ReceiverId = ReceiverId,
-                    Content = MessageToSend
-                };
-                var result = await _chatServiceClient.SendMessageAsync(userId, newMessageDto);
-
-                if (result.Success && result.Data != null)
-                {
-                    if (this.ChatId == Guid.Empty)
-                    {
-                        this.ChatId = result.Data.ChatId;                      
-                    }        
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Failed to Send/Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error sending chat messages: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending and/or fetching data: {ex.Message}", "Ok");
-            }
-            finally
-            {
-                MessageToSend = string.Empty;
-                IsBusy = false;
-                await GetChatMessages();
-            }
-        }
-
-
     }
 }

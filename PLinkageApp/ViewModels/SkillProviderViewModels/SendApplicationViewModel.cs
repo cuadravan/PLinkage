@@ -1,10 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PLinkageApp.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
@@ -20,12 +15,15 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
 
+        private bool _isInitialized = false;
+
         // Properties
         [ObservableProperty] private string projectName;
         [ObservableProperty] private string skillProviderFullName;
         [ObservableProperty] private string rateAsked;
         [ObservableProperty] private string timeFrameAsked;
         [ObservableProperty] private string errorMessage;
+        [ObservableProperty] private bool isBusy = false;
         public Guid ProjectId { get; set; }
 
         private ProjectDto projectDto;
@@ -48,7 +46,7 @@ namespace PLinkageApp.ViewModels
                 await _navigationService.GoBackAsync();
                 return;
             }
-
+            IsBusy = true;
             try
             {
                 var result = await _projectServiceClient.GetSpecificAsync(ProjectId);
@@ -56,24 +54,31 @@ namespace PLinkageApp.ViewModels
                 {
                     await Shell.Current.DisplayAlert("Error", "Could not fetch the project", "Ok");
                     await _navigationService.GoBackAsync();
+                    IsBusy = false;
                     return;
                 }
 
                 projectDto = result.Data;
                 ProjectName = projectDto.ProjectName;
                 SkillProviderFullName = _sessionService.GetCurrentUserName();
+                _isInitialized = true;
             }
             catch(Exception ex)
             {
                 await Shell.Current.DisplayAlert("Error", $"Could not fetch the project due to following error: {ex}", "Ok");
                 await _navigationService.GoBackAsync();
-                return;
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
         [RelayCommand]
         private async Task Apply()
         {
+            if (IsBusy || !_isInitialized)
+                return;
             if (string.IsNullOrWhiteSpace(RateAsked) ||
                 string.IsNullOrWhiteSpace(TimeFrameAsked))
             {
@@ -111,7 +116,7 @@ namespace PLinkageApp.ViewModels
                 OfferApplicationRate = rate,
                 OfferApplicationTimeFrame = hours
             };
-
+            IsBusy = true;
             try
             {
                 var result = await _offerApplicationServiceClient.CreateApplicationOffer(application);
@@ -129,11 +134,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Error", $"Could not send application due to following error: {ex}", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.GoBackAsync();
         }
     }

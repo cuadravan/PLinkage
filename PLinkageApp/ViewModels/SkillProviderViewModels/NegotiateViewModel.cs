@@ -3,11 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
 using PLinkageShared.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PLinkageApp.ViewModels
 {
@@ -20,7 +15,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
 
-        private Guid _projectId;
+        private bool _isInitialized = false;
 
         // Properties
         [ObservableProperty] private string projectName;
@@ -30,6 +25,7 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty] private string requestedRate;
         [ObservableProperty] private string requestedTimeFrame;
         [ObservableProperty] private string errorMessage;
+        [ObservableProperty] private bool isBusy = false;
         public Guid ProjectId { get; set; }
 
         public OfferApplicationDisplayDto DisplayDto { get; set; }
@@ -67,6 +63,7 @@ namespace PLinkageApp.ViewModels
                 SkillProviderName = _sessionService.GetCurrentUserName();
                 StartDate = result.Data.ProjectStartDate;
                 EndDate = result.Data.ProjectEndDate;
+                _isInitialized = true;
 
             }
             catch (Exception ex)
@@ -80,6 +77,8 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task Negotiate()
         {
+            if (!_isInitialized || IsBusy)
+                return;
             if (string.IsNullOrWhiteSpace(RequestedRate) ||
                 string.IsNullOrWhiteSpace(RequestedTimeFrame))
             {
@@ -118,7 +117,7 @@ namespace PLinkageApp.ViewModels
                 NegotiatedRate = decimal.Parse(RequestedRate),
                 NegotiatedTimeFrame = int.Parse(RequestedTimeFrame)
             };
-
+            IsBusy = true;
             try
             {
                 var result = await _offerApplicationServiceClient.ProcessOfferApplication(processDto);
@@ -136,12 +135,18 @@ namespace PLinkageApp.ViewModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Error", $"There was an error in processing your negotiation. Error: {ex}", "Ok");
-            }      
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.GoBackAsync();
         }
     }

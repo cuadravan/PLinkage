@@ -60,10 +60,12 @@
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <controls:SkillProviderCard
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerHomeViewModel}}, Path=ViewSkillProviderCommand}"
+                            CommandParameter="{Binding .}"
                             Education="{Binding Education}"
                             Location="{Binding Location}"
                             Skills="{Binding Skills}"
-                            UserName="{Binding UserName}"
+                                UserName="{Binding UserName}"
                             UserRating="{Binding UserRating}" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>

@@ -13,38 +13,38 @@ namespace PLinkageApp.ViewModels
     [QueryProperty(nameof(SkillProviderId), "SkillProviderId")]
     public partial class ViewSkillProviderProfileViewModel : ObservableObject
     {
-        public Guid SkillProviderId { get; set; }
+        private readonly ISessionService _sessionService;
+        private readonly IAccountServiceClient _accountServiceClient;
+        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
+        private readonly INavigationService _navigationService;
+
+        private bool _isInitialized = false;
 
         [ObservableProperty]
-        public bool isUserCurrentlyActive;
+        private bool isUserCurrentlyActive;
 
         [ObservableProperty]
-        public bool isRatingVisible;
+        private bool isRatingVisible;
 
         [ObservableProperty]
-        public bool isMessageButtonVisible;
+        private bool isMessageButtonVisible;
 
         [ObservableProperty]
-        public bool isDeactivateButtonVisible;
+        private bool isDeactivateButtonVisible;
 
         [ObservableProperty]
-        public bool isSendOfferButtonVisible;
+        private bool isSendOfferButtonVisible;
 
         [ObservableProperty]
-        public bool isUserActivated;
+        private bool isUserActivated;
 
         [ObservableProperty]
         private bool isBusy = false;
 
         [ObservableProperty]
-        public SkillProviderDto skillProviderDto;
+        private SkillProviderDto skillProviderDto;
 
-        private bool _isInitialized;
-
-        private readonly ISessionService _sessionService;
-        private readonly IAccountServiceClient _accountServiceClient;
-        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
-        private readonly INavigationService _navigationService;
+        public Guid SkillProviderId { get; set; }
 
         public ViewSkillProviderProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
         {
@@ -52,13 +52,7 @@ namespace PLinkageApp.ViewModels
             _sessionService = sessionService;
             _accountServiceClient = accountServiceClient;
             _skillProviderServiceClient = skillProviderServiceClient;
-        }
-
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await LoadUserDataAsync();
-        }
+        }    
 
         public async Task InitializeAsync()
         {
@@ -94,6 +88,68 @@ namespace PLinkageApp.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadUserDataAsync();
+        }
+
+        [RelayCommand]
+        private async Task MessageUser()
+        {
+            if (!_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", Guid.Empty }, { "ReceiverId", SkillProviderDto.UserId }, { "ReceiverName", SkillProviderDto.UserName } });
+        }
+
+        [RelayCommand]
+        private async Task ToggleUserActivation()
+        {
+            IsUserCurrentlyActive = !IsUserCurrentlyActive;
+
+            string status = IsUserCurrentlyActive ? "Activated" : "Deactivated";
+            try
+            {
+                var response = await _accountServiceClient.ActivateDeactivateUserAsync(SkillProviderId);
+                if (response.Success)
+                {
+                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
+            }
+        }
+
+        [RelayCommand]
+        private async Task ViewSkill(SkillDto skillDto)
+        {
+            if (!_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("ViewSkillView", new Dictionary<string, object> { { "SkillIndex", skillProviderDto.Skills.IndexOf(skillDto) }, { "SkillProviderId", skillProviderDto.UserId } });
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
+        {
+            if (!_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
+        }
+
+        [RelayCommand]
+        private async Task SendOffer()
+        {
+            if (!_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("SendOfferView", new Dictionary<string, object> { { "SkillProviderId", SkillProviderId }, { "SkillProviderFullName", SkillProviderDto.UserName } });
+        }
+
         private async Task LoadUserDataAsync()
         {
             if (IsBusy)
@@ -124,6 +180,7 @@ namespace PLinkageApp.ViewModels
                             await _navigationService.GoBackAsync();
                         }
                     }
+                    _isInitialized = true;
                 }
                 else
                 {
@@ -139,59 +196,6 @@ namespace PLinkageApp.ViewModels
             {
                 IsBusy = false;
             }
-
-        }
-
-        [RelayCommand]
-        public async Task MessageUser()
-        {
-            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", Guid.Empty }, { "ReceiverId", SkillProviderDto.UserId }, { "ReceiverName", SkillProviderDto.UserName } });
-        }
-
-        [RelayCommand]
-        public async Task ToggleUserActivation()
-        {
-            IsUserCurrentlyActive = !IsUserCurrentlyActive;
-
-            string status = IsUserCurrentlyActive ? "Activated" : "Deactivated";
-            try
-            {
-                var response = await _accountServiceClient.ActivateDeactivateUserAsync(SkillProviderId);
-                if (response.Success)
-                {
-                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
-                }
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
-            }
-        }
-
-        [RelayCommand]
-        public async Task ViewSkill(SkillDto skillDto)
-        {
-            int index = skillProviderDto.Skills.IndexOf(skillDto);
-            await _navigationService.NavigateToAsync("ViewSkillView", new Dictionary<string, object> { { "SkillIndex", index }, { "SkillProviderId", skillProviderDto.UserId } });
-            // Logic for viewing skill, navigate to ViewSkillView as viewer mode
-        }
-
-
-
-        [RelayCommand]
-        public async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
-        {
-            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
-        }
-
-        [RelayCommand]
-        public async Task SendOffer()
-        {
-            await _navigationService.NavigateToAsync("SendOfferView", new Dictionary<string, object> { { "SkillProviderId", SkillProviderId }, { "SkillProviderFullName", SkillProviderDto.UserName } });
         }
     }
 }

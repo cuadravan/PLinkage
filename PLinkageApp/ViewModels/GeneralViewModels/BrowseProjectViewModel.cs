@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
 using FuzzySharp;
@@ -16,31 +15,73 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
 
-        private List<ProjectCardDto> _allProjects;
-        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; }
+        private bool _isInitialized = false;
+
+        private string categorySelection = "All";
+        private string statusSelection = "All";
+
+        private const int FuzzySearchCutoff = 70;
+
+        private List<ProjectCardDto> _allProjects = new List<ProjectCardDto>(); // Store original results
 
         [ObservableProperty]
         private bool isBusy = false;
-
         [ObservableProperty]
         private bool isAdmin = false;
+        [ObservableProperty]
+        private string searchQuery = "";
+        [ObservableProperty]
+        private CebuLocation? locationSelection = CebuLocation.CebuCity;
+        [ObservableProperty]
+        private string searchFilterSelection = "By Skills";
 
-        private bool _isInitialized = false;
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+        public ObservableCollection<string> StatusOptions { get; } = new()
+        {
+            "All",
+            "Active Only",
+            "Completed Only",
+            "Deactivated Only"
+        };
+        public ObservableCollection<string> CategoryOptions { get; } = new() { }; // Empty since it will be built depending on the user role
 
+        public ObservableCollection<string> SearchFilterOptions { get; } = new()
+        {
+            "By Skills",
+            "By Name"
+        };
+
+        public ObservableCollection<ProjectCardDto> ProjectCards { get; set; } = new ObservableCollection<ProjectCardDto>();
+        
+        public string StatusSelection
+        {
+            get => statusSelection;
+            set
+            {
+                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
+                    _ = GetProjects();
+            }
+        }
+
+        public string CategorySelection
+        {
+            get => categorySelection;
+            set
+            {
+                if (SetProperty(ref categorySelection, value))
+                {
+                    if (!_isInitialized) // While we are initializing, we are setting the contents of category selection, so this can be triggered accidentally
+                        return;
+                    _ = GetProjects();
+                }
+            }
+        }        
+        
         public BrowseProjectViewModel(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
-            _allProjects = new List<ProjectCardDto>();
-            ProjectCards = new ObservableCollection<ProjectCardDto>();
-
-        }
-
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await GetProjects();
         }
 
         public async Task InitializeAsync()
@@ -84,6 +125,18 @@ namespace PLinkageApp.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetProjects();
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(ProjectCardDto projectCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
+        }
+
         private async Task GetProjects()
         {
             if (IsBusy)
@@ -93,8 +146,6 @@ namespace PLinkageApp.ViewModels
             {
                 var userLocation = _sessionService.GetCurrentUserLocation();
                 ApiResponse<IEnumerable<ProjectCardDto>> result = null;
-
-
 
                 _allProjects.Clear();
                 ProjectCards.Clear();
@@ -137,11 +188,24 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success && result.Data != null)
                 {
-
-                    foreach (var dto in result.Data)
+                    if(_sessionService.GetCurrentUserRole() is UserRole.SkillProvider)
                     {
-                        _allProjects.Add(dto);
+                        var currentUserId = _sessionService.GetCurrentUserId();
+                        foreach (var dto in result.Data)
+                        {
+                            if (!dto.EmployedProviderIds.Contains(currentUserId))
+                                _allProjects.Add(dto);
+                        }
                     }
+                    else
+                    {
+                        foreach (var dto in result.Data)
+                        {
+                            _allProjects.Add(dto);
+                        }
+                    }
+
+                        
                 }
                 else
                 {
@@ -159,41 +223,7 @@ namespace PLinkageApp.ViewModels
                 IsBusy = false;
             }
 
-        }
-
-        [RelayCommand]
-        private async Task ViewProject(ProjectCardDto projectCardDto)
-        {
-            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on project with id: {projectCardDto.ProjectId}", "Okay");
-            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectCardDto.ProjectId } });
-
-        }
-
-        // CATEGORY
-
-        private string categorySelection = "All";
-        public string CategorySelection
-        {
-            get => categorySelection;
-            set
-            {
-                if (SetProperty(ref categorySelection, value))
-                {
-                    if (!_isInitialized)
-                        return;
-
-                    _ = GetProjects();
-                }
-            }
-        }
-        public ObservableCollection<string> CategoryOptions { get; } = new()
-        {
-        };
-
-        // LOCATION
-
-        [ObservableProperty]
-        private CebuLocation? locationSelection = CebuLocation.CebuCity;
+        }        
 
         partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
         {
@@ -201,62 +231,18 @@ namespace PLinkageApp.ViewModels
             {
                 _ = GetProjects();
             }
-        }
-
-        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
-            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-
-        // STATUS
-
-        private string statusSelection = "All";
-        public string StatusSelection
-        {
-            get => statusSelection;
-            set
-            {
-                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
-                    _ = GetProjects();
-            }
-        }
-
-        public ObservableCollection<string> StatusOptions { get; } = new()
-        {
-            "All",
-            "Active Only",
-            "Completed Only",
-            "Deactivated Only"
-        };
-
-        public ObservableCollection<string> SearchFilterOptions { get; } = new()
-        {
-            "By Skills",
-            "By Name"
-        };
-
-        // SEARCH FILTER
-
-        [ObservableProperty]
-        private string searchFilterSelection = "By Skills";
+        }        
 
         partial void OnSearchFilterSelectionChanged(string value)
         {
-            FilterProjectCards(); // Rename this
-        }
-
-        // SEARCH QUERY
-
-        [ObservableProperty]
-        private string searchQuery = "";
+            FilterProjectCards();
+        }   
 
         partial void OnSearchQueryChanged(string value)
         {
-            FilterProjectCards(); // Rename this
+            FilterProjectCards();
         }
 
-        private const int FuzzySearchCutoff = 70;
-
-        // NOTE: You should rename this method to FilterProjectCards
         private void FilterProjectCards()
         {
             var query = SearchQuery.Trim().ToLowerInvariant();

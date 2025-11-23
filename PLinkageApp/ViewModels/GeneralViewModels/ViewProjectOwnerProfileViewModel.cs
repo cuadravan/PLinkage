@@ -13,35 +13,28 @@ namespace PLinkageApp.ViewModels
     [QueryProperty(nameof(ProjectOwnerId), "ProjectOwnerId")]
     public partial class ViewProjectOwnerProfileViewModel : ObservableObject
     {
-        public Guid ProjectOwnerId { get; set; }
-
-        [ObservableProperty]
-        public bool isUserCurrentlyActive;
-
-        [ObservableProperty]
-        public bool isRatingVisible;
-
-        [ObservableProperty]
-        public bool isMessageButtonVisible;
-
-        [ObservableProperty]
-        public bool isDeactivateButtonVisible;
-
-        [ObservableProperty]
-        public bool isUserActivated;
-
-        [ObservableProperty]
-        private bool isBusy = false;
-
-        [ObservableProperty]
-        public ProjectOwnerDto projectOwnerDto;
-
-        private bool _isInitialized;
-
         private readonly ISessionService _sessionService;
         private readonly IAccountServiceClient _accountServiceClient;
         private readonly IProjectOwnerServiceClient _projectownerServiceClient;
         private readonly INavigationService _navigationService;
+
+        private bool _isInitialized;
+
+        [ObservableProperty]
+        private bool isUserCurrentlyActive;
+        [ObservableProperty]
+        private bool isRatingVisible;
+        [ObservableProperty]
+        private bool isMessageButtonVisible;
+        [ObservableProperty]
+        private bool isDeactivateButtonVisible;
+        [ObservableProperty]
+        private bool isUserActivated;
+        [ObservableProperty]
+        private bool isBusy = false;
+        [ObservableProperty]
+        private ProjectOwnerDto projectOwnerDto;
+        public Guid ProjectOwnerId { get; set; }
 
         public ViewProjectOwnerProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, IProjectOwnerServiceClient projectOwnerServiceClient, INavigationService navigationService)
         {
@@ -50,13 +43,7 @@ namespace PLinkageApp.ViewModels
             _accountServiceClient = accountServiceClient;
             _projectownerServiceClient = projectOwnerServiceClient;
         }
-
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await LoadUserDataAsync();
-        }
-
+   
         public async Task InitializeAsync()
         {
             if (_isInitialized)
@@ -88,6 +75,54 @@ namespace PLinkageApp.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadUserDataAsync();
+        }
+
+        [RelayCommand]
+        private async Task MessageUser()
+        {
+            if (!_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", Guid.Empty }, { "ReceiverId", ProjectOwnerDto.UserId }, { "ReceiverName", ProjectOwnerDto.UserName } });
+        }
+
+        [RelayCommand]
+        private async Task ToggleUserActivation()
+        {
+            if (!_isInitialized)
+                return;
+            IsUserCurrentlyActive = !IsUserCurrentlyActive;
+
+            string status = IsUserCurrentlyActive ? "Activated" : "Deactivated";
+            try
+            {
+                var response = await _accountServiceClient.ActivateDeactivateUserAsync(ProjectOwnerId);
+                if (response.Success)
+                {
+                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
+            }
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(ProjectOwnerProfileProjectDto projectOwnerProfileProjectDto)
+        {
+            if (!_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectOwnerProfileProjectDto.ProjectId } });
+        }
+
         private async Task LoadUserDataAsync()
         {
             if (IsBusy)
@@ -112,6 +147,7 @@ namespace PLinkageApp.ViewModels
                     {
                         IsUserCurrentlyActive = false;
                     }
+                    _isInitialized = true;
                 }
                 else
                 {
@@ -127,44 +163,6 @@ namespace PLinkageApp.ViewModels
             {
                 IsBusy = false;
             }
-
         }
-
-        [RelayCommand]
-        public async Task MessageUser()
-        {
-            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", Guid.Empty }, { "ReceiverId", ProjectOwnerDto.UserId }, { "ReceiverName", ProjectOwnerDto.UserName } });
-        }
-
-        [RelayCommand]
-        public async Task ToggleUserActivation()
-        {
-            IsUserCurrentlyActive = !IsUserCurrentlyActive;
-
-            string status = IsUserCurrentlyActive ? "Activated" : "Deactivated";
-            try
-            {
-                var response = await _accountServiceClient.ActivateDeactivateUserAsync(ProjectOwnerId);
-                if (response.Success)
-                {
-                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
-                }
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
-            }
-        }
-
-        [RelayCommand]
-        public async Task ViewProject(ProjectOwnerProfileProjectDto projectOwnerProfileProjectDto)
-        {
-            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", projectOwnerProfileProjectDto.ProjectId } });
-        }
-
     }
 }

@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
 
@@ -15,17 +13,9 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
 
-        public int EducationIndex { get; set; }
-
         private EducationDto _specificEducationDto;
-
-        public UpdateEducationViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
-        {
-            _skillProviderServiceClient = skillProviderServiceClient;
-            _sessionService = sessionService;
-            _navigationService = navigationService;
-            TimeGraduated = DateTime.Today;
-        }
+        private bool _isUpdated = false;
+        private bool _isInitialized = false;
 
         // Fields
         [ObservableProperty]
@@ -43,7 +33,18 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private string errorMessage;
 
-        private bool _isUpdated = false;
+        [ObservableProperty]
+        private bool isBusy = false;
+       
+        public int EducationIndex { get; set; }
+
+        public UpdateEducationViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
+        {
+            _skillProviderServiceClient = skillProviderServiceClient;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+            TimeGraduated = DateTime.Today;
+        }
 
         // Load education
         public async Task InitializeAsync()
@@ -56,6 +57,7 @@ namespace PLinkageApp.ViewModels
                 if (result.Success && result.Data != null)
                 {
                     _specificEducationDto = result.Data.Educations[EducationIndex];
+                    _isInitialized = true;
                 }
                 else
                 {
@@ -77,6 +79,8 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task UpdateEducation()
         {
+            if (IsBusy || !_isInitialized)
+                return;
             ValidateAllProperties();
 
             if (HasErrors)
@@ -94,6 +98,7 @@ namespace PLinkageApp.ViewModels
                 CourseName = CourseName
             };
             var userId = _sessionService.GetCurrentUserId();
+            IsBusy = true;
             try
             {
                 var result = await _skillProviderServiceClient.UpdateEducationAsync(userId, EducationIndex, educationDto);
@@ -111,12 +116,19 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Education update failed due to following error: {ex}. Please try again.", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task DeleteEducation()
         {
+            if (IsBusy || !_isInitialized)
+                return;
             var userId = _sessionService.GetCurrentUserId();
+            IsBusy = true;
             try
             {
                 var result = await _skillProviderServiceClient.DeleteEducationAsync(userId, EducationIndex);
@@ -124,6 +136,7 @@ namespace PLinkageApp.ViewModels
                 {
                     await Shell.Current.DisplayAlert("Success", "Education deleted successfully.", "Ok");
                     _isUpdated = true;
+                    IsBusy = false;
                     await Return();
                 }
                 else
@@ -135,11 +148,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Education deletion failed due to following error: {ex}. Please try again.", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Return()
         {
+            if (IsBusy)
+                return;
             if (_isUpdated)
                 await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
             else

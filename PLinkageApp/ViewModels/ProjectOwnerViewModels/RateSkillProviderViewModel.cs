@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
-using PLinkageApp.Models;
 using PLinkageShared.DTOs;
 
 namespace PLinkageApp.ViewModels
@@ -19,6 +13,11 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+
+        [ObservableProperty]
+        private ObservableCollection<RateSkillProviderIndividualDto> skillProvidersToRate = new();
+        [ObservableProperty]
+        private bool isBusy = false;
         public ProjectUpdateDto ProjectUpdateDto { get; set; }
 
         public RateSkillProviderViewModel(
@@ -30,13 +29,10 @@ namespace PLinkageApp.ViewModels
             _sessionService = sessionService;
             _navigationService = navigationService;
         }
-
-        [ObservableProperty]
-        public ObservableCollection<RateSkillProviderIndividualDto> skillProvidersToRate = new();
-
-        // Core Methods
+      
         public async Task InitializeAsync()
         {
+            IsBusy = true;
             try
             {
                 foreach(var member in ProjectUpdateDto.ProjectMembers)
@@ -53,18 +49,24 @@ namespace PLinkageApp.ViewModels
             {
                 Debug.WriteLine($"Initialization error: {ex.Message}");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
-        public async Task SubmitRatings()
+        private async Task SubmitRatings()
         {
+            if (IsBusy)
+                return;
             // 1. Validation
             if (SkillProvidersToRate.Any(sp => sp.SkillProviderRating <= 0))
             {
                 await Shell.Current.DisplayAlert("Incomplete Ratings", "Please rate all skill providers before submitting.", "OK");
                 return;
             }
-
+            IsBusy = true;
             try
             {
                 var updateResult = await _projectServiceClient.UpdateProjectAsync(ProjectUpdateDto);
@@ -72,6 +74,7 @@ namespace PLinkageApp.ViewModels
                 if (!updateResult.Success)
                 {
                     await Shell.Current.DisplayAlert("Update Failed", $"Could not update project: {updateResult.Message}. Try again.", "Ok");
+                    IsBusy = false;
                     return;
                 }
 
@@ -83,6 +86,7 @@ namespace PLinkageApp.ViewModels
                 if (!ratingResult.Success)
                 {
                     await Shell.Current.DisplayAlert("Partial Success", $"Project marked as completed, but ratings failed to save: {ratingResult.Message}", "Ok");
+                    IsBusy = false;
                     return;
                 }
 
@@ -94,10 +98,16 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Error", $"Operation failed due to: {ex.Message}", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         [RelayCommand]
-        public async Task Cancel()
+        private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.GoBackAsync();
         }
 

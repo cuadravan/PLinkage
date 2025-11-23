@@ -14,7 +14,10 @@ namespace PLinkageApp.ViewModels
         private readonly IDashboardServiceClient _dashboardServiceClient;
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
-        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
+        private readonly INavigationService _navigationService;
+
+        private string sortSelection = "All";
+
         [ObservableProperty] private int activeProjectsValue = 0;
         [ObservableProperty] private int pendingSentOffersValue = 0;
         [ObservableProperty] private int pendingReceivedApplicationsValue = 0;
@@ -24,16 +27,59 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private bool isBusy = false;
 
-        public ProjectOwnerHomeViewModel(IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient)
+        public string SortSelection
+        {
+            get => sortSelection;
+            set
+            {
+                if (SetProperty(ref sortSelection, value))
+                {
+                    // Call the async method safely from the property setter
+                    _ = GetSuggestedSkillProviders();
+                }
+            }
+        }
+
+        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; } = new ObservableCollection<SkillProviderCardDto>();
+
+        public ObservableCollection<string> SortOptions { get; } = new()
+        {
+            "All",
+            "Same Place as Me",
+            "Nearby (<= 10km)",
+            "Within Urban (<= 20km)",
+            "Extended (<= 50km)"
+        };
+
+        public ProjectOwnerHomeViewModel(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
             _skillProviderServiceClient = skillProviderServiceClient;
-
-            SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
+            _navigationService = navigationService;
         }
 
         public async Task InitializeAsync()
+        {
+            if (SkillProviderCards.Any())
+                return;
+
+            await LoadDashboardDataAsync();
+        }      
+
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadDashboardDataAsync();
+        }
+
+        [RelayCommand]
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
+        }
+
+        public async Task LoadDashboardDataAsync()
         {
             if (IsBusy)
                 return;
@@ -88,28 +134,5 @@ namespace PLinkageApp.ViewModels
                 }
             }
         }
-
-        private string sortSelection = "All";
-        public string SortSelection
-        {
-            get => sortSelection;
-            set
-            {
-                if (SetProperty(ref sortSelection, value))
-                {
-                    // Call the async method safely from the property setter
-                    _ = GetSuggestedSkillProviders();
-                }
-            }
-        }
-
-        public ObservableCollection<string> SortOptions { get; } = new()
-        {
-            "All",
-            "Same Place as Me",
-            "Nearby (<= 10km)",
-            "Within Urban (<= 20km)",
-            "Extended (<= 50km)"
-        };
     }
 }

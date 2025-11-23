@@ -1,9 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using PLinkageApp.Models;
-using System;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
 using System.Collections.ObjectModel;
@@ -14,15 +11,7 @@ namespace PLinkageApp.ViewModels
     {
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
-        private readonly INavigationService _navigationService;
-
-        public AddSkillViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
-        {
-            _skillProviderServiceClient = skillProviderServiceClient;
-            _sessionService = sessionService;
-            _navigationService = navigationService;
-            TimeAcquired = DateTime.Today;
-        }
+        private readonly INavigationService _navigationService;        
 
         // Form Fields
         [ObservableProperty]
@@ -54,15 +43,28 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private string errorMessage;
 
+        [ObservableProperty]
+        private bool isBusy = false;
+
         public ObservableCollection<int> SkillLevelOptions { get; } = new ObservableCollection<int>()
         {
             1, 2, 3, 4, 5
         };
 
+        public AddSkillViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
+        {
+            _skillProviderServiceClient = skillProviderServiceClient;
+            _sessionService = sessionService;
+            _navigationService = navigationService;
+            TimeAcquired = DateTime.Today;
+        }
+
         // Save Command
         [RelayCommand]
         private async Task AddSkill()
         {
+            if (IsBusy)
+                return;
             ValidateAllProperties();
 
             if (HasErrors)
@@ -90,7 +92,7 @@ namespace PLinkageApp.ViewModels
                 OrganizationInvolved = OrganizationInvolved,
                 YearsOfExperience = YearsOfExperience
             };
-
+            IsBusy = true;
             try
             {
                 var result = await _skillProviderServiceClient.AddSkillAsync(userId, skillDto);
@@ -108,11 +110,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Skill addition failed due to following error: {ex}. Please try again.", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
         private async Task Cancel()
         {
+            if (IsBusy)
+                return;
             await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", false } });
         }
 

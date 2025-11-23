@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace PLinkageApp.AndroidControls;
 
 public partial class LabeledLabel : ContentView
@@ -55,5 +57,33 @@ public partial class LabeledLabel : ContentView
     {
         get => (TextAlignment)GetValue(VerticalTextAlignmentProperty);
         set => SetValue(VerticalTextAlignmentProperty, value);
+    }
+
+    public static readonly BindableProperty CommandProperty =
+        BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(LabeledLabel));
+
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    // 2. The CommandParameter Property
+    public static readonly BindableProperty CommandParameterProperty =
+        BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(LabeledLabel));
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
+    public static readonly BindableProperty IsLinkProperty =
+        BindableProperty.Create(nameof(IsLink), typeof(bool), typeof(LabeledLabel), false);
+
+    public bool IsLink
+    {
+        get => (bool)GetValue(IsLinkProperty);
+        set => SetValue(IsLinkProperty, value);
     }
 }

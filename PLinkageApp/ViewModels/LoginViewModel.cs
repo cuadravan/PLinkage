@@ -2,21 +2,17 @@
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
-using PLinkageApp.Services;
 using PLinkageShared.DTOs;
-using System.Data;
 
 namespace PLinkageApp.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
-        // Services
-        private readonly INavigationService _navigationService;
         private readonly AppShellViewModel _appShellViewModel;
+        private readonly INavigationService _navigationService;    
         private readonly ISessionService _sessionService;
         private readonly IAccountServiceClient _accountServiceClient;
 
-        // Constructor
         public LoginViewModel(
             IAccountServiceClient accountServiceClient,
             INavigationService navigationService,
@@ -30,10 +26,14 @@ namespace PLinkageApp.ViewModels
         }
 
         // Properties
-        [ObservableProperty] private string email;
-        [ObservableProperty] private string password;
-        [ObservableProperty] private string errorMessage;
-        [ObservableProperty] private bool isBusy = false;
+        [ObservableProperty] 
+        private string email;
+        [ObservableProperty] 
+        private string password;
+        [ObservableProperty] 
+        private string errorMessage;
+        [ObservableProperty] 
+        private bool isBusy = false;
 
         // Commands
         [RelayCommand]
@@ -103,6 +103,17 @@ namespace PLinkageApp.ViewModels
                 IsBusy = false;
             }
         }
+        [RelayCommand]
+        private async Task GoToRegister()
+        {
+            if (IsBusy)
+                return;
+#if ANDROID
+            await _navigationService.NavigateToAsync("RegisterView1");
+#else
+            await _navigationService.NavigateToAsync("RegisterView");
+#endif
+        }
 
         private bool ValidateInput()
         {
@@ -121,16 +132,6 @@ namespace PLinkageApp.ViewModels
             }
 
             return true;
-        }
-
-        [RelayCommand]
-        private async Task GoToRegister()
-        {
-#if ANDROID
-            await _navigationService.NavigateToAsync("RegisterView1");
-#else
-            await _navigationService.NavigateToAsync("RegisterView");
-#endif
-        }
+        }    
     }
 }

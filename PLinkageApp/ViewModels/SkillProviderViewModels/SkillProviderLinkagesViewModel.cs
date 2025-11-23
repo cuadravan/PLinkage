@@ -2,39 +2,20 @@
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
 using PLinkageShared.DTOs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PLinkageApp.ViewModels
 {
     [QueryProperty(nameof(ForceReset), "ForceReset")]
     public partial class SkillProviderLinkagesViewModel : ObservableObject
     {
-        bool _forceReset;
-
-        public bool ForceReset
-        {
-            get => _forceReset;
-            set
-            {
-                _forceReset = value;
-                if (_forceReset)
-                {
-                    _ = InitializeAsync(); // Trigger logic when property is set
-                }
-            }
-        }
-
-        private bool _isInitialized;
-
         private ISessionService _sessionService;
         private INavigationService _navigationService;
         private IOfferApplicationServiceClient _offerApplicationServiceClient;
+
+        private bool _isInitialized = false;
+        private OfferApplicationPageDto _allData;        
 
         [ObservableProperty]
         private string selectedTopToggle = "Sent";
@@ -48,7 +29,9 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private ObservableCollection<OfferApplicationDisplayDto> offerApplicationCards;
 
-        private OfferApplicationPageDto _allData;
+        public bool ForceReset { get; set; }
+
+        
 
         public SkillProviderLinkagesViewModel(
             ISessionService sessionService,
@@ -69,6 +52,137 @@ namespace PLinkageApp.ViewModels
             ForceReset = false;
             _isInitialized = true;
             await LoadAllData();
+        }
+        
+
+        [RelayCommand]
+        private async Task Refresh()
+        {
+            _allData = null;
+            await LoadAllData();
+        }
+
+        [RelayCommand]
+        private async Task UpdateTopToggle(string selection)
+        {
+            if (IsBusy)
+                return;
+            if (string.IsNullOrEmpty(selection) || SelectedTopToggle == selection)
+                return;
+
+            SelectedTopToggle = selection;
+            await UpdateDisplayedCards();
+        }
+
+        [RelayCommand]
+        private async Task UpdateBottomToggle(string selection)
+        {
+            if (IsBusy)
+                return;
+            if (string.IsNullOrEmpty(selection) || SelectedBottomToggle == selection)
+                return;
+
+            SelectedBottomToggle = selection;
+            await UpdateDisplayedCards();
+        }
+
+        [RelayCommand]
+        private async Task Accept(OfferApplicationDisplayDto dto)
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                string rawRate = Regex.Match(dto.FormattedRate, @"\d+(\.\d+)?").Value;
+                string rawTimeFrame = Regex.Match(dto.FormattedTimeFrame, @"\d+(\.\d+)?").Value;
+
+                var processDto = new OfferApplicationProcessDto
+                {
+                    OfferApplicationId = dto.OfferApplicationId,
+                    Process = "Approve",
+                    Type = dto.OfferApplicationType,
+                    SenderId = dto.SenderId,
+                    ReceiverId = dto.ReceiverId,
+                    ProjectId = dto.ProjectId,
+                    NegotiatedRate = decimal.Parse(rawRate),
+                    NegotiatedTimeFrame = int.Parse(rawTimeFrame)
+                };
+
+                var result = await _offerApplicationServiceClient.ProcessOfferApplication(processDto);
+
+                if (result.Success)
+                {
+                    await Shell.Current.DisplayAlert("Success", "You have successfully approved this request.", "Ok");
+                    ForceReset = true;
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
+                }
+            }
+            catch(Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task Reject(OfferApplicationDisplayDto dto)
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                string rawRate = Regex.Match(dto.FormattedRate, @"\d+(\.\d+)?").Value;
+                string rawTimeFrame = Regex.Match(dto.FormattedTimeFrame, @"\d+(\.\d+)?").Value;
+
+
+                var processDto = new OfferApplicationProcessDto
+                {
+                    OfferApplicationId = dto.OfferApplicationId,
+                    Process = "Reject",
+                    Type = dto.OfferApplicationType,
+                    SenderId = dto.SenderId,
+                    ReceiverId = dto.ReceiverId,
+                    ProjectId = dto.ProjectId,
+                    NegotiatedRate = decimal.Parse(rawRate),
+                    NegotiatedTimeFrame = int.Parse(rawTimeFrame)
+                };
+
+                var result = await _offerApplicationServiceClient.ProcessOfferApplication(processDto);
+
+                if (result.Success)
+                {
+                    await Shell.Current.DisplayAlert("Success", "You have successfully rejected this request.", "Ok");
+                    ForceReset = true;   
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task Negotiate(OfferApplicationDisplayDto dto)
+        {
+            if (IsBusy)
+                return;
+            await _navigationService.NavigateToAsync("NegotiatingOfferView", new Dictionary<string, object> { { "DisplayDto", dto } });
         }
 
         private async Task LoadAllData()
@@ -148,116 +262,6 @@ namespace PLinkageApp.ViewModels
                     }
                 }
             });
-        }
-
-        [RelayCommand]
-        private async Task Refresh()
-        {
-            _allData = null;
-            await LoadAllData();
-        }
-
-        [RelayCommand]
-        private async Task UpdateTopToggle(string selection)
-        {
-            if (string.IsNullOrEmpty(selection) || SelectedTopToggle == selection)
-                return;
-
-            SelectedTopToggle = selection;
-            await UpdateDisplayedCards();
-        }
-
-        [RelayCommand]
-        private async Task UpdateBottomToggle(string selection)
-        {
-            if (string.IsNullOrEmpty(selection) || SelectedBottomToggle == selection)
-                return;
-
-            SelectedBottomToggle = selection;
-            await UpdateDisplayedCards();
-        }
-
-        [RelayCommand]
-        public async Task Accept(OfferApplicationDisplayDto dto)
-        {
-            try
-            {
-                string rawRate = Regex.Match(dto.FormattedRate, @"\d+(\.\d+)?").Value;
-                string rawTimeFrame = Regex.Match(dto.FormattedTimeFrame, @"\d+(\.\d+)?").Value;
-
-                var processDto = new OfferApplicationProcessDto
-                {
-                    OfferApplicationId = dto.OfferApplicationId,
-                    Process = "Approve",
-                    Type = dto.OfferApplicationType,
-                    SenderId = dto.SenderId,
-                    ReceiverId = dto.ReceiverId,
-                    ProjectId = dto.ProjectId,
-                    NegotiatedRate = decimal.Parse(rawRate),
-                    NegotiatedTimeFrame = int.Parse(rawTimeFrame)
-                };
-
-                var result = await _offerApplicationServiceClient.ProcessOfferApplication(processDto);
-
-                if (result.Success)
-                {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully approved this request.", "Ok");
-                    ForceReset = true;
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
-                }
-            }
-            catch(Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
-            }
-        }
-
-        [RelayCommand]
-        public async Task Reject(OfferApplicationDisplayDto dto)
-        {
-            try
-            {
-                string rawRate = Regex.Match(dto.FormattedRate, @"\d+(\.\d+)?").Value;
-                string rawTimeFrame = Regex.Match(dto.FormattedTimeFrame, @"\d+(\.\d+)?").Value;
-
-
-                var processDto = new OfferApplicationProcessDto
-                {
-                    OfferApplicationId = dto.OfferApplicationId,
-                    Process = "Reject",
-                    Type = dto.OfferApplicationType,
-                    SenderId = dto.SenderId,
-                    ReceiverId = dto.ReceiverId,
-                    ProjectId = dto.ProjectId,
-                    NegotiatedRate = decimal.Parse(rawRate),
-                    NegotiatedTimeFrame = int.Parse(rawTimeFrame)
-                };
-
-                var result = await _offerApplicationServiceClient.ProcessOfferApplication(processDto);
-
-                if (result.Success)
-                {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully rejected this request.", "Ok");
-                    ForceReset = true;   
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
-                }
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
-            }
-        }
-
-        [RelayCommand]
-        public async Task Negotiate(OfferApplicationDisplayDto dto)
-        {
-            await _navigationService.NavigateToAsync("NegotiatingOfferView", new Dictionary<string, object> { { "DisplayDto", dto } });
         }
     }
 }

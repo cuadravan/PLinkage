@@ -1,49 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using PLinkageApp.Models;
-using System.Globalization;
 using PLinkageApp.Interfaces;
 using PLinkageShared.ApiResponse;
 using PLinkageShared.DTOs;
-using PLinkageShared.Enums;
-using System;
 
 namespace PLinkageApp.ViewModels
 {
     [QueryProperty(nameof(ForceReset), "ForceReset")]
     public partial class SkillProviderProfileViewModel : ObservableObject
     {
-        public Guid SkillProviderId { get; set; }
-        bool _forceReset;
+        private readonly ISessionService _sessionService;
+        private readonly IAccountServiceClient _accountServiceClient;
+        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
+        private readonly INavigationService _navigationService;
 
-        public bool ForceReset
-        {
-            get => _forceReset;
-            set
-            {
-                _forceReset = value;
-                if (_forceReset)
-                {
-                    _ = InitializeAsync(); // Trigger logic when property is set
-                }
-            }
-        }
-
-        //[ObservableProperty]
-        //public bool isUserCurrentlyActive;
+        private bool _isInitialized = false;
 
         [ObservableProperty]
         public bool isRatingVisible;
-
-        //[ObservableProperty]
-        //public bool isMessageButtonVisible;
-
-        //[ObservableProperty]
-        //public bool isDeactivateButtonVisible;
-
-        //[ObservableProperty]
-        //public bool isSendOfferButtonVisible;
 
         [ObservableProperty]
         public bool isUserActivated;
@@ -52,14 +26,10 @@ namespace PLinkageApp.ViewModels
         private bool isBusy = false;
 
         [ObservableProperty]
-        public SkillProviderDto skillProviderDto;
+        public SkillProviderDto skillProviderDto;  
 
-        private bool _isInitialized = false;
-
-        private readonly ISessionService _sessionService;
-        private readonly IAccountServiceClient _accountServiceClient;
-        private readonly ISkillProviderServiceClient _skillProviderServiceClient;
-        private readonly INavigationService _navigationService;
+        public Guid SkillProviderId { get; set; }
+        public bool ForceReset { get; set; }
 
         public SkillProviderProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
         {
@@ -67,12 +37,6 @@ namespace PLinkageApp.ViewModels
             _sessionService = sessionService;
             _accountServiceClient = accountServiceClient;
             _skillProviderServiceClient = skillProviderServiceClient;
-        }
-
-        [RelayCommand]
-        private async Task RefreshAsync() // Command executed when refreshed using RefreshView
-        {
-            await LoadUserDataAsync();            
         }
 
         public async Task InitializeAsync() // Runs when navigating to the page
@@ -92,6 +56,69 @@ namespace PLinkageApp.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync() // Command executed when refreshed using RefreshView
+        {
+            await LoadUserDataAsync();            
+        }        
+
+        
+
+        [RelayCommand]
+        private async Task UpdateProfile()
+        {
+            if (IsBusy || !_isInitialized)
+                return;
+            await _navigationService.NavigateToAsync("UpdateProfileView");
+            // Logic for updating profile, navigate to UpdateProfileView
+        }
+
+        [RelayCommand]
+        private async Task AddEducation()
+        {
+            if (!_isInitialized || IsBusy)
+                return;
+            await _navigationService.NavigateToAsync("AddEducationView");
+            // Logic for adding education, navigate to AddEducationView
+        }
+
+        [RelayCommand]
+        private async Task UpdateEducation(EducationDto educationDto)
+        {
+            if (!_isInitialized || IsBusy)
+                return;
+            int index = skillProviderDto.Educations.IndexOf(educationDto);
+            await _navigationService.NavigateToAsync("UpdateEducationView", new Dictionary<string, object> { { "EducationIndex", index } });
+            // Logic for viewing education, navigate to UpdateEducationView (which contains the DeleteEducation)    
+        }
+
+        [RelayCommand]
+        private async Task AddSkill()
+        {
+            if (!_isInitialized || IsBusy)
+                return;
+            await _navigationService.NavigateToAsync("AddSkillView");
+            // Logic for adding skill, navigate to AddSkillView   
+        }
+
+        [RelayCommand]
+        private async Task ViewSkill(SkillDto skillDto)
+        {
+            if (!_isInitialized || IsBusy)
+                return;
+            int index = skillProviderDto.Skills.IndexOf(skillDto);
+            await _navigationService.NavigateToAsync("ViewSkillView", new Dictionary<string, object> { { "SkillIndex", index }, { "SkillProviderId", skillProviderDto.UserId} });
+            // Logic for viewing skill, navigate to ViewSkillView (which contains the UpdateSkill and DeleteSkill)
+        }
+
+        [RelayCommand]
+        private async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
+        {
+            if (!_isInitialized || IsBusy)
+                return;
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
+        }
+
         private async Task LoadUserDataAsync()
         {
             if (IsBusy)
@@ -108,6 +135,7 @@ namespace PLinkageApp.ViewModels
                 {
 
                     SkillProviderDto = result.Data;
+                    _isInitialized = true;
                 }
                 else
                 {
@@ -124,49 +152,6 @@ namespace PLinkageApp.ViewModels
                 IsBusy = false;
             }
 
-        }
-
-        [RelayCommand]
-        public async Task UpdateProfile()
-        {
-            await _navigationService.NavigateToAsync("UpdateProfileView");
-            // Logic for updating profile, navigate to UpdateProfileView
-        }
-
-        [RelayCommand]
-        public async Task AddEducation()
-        {
-            await _navigationService.NavigateToAsync("AddEducationView");
-            // Logic for adding education, navigate to AddEducationView
-        }
-
-        [RelayCommand]
-        public async Task UpdateEducation(EducationDto educationDto)
-        {
-            int index = skillProviderDto.Educations.IndexOf(educationDto);
-            await _navigationService.NavigateToAsync("UpdateEducationView", new Dictionary<string, object> { { "EducationIndex", index } });
-            // Logic for viewing education, navigate to UpdateEducationView (which contains the DeleteEducation)    
-        }
-
-        [RelayCommand]
-        public async Task AddSkill()
-        {
-            await _navigationService.NavigateToAsync("AddSkillView");
-            // Logic for adding skill, navigate to AddSkillView   
-        }
-
-        [RelayCommand]
-        public async Task ViewSkill(SkillDto skillDto)
-        {
-            int index = skillProviderDto.Skills.IndexOf(skillDto);
-            await _navigationService.NavigateToAsync("ViewSkillView", new Dictionary<string, object> { { "SkillIndex", index }, { "SkillProviderId", skillProviderDto.UserId} });
-            // Logic for viewing skill, navigate to ViewSkillView (which contains the UpdateSkill and DeleteSkill)
-        }
-
-        [RelayCommand]
-        public async Task ViewProject(SkillProviderProfileProjectsDto skillProviderProfileProjectsDto)
-        {
-            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", skillProviderProfileProjectsDto.ProjectId } });
         }
     }
 }

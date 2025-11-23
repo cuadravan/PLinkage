@@ -257,7 +257,8 @@ namespace PLinkageAPI.Services
                     Description = project.ProjectDescription,
                     Skills = project.ProjectSkillsRequired?
     .Take(5)
-    .ToList() ?? new List<string>()
+    .ToList() ?? new List<string>(),
+                    EmployedProviderIds = project.ProjectMembers.Select(pm => pm.MemberId).ToList()
                 };
             });
 

@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
 using FuzzySharp;
@@ -16,16 +15,80 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
 
+        private string categorySelection;
+        private string statusSelection = "All";
+        private string employmentSelection = "All";
+
+        private bool _isInitialized = false;
+
+        private const int FuzzySearchCutoff = 70;
+
         private List<SkillProviderCardDto> _allSkillProviders;
         public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
 
         [ObservableProperty]
         private bool isBusy = false;
-
         [ObservableProperty]
         private bool isAdmin = false;
+        [ObservableProperty]
+        private string searchQuery = "";
+        [ObservableProperty]
+        private string searchFilterSelection = "By Skills";
+        [ObservableProperty]
+        private CebuLocation? locationSelection = CebuLocation.CebuCity;
 
-        private bool _isInitialized = false;
+        
+        public string CategorySelection
+        {
+            get => categorySelection;
+            set
+            {
+                if (SetProperty(ref categorySelection, value))
+                {
+                    if (!_isInitialized)
+                        return;
+                    _ = GetSkillProviders();
+                }
+            }
+        }
+        public ObservableCollection<string> CategoryOptions { get; } = new(){};
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
+        public ObservableCollection<string> EmploymentOptions { get; } = new()
+        {
+            "All",
+            "Employed Only",
+            "Unemployed Only"
+        };
+        public ObservableCollection<string> SearchFilterOptions { get; } = new()
+        {
+            "By Skills",
+            "By Name"
+        };
+        public ObservableCollection<string> StatusOptions { get; } = new()
+        {
+            "All",
+            "Active Only",
+            "Deactivated Only"
+        };
+
+        public string StatusSelection
+        {
+            get => statusSelection;
+            set
+            {
+                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
+                    _ = GetSkillProviders();
+            }
+        }
+        public string EmploymentSelection
+        {
+            get => employmentSelection;
+            set
+            {
+                if (SetProperty(ref employmentSelection, value))
+                    _ = GetSkillProviders();
+            }
+        }
 
         public BrowseSkillProviderViewModel(INavigationService navigationService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService)
         {
@@ -35,12 +98,6 @@ namespace PLinkageApp.ViewModels
 
             _allSkillProviders = new List<SkillProviderCardDto>();
             SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
-        }
-
-        [RelayCommand]
-        private async Task RefreshAsync()
-        {
-            await GetSkillProviders();
         }
 
         public async Task InitializeAsync()
@@ -84,6 +141,18 @@ namespace PLinkageApp.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await GetSkillProviders();
+        }
+
+        [RelayCommand]
+        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
+        {
+            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
+        }
+
         private async Task GetSkillProviders()
         {
             if (IsBusy)
@@ -118,7 +187,7 @@ namespace PLinkageApp.ViewModels
                 bool? employment = null;
                 string status = string.Empty;
 
-                if (isAdmin)
+                if (IsAdmin)
                 {
                     employment = EmploymentSelection switch
                     {
@@ -166,40 +235,8 @@ namespace PLinkageApp.ViewModels
                 IsBusy = false;
             }
 
-        }
-
-        [RelayCommand]
-        private async Task ViewSkillProvider(SkillProviderCardDto skillProviderCardDto)
-        {
-            //await Shell.Current.DisplayAlert("Hey!", $"You clicked on skill provider with id: {skillProviderCardDto.UserId}", "Okay");
-            await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", skillProviderCardDto.UserId } });
-        }
-
-        // CATEGORY
-
-        private string categorySelection;
-        public string CategorySelection
-        {
-            get => categorySelection;
-            set
-            {
-                if (SetProperty(ref categorySelection, value))
-                {
-                    if (!_isInitialized)
-                        return;
-                    _ = GetSkillProviders();
-                }
-            }
-        }
-        public ObservableCollection<string> CategoryOptions { get; } = new()
-        {
-        };
-
-        // LOCATION
-
-        [ObservableProperty]
-        private CebuLocation? locationSelection = CebuLocation.CebuCity;
-
+        }    
+       
         partial void OnLocationSelectionChanged(CebuLocation? oldValue, CebuLocation? newValue)
         {
             if (oldValue != newValue)
@@ -208,79 +245,15 @@ namespace PLinkageApp.ViewModels
             }
         }
 
-        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
-            Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-
-        // STATUS
-
-        private string statusSelection = "All";
-        public string StatusSelection
-        {
-            get => statusSelection;
-            set
-            {
-                if (SetProperty(ref statusSelection, value) && value != "By Specific Location")
-                    _ = GetSkillProviders();
-            }
-        }
-
-        public ObservableCollection<string> StatusOptions { get; } = new()
-        {
-            "All",
-            "Active Only",
-            "Deactivated Only"
-        };
-
-        // EMPLOYMENT
-
-        private string employmentSelection = "All";
-        public string EmploymentSelection
-        {
-            get => employmentSelection;
-            set
-            {
-                if (SetProperty(ref employmentSelection, value))
-                    _ = GetSkillProviders();
-            }
-        }
-
-        public ObservableCollection<string> EmploymentOptions { get; } = new()
-        {
-            "All",
-            "Employed Only",
-            "Unemployed Only"
-        };
-
-        // EMPLOYMENT
-
-        public ObservableCollection<string> SearchFilterOptions { get; } = new()
-        {
-            "By Skills",
-            "By Name"
-        };
-
-        // SEARCH FILTER
-
-        [ObservableProperty]
-        private string searchFilterSelection = "By Skills";
-
         partial void OnSearchFilterSelectionChanged(string value)
         {
             FilterSkillProviderCards();
         }
 
-        // SEARCH QUERY
-
-        [ObservableProperty]
-        private string searchQuery = "";
-
         partial void OnSearchQueryChanged(string value)
         {
             FilterSkillProviderCards();
         }
-
-        private const int FuzzySearchCutoff = 70;
 
         private void FilterSkillProviderCards()
         {

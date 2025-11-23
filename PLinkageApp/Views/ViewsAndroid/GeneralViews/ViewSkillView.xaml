@@ -41,7 +41,13 @@
             </Border>-->
 
             <controls:InfoBanner IconSource="plinkage.png" Text="You are currently viewing a skill." />
-
+            <Label
+                Margin="5,0,0,0"
+                FontSize="14"
+                IsVisible="{Binding IsOwner}"
+                Text="Tip: You can edit your skill here."
+                TextColor="Gray"
+                VerticalOptions="Center" />
             <!--  Skill Fields  -->
             <controls:LabeledEntry
                 IsEnabled="{Binding IsOwner}"

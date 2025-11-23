@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using PLinkageApp.Models;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
 using PLinkageShared.DTOs;
@@ -10,6 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace PLinkageApp.ViewModels
 {
+    // Add is Busy
     public partial class UpdateProfileViewModel : ObservableValidator
     {
         private readonly INavigationService _navigationService;
@@ -18,36 +17,12 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
 
-        [ObservableProperty]
-        public string firstName;
-
-        [ObservableProperty]
-        public string lastName;
-
-        [ObservableProperty]
-        public string mobileNumber;
-
-        [ObservableProperty]
-        public DateTime birthdate;
-
-        [ObservableProperty]
-        private CebuLocation? locationSelection;
-
-        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(
-    Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
-
-        [ObservableProperty]
-        private string genderSelection;
-
-        [ObservableProperty]
-        private string password;
-
-        [ObservableProperty]
-        private string confirmPassword;
+        private bool _isUpdated = false;
 
         private UserRole? currentUserRole;
         private Guid currentUserId;
 
+        // Stored Information Used When Resetting
         private string storedFirstName;
         private string storedLastName;
         private string storedMobileNumber;
@@ -56,13 +31,29 @@ namespace PLinkageApp.ViewModels
         private string storedGender;
 
         [ObservableProperty]
+        private string firstName;
+        [ObservableProperty]
+        private string lastName;
+        [ObservableProperty]
+        private string mobileNumber;
+        [ObservableProperty]
+        private DateTime birthdate;
+        [ObservableProperty]
+        private CebuLocation? locationSelection;
+        [ObservableProperty]
+        private string genderSelection;
+        [ObservableProperty]
+        private string password;
+        [ObservableProperty]
+        private string confirmPassword;
+        [ObservableProperty]
         private string errorMessage = string.Empty;
-
         [ObservableProperty]
         private string errorMessagePassword = string.Empty;
+        [ObservableProperty]
+        private bool isBusy = false;
 
-        private bool _isUpdated = false;
-
+        public ObservableCollection<CebuLocation> LocationOptions { get; } = new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());   
         public ObservableCollection<string> GenderOptions { get; } = new ObservableCollection<string>()
         {
             "Male", "Female"
@@ -130,7 +121,7 @@ namespace PLinkageApp.ViewModels
         }
 
         [RelayCommand]
-        public async Task UpdateProfile()
+        private async Task UpdateProfile()
         {
             if (!Regex.IsMatch(FirstName, @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
             {
@@ -176,8 +167,11 @@ namespace PLinkageApp.ViewModels
                 UserBirthDate = Birthdate,
                 UserGender = GenderSelection
             };
+            if (IsBusy)
+                return;
             try
             {
+                IsBusy = true;
                 if (currentUserRole == UserRole.SkillProvider)
                 {
                     var result = await _skillProviderServiceClient.UpdateSkillProviderAsync(currentUserId, updateProfileDto);
@@ -219,11 +213,17 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Profile update failed due to following error: {ex}. Please try again.", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
-        public async Task Reset()
+        private async Task Reset()
         {
+            if (IsBusy)
+                return;
             FirstName = storedFirstName;
             LastName = storedLastName;
             MobileNumber = storedMobileNumber;
@@ -233,7 +233,7 @@ namespace PLinkageApp.ViewModels
         }
 
         [RelayCommand]
-        public async Task ChangePassword()
+        private async Task ChangePassword()
         {
             if (!Regex.IsMatch(Password, "^.{8,}$"))
             {
@@ -253,8 +253,11 @@ namespace PLinkageApp.ViewModels
                 UserRole = currentUserRole,
                 NewPassword = Password
             };
+            if (IsBusy)
+                return;
             try
             {
+                IsBusy = true;
                 if (currentUserRole == UserRole.SkillProvider)
                 {
                     var result = await _accountServiceClient.ChangePasswordAsync(changePasswordDto);
@@ -284,18 +287,26 @@ namespace PLinkageApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Failed", $"Password changed failed due to following error: {ex}. Please try again.", "Ok");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
-        public async Task ResetPasswordField()
+        private async Task ResetPasswordField()
         {
+            if (IsBusy)
+                return;
             Password = string.Empty;
             ConfirmPassword = string.Empty;
         }
 
         [RelayCommand]
-        public async Task Return()
+        private async Task Return()
         {
+            if (IsBusy)
+                return;
             if (_isUpdated)
                 await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
             else
