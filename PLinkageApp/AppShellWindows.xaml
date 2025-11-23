@@ -50,7 +50,7 @@
         <ShellContent ContentTemplate="{DataTemplate views:AdminHomeView}" Route="AdminHomeView" />
     </FlyoutItem>
     <FlyoutItem Title="Browse Projects" IsVisible="{Binding IsAdmin}">
-        <ShellContent ContentTemplate="{DataTemplate views:AdminBrowseProjectsView}" Route="AdminBrowseProjectsView" />
+        <ShellContent ContentTemplate="{DataTemplate views:BrowseProjectsView}" Route="BrowseProjectsView" />
     </FlyoutItem>
 
     <FlyoutItem Title="Browse Project Owners" IsVisible="{Binding IsAdmin}">
@@ -58,11 +58,11 @@
     </FlyoutItem>
 
     <FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsAdmin}">
-        <ShellContent ContentTemplate="{DataTemplate views:AdminBrowseSkillProvidersView}" Route="AdminBrowseSkillProvidersView" />
+        <ShellContent ContentTemplate="{DataTemplate views:BrowseSkillProvidersView}" Route="BrowseSkillProvidersView" />
     </FlyoutItem>
 
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsAdmin}">
-        <ShellContent ContentTemplate="{DataTemplate views:AdminMessagesView}" Route="AdminViewProjectOwnerProfileView" />
+        <ShellContent ContentTemplate="{DataTemplate views:ChatWindowsView}" Route="ChatWindowsView" />
     </FlyoutItem>
 
     <!--  Project Owner Menu  -->

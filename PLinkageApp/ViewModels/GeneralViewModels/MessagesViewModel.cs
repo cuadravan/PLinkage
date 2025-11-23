@@ -57,6 +57,8 @@ namespace PLinkageApp.ViewModels
         {
             if (IsBusy)
                 return;
+            if (ReceiverId == Guid.Empty)
+                return;
             IsBusy = true;
             try
             {

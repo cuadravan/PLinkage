@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PLinkageApp.WindowsControls.FilterButton"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
+
+    <Frame
+        Padding="0"
+        BackgroundColor="White"
+        CornerRadius="8"
+        HasShadow="False"
+        WidthRequest="250">
+        <Picker
+            HorizontalTextAlignment="Center"
+            ItemsSource="{Binding Source={x:Reference ThisControl}, Path=FilterItemSource}"
+            SelectedItem="{Binding Source={x:Reference ThisControl}, Path=FilterSelectedItem}"
+            TextColor="#7D7D7D"
+            TitleColor="#333333" />
+    </Frame>
+</ContentView>

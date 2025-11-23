@@ -116,6 +116,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ResignProjectViewModel>();
         builder.Services.AddTransient<NegotiateViewModel>();
         builder.Services.AddTransient<ProcessResignationViewModel>();
+        builder.Services.AddTransient<ChatWindowsViewModel>();
 
         builder.Services.AddTransient<ProjectOwnerLinkagesViewModel>();
         builder.Services.AddTransient<SkillProviderLinkagesViewModel>();

@@ -2,9 +2,9 @@ using PLinkageApp.ViewModels;
 
 namespace PLinkageApp.Views;
 
-public partial class AdminBrowseSkillProvidersView : ContentPage
+public partial class BrowseSkillProvidersView : ContentPage
 {
-	public AdminBrowseSkillProvidersView(BrowseSkillProviderViewModel viewModel)
+	public BrowseSkillProvidersView(BrowseSkillProviderViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;

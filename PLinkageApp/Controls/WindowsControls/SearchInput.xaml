@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PLinkageApp.WindowsControls.SearchInput"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
+
+
+    <Grid ColumnDefinitions="Auto,*" HorizontalOptions="Fill">
+        <Image
+            Margin="0,0,5,0"
+            HeightRequest="20"
+            Source="{Binding Source={x:Reference ThisControl}, Path=IconSource}"
+            VerticalOptions="Center" />
+
+        <Entry
+            Grid.Column="1"
+            HorizontalOptions="Fill"
+            Keyboard="Text"
+            Placeholder="{Binding Source={x:Reference ThisControl}, Path=SearchPlaceholder}"
+            PlaceholderColor="#777777"
+            Text="{Binding Source={x:Reference ThisControl}, Path=SearchQuery}"
+            TextColor="#333333" />
+    </Grid>
+
+</ContentView>

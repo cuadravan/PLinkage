@@ -108,11 +108,7 @@ namespace PLinkageApp.ViewModels
         {
             if (IsBusy)
                 return;
-#if ANDROID
             await _navigationService.NavigateToAsync("RegisterView1");
-#else
-            await _navigationService.NavigateToAsync("RegisterView");
-#endif
         }
 
         private bool ValidateInput()

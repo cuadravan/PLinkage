@@ -107,7 +107,11 @@ namespace PLinkageAPI.Services
 
                 if (projectOwners == null || !projectOwners.Any())
                 {
-                    return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Fail("No project owners found matching the criteria.");
+                    // Use Enumerable.Empty<T>() to create a typed, empty collection
+                    return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Ok(
+                        Enumerable.Empty<ProjectOwnerCardDto>(),
+                        "No project owners found matching the criteria."
+                    );
                 }
 
                 var projectOwnerCardDtos = projectOwners.Select(po => new ProjectOwnerCardDto

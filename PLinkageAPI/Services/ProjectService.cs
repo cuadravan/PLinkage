@@ -226,7 +226,11 @@ namespace PLinkageAPI.Services
 
             if (projects == null || !projects.Any())
             {
-                return ApiResponse<IEnumerable<ProjectCardDto>>.Fail("No projects found matching the criteria.");
+                // Use Enumerable.Empty<T>() to create a typed, empty collection
+                return ApiResponse<IEnumerable<ProjectCardDto>>.Ok(
+                    Enumerable.Empty<ProjectCardDto>(),
+                    "No projects found matching the criteria."
+                );
             }
 
             var projectCardDtos = projects.Select(project =>

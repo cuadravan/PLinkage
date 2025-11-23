@@ -3,235 +3,131 @@
     x:Class="PLinkageApp.Views.AdminHomeView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.WindowsControls"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="Home - Admin"
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
 
-    <ScrollView Padding="50">
-        <VerticalStackLayout Spacing="16">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
+        <ScrollView Padding="50">
+            <VerticalStackLayout Spacing="16">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            Text="Welcome, Admin!"
+                            TextColor="#212121" />
+                    </VerticalStackLayout>
 
-            <!--  Dashboard Stats  -->
-            <Border
-                Padding="16"
-                BackgroundColor="#7C4DFF"
-                Stroke="#CCCCCC"
-                StrokeShape="RoundRectangle 12"
-                StrokeThickness="1">
-                <VerticalStackLayout Spacing="6">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="Welcome, Admin!"
-                        TextColor="White" />
-
-                    <Label
-                        FontSize="14"
-                        Text="{Binding ActiveProjects, StringFormat='Active Projects: {0}'}"
-                        TextColor="White" />
-                    <Label
-                        FontSize="14"
-                        Text="{Binding CompletedProjects, StringFormat='Completed Projects: {0}'}"
-                        TextColor="White" />
-                    <Label
-                        FontSize="14"
-                        Text="{Binding EmploymentRatio, StringFormat='Employment Ratio (excluding deactivated): {0}'}"
-                        TextColor="White" />
-                </VerticalStackLayout>
-            </Border>
-
-            <!--  Project Filter  -->
-            <Border
-                Padding="16"
-                BackgroundColor="#FFFFFF"
-                Stroke="#7C4DFF"
-                StrokeShape="RoundRectangle 12"
-                StrokeThickness="1">
-                <VerticalStackLayout Spacing="6">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        Text="All Projects"
-                        TextColor="Black" />
-                    <Label
-                        FontSize="14"
-                        Text="Filter Projects by Project Status"
-                        TextColor="Black" />
-
-                    <Picker
-                        Title=""
-                        ItemsSource="{Binding ProjectStatusFilterOptions}"
-                        SelectedItem="{Binding SelectedProjectFilter}" />
-                </VerticalStackLayout>
-            </Border>
-
-            <!--  Project List  -->
-            <FlexLayout
-                AlignContent="Center"
-                AlignItems="Start"
-                BindableLayout.ItemsSource="{Binding FilteredProjects}"
-                Direction="Row"
-                JustifyContent="Center"
-                Wrap="Wrap">
-
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Margin="0,0,10,10"
-                            Padding="12"
-                            BackgroundColor="White"
-                            MinimumHeightRequest="120"
-                            Stroke="#7C4DFF"
-                            StrokeShape="RoundRectangle 10"
-                            StrokeThickness="1"
-                            WidthRequest="340">
-                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-
-                                <!--  Avatar / Icon  -->
-                                <BoxView
-                                    HeightRequest="60"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    WidthRequest="60"
-                                    Color="#7C4DFF" />
-
-                                <!--  Project Info  -->
-                                <VerticalStackLayout
-                                    Grid.Column="1"
-                                    Spacing="2"
-                                    VerticalOptions="Center">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="14"
-                                        LineBreakMode="WordWrap"
-                                        MaxLines="2"
-                                        Text="{Binding ProjectName}"
-                                        TextColor="Black" />
-                                    <Label
-                                        FontSize="12"
-                                        Text="{Binding ProjectStatus, StringFormat='Status: {0}'}"
-                                        TextColor="Black" />
-                                    <Label
-                                        FontSize="12"
-                                        Text="{Binding ProjectLocation, StringFormat='Location: {0}'}"
-                                        TextColor="Gray" />
-                                </VerticalStackLayout>
-
-                                <!--  View Button  -->
-                                <Button
-                                    Grid.Column="2"
-                                    Padding="10,4"
-                                    BackgroundColor="#7C4DFF"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="6"
-                                    Text="View"
-                                    VerticalOptions="Center"
-                                    WidthRequest="100" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </FlexLayout>
+                    <!--  Refresh Button  -->
+                    <Button
+                        Grid.Column="1"
+                        Padding="5"
+                        Command="{Binding RefreshCommand}"
+                        FontSize="20"
+                        Text="⟳" />
+                </Grid>
 
 
+                <FlexLayout
+                    Direction="Row"
+                    JustifyContent="SpaceBetween"
+                    Wrap="Wrap">
 
-            <!--  Skill Provider Filters  -->
-            <Border
-                Padding="16"
-                BackgroundColor="White"
-                Stroke="#7C4DFF"
-                StrokeShape="RoundRectangle 12"
-                StrokeThickness="1">
-                <VerticalStackLayout Spacing="6">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        Text="All Skill Providers"
-                        TextColor="Black" />
-                    <Label
-                        FontSize="14"
-                        Text="Filter Skill Providers by"
-                        TextColor="Black" />
+                    <controls:StatCard
+                        Title="Overall Active Projects"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding ActiveProjectsValue}" />
 
-                    <Picker
-                        Title="Employment Status"
-                        ItemsSource="{Binding SkillProviderFilterOptions}"
-                        SelectedItem="{Binding SelectedSkillEmploymentFilter}" />
+                    <controls:StatCard
+                        Title="Overall Completed Projects"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding CompletedProjectsValue}" />
 
-                    <Picker
-                        Title="Account Status"
-                        ItemsSource="{Binding SkillProviderStatusFilterOptions}"
-                        SelectedItem="{Binding SelectedSkillStatusFilter}" />
-                </VerticalStackLayout>
-            </Border>
+                    <controls:StatCard
+                        Title="Employment Ratio"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding EmploymentRatioValue}" />
+                </FlexLayout>
 
-            <!--  Skill Provider List  -->
-            <FlexLayout
-                AlignContent="Center"
-                AlignItems="Start"
-                BindableLayout.ItemsSource="{Binding FilteredSkillProviders}"
-                Direction="Row"
-                JustifyContent="Center"
-                Wrap="Wrap">
+                <BoxView HeightRequest="1" Color="#E0E0E0" />
 
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Margin="0,0,10,10"
-                            Padding="12"
-                            BackgroundColor="#FFFFFF"
-                            MinimumHeightRequest="120"
-                            Stroke="#7C4DFF"
-                            StrokeShape="RoundRectangle 10"
-                            StrokeThickness="1"
-                            WidthRequest="340">
-                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
-                                <BoxView
-                                    HeightRequest="60"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    WidthRequest="60"
-                                    Color="#7C4DFF" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Quick View of Active Projects"
+                    TextColor="#212121" />
 
-                                <VerticalStackLayout
-                                    Grid.Column="1"
-                                    Spacing="2"
-                                    VerticalOptions="Center">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="14"
-                                        LineBreakMode="WordWrap"
-                                        MaxLines="2"
-                                        Text="{Binding UserFirstName}"
-                                        TextColor="Black" />
-                                    <Label
-                                        FontSize="12"
-                                        Text="{Binding UserStatus, StringFormat='Status: {0}'}"
-                                        TextColor="Black" />
-                                    <Label
-                                        FontSize="12"
-                                        Text="{Binding UserLocation}"
-                                        TextColor="Black" />
-                                </VerticalStackLayout>
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding ProjectCards}"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
 
-                                <Button
-                                    Grid.Column="2"
-                                    Padding="10,4"
-                                    BackgroundColor="#7C4DFF"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="6"
-                                    Text="View"
-                                    TextColor="White"
-                                    VerticalOptions="Center"
-                                    WidthRequest="100" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </FlexLayout>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProjectCard
+                                Title="{Binding Title}"
+                                Margin="0,0,15,15"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
+                                CommandParameter="{Binding .}"
+                                Description="{Binding Description}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                Slots="{Binding Slots}"
+                                WidthRequest="340" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+                <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Quick View of Active Skill Providers For You"
+                    TextColor="#212121" />
+
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding SkillProviderCards}"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SkillProviderCard
+                                Margin="0,0,15,15"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
+                                CommandParameter="{Binding .}"
+                                Education="{Binding Education}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                UserName="{Binding UserName}"
+                                UserRating="{Binding UserRating}"
+                                WidthRequest="340" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                    <FlexLayout.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SkillProviderCards.Count}"
+                            TargetType="FlexLayout"
+                            Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </FlexLayout.Triggers>
+                </FlexLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>
