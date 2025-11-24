@@ -4,7 +4,7 @@ namespace PLinkageApp.Views;
 
 public partial class ProjectOwnerOffersAndApplicationsView : ContentPage
 {
-	public ProjectOwnerOffersAndApplicationsView(ProjectOwnerApplicationOfferViewModel viewModel)
+	public ProjectOwnerOffersAndApplicationsView(ProjectOwnerLinkagesViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;
@@ -12,7 +12,7 @@ public partial class ProjectOwnerOffersAndApplicationsView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ProjectOwnerApplicationOfferViewModel vm)
-            await vm.LoadDataCommand.ExecuteAsync(null);
+        if (BindingContext is ProjectOwnerLinkagesViewModel vm)
+            await vm.InitializeAsync();
     }
 }

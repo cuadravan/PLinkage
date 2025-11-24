@@ -31,7 +31,7 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty] 
         private ObservableCollection<string> projectSkillsRequired = new();
         [ObservableProperty] 
-        private List<ProjectMemberDetail> projectMemberDetails = new();
+        private List<ProjectMemberDetailDto> projectMemberDetails = new();
         [ObservableProperty, Required(ErrorMessage = "Priority is required.")] 
         private string projectPrioritySelected;
         [ObservableProperty, Range(1, int.MaxValue, ErrorMessage = "Resources needed must be at least 1.")] 

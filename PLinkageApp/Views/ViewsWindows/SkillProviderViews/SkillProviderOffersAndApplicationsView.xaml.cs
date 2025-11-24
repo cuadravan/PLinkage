@@ -4,17 +4,15 @@ namespace PLinkageApp.Views;
 
 public partial class SkillProviderOffersAndApplicationsView : ContentPage
 {
-	public SkillProviderOffersAndApplicationsView(SkillProviderApplicationOfferViewModel viewModel)
+	public SkillProviderOffersAndApplicationsView(SkillProviderLinkagesViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;
     }
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is SkillProviderApplicationOfferViewModel viewModel)
-        {
-            viewModel.LoadDataCommand.Execute(null);
-        }
+        if (BindingContext is SkillProviderLinkagesViewModel vm)
+            await vm.InitializeAsync();
     }
 }

@@ -2,14 +2,10 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using PLinkageApp.ViewModels;
-using PLinkageApp.Views;
 using Microsoft.Maui.LifecycleEvents;
 using PLinkageApp.Services;
 using PLinkageApp.Services.Http;
 using PLinkageApp.Interfaces;
-using PLinkageApp.Repositories;
-using PLinkageApp.ViewsAndroid;
-using Microsoft.Extensions.Caching.Memory;
 
 #if WINDOWS
 using Microsoft.UI;
@@ -87,7 +83,6 @@ public static class MauiProgram
 		builder.Services.AddTransient<IStartupService, StartupService>();
         builder.Services.AddTransient<SplashScreenPage>();
 
-        builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
         //builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
         //builder.Services.AddSingleton<App>();
         //builder.Services.AddSingleton<LogoutView>();            
@@ -134,9 +129,6 @@ public static class MauiProgram
 		builder.Services.AddTransient<BrowseSkillProviderViewModel>();
         builder.Services.AddTransient<ViewSkillProviderProfileViewModel>();
 		builder.Services.AddTransient<SendOfferViewModel>();
-        builder.Services.AddTransient<ProjectOwnerApplicationOfferViewModel>();
-		builder.Services.AddTransient<SendMessageViewModel>();
-        builder.Services.AddTransient<ViewMessagesViewModel>();
         builder.Services.AddTransient<SkillProviderHomeViewModel>();
 		builder.Services.AddTransient<SkillProviderProfileViewModel>();
         builder.Services.AddTransient<AddEducationViewModel>();
@@ -145,30 +137,41 @@ public static class MauiProgram
 		builder.Services.AddTransient<BrowseProjectViewModel>();
         builder.Services.AddTransient<SendApplicationViewModel>();
         builder.Services.AddTransient<ViewProjectOwnerProfileViewModel>();
-        builder.Services.AddTransient<SkillProviderApplicationOfferViewModel>();
         builder.Services.AddTransient<AdminHomeViewModel>();
         builder.Services.AddTransient<AdminBrowseProjectOwnerViewModel>();
 
 #if WINDOWS
         builder.ConfigureLifecycleEvents(events =>
         {
-            // Add Windows-specific lifecycle events
             events.AddWindows(wndLifeCycleBuilder =>
             {
-                // This runs when a window is created
                 wndLifeCycleBuilder.OnWindowCreated(window =>
                 {
-                    // Get the window handle
+                    // 1. Get the window handle
                     nint hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
 
-                    // Get the Window ID from the handle
-                    WindowId myWndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+                    // 2. Get the Window ID from the handle
+                    Microsoft.UI.WindowId myWndId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
 
-                    // Get the AppWindow instance
-                    AppWindow appWindow = AppWindow.GetFromWindowId(myWndId);
+                    // 3. Get the AppWindow instance
+                    Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(myWndId);
 
-                    // Set the presenter to FullScreen
-                    appWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+                    // 4. MAXIMIZE (Instead of FullScreen)
+                    // We check if the current presenter is an "OverlappedPresenter" (standard window)
+                    // and then call Maximize on it.
+                    if (appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter p)
+                    {
+                        p.Maximize();
+                    }
+                    else
+                    {
+                        // Fallback: Force it to be Overlapped, then Maximize
+                        appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Overlapped);
+                        if (appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter p2)
+                        {
+                            p2.Maximize();
+                        }
+                    }
                 });
             });
         });

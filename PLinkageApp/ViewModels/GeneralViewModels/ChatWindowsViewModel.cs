@@ -61,16 +61,16 @@ namespace PLinkageApp.ViewModels
             if (IsBusy) return;
 
             // Option A: If you are on Mobile, keep the old navigation
-            if (DeviceInfo.Idiom == DeviceIdiom.Phone)
-            {
-                await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object>
-                 {
-                     { "ChatId", chatSummaryDto.ChatId },
-                     { "ReceiverId", chatSummaryDto.ReceiverId },
-                     { "ReceiverName", chatSummaryDto.ReceiverFullName }
-                 });
-                return;
-            }
+            //if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            //{
+            //    await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object>
+            //     {
+            //         { "ChatId", chatSummaryDto.ChatId },
+            //         { "ReceiverId", chatSummaryDto.ReceiverId },
+            //         { "ReceiverName", chatSummaryDto.ReceiverFullName }
+            //     });
+            //    return;
+            //}
 
             // Option B: Desktop/Tablet - Load into the Right Pane
             try

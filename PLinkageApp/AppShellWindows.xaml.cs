@@ -20,12 +20,10 @@ namespace PLinkageApp
             Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
             Routing.RegisterRoute("ProjectOwnerRateSkillProviderView", typeof(ProjectOwnerRateSkillProviderView));
             Routing.RegisterRoute("ProjectOwnerSendOfferView", typeof(ProjectOwnerSendOfferView));
-            Routing.RegisterRoute("ProjectOwnerSendMessageView", typeof(ProjectOwnerSendMessageView));
             Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
             Routing.RegisterRoute("SkillProviderAddEducationView", typeof(SkillProviderAddEducationView));
             Routing.RegisterRoute("SkillProviderUpdateEducationView", typeof(SkillProviderUpdateEducationView));
             Routing.RegisterRoute("SkillProviderAddSkillView", typeof(SkillProviderAddSkillView));
-            Routing.RegisterRoute("SkillProviderUpdateSkillView", typeof(SkillProviderUpdateSkillView));
             Routing.RegisterRoute("SkillProviderSendApplicationView", typeof(SkillProviderSendApplicationView));
             Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
             Routing.RegisterRoute(nameof(RegisterView1), typeof(RegisterView1));

@@ -9,7 +9,7 @@
     BackgroundColor="White"
     Shell.NavBarIsVisible="False">
 
-    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
         <ScrollView Padding="50">
             <VerticalStackLayout Spacing="16">
                 <Grid ColumnDefinitions="*,Auto">

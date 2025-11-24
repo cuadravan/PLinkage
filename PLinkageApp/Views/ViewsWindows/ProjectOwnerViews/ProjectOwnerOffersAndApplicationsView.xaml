@@ -52,7 +52,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
 
@@ -88,7 +88,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewReceiverCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewReceiverCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </VerticalStackLayout>
@@ -141,7 +141,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
 
@@ -177,7 +177,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewSenderCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewSenderCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </VerticalStackLayout>
@@ -189,14 +189,14 @@
                                         VerticalOptions="Center">
                                         <Button
                                             BackgroundColor="#C8E6C9"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ApproveApplicationCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ApproveApplicationCommand}"
                                             CommandParameter="{Binding .}"
                                             CornerRadius="10"
                                             Text="✓"
                                             TextColor="Black" />
                                         <Button
                                             BackgroundColor="#FFCDD2"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=RejectApplicationCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=RejectApplicationCommand}"
                                             CommandParameter="{Binding .}"
                                             CornerRadius="10"
                                             Text="✕"
@@ -244,7 +244,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
 
@@ -280,7 +280,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewReceiverCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewReceiverCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </VerticalStackLayout>
@@ -333,7 +333,7 @@
                                             TextDecorations="Underline">
 
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewProjectCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
 
@@ -368,7 +368,7 @@
                                             TextColor="#7C4DFF"
                                             TextDecorations="Underline">
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerApplicationOfferViewModel}}, Path=ViewSenderCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewSenderCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </VerticalStackLayout>

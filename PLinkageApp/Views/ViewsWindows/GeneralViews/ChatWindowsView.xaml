@@ -97,7 +97,7 @@
             <Grid
                 BackgroundColor="#F0F0F0"
                 BindingContext="{Binding SelectedMessageViewModel}"
-                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatViewModel}}, Path=IsChatSelected}"
+                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatWindowsViewModel}}, Path=IsChatSelected}"
                 RowDefinitions="Auto, *, Auto">
 
                 <Border
@@ -137,7 +137,6 @@
                                         Padding="12"
                                         BackgroundColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorConverter}}"
                                         HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}"
-                                        Stroke="{Binding IsFromCurrentUser, Converter={StaticResource BoolToBorderColorConverter}}"
                                         StrokeShape="RoundRectangle 15"
                                         StrokeThickness="1">
                                         <VerticalStackLayout MaximumWidthRequest="450" Spacing="4">

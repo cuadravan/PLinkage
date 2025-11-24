@@ -60,7 +60,7 @@
     <FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsAdmin}">
         <ShellContent ContentTemplate="{DataTemplate views:BrowseSkillProvidersView}" Route="BrowseSkillProvidersView" />
     </FlyoutItem>
-
+    
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsAdmin}">
         <ShellContent ContentTemplate="{DataTemplate views:ChatWindowsView}" Route="ChatWindowsView" />
     </FlyoutItem>
@@ -75,7 +75,7 @@
     </FlyoutItem>
 
     <FlyoutItem Title="Browse Skill Providers" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent ContentTemplate="{DataTemplate views:ProjectOwnerBrowseSkillProviderView}" Route="ProjectOwnerBrowseSkillProviderView" />
+        <ShellContent ContentTemplate="{DataTemplate views:BrowseSkillProvidersView}" Route="BrowseSkillProvidersView" />
     </FlyoutItem>
 
     <FlyoutItem Title="Applications and Offers" IsVisible="{Binding IsProjectOwner}">
@@ -83,7 +83,7 @@
     </FlyoutItem>
 
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsProjectOwner}">
-        <ShellContent ContentTemplate="{DataTemplate views:ProjectOwnerMessagesView}" Route="ProjectOwnerMessagesView" />
+        <ShellContent ContentTemplate="{DataTemplate views:ChatWindowsView}" Route="ChatWindowsView" />
     </FlyoutItem>
 
     <!--  Skill Provider Menu  -->
@@ -96,7 +96,7 @@
     </FlyoutItem>
 
     <FlyoutItem Title="Browse Projects" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent ContentTemplate="{DataTemplate views:SkillProviderBrowseProjectsView}" Route="SkillProviderBrowseProjectsView" />
+        <ShellContent ContentTemplate="{DataTemplate views:BrowseProjectsView}" Route="BrowseProjectsView" />
     </FlyoutItem>
 
     <FlyoutItem Title="Applications and Offers" IsVisible="{Binding IsSkillProvider}">
@@ -104,7 +104,7 @@
     </FlyoutItem>
 
     <FlyoutItem Title="My Messages" IsVisible="{Binding IsSkillProvider}">
-        <ShellContent ContentTemplate="{DataTemplate views:SkillProviderMessagesView}" Route="SkillProvidersMessagesView" />
+        <ShellContent ContentTemplate="{DataTemplate views:ChatWindowsView}" Route="ChatWindowsView" />
     </FlyoutItem>
 
 </Shell>
