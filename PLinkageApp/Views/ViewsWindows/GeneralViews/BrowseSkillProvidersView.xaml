@@ -116,6 +116,12 @@
                         </DataTrigger>
                     </FlexLayout.Triggers>
                 </FlexLayout>
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No skill providers found under criteria selected."
+                    TextColor="Gray" />
 
             </VerticalStackLayout>
         </ScrollView>

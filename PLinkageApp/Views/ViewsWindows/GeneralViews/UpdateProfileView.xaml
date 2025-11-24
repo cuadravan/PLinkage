@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.Views.UpdateProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.WindowsControls"
+    Title="Update Profile"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView Padding="500,0,500,0">
+        <VerticalStackLayout
+            Padding="25,40,25,25"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <!--  Title  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Update Profile"
+                TextColor="Black" />
+
+            <controls:InfoBanner IconSource="plinkage.png" Text="Please input the correct details." />
+
+            <!--  Course Name  -->
+            <controls:LabeledEntry
+                LabelText="First Name"
+                Placeholder="Input new first name."
+                Text="{Binding FirstName}" />
+
+            <!--  School Attended  -->
+            <controls:LabeledEntry
+                LabelText="Last Name"
+                Placeholder="Input new last name."
+                Text="{Binding LastName}" />
+
+            <!--  Time Graduated  -->
+            <controls:LabeledDatePicker Date="{Binding Birthdate}" LabelText="Birthdate" />
+
+            <controls:LabeledPickerNonBrowse
+                ItemSource="{Binding GenderOptions}"
+                LabelText="Gender"
+                SelectedItem="{Binding GenderSelection}" />
+
+            <controls:LabeledPickerNonBrowse
+                ItemSource="{Binding LocationOptions}"
+                LabelText="Location"
+                SelectedItem="{Binding LocationSelection}" />
+
+            <controls:LabeledEntry
+                LabelText="Mobile Number"
+                Placeholder="Input new mobile number."
+                Text="{Binding MobileNumber}" />
+
+            <Label
+                Margin="0,10,0,0"
+                FontAttributes="Bold"
+                FontSize="14"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                Text="{Binding ErrorMessage}"
+                TextColor="#FF6347" />
+
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding UpdateProfileCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Update Profile"
+                    TextColor="White" />
+
+                <Button
+                    BackgroundColor="White"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    Command="{Binding ResetCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Reset"
+                    TextColor="#7C4DFF" />
+            </HorizontalStackLayout>
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Change Password"
+                TextColor="Black" />
+
+            <controls:InfoBanner IconSource="plinkage.png" Text="Leave empty if not changing passwords." />
+
+            <VerticalStackLayout>
+
+                <Label
+                    Margin="20,0,0,5"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="New Password"
+                    TextColor="Black" />
+
+                <Border
+                    Padding="10,0,0,0"
+                    BackgroundColor="Transparent"
+                    Stroke="#7C4DFF"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+
+                    <Entry
+                        BackgroundColor="Transparent"
+                        FontSize="14"
+                        IsPassword="true"
+                        Text="{Binding Password}"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center" />
+
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+
+                <Label
+                    Margin="20,0,0,5"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Confirm New Password"
+                    TextColor="Black" />
+
+                <Border
+                    Padding="10,0,0,0"
+                    BackgroundColor="Transparent"
+                    Stroke="#7C4DFF"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+
+                    <Entry
+                        BackgroundColor="Transparent"
+                        FontSize="14"
+                        IsPassword="true"
+                        Text="{Binding ConfirmPassword}"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center" />
+
+                </Border>
+            </VerticalStackLayout>
+
+            <Label
+                Margin="0,10,0,0"
+                FontAttributes="Bold"
+                FontSize="14"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ErrorMessagePassword, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                Text="{Binding ErrorMessagePassword}"
+                TextColor="#FF6347" />
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button
+                    BackgroundColor="#7C4DFF"
+                    Command="{Binding ChangePasswordCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Change Password"
+                    TextColor="White" />
+
+                <Button
+                    BackgroundColor="White"
+                    BorderColor="#7C4DFF"
+                    BorderWidth="1"
+                    Command="{Binding ResetPasswordFieldCommand}"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Reset"
+                    TextColor="#7C4DFF" />
+
+
+            </HorizontalStackLayout>
+            <Button
+                BackgroundColor="#7C4DFF"
+                Command="{Binding ReturnCommand}"
+                CornerRadius="5"
+                FontAttributes="Bold"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand"
+                Text="Return"
+                TextColor="White" />
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

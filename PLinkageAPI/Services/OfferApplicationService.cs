@@ -216,15 +216,18 @@ namespace PLinkageAPI.Services
             // We determine the name to display in the linkage and the ID to link to
             string formattedConcernedName = string.Empty;
             Guid concernedPersonId = Guid.Empty;
+            UserRole? concernedUserRole = null;
             if (userId == receiver.UserId)
             {
                 formattedConcernedName = $"Sent by: " + sender.UserFirstName + " " + sender.UserLastName;
                 concernedPersonId = sender.UserId;
+                concernedUserRole = sender.UserRole;
             }
             else
             {
                 formattedConcernedName = $"Received by: " + receiver.UserFirstName + " " + receiver.UserLastName;
                 concernedPersonId = receiver.UserId;
+                concernedUserRole = receiver.UserRole;
             }
             // We determine the format and rate to be displayed (which varies if its negotiated or not)
             string formattedRate = string.Empty;
@@ -260,6 +263,7 @@ namespace PLinkageAPI.Services
                 ProjectName = project.ProjectName,
                 FormattedConcernedName = formattedConcernedName,
                 ConcernedId = concernedPersonId,
+                ConcernedUserRole = concernedUserRole,
                 OfferApplicationType = item.OfferApplicationType,
                 OfferApplicationStatus = item.OfferApplicationStatus,
                 FormattedRate = formattedRate,

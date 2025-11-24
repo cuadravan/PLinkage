@@ -67,6 +67,10 @@ namespace PLinkageApp.ViewModels
         {
             _sessionService.ClearSession();
             UpdateRoleProperties();
+            if (Application.Current.MainPage is AppShellWindows shell)
+            {
+                shell.ClearFlyout();
+            }
             await _navigationService.NavigateAndClearStackAsync("LoginView");
         }
     }

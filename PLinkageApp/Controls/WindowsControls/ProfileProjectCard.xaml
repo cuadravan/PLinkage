@@ -85,7 +85,7 @@
                 Command="{Binding Source={x:Reference ThisControl}, Path=Command}"
                 CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}"
                 HeightRequest="24"
-                Source="viewproject.svg"
+                Source="viewproject.png"
                 VerticalOptions="Center"
                 WidthRequest="24" />
 

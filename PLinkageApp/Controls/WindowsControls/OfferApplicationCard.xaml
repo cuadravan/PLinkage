@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="thisControl">
+
     <Frame
         Padding="0"
         BackgroundColor="White"
@@ -60,11 +61,8 @@
                             TextColor="{Binding Source={x:Reference thisControl}, Path=StatusTextColor}"
                             VerticalOptions="Center" />
                     </Border>
-
                 </HorizontalStackLayout>
-
             </Grid>
-
 
             <VerticalStackLayout
                 Grid.Row="1"
@@ -74,17 +72,28 @@
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
-                    Text="{Binding Source={x:Reference thisControl}, Path=ProjectName}" />
+                    Text="{Binding Source={x:Reference thisControl}, Path=ProjectName}"
+                    TextColor="#2196F3"
+                    TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={x:Reference thisControl}, Path=ViewProjectCommand}" CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}" />
+                    </Label.GestureRecognizers>
+                </Label>
 
-
-                <StackLayout Orientation="Horizontal" Spacing="4">
+                <StackLayout Orientation="Horizontal" Spacing="6">
                     <Image
                         HeightRequest="16"
                         Source="chatperson.png"
                         WidthRequest="16" />
-                    <Label Text="{Binding Source={x:Reference thisControl}, Path=FormattedConcernedName}" />
+                    <Label
+                        Text="{Binding Source={x:Reference thisControl}, Path=FormattedConcernedName}"
+                        TextColor="#2196F3"
+                        TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference thisControl}, Path=ViewConcernedCommand}" CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </StackLayout>
-
 
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
                     <VerticalStackLayout>
@@ -97,7 +106,6 @@
                     </VerticalStackLayout>
                 </Grid>
 
-
                 <HorizontalStackLayout
                     HorizontalOptions="Center"
                     IsVisible="{Binding Source={x:Reference thisControl}, Path=AwaitingResponse}"
@@ -106,7 +114,7 @@
                         BackgroundColor="#7C4DFF"
                         Command="{Binding Source={x:Reference thisControl}, Path=AcceptCommand}"
                         CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}"
-                        HeightRequest="15"
+                        HeightRequest="35"
                         Text="Accept"
                         TextColor="White"
                         WidthRequest="80" />
@@ -116,7 +124,7 @@
                         BorderWidth="1"
                         Command="{Binding Source={x:Reference thisControl}, Path=DeclineCommand}"
                         CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}"
-                        HeightRequest="20"
+                        HeightRequest="35"
                         Text="Decline"
                         TextColor="#7C4DFF"
                         WidthRequest="80" />
@@ -126,13 +134,12 @@
                         BorderWidth="1"
                         Command="{Binding Source={x:Reference thisControl}, Path=NegotiateCommand}"
                         CommandParameter="{Binding Source={x:Reference thisControl}, Path=CommandParameter}"
-                        HeightRequest="20"
+                        HeightRequest="35"
                         IsVisible="{Binding Source={x:Reference thisControl}, Path=IsNegotiable}"
                         Text="Negotiate"
                         TextColor="#F97316"
                         WidthRequest="95" />
                 </HorizontalStackLayout>
-
 
             </VerticalStackLayout>
         </Grid>

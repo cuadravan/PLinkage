@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PLinkageApp.Interfaces;
+using PLinkageApp.WindowsControls;
 using PLinkageShared.DTOs;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ namespace PLinkageApp.ViewModels
     {
         private ISessionService _sessionService;
         private IOfferApplicationServiceClient _offerApplicationServiceClient;
+        private INavigationService _navigationService;
 
         private OfferApplicationPageDto _allData;
         private bool _isInitialized = false;
@@ -22,38 +24,51 @@ namespace PLinkageApp.ViewModels
         private string selectedBottomToggle = "Pending";
         [ObservableProperty]
         private bool isBusy = false;
+
+        // ---------------------------------------------------------
+        // PROPERTY FOR ANDROID (Dynamic Single List)
+        // ---------------------------------------------------------
         [ObservableProperty]
         private ObservableCollection<OfferApplicationDisplayDto> offerApplicationCards = new ObservableCollection<OfferApplicationDisplayDto>();
-        public bool ForceReset { get; set; }
 
-        public ProjectOwnerLinkagesViewModel(ISessionService sessionService, IOfferApplicationServiceClient offerApplicationServiceClient)
+        // ---------------------------------------------------------
+        // PROPERTIES FOR WINDOWS (Static Separate Lists)
+        // Added these so the Windows Grid can bind to them directly
+        // ---------------------------------------------------------
+        public ObservableCollection<OfferApplicationDisplayDto> SentOffersPending { get; } = new();
+        public ObservableCollection<OfferApplicationDisplayDto> SentOffersHistory { get; } = new();
+        public ObservableCollection<OfferApplicationDisplayDto> ReceivedApplicationsPending { get; } = new();
+        public ObservableCollection<OfferApplicationDisplayDto> ReceivedApplicationsHistory { get; } = new();
+
+        public bool ForceReset { get; set; } = false;
+
+        public ProjectOwnerLinkagesViewModel(INavigationService navigationService, ISessionService sessionService, IOfferApplicationServiceClient offerApplicationServiceClient)
         {
             _sessionService = sessionService;
             _offerApplicationServiceClient = offerApplicationServiceClient;
+            _navigationService = navigationService;
         }
 
         public async Task InitializeAsync()
         {
-            if (_isInitialized && !ForceReset) //If already initialized, or not a force reset, then don't initialize
+            if (_isInitialized && !ForceReset)
                 return;
             ForceReset = false;
             await LoadAllData();
-        }           
+        }
 
         [RelayCommand]
         private async Task Refresh()
         {
             _allData = null;
             await LoadAllData();
-        }   
+        }
 
         [RelayCommand]
         private async Task UpdateTopToggle(string selection)
         {
-            if (IsBusy)
-                return;
-            if (string.IsNullOrEmpty(selection) || SelectedTopToggle == selection)
-                return;
+            if (IsBusy) return;
+            if (string.IsNullOrEmpty(selection) || SelectedTopToggle == selection) return;
 
             SelectedTopToggle = selection;
             await UpdateDisplayedCards();
@@ -62,10 +77,8 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task UpdateBottomToggle(string selection)
         {
-            if (IsBusy)
-                return;
-            if (string.IsNullOrEmpty(selection) || SelectedBottomToggle == selection)
-                return;
+            if (IsBusy) return;
+            if (string.IsNullOrEmpty(selection) || SelectedBottomToggle == selection) return;
 
             SelectedBottomToggle = selection;
             await UpdateDisplayedCards();
@@ -74,8 +87,7 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task Accept(OfferApplicationDisplayDto dto)
         {
-            if (IsBusy)
-                return;
+            if (IsBusy) return;
             IsBusy = true;
             try
             {
@@ -100,6 +112,8 @@ namespace PLinkageApp.ViewModels
                 {
                     await Shell.Current.DisplayAlert("Success", "You have successfully approved this request.", "Ok");
                     ForceReset = true;
+                    // Trigger reload to update UI on both platforms
+                    await Refresh();
                 }
                 else
                 {
@@ -119,14 +133,12 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task Reject(OfferApplicationDisplayDto dto)
         {
-            if (IsBusy)
-                return;
+            if (IsBusy) return;
             IsBusy = true;
             try
             {
                 string rawRate = Regex.Match(dto.FormattedRate, @"\d+(\.\d+)?").Value;
                 string rawTimeFrame = Regex.Match(dto.FormattedTimeFrame, @"\d+(\.\d+)?").Value;
-
 
                 var processDto = new OfferApplicationProcessDto
                 {
@@ -146,6 +158,8 @@ namespace PLinkageApp.ViewModels
                 {
                     await Shell.Current.DisplayAlert("Success", "You have successfully rejected this request.", "Ok");
                     ForceReset = true;
+                    // Trigger reload to update UI on both platforms
+                    await Refresh();
                 }
                 else
                 {
@@ -161,10 +175,29 @@ namespace PLinkageApp.ViewModels
                 IsBusy = false;
             }
         }
-        private async Task LoadAllData()
+
+        [RelayCommand]
+        private async Task ViewProject(OfferApplicationDisplayDto dto)
         {
             if (IsBusy)
                 return;
+            await _navigationService.NavigateToAsync("ViewProjectView", new Dictionary<string, object> { { "ProjectId", dto.ProjectId } });
+        }
+
+        [RelayCommand]
+        private async Task ViewConcerned(OfferApplicationDisplayDto dto)
+        {
+            if (IsBusy)
+                return;
+            if(dto.ConcernedUserRole is PLinkageShared.Enums.UserRole.ProjectOwner)
+                await _navigationService.NavigateToAsync("ViewProjectOwnerProfileView", new Dictionary<string, object> { { "ProjectOwnerId", dto.ConcernedId } });
+            else if(dto.ConcernedUserRole is PLinkageShared.Enums.UserRole.SkillProvider)
+                await _navigationService.NavigateToAsync("ViewSkillProviderProfileView", new Dictionary<string, object> { { "SkillProviderId", dto.ConcernedId } });
+        }
+
+        private async Task LoadAllData()
+        {
+            if (IsBusy && !ForceReset) return;
 
             IsBusy = true;
             try
@@ -177,7 +210,31 @@ namespace PLinkageApp.ViewModels
                 if (response.Success && response.Data != null)
                 {
                     _allData = response.Data;
+
+                    // -----------------------------------------------------
+                    // 1. Populate Windows Lists (Separate Collections)
+                    // -----------------------------------------------------
+                    SentOffersPending.Clear();
+                    if (_allData.SentPending != null)
+                        foreach (var item in _allData.SentPending) SentOffersPending.Add(item);
+
+                    SentOffersHistory.Clear();
+                    if (_allData.SentHistory != null)
+                        foreach (var item in _allData.SentHistory) SentOffersHistory.Add(item);
+
+                    ReceivedApplicationsPending.Clear();
+                    if (_allData.ReceivedPending != null)
+                        foreach (var item in _allData.ReceivedPending) ReceivedApplicationsPending.Add(item);
+
+                    ReceivedApplicationsHistory.Clear();
+                    if (_allData.ReceivedHistory != null)
+                        foreach (var item in _allData.ReceivedHistory) ReceivedApplicationsHistory.Add(item);
+
+                    // -----------------------------------------------------
+                    // 2. Populate Android List (Based on Toggle)
+                    // -----------------------------------------------------
                     await UpdateDisplayedCards();
+
                     _isInitialized = true;
                 }
             }
@@ -189,12 +246,13 @@ namespace PLinkageApp.ViewModels
             finally
             {
                 IsBusy = false;
+                ForceReset = false;
             }
         }
+
         private async Task UpdateDisplayedCards()
         {
-            if (_allData == null)
-                return;
+            if (_allData == null) return;
 
             var itemsToShow = await Task.Run(() =>
             {
@@ -208,13 +266,11 @@ namespace PLinkageApp.ViewModels
                     return _allData.ReceivedHistory ?? new List<OfferApplicationDisplayDto>();
             });
 
-            // Clear on UI thread
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
                 OfferApplicationCards.Clear();
             });
 
-            // Add items in batches to prevent UI freeze
             const int batchSize = 15;
 
             await Task.Run(async () =>
@@ -231,7 +287,6 @@ namespace PLinkageApp.ViewModels
                         }
                     });
 
-                    // Small delay between batches (except for last batch)
                     if (i + batchSize < itemsToShow.Count)
                     {
                         await Task.Delay(5);

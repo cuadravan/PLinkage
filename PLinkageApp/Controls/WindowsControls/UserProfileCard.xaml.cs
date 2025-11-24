@@ -6,6 +6,17 @@ namespace PLinkageApp.WindowsControls
 {
     public partial class UserProfileCard : ContentView
     {
+        public static readonly BindableProperty RefreshCommandProperty =
+            BindableProperty.Create(
+                nameof(RefreshCommand),
+                typeof(ICommand),
+                typeof(UserProfileCard));
+
+        public ICommand RefreshCommand
+        {
+            get => (ICommand)GetValue(RefreshCommandProperty);
+            set => SetValue(RefreshCommandProperty, value);
+        }
         public static readonly BindableProperty UserNameProperty =
             BindableProperty.Create(nameof(UserName), typeof(string), typeof(UserProfileCard), string.Empty);
 

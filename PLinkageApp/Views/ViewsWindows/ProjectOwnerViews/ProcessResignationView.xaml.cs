@@ -2,17 +2,18 @@ using PLinkageApp.ViewModels;
 
 namespace PLinkageApp.Views;
 
-public partial class ProjectOwnerSendOfferView : ContentPage
+public partial class ProcessResignationView : ContentPage
 {
-	public ProjectOwnerSendOfferView(SendOfferViewModel viewModel)
+	public ProcessResignationView(ProcessResignationViewModel vm)
 	{
 		InitializeComponent();
-        BindingContext = viewModel;
-    }
+		BindingContext = vm;
+	}
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is SendOfferViewModel vm)
+        if (BindingContext is ProcessResignationViewModel vm)
             await vm.InitializeAsync();
     }
 }

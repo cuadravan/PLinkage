@@ -30,7 +30,7 @@
                             FontAttributes="Italic"
                             FontSize="16"
                             HorizontalOptions="Center"
-                            Text="No education details have been added yet."
+                            Text="No resignations found in your projects."
                             TextColor="Gray"
                             VerticalOptions="Center" />
                     </StackLayout>

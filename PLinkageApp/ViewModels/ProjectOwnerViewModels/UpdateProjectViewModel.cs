@@ -36,10 +36,10 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty] private string errorMessage;
         [ObservableProperty] private string durationSummary;
         [ObservableProperty] private string selectedSkill;
-        [ObservableProperty] private DateTime projectMinStartDate;
+        [ObservableProperty] private DateTime projectMinStartDate = new DateTime(1900, 1, 1);
         [ObservableProperty] private bool isBusy = false;
 
-        public Guid ProjectId { get; set; }
+        public Guid ProjectId { get; set; } = Guid.Empty;
 
         public ObservableCollection<ProjectStatus> StatusOptions { get; } = new(Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>());
         public ObservableCollection<string> PriorityOptions { get; } = new() { "Low", "Medium", "High" };
@@ -79,7 +79,25 @@ namespace PLinkageApp.ViewModels
                         ProjectMinStartDate = DateTime.Now.Date;
                     }
                     _isInitialized = true;
-                    await Reset();
+
+                    ProjectLocationSelected = (CebuLocation?)Enum.Parse(typeof(CebuLocation), _projectDto.ProjectLocation);
+                    ProjectName = _projectDto.ProjectName;
+                    ProjectDescription = _projectDto.ProjectDescription;
+                    ProjectStartDate = _projectDto.ProjectStartDate;
+                    ProjectEndDate = _projectDto.ProjectEndDate;
+                    ProjectPrioritySelected = _projectDto.ProjectPriority;
+                    ProjectResourcesNeeded = _projectDto.ProjectResourcesNeeded;
+                    ProjectStatusSelected = (ProjectStatus?)Enum.Parse(typeof(ProjectStatus), _projectDto.ProjectStatus);
+                    ProjectSkillsRequired.Clear();
+                    foreach (var skill in _projectDto.ProjectSkillsRequired)
+                        ProjectSkillsRequired.Add(skill);
+                    ProjectMembers.Clear();
+                    foreach (var member in _projectDto.ProjectMembers)
+                        ProjectMembers.Add(member);
+                    _projectMembersChanged = false;
+                    ProjectDateCreated = _projectDto.ProjectDateCreated;
+                    ProjectDateUpdated = DateTime.Now;
+                    UpdateDurationSummary();
                 }
                 else
                 {

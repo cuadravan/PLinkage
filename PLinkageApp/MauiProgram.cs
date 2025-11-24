@@ -30,14 +30,16 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-        #if ANDROID
-            ServiceCollectionServiceExtensions.AddSingleton<Shell, AppShellAndroid>(builder.Services);
-        #elif WINDOWS
-            ServiceCollectionServiceExtensions.AddSingleton<Shell, AppShellWindows>(builder.Services);
+#if ANDROID
+        // CHANGE THIS FROM AddSingleton TO AddTransient
+        ServiceCollectionServiceExtensions.AddTransient<Shell, AppShellAndroid>(builder.Services);
+#elif WINDOWS
+            // CHANGE THIS FROM AddSingleton TO AddTransient
+            ServiceCollectionServiceExtensions.AddTransient<Shell, AppShellWindows>(builder.Services);
 #endif
 
 #if ANDROID
-           const string ApiBaseUrl = "http://10.0.2.2:5015/";
+        const string ApiBaseUrl = "http://10.0.2.2:5015/";
 #elif WINDOWS
             const string ApiBaseUrl = "http://localhost:5015/";
 #else

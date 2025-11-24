@@ -23,6 +23,7 @@
             StrokeThickness="1">
 
             <Editor
+                x:Name="InputEditor"
                 AutoSize="TextChanges"
                 BackgroundColor="Transparent"
                 FontSize="14"

@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls;
+using PLinkageApp.Behaviors;
 
 namespace PLinkageApp.WindowsControls
 {
@@ -66,6 +67,60 @@ namespace PLinkageApp.WindowsControls
         {
             get => (bool)GetValue(IsPasswordProperty);
             set => SetValue(IsPasswordProperty, value);
+        }
+
+        public static readonly BindableProperty IsNumericProperty =
+            BindableProperty.Create(
+                nameof(IsNumeric),
+                typeof(bool),
+                typeof(LabeledEntry),
+                false, // Default is false (normal text)
+                propertyChanged: OnIsNumericChanged); // <--- Hook up the change handler
+
+        public bool IsNumeric
+        {
+            get => (bool)GetValue(IsNumericProperty);
+            set => SetValue(IsNumericProperty, value);
+        }
+
+        // 2. Handle the change
+        private static void OnIsNumericChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (LabeledEntry)bindable;
+            var editor = control.InputEditor;
+
+            // 1. Remove any existing behavior to start fresh
+            var existingBehavior = editor.Behaviors.FirstOrDefault(b => b is NumericValidationBehavior);
+            if (existingBehavior != null)
+            {
+                editor.Behaviors.Remove(existingBehavior);
+            }
+
+            // 2. If IsNumeric is true, add the behavior with the correct settings
+            if (control.IsNumeric)
+            {
+                var behavior = new NumericValidationBehavior
+                {
+                    AllowDecimals = control.IsDecimal // Pass the setting down
+                };
+
+                editor.Behaviors.Add(behavior);
+
+                if (control.Keyboard == Keyboard.Default)
+                {
+                    control.Keyboard = Keyboard.Numeric;
+                }
+            }
+        }
+
+        public static readonly BindableProperty IsDecimalProperty =
+    BindableProperty.Create(nameof(IsDecimal), typeof(bool), typeof(LabeledEntry), false, propertyChanged: OnIsNumericChanged);
+        // Note: We use the SAME changed handler (OnIsNumericChanged) to re-evaluate the behavior
+
+        public bool IsDecimal
+        {
+            get => (bool)GetValue(IsDecimalProperty);
+            set => SetValue(IsDecimalProperty, value);
         }
     }
 }

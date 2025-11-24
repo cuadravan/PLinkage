@@ -3,7 +3,7 @@
     x:Class="PLinkageApp.Views.MessagesView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:controls="clr-namespace:PLinkageApp.WindowsControls"
     Title="{Binding ReceiverName}"
     Shell.BackgroundColor="#7C4DFF"
     Shell.TitleColor="#FFFFFF">
@@ -24,11 +24,12 @@
                 <CollectionView Margin="5" ItemsSource="{Binding Messages}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Padding="5,10" HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}">
+                            <Grid Padding="5,10" HorizontalOptions="Fill">
 
                                 <Border
                                     Padding="10"
                                     BackgroundColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorConverter}}"
+                                    HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}"
                                     Stroke="{Binding IsFromCurrentUser, Converter={StaticResource BoolToBorderColorConverter}}"
                                     StrokeThickness="2">
 
@@ -55,10 +56,12 @@
         <Grid
             Grid.Row="1"
             BackgroundColor="#F0F0F0"
-            ColumnDefinitions="*, Auto">
+            ColumnDefinitions="*, Auto"
+            HorizontalOptions="Fill">
 
             <controls:SearchInput
-                ControlWidth="334"
+                ControlWidth="40"
+                HorizontalOptions="Fill"
                 SearchPlaceholder="Send Message..."
                 SearchQuery="{Binding MessageToSend}" />
 

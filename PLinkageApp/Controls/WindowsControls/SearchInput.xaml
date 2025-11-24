@@ -14,6 +14,7 @@
             VerticalOptions="Center" />
 
         <Entry
+            BackgroundColor="White"
             Grid.Column="1"
             HorizontalOptions="Fill"
             Keyboard="Text"

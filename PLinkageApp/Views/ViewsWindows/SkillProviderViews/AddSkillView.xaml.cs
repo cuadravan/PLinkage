@@ -1,9 +1,9 @@
 using PLinkageApp.ViewModels;
 namespace PLinkageApp.Views;
 
-public partial class SkillProviderAddSkillView : ContentPage
+public partial class AddSkillView : ContentPage
 {
-	public SkillProviderAddSkillView(AddSkillViewModel viewModel)
+	public AddSkillView(AddSkillViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;

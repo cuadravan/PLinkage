@@ -160,6 +160,12 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
+                    <Label
+                        Margin="5,0,0,0"
+                        FontSize="14"
+                        Text="Tip: Tap on project to view more details/resign."
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
                 </StackLayout>
             </VerticalStackLayout>
         </ScrollView>

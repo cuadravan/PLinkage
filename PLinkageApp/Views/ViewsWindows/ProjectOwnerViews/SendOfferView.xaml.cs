@@ -2,17 +2,17 @@ using PLinkageApp.ViewModels;
 
 namespace PLinkageApp.Views;
 
-public partial class ProjectOwnerUpdateProjectView : ContentPage
+public partial class SendOfferView : ContentPage
 {
-	public ProjectOwnerUpdateProjectView(UpdateProjectViewModel viewModel)
+	public SendOfferView(SendOfferViewModel viewModel)
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
+        BindingContext = viewModel;
     }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is UpdateProjectViewModel vm)
+        if (BindingContext is SendOfferViewModel vm)
             await vm.InitializeAsync();
     }
 }

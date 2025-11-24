@@ -84,6 +84,12 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
         </RefreshView>
+        <Label
+            FontSize="16"
+            HorizontalOptions="Center"
+            IsVisible="{Binding ProjectOwnerCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+            Text="No project owners found under criteria selected."
+            TextColor="Gray" />
 
     </Grid>
 </ContentPage>

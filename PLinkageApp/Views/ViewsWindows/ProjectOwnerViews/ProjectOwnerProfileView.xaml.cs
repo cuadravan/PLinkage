@@ -16,7 +16,7 @@ public partial class ProjectOwnerProfileView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ProjectOwnerLinkagesViewModel vm)
+        if (BindingContext is ProjectOwnerProfileViewModel vm)
             await vm.InitializeAsync();
     }
 

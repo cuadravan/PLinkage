@@ -187,6 +187,24 @@ public partial class OfferApplicationCard : ContentView
         set => SetValue(CommandParameterProperty, value);
     }
 
+    public static readonly BindableProperty ViewProjectCommandProperty =
+        BindableProperty.Create(nameof(ViewProjectCommand), typeof(ICommand), typeof(OfferApplicationCard));
+
+    public ICommand ViewProjectCommand
+    {
+        get => (ICommand)GetValue(ViewProjectCommandProperty);
+        set => SetValue(ViewProjectCommandProperty, value);
+    }
+
+    public static readonly BindableProperty ViewConcernedCommandProperty =
+        BindableProperty.Create(nameof(ViewConcernedCommand), typeof(ICommand), typeof(OfferApplicationCard));
+
+    public ICommand ViewConcernedCommand
+    {
+        get => (ICommand)GetValue(ViewConcernedCommandProperty);
+        set => SetValue(ViewConcernedCommandProperty, value);
+    }
+
     public OfferApplicationCard()
     {
         InitializeComponent();

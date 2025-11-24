@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.Views.AddProjectView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.WindowsControls"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="Create Project"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView Padding="50">
+        <VerticalStackLayout Spacing="25">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="28"
+                Text="Create New Project"
+                TextColor="#212121" />
+
+            <Grid ColumnDefinitions="*, 30, *" RowDefinitions="Auto">
+
+                <VerticalStackLayout Grid.Column="0" Spacing="15">
+
+                    <controls:LabeledEntry
+                        HorizontalOptions="Fill"
+                        LabelText="Project Name"
+                        Text="{Binding ProjectName}" />
+
+                    <controls:LabeledPicker
+                        HorizontalOptions="Fill"
+                        ItemSource="{Binding CebuLocations}"
+                        PlaceholderText="Select Location"
+                        SelectedItem="{Binding ProjectLocationSelected}"
+                        TitleText="Location" />
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Project Description"
+                            TextColor="#212121" />
+                        <Border
+                            Padding="5"
+                            BackgroundColor="White"
+                            Stroke="#7C4DFF"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Editor
+                                AutoSize="TextChanges"
+                                HeightRequest="150"
+                                Placeholder="Describe the project requirements..."
+                                Text="{Binding ProjectDescription}"
+                                TextColor="Black" />
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="2" Spacing="15">
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Start Date"
+                                TextColor="#212121" />
+                            <Border
+                                Padding="5"
+                                Stroke="#7C4DFF"
+                                StrokeShape="RoundRectangle 8">
+                                <DatePicker
+                                    Date="{Binding ProjectStartDate}"
+                                    Format="MM/dd/yyyy"
+                                    MinimumDate="{x:Static sys:DateTime.Today}"
+                                    TextColor="Black" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="End Date"
+                                TextColor="#212121" />
+                            <Border
+                                Padding="5"
+                                Stroke="#7C4DFF"
+                                StrokeShape="RoundRectangle 8">
+                                <DatePicker
+                                    Date="{Binding ProjectEndDate}"
+                                    Format="MM/dd/yyyy"
+                                    MinimumDate="{x:Static sys:DateTime.Today}"
+                                    TextColor="Black" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label
+                        FontAttributes="Italic"
+                        FontSize="14"
+                        Text="{Binding DurationSummary, StringFormat='Duration: {0}'}"
+                        TextColor="Gray" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                        <controls:LabeledPicker
+                            Grid.Column="0"
+                            HorizontalOptions="Fill"
+                            ItemSource="{Binding PriorityOptions}"
+                            PlaceholderText="Select"
+                            SelectedItem="{Binding ProjectPrioritySelected}"
+                            TitleText="Priority" />
+
+                        <controls:LabeledPicker
+                            Grid.Column="1"
+                            HorizontalOptions="Fill"
+                            ItemSource="{Binding StatusOptions}"
+                            PlaceholderText="Select"
+                            SelectedItem="{Binding ProjectStatusSelected}"
+                            TitleText="Status" />
+                    </Grid>
+
+                    <controls:LabeledEntry
+                        HorizontalOptions="Fill"
+                        IsNumeric="True"
+                        LabelText="Resources Needed (Qty)"
+                        Text="{Binding ProjectResourcesNeeded}" />
+
+                </VerticalStackLayout>
+            </Grid>
+
+            <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+            <VerticalStackLayout Spacing="10">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Required Skill Set"
+                    TextColor="#212121" />
+
+                <Grid
+                    ColumnDefinitions="400, Auto"
+                    ColumnSpacing="10"
+                    HorizontalOptions="Start">
+                    <Border
+                        Grid.Column="0"
+                        Padding="10,0"
+                        BackgroundColor="White"
+                        HeightRequest="45"
+                        Stroke="Gray"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Placeholder="Type a skill (e.g. Python, Plumbing)..."
+                            Text="{Binding SelectedSkill}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </Border>
+
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="#7C4DFF"
+                        Command="{Binding AddSkillCommand}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="+ Add Skill"
+                        TextColor="White" />
+                </Grid>
+
+                <Label
+                    FontSize="12"
+                    Text="Tip: Click on a skill to remove it."
+                    TextColor="Gray" />
+
+                <Border
+                    Padding="15"
+                    BackgroundColor="#F9F9F9"
+                    Stroke="#E0E0E0"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="1">
+
+                    <FlexLayout
+                        AlignItems="Start"
+                        BindableLayout.ItemsSource="{Binding ProjectSkillsRequired}"
+                        Direction="Row"
+                        JustifyContent="Start"
+                        Wrap="Wrap">
+
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <controls:SkillPill
+                                    Margin="0,0,8,8"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AddProjectViewModel}}, Path=RemoveSkillCommand}"
+                                    CommandParameter="{Binding .}"
+                                    SkillName="{Binding .}"
+                                    ToolTipProperties.Text="Click to remove" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+
+                        <BindableLayout.EmptyView>
+                            <Label
+                                FontAttributes="Italic"
+                                Text="No skills added yet."
+                                TextColor="Gray"
+                                VerticalOptions="Center" />
+                        </BindableLayout.EmptyView>
+                    </FlexLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Margin="0,20,0,0" Spacing="10">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                    Text="{Binding ErrorMessage}"
+                    TextColor="#D32F2F" />
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Button
+                        BackgroundColor="White"
+                        BorderColor="#7C4DFF"
+                        BorderWidth="1"
+                        Command="{Binding CancelCommand}"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Cancel"
+                        TextColor="#7C4DFF"
+                        WidthRequest="150" />
+
+                    <Button
+                        BackgroundColor="#4CAF50"
+                        Command="{Binding SubmitCommand}"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Create Project"
+                        TextColor="White"
+                        WidthRequest="200" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

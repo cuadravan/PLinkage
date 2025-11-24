@@ -72,22 +72,26 @@ namespace PLinkageApp.ViewModels
                     {
                         shell.ConfigureTabs(userRole);
                     }
-
-                    switch (_sessionService.GetCurrentUserRole())
+                    else if(Application.Current.MainPage is AppShellWindows shell2)
                     {
-                        case UserRole.SkillProvider:
-                            await _navigationService.NavigateAndClearStackAsync("SkillProviderHomeView");
-                            break;
-                        case UserRole.ProjectOwner:
-                            await _navigationService.NavigateAndClearStackAsync("ProjectOwnerHomeView");
-                            break;
-                        case UserRole.Admin:
-                            await _navigationService.NavigateAndClearStackAsync("AdminHomeView");
-                            break;
-                        default:
-                            ErrorMessage = "Unknown user role.";
-                            break;
+                        shell2.ConfigureFlyout(userRole);
                     }
+
+                        switch (_sessionService.GetCurrentUserRole())
+                        {
+                            case UserRole.SkillProvider:
+                                await _navigationService.NavigateAndClearStackAsync("SkillProviderHomeView");
+                                break;
+                            case UserRole.ProjectOwner:
+                                await _navigationService.NavigateAndClearStackAsync("ProjectOwnerHomeView");
+                                break;
+                            case UserRole.Admin:
+                                await _navigationService.NavigateAndClearStackAsync("AdminHomeView");
+                                break;
+                            default:
+                                ErrorMessage = "Unknown user role.";
+                                break;
+                        }
                 }
                 else
                 {

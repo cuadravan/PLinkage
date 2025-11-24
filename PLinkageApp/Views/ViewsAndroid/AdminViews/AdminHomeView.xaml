@@ -62,6 +62,13 @@
                 </CarouselView>
 
                 <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No active projects currently."
+                    TextColor="Gray" />
+
+                <Label
                     FontAttributes="Bold"
                     FontSize="16"
                     HorizontalOptions="Center"
@@ -81,16 +88,13 @@
                                 UserRating="{Binding UserRating}" />
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
-
-                    <CarouselView.EmptyView>
-                        <ContentView>
-                            <Label
-                                HorizontalOptions="Center"
-                                Text="No skill providers found."
-                                VerticalOptions="Center" />
-                        </ContentView>
-                    </CarouselView.EmptyView>
                 </CarouselView>
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No active skill providers currently."
+                    TextColor="Gray" />
             </VerticalStackLayout>
         </ScrollView>
     </RefreshView>

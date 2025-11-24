@@ -8,7 +8,7 @@
     Title="ProjectOwnerHomeView"
     Shell.NavBarIsVisible="False">
 
-    <Grid Padding="0,20">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
 
         <VerticalStackLayout Spacing="7">
             <Image Source="plinkagenotext.svg" />
@@ -65,28 +65,18 @@
                             Education="{Binding Education}"
                             Location="{Binding Location}"
                             Skills="{Binding Skills}"
-                                UserName="{Binding UserName}"
+                            UserName="{Binding UserName}"
                             UserRating="{Binding UserRating}" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
-
-                <CarouselView.EmptyView>
-                    <ContentView>
-                        <Label
-                            HorizontalOptions="Center"
-                            Text="No skill providers found."
-                            VerticalOptions="Center" />
-                    </ContentView>
-                </CarouselView.EmptyView>
             </CarouselView>
+            <Label
+                FontSize="16"
+                HorizontalOptions="Center"
+                IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                Text="No skill providers found."
+                TextColor="Gray" />
         </VerticalStackLayout>
 
-        <ActivityIndicator
-            HorizontalOptions="Center"
-            IsRunning="{Binding IsBusy}"
-            IsVisible="{Binding IsBusy}"
-            VerticalOptions="Center"
-            Color="#7C4DFF" />
-
-    </Grid>
+    </RefreshView>
 </ContentPage>

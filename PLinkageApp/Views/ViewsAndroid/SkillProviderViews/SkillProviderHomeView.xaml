@@ -7,7 +7,7 @@
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="SkillProviderHomeView"
     Shell.NavBarIsVisible="False">
-    <Grid Padding="0,20">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
         <VerticalStackLayout Spacing="7" VerticalOptions="Center">
             <Image Source="plinkagenotext.svg" />
             <Label
@@ -55,22 +55,14 @@
                             Slots="{Binding Slots}" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
-                <CarouselView.EmptyView>
-                    <ContentView>
-                        <Label
-                            HorizontalOptions="Center"
-                            Text="No projects found."
-                            VerticalOptions="Center" />
-                    </ContentView>
-                </CarouselView.EmptyView>
             </CarouselView>
+            <Label
+                FontSize="16"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                Text="No projects found."
+                TextColor="Gray" />
         </VerticalStackLayout>
-        <ActivityIndicator
-            HorizontalOptions="Center"
-            IsRunning="{Binding IsBusy}"
-            IsVisible="{Binding IsBusy}"
-            VerticalOptions="Center"
-            Color="#7C4DFF" />
-    </Grid>
+    </RefreshView>
 
 </ContentPage>

@@ -154,7 +154,7 @@ namespace PLinkageApp.ViewModels
             }
             if (!Regex.IsMatch(MobileNumber, @"^\d{10,11}$"))
             {
-                ErrorMessage = "Phone Number must be 10-11 digits.";
+                ErrorMessage = "Phone Number must be 10-11 numeric digits.";
                 return;
             }
             ErrorMessage = string.Empty;

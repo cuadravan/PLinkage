@@ -2,9 +2,9 @@ using PLinkageApp.ViewModels;
 
 namespace PLinkageApp.Views;
 
-public partial class SkillProviderSendApplicationView : ContentPage
+public partial class UpdateEducationView : ContentPage
 {
-	public SkillProviderSendApplicationView(SendApplicationViewModel viewModel)
+	public UpdateEducationView(UpdateEducationViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;
@@ -12,7 +12,7 @@ public partial class SkillProviderSendApplicationView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is SendApplicationViewModel vm)
+        if (BindingContext is UpdateEducationViewModel vm)
             await vm.InitializeAsync();
     }
 }

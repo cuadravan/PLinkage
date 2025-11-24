@@ -93,6 +93,12 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
         </RefreshView>
+        <Label
+            FontSize="16"
+            HorizontalOptions="Center"
+            IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+            Text="No projects found under criteria selected."
+            TextColor="Gray" />
 
     </Grid>
 </ContentPage>

@@ -147,6 +147,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <controls:OfferApplicationCard
+                                ViewConcernedCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewConcernedCommand}"
+                                ViewProjectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewProjectCommand}"                          
                                 AcceptCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=AcceptCommand}"
                                 AwaitingResponse="{Binding AwaitingResponse}"
                                 CommandParameter="{Binding .}"

@@ -66,7 +66,7 @@ namespace PLinkageApp.ViewModels
                 return;
             if (!IsEmployed)
                 return;
-            await _navigationService.NavigateToAsync("ResignProjectView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
+            await _navigationService.NavigateToAsync("ResignProjectView", new Dictionary<string, object> { { "ProjectId", Project.ProjectId } });
         }
 
         [RelayCommand]
@@ -76,7 +76,7 @@ namespace PLinkageApp.ViewModels
                 return;
             if (_sessionService.GetCurrentUserRole() != UserRole.SkillProvider)
                 return;
-            await _navigationService.NavigateToAsync("ApplyView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
+            await _navigationService.NavigateToAsync("ApplyView", new Dictionary<string, object> { { "ProjectId", Project.ProjectId } });
         }
 
         [RelayCommand]
@@ -86,7 +86,12 @@ namespace PLinkageApp.ViewModels
                 return;
             if (_sessionService.GetCurrentUserRole() != UserRole.ProjectOwner)
                 return;
-            await _navigationService.NavigateToAsync("UpdateProjectView", new Dictionary<string, object> { { "ProjectId", project.ProjectId } });
+            if (project.ProjectStatus == "Completed")
+            {
+                await Shell.Current.DisplayAlert("Cannot Update", "A completed project cannot be updated.", "Ok");
+                return;
+             }             
+            await _navigationService.NavigateToAsync("UpdateProjectView", new Dictionary<string, object> { { "ProjectId", Project.ProjectId } });
         }
 
         [RelayCommand]

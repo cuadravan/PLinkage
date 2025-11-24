@@ -143,6 +143,12 @@ namespace PLinkageApp.ViewModels
                     else
                     {
                         IsUserCurrentlyActive = false;
+
+                        if (_sessionService.GetCurrentUserRole() != UserRole.Admin) // If PO is deactivated but current user is not an admin, then they have no access
+                        {
+                            await Shell.Current.DisplayAlert("Information", "This user is currently deactivated. You cannot view their profile.", "Ok");
+                            await _navigationService.GoBackAsync();
+                        }
                     }
                     _isInitialized = true;
                 }

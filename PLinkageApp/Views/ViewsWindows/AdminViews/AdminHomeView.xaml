@@ -75,7 +75,7 @@
                         <DataTemplate>
                             <controls:ProjectCard
                                 Title="{Binding Title}"
-                                Margin="0,0,15,15"
+                                Margin="0,0,10,10"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
                                 CommandParameter="{Binding .}"
                                 Description="{Binding Description}"
@@ -106,7 +106,7 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <controls:SkillProviderCard
-                                Margin="0,0,15,15"
+                                Margin="0,0,10,10"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
                                 CommandParameter="{Binding .}"
                                 Education="{Binding Education}"
