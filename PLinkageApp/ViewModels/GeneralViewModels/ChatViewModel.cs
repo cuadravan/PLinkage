@@ -14,14 +14,27 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
 
         private const int FuzzySearchCutoff = 70;
-
         private List<ChatSummaryDto> _chatPreviews = new List<ChatSummaryDto>();
 
         [ObservableProperty]
         private bool isBusy;
+
         [ObservableProperty]
         private string searchQuery = "";
 
+        // ==========================================================
+        // DESKTOP / SPLIT-VIEW SPECIFIC PROPERTIES
+        // (These will just be null/unused on Android, which is safe)
+        // ==========================================================
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsChatSelected))]
+        private MessagesViewModel? _selectedMessageViewModel;
+
+        public bool IsChatSelected => SelectedMessageViewModel != null;
+
+        // ==========================================================
+        // SHARED COLLECTIONS
+        // ==========================================================
         public ObservableCollection<ChatSummaryDto> ChatPreviews { get; set; } = new ObservableCollection<ChatSummaryDto>();
 
         public ChatViewModel(IChatServiceClient chatServiceClient, INavigationService navigationService, ISessionService sessionService)
@@ -33,17 +46,8 @@ namespace PLinkageApp.ViewModels
 
         public async Task InitializeAsync()
         {
-            if (_chatPreviews.Any())
-                return;
-
-            try
-            {
-                await GetChatPreviews();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error during initialization: {ex.Message}");
-            }
+            if (_chatPreviews.Any()) return;
+            await GetChatPreviews();
         }
 
         [RelayCommand]
@@ -51,16 +55,60 @@ namespace PLinkageApp.ViewModels
         {
             await GetChatPreviews();
         }
+
+        // ==========================================================
+        // THE MERGED LOGIC
+        // ==========================================================
         [RelayCommand]
         private async Task ViewChat(ChatSummaryDto chatSummaryDto)
         {
-            await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object> { { "ChatId", chatSummaryDto.ChatId }, { "ReceiverId", chatSummaryDto.ReceiverId }, { "ReceiverName", chatSummaryDto.ReceiverFullName } });
+            if (IsBusy) return;
+
+            // STRATEGY: Check the Device Type to decide behavior
+            if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+            {
+                // --- ANDROID / PHONE BEHAVIOR (Navigate) ---
+                await _navigationService.NavigateToAsync("MessagesView", new Dictionary<string, object>
+                {
+                    { "ChatId", chatSummaryDto.ChatId },
+                    { "ReceiverId", chatSummaryDto.ReceiverId },
+                    { "ReceiverName", chatSummaryDto.ReceiverFullName }
+                });
+            }
+            else
+            {
+                // --- WINDOWS / DESKTOP BEHAVIOR (Split View) ---
+                try
+                {
+                    IsBusy = true;
+
+                    // Manually create the Child ViewModel
+                    var messageVm = new MessagesViewModel(_chatServiceClient, _sessionService)
+                    {
+                        ChatId = chatSummaryDto.ChatId,
+                        ReceiverId = chatSummaryDto.ReceiverId,
+                        ReceiverName = chatSummaryDto.ReceiverFullName
+                    };
+
+                    await messageVm.InitializeAsync();
+
+                    SelectedMessageViewModel = messageVm;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error loading chat details: {ex.Message}");
+                    await Shell.Current.DisplayAlert("Error", "Could not load chat details.", "OK");
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            }
         }
 
         private async Task GetChatPreviews()
         {
-            if (IsBusy)
-                return;
+            if (IsBusy) return;
             IsBusy = true;
             try
             {
@@ -71,7 +119,6 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success && result.Data != null)
                 {
-
                     foreach (var dto in result.Data)
                     {
                         _chatPreviews.Add(dto);
@@ -79,20 +126,20 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    // Only show alert if it's a real error, distinct from empty list
+                    if (!result.Success)
+                        await Shell.Current.DisplayAlert("Error", result.Message, "Ok");
                 }
                 FilterChatPreviews();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting chat previews: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {
                 IsBusy = false;
             }
-
         }
 
         partial void OnSearchQueryChanged(string value)
@@ -103,7 +150,6 @@ namespace PLinkageApp.ViewModels
         private void FilterChatPreviews()
         {
             var query = SearchQuery.Trim().ToLowerInvariant();
-
             IEnumerable<ChatSummaryDto> filteredList;
 
             if (string.IsNullOrEmpty(query))
@@ -113,18 +159,14 @@ namespace PLinkageApp.ViewModels
             else
             {
                 filteredList = _chatPreviews
-                    .Where(card => Fuzz.PartialRatio(query, card.ReceiverFullName.ToLowerInvariant())
-                                     > FuzzySearchCutoff);
-
+                    .Where(card => Fuzz.PartialRatio(query, card.ReceiverFullName.ToLowerInvariant()) > FuzzySearchCutoff);
             }
+
             ChatPreviews.Clear();
             foreach (var card in filteredList)
             {
                 ChatPreviews.Add(card);
             }
         }
-
-        
-
     }
 }

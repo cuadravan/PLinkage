@@ -3,7 +3,7 @@
     x:Class="PLinkageApp.ViewsAndroid.BrowseSkillProviderView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="BrowseSkillProviderView"
     Shell.NavBarIsVisible="False">
@@ -103,12 +103,12 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
         </RefreshView>
-        <Label
+        <!--<Label
             FontSize="16"
             HorizontalOptions="Center"
             IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
             Text="No skill providers found under criteria selected."
-            TextColor="Gray" />
+            TextColor="Gray" />-->
 
     </Grid>
 </ContentPage>

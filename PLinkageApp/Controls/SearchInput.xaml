@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PLinkageApp.Controls.SearchInput"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ThisControl">
+
+    <ContentView.Content>
+        <OnPlatform x:TypeArguments="View">
+
+            <On Platform="Android">
+                <Frame
+                    Padding="5"
+                    BackgroundColor="White"
+                    BorderColor="#7C4DFF"
+                    CornerRadius="8"
+                    HasShadow="False"
+                    WidthRequest="{Binding Source={x:Reference ThisControl}, Path=ControlWidth}">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Image
+                            Margin="0,0,5,0"
+                            HeightRequest="20"
+                            Source="{Binding Source={x:Reference ThisControl}, Path=IconSource}"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Column="1"
+                            Keyboard="Text"
+                            Placeholder="{Binding Source={x:Reference ThisControl}, Path=SearchPlaceholder}"
+                            PlaceholderColor="#777777"
+                            Text="{Binding Source={x:Reference ThisControl}, Path=SearchQuery}"
+                            TextColor="#333333" />
+                    </Grid>
+                </Frame>
+            </On>
+
+            <On Platform="WinUI">
+                <Grid ColumnDefinitions="Auto,*" HorizontalOptions="Fill">
+                    <Image
+                        Margin="0,0,5,0"
+                        HeightRequest="20"
+                        Source="{Binding Source={x:Reference ThisControl}, Path=IconSource}"
+                        VerticalOptions="Center" />
+
+                    <Entry
+                        Grid.Column="1"
+                        BackgroundColor="White"
+                        HorizontalOptions="Fill"
+                        Keyboard="Text"
+                        Placeholder="{Binding Source={x:Reference ThisControl}, Path=SearchPlaceholder}"
+                        PlaceholderColor="#777777"
+                        Text="{Binding Source={x:Reference ThisControl}, Path=SearchQuery}"
+                        TextColor="#333333" />
+                </Grid>
+            </On>
+
+        </OnPlatform>
+    </ContentView.Content>
+</ContentView>

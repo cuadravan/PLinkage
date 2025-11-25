@@ -3,12 +3,12 @@
     x:Class="PLinkageApp.ViewsAndroid.BrowseProjectView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.AndroidControls"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
     Title="BrowseProjectView"
     Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto, Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *, *">
 
         <FlexLayout
             Grid.Row="0"
@@ -93,12 +93,6 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
         </RefreshView>
-        <Label
-            FontSize="16"
-            HorizontalOptions="Center"
-            IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
-            Text="No projects found under criteria selected."
-            TextColor="Gray" />
 
     </Grid>
 </ContentPage>

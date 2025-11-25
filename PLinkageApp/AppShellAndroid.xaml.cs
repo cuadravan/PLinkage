@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls;
+using PLinkageApp.Views;
 using PLinkageApp.ViewsAndroid;
 using PLinkageApp.ViewModels;
 using PLinkageApp.Interfaces;

@@ -1,10 +1,10 @@
 using PLinkageApp.ViewModels;
 
-namespace PLinkageApp.Views;
+namespace PLinkageApp.ViewsWindows;
 
 public partial class ChatWindowsView : ContentPage
 {
-	public ChatWindowsView(ChatWindowsViewModel viewModel)
+	public ChatWindowsView(ChatViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = viewModel;
@@ -12,7 +12,7 @@ public partial class ChatWindowsView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ChatWindowsViewModel vm)
+        if (BindingContext is ChatViewModel vm)
             await vm.InitializeAsync();
     }
 }

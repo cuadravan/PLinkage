@@ -1,6 +1,6 @@
 using PLinkageApp.ViewModels;
 
-namespace PLinkageApp.Views;
+namespace PLinkageApp.ViewsWindows;
 
 public partial class ProjectOwnerHomeView : ContentPage
 {

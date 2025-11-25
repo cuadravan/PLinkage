@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Controls;
 using PLinkageApp.Views;
+using PLinkageApp.ViewsWindows;
 using PLinkageApp.ViewModels;
 using PLinkageApp.Interfaces;
 using PLinkageShared.Enums;
@@ -31,20 +32,13 @@ namespace PLinkageApp
             await _startupService.StartAsync();
         }
 
-        // --- NEW LOGIC STARTS HERE ---
-
-        // 1. Define the Record (Same as your Android version)
         record FlyoutMenuItem(string Name, string Icon, Type Type);
 
         public void ClearFlyout()
         {
-            // A. Remove existing dynamic items
-            // We iterate backwards or use ToList() to safely modify the collection while looping.
-            // We keep "StartView" and "LoginView" because they are defined in XAML.
-
             var itemsToRemove = Items
-        .Where(item => item.Route != "AuthWrapper")
-        .ToList();
+                                .Where(item => item.Route != "AuthWrapper")
+                                .ToList();
 
             foreach (var item in itemsToRemove)
             {
@@ -93,9 +87,9 @@ namespace PLinkageApp
         private FlyoutMenuItem[] GetAdminMenuItems() =>
         [
             new("Home", "home.png", typeof(AdminHomeView)),
-            new("Browse Projects", "project.png", typeof(BrowseProjectsView)),
+            new("Browse Projects", "project.png", typeof(BrowseProjectView)),
             new("Browse Project Owners", "browsepo.png", typeof(AdminBrowseProjectOwnerView)),
-            new("Browse Skill Providers", "browsesp.png", typeof(BrowseSkillProvidersView)),
+            new("Browse Skill Providers", "browsesp.png", typeof(BrowseSkillProviderView)),
             new("My Messages", "chat.png", typeof(ChatWindowsView))
         ];
 
@@ -103,8 +97,8 @@ namespace PLinkageApp
         [
             new("Home", "home.png", typeof(ProjectOwnerHomeView)),
             new("My Profile", "browsepo.png", typeof(ProjectOwnerProfileView)),
-            new("Browse Skill Providers", "browsesp.png", typeof(BrowseSkillProvidersView)),
-            new("Your Linkages", "linkages.png", typeof(ProjectOwnerOffersAndApplicationsView)),
+            new("Browse Skill Providers", "browsesp.png", typeof(BrowseSkillProviderView)),
+            new("Your Linkages", "linkages.png", typeof(ProjectOwnerLinkagesView)),
             new("My Messages", "chat.png", typeof(ChatWindowsView))
         ];
 
@@ -112,25 +106,25 @@ namespace PLinkageApp
         [
             new("Home", "home.png", typeof(SkillProviderHomeView)),
             new("My Profile", "browsepo.png", typeof(SkillProviderProfileView)),
-            new("Browse Projects", "project.png", typeof(BrowseProjectsView)),
-            new("Your Linkages", "linkages.png", typeof(SkillProviderOffersAndApplicationsView)),
+            new("Browse Projects", "project.png", typeof(BrowseProjectView)),
+            new("Your Linkages", "linkages.png", typeof(SkillProviderLinkagesView)),
             new("My Messages", "chat.png", typeof(ChatWindowsView))
         ];
 
         private void RegisterRoutes()
         {
             Routing.RegisterRoute(nameof(UpdateProfileView), typeof(UpdateProfileView));
-            Routing.RegisterRoute("AddProjectView", typeof(AddProjectView));
-            Routing.RegisterRoute("UpdateProjectView", typeof(UpdateProjectView));
-            Routing.RegisterRoute("ViewProjectView", typeof(ViewProjectView));
+            Routing.RegisterRoute(nameof(AddProjectView), typeof(AddProjectView));
+            Routing.RegisterRoute(nameof(UpdateProjectView), typeof(UpdateProjectView));
+            Routing.RegisterRoute(nameof(ViewProjectView), typeof(ViewProjectView));
             Routing.RegisterRoute(nameof(RateSkillProviderView), typeof(RateSkillProviderView));
             Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
-            Routing.RegisterRoute("ViewSkillProviderProfileView", typeof(ViewSkillProviderProfileView));
+            Routing.RegisterRoute(nameof(ViewSkillProviderProfileView), typeof(ViewSkillProviderProfileView));
             Routing.RegisterRoute(nameof(AddEducationView), typeof(AddEducationView));
             Routing.RegisterRoute(nameof(UpdateEducationView), typeof(UpdateEducationView));
             Routing.RegisterRoute(nameof(AddSkillView), typeof(AddSkillView));
-            Routing.RegisterRoute(nameof(SendApplicationView), typeof(SendApplicationView));
-            Routing.RegisterRoute("ViewProjectOwnerProfileView", typeof(ViewProjectOwnerProfileView));
+            Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
+            Routing.RegisterRoute(nameof(ViewProjectOwnerProfileView), typeof(ViewProjectOwnerProfileView));
             Routing.RegisterRoute(nameof(RegisterView1), typeof(RegisterView1));
             Routing.RegisterRoute(nameof(RegisterView2), typeof(RegisterView2));
             Routing.RegisterRoute(nameof(RegisterView3), typeof(RegisterView3));

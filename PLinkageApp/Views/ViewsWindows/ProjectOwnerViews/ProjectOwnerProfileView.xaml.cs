@@ -2,7 +2,7 @@ using PLinkageApp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 
 
-namespace PLinkageApp.Views;
+namespace PLinkageApp.ViewsWindows;
 
 
 public partial class ProjectOwnerProfileView : ContentPage

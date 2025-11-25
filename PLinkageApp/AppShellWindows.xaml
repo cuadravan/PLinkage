@@ -3,7 +3,8 @@
     x:Class="PLinkageApp.AppShellWindows"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:PLinkageApp.Views"
+    xmlns:viewsCommon="clr-namespace:PLinkageApp.Views"
+    xmlns:viewsWindows="clr-namespace:PLinkageApp.ViewsWindows"
     Title="PLinkage"
     Shell.FlyoutBehavior="Flyout">
 
@@ -41,12 +42,12 @@
         Shell.TabBarIsVisible="False">
         <ShellContent
             Title="Start"
-            ContentTemplate="{DataTemplate views:BlankPage}"
+            ContentTemplate="{DataTemplate viewsCommon:BlankPage}"
             Route="StartView" />
 
         <ShellContent
             Title="Login"
-            ContentTemplate="{DataTemplate views:LoginView}"
+            ContentTemplate="{DataTemplate viewsWindows:LoginView}"
             Route="LoginView" />
     </FlyoutItem>
 

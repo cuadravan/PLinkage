@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PLinkageApp.Views.ChatWindowsView"
+    x:Class="PLinkageApp.ViewsWindows.ChatWindowsView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:PLinkageApp.WindowsControls"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
     xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
-    xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
     Title="Messages"
     Shell.NavBarIsVisible="False">
 
@@ -46,7 +45,6 @@
 
             <RefreshView
                 Grid.Row="1"
-                windows:RefreshView.RefreshPullDirection="TopToBottom"
                 Command="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}">
 
@@ -60,7 +58,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <controls:ChatPreviewCard
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatWindowsViewModel}}, Path=ViewChatCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatViewModel}}, Path=ViewChatCommand}"
                                 CommandParameter="{Binding .}"
                                 MessageText="{Binding MostRecentMessage}"
                                 SenderName="{Binding ReceiverFullName}" />
@@ -97,7 +95,7 @@
             <Grid
                 BackgroundColor="#F0F0F0"
                 BindingContext="{Binding SelectedMessageViewModel}"
-                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatWindowsViewModel}}, Path=IsChatSelected}"
+                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ChatViewModel}}, Path=IsChatSelected}"
                 RowDefinitions="Auto, *, Auto">
 
                 <Border
