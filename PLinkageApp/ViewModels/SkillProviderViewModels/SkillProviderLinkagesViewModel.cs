@@ -10,9 +10,10 @@ namespace PLinkageApp.ViewModels
     [QueryProperty(nameof(ForceReset), "ForceReset")]
     public partial class SkillProviderLinkagesViewModel : ObservableObject
     {
-        private ISessionService _sessionService;
-        private INavigationService _navigationService;
-        private IOfferApplicationServiceClient _offerApplicationServiceClient;
+        private readonly ISessionService _sessionService;
+        private readonly INavigationService _navigationService;
+        private readonly IOfferApplicationServiceClient _offerApplicationServiceClient;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
         private OfferApplicationPageDto _allData;
@@ -30,7 +31,7 @@ namespace PLinkageApp.ViewModels
         // PROPERTY FOR ANDROID (Dynamic Single List)
         // ---------------------------------------------------------
         [ObservableProperty]
-        private ObservableCollection<OfferApplicationDisplayDto> offerApplicationCards;
+        private ObservableCollection<OfferApplicationDisplayDto> offerApplicationCards = new ObservableCollection<OfferApplicationDisplayDto>();
 
         // ---------------------------------------------------------
         // PROPERTIES FOR WINDOWS (Static Separate Lists)
@@ -44,6 +45,7 @@ namespace PLinkageApp.ViewModels
         public bool ForceReset { get; set; }
 
         public SkillProviderLinkagesViewModel(
+            IDialogService dialogService,
             ISessionService sessionService,
             IOfferApplicationServiceClient offerApplicationServiceClient,
             INavigationService navigationService)
@@ -51,8 +53,7 @@ namespace PLinkageApp.ViewModels
             _sessionService = sessionService;
             _offerApplicationServiceClient = offerApplicationServiceClient;
             _navigationService = navigationService;
-
-            offerApplicationCards = new ObservableCollection<OfferApplicationDisplayDto>();
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -117,18 +118,18 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully approved this request.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully approved this request.", "Ok");
                     ForceReset = true;
                     await Refresh(); // Reload list to remove the item
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
             }
             finally
             {
@@ -162,18 +163,18 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully rejected this request.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully rejected this request.", "Ok");
                     ForceReset = true;
                     await Refresh(); // Reload list to remove the item
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
             }
             finally
             {
@@ -247,7 +248,7 @@ namespace PLinkageApp.ViewModels
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading data: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

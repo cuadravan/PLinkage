@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IOfferApplicationServiceClient _offerApplicationServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -30,12 +31,13 @@ namespace PLinkageApp.ViewModels
 
         public OfferApplicationDisplayDto DisplayDto { get; set; }
 
-        public NegotiateViewModel(IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public NegotiateViewModel(IDialogService dialogService, IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _offerApplicationServiceClient = offerApplicationServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
 
@@ -55,7 +57,7 @@ namespace PLinkageApp.ViewModels
                 var result = await _projectServiceClient.GetSpecificAsync(DisplayDto.ProjectId);
                 if (!result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Project Not Found", "Server does not contain instance of project. Please contact administrator.", "OK");
+                    await _dialogService.ShowAlertAsync("Project Not Found", "Server does not contain instance of project. Please contact administrator.", "OK");
                     await _navigationService.GoBackAsync();
                     return;
                 }
@@ -68,7 +70,7 @@ namespace PLinkageApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Could not retrieve project details due to following error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"Could not retrieve project details due to following error: {ex}", "Ok");
                 await _navigationService.GoBackAsync();
             }
             
@@ -124,17 +126,17 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully sent a negotiation to the project owner.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully sent a negotiation to the project owner.", "Ok");
                     await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your negotiation. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your negotiation. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your negotiation. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your negotiation. Error: {ex}", "Ok");
             }
             finally
             {

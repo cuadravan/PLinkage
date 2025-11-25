@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IOfferApplicationServiceClient _offerApplicationServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -28,12 +29,13 @@ namespace PLinkageApp.ViewModels
 
         private ProjectDto projectDto;
 
-        public SendApplicationViewModel(IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public SendApplicationViewModel(IDialogService dialogService, IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _offerApplicationServiceClient = offerApplicationServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -52,7 +54,7 @@ namespace PLinkageApp.ViewModels
                 var result = await _projectServiceClient.GetSpecificAsync(ProjectId);
                 if(!result.Success || result.Data == null)
                 {
-                    await Shell.Current.DisplayAlert("Error", "Could not fetch the project", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", "Could not fetch the project", "Ok");
                     await _navigationService.GoBackAsync();
                     IsBusy = false;
                     return;
@@ -65,7 +67,7 @@ namespace PLinkageApp.ViewModels
             }
             catch(Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Could not fetch the project due to following error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"Could not fetch the project due to following error: {ex}", "Ok");
                 await _navigationService.GoBackAsync();
             }
             finally
@@ -122,17 +124,17 @@ namespace PLinkageApp.ViewModels
                 var result = await _offerApplicationServiceClient.CreateApplicationOffer(application);
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Application Sent", "You have successfully applied to the project.", "OK");
+                    await _dialogService.ShowAlertAsync("Application Sent", "You have successfully applied to the project.", "OK");
                     await _navigationService.GoBackAsync();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"Could not send application. Server returned this message: {result.Message}", "OK");
+                    await _dialogService.ShowAlertAsync("Error", $"Could not send application. Server returned this message: {result.Message}", "OK");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Could not send application due to following error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"Could not send application due to following error: {ex}", "Ok");
             }
             finally
             {

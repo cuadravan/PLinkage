@@ -13,6 +13,7 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private string sortSelection = "All";
         public ObservableCollection<ProjectCardDto> ProjectCards { get; set; } = new ObservableCollection<ProjectCardDto>();
@@ -42,12 +43,13 @@ namespace PLinkageApp.ViewModels
             "Extended (<= 50km)"
         };
 
-        public SkillProviderHomeViewModel(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, IProjectServiceClient projectServiceClient)
+        public SkillProviderHomeViewModel(IDialogService dialogService, INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, IProjectServiceClient projectServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
             _projectServiceClient = projectServiceClient;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()

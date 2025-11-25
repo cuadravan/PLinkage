@@ -14,18 +14,20 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         [ObservableProperty]
         private bool isBusy = false;
 
         public ObservableCollection<ResignationItemDto> ResignationItems { get; set; } = new ObservableCollection<ResignationItemDto>();
 
-        public ProcessResignationViewModel(IProjectOwnerServiceClient projectOwnerServiceClient, IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public ProcessResignationViewModel(IDialogService dialogService, IProjectOwnerServiceClient projectOwnerServiceClient, IProjectServiceClient projectServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
             _projectOwnerServiceClient = projectOwnerServiceClient;
+            _dialogService = dialogService;
         }
 
 
@@ -48,7 +50,7 @@ namespace PLinkageApp.ViewModels
                 var result = await _projectOwnerServiceClient.GetResignationAsync(currentUserId);
                 if (!result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Resignations Not Found", $"Server returned the following message: {result.Message}. Please contact administrator.", "OK");
+                    await _dialogService.ShowAlertAsync("Resignations Not Found", $"Server returned the following message: {result.Message}. Please contact administrator.", "OK");
                     await _navigationService.GoBackAsync();                  
                 }
                 else
@@ -62,7 +64,7 @@ namespace PLinkageApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Could not retrieve resignations due to following error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"Could not retrieve resignations due to following error: {ex}", "Ok");
                 await _navigationService.GoBackAsync();
             }
             finally
@@ -92,17 +94,17 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully approved a resignation.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully approved a resignation.", "Ok");
                     ResignationItems.Remove(dto);
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing the resignation. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing the resignation. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing the resignation. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing the resignation. Error: {ex}", "Ok");
             }
             finally
             {
@@ -131,17 +133,17 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully rejected a resignation.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully rejected a resignation.", "Ok");
                     ResignationItems.Remove(dto);
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing the resignation. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing the resignation. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing the resignation. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing the resignation. Error: {ex}", "Ok");
             }
             finally
             {

@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private List<ProjectOwnerCardDto> _allProjectOwners = new List<ProjectOwnerCardDto>(); // Storing original results
 
@@ -31,7 +32,7 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private string searchQuery = "";
 
-        public ObservableCollection<ProjectOwnerCardDto> ProjectOwnerCards { get; set; }
+        public ObservableCollection<ProjectOwnerCardDto> ProjectOwnerCards { get; set; } = new ObservableCollection<ProjectOwnerCardDto>();
 
         public string CategorySelection
         {
@@ -69,14 +70,12 @@ namespace PLinkageApp.ViewModels
             "Deactivated Only"
         };
 
-        public AdminBrowseProjectOwnerViewModel(INavigationService navigationService, IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService)
+        public AdminBrowseProjectOwnerViewModel(IDialogService dialogService, INavigationService navigationService, IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService)
         {
             _projectOwnerServiceClient = projectOwnerServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
-
-            _allProjectOwners = new List<ProjectOwnerCardDto>();
-            ProjectOwnerCards = new ObservableCollection<ProjectOwnerCardDto>();
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -143,22 +142,20 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success && result.Data != null)
                 {
-
                     foreach (var dto in result.Data)
                     {
                         _allProjectOwners.Add(dto);
                     }
+                    FilterProjectOwnerCards();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
-                FilterProjectOwnerCards();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting project owners: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

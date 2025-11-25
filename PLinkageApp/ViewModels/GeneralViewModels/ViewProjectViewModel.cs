@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -31,11 +32,12 @@ namespace PLinkageApp.ViewModels
         public Guid ProjectId { get; set; } = Guid.Empty;
         public bool ForceReset { get; set; }
 
-        public ViewProjectViewModel(ISessionService sessionService, IProjectServiceClient projectServiceClient, INavigationService navigationService)
+        public ViewProjectViewModel(IDialogService dialogService, ISessionService sessionService, IProjectServiceClient projectServiceClient, INavigationService navigationService)
         {
             _navigationService = navigationService;
             _sessionService = sessionService;
             _projectServiceClient = projectServiceClient;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -88,7 +90,7 @@ namespace PLinkageApp.ViewModels
                 return;
             if (project.ProjectStatus == "Completed")
             {
-                await Shell.Current.DisplayAlert("Cannot Update", "A completed project cannot be updated.", "Ok");
+                await _dialogService.ShowAlertAsync("Cannot Update", "A completed project cannot be updated.", "Ok");
                 return;
              }             
             await _navigationService.NavigateToAsync("UpdateProjectView", new Dictionary<string, object> { { "ProjectId", Project.ProjectId } });
@@ -138,13 +140,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Project", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Project", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting project: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

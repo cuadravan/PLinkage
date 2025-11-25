@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private string sortSelection = "All";
 
@@ -50,12 +51,13 @@ namespace PLinkageApp.ViewModels
             "Extended (<= 50km)"
         };
 
-        public ProjectOwnerHomeViewModel(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient)
+        public ProjectOwnerHomeViewModel(IDialogService dialogService, INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
             _skillProviderServiceClient = skillProviderServiceClient;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()

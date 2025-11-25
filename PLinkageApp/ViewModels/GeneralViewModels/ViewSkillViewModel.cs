@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isUpdated = false;
         private bool _isInitialized = false;
@@ -63,11 +64,12 @@ namespace PLinkageApp.ViewModels
         public Guid SkillProviderId { get; set; }
         public SkillDto specificSkillDto { get; set; }
 
-        public ViewSkillViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public ViewSkillViewModel(IDialogService dialogService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _skillProviderServiceClient = skillProviderServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -88,13 +90,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", "It seems the skill you are trying to access does not exist. Please contact admin or refresh the app.", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", "It seems the skill you are trying to access does not exist. Please contact admin or refresh the app.", "Ok");
                     await _navigationService.GoBackAsync();
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Loading skill failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Loading skill failed due to following error: {ex}. Please try again.", "Ok");
                 await _navigationService.GoBackAsync();
             }
         }
@@ -142,7 +144,7 @@ namespace PLinkageApp.ViewModels
                 var result = await _skillProviderServiceClient.UpdateSkillAsync(userId, SkillIndex, skillDto);
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "Skill updated successfully.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "Skill updated successfully.", "Ok");
                     _isUpdated = true;
                     specificSkillDto.SkillName = SkillName;
                     specificSkillDto.SkillLevel = SkillLevel;
@@ -153,12 +155,12 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"Skill could not be updated. Server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"Skill could not be updated. Server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Skill update failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Skill update failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {
@@ -179,18 +181,18 @@ namespace PLinkageApp.ViewModels
                 var result = await _skillProviderServiceClient.DeleteSkillAsync(userId, SkillIndex);
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "Skill deleted successfully.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "Skill deleted successfully.", "Ok");
                     _isUpdated = true;
                     await Return();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"Skill could not be deleted. Server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"Skill could not be deleted. Server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Skill deletion failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Skill deletion failed due to following error: {ex}. Please try again.", "Ok");
             }
         }
 

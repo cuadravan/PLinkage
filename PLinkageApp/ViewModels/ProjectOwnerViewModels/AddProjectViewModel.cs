@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         // Form fields
         [ObservableProperty] 
@@ -54,11 +55,12 @@ namespace PLinkageApp.ViewModels
         public ObservableCollection<CebuLocation> CebuLocations { get; } = new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
 
         // Constructor
-        public AddProjectViewModel(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public AddProjectViewModel(IDialogService dialogService, IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
 
             ProjectDateCreated = ProjectDateUpdated = DateTime.Now;
             UpdateDurationSummary();
@@ -95,17 +97,17 @@ namespace PLinkageApp.ViewModels
                 var result = await _projectServiceClient.AddProjectAsync(newProject);
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "Successfully added project!", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "Successfully added project!", "Ok");
                     await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed", $"Server returned following message. {result.Message}. Please try again.", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed", $"Server returned following message. {result.Message}. Please try again.", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Project creation failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Project creation failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {

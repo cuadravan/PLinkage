@@ -42,6 +42,7 @@ namespace PLinkageApp.ViewModels
         public void UpdateRoleProperties()
         {
             var role = _sessionService.GetCurrentUserRole();
+            var username = _sessionService.GetCurrentUserName();
             
             IsAdmin = role == UserRole.Admin;
             IsProjectOwner = role == UserRole.ProjectOwner;
@@ -56,7 +57,7 @@ namespace PLinkageApp.ViewModels
             else
             {
                 var userType = _sessionService.GetCurrentUserRole();
-                WelcomeMessage = $"Welcome to PLinkage!";
+                WelcomeMessage = $"Welcome to PLinkage! {username}";
                 UserRoleMessage = userType.ToString();
             }
 

@@ -14,7 +14,8 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly INavigationService _navigationService;
-        
+        private readonly IDialogService _dialogService;
+
         [ObservableProperty] 
         private int activeProjectsValue = 0;
         [ObservableProperty] 
@@ -27,13 +28,14 @@ namespace PLinkageApp.ViewModels
         public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; } = new ObservableCollection<SkillProviderCardDto>();
         public ObservableCollection<ProjectCardDto> ProjectCards { get; set; } = new ObservableCollection<ProjectCardDto>();
 
-        public AdminHomeViewModel(INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
+        public AdminHomeViewModel(IDialogService dialogService, INavigationService navigationService, IDashboardServiceClient dashboardServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, IProjectServiceClient projectServiceClient)
         {
             _dashboardServiceClient = dashboardServiceClient;
             _sessionService = sessionService;
             _skillProviderServiceClient = skillProviderServiceClient;
             _projectServiceClient = projectServiceClient;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -80,8 +82,7 @@ namespace PLinkageApp.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error during initialization: {ex.Message}");
-                await Shell.Current.DisplayAlert("Load Error", "Failed to load dashboard data.", "OK");
+                await _dialogService.ShowAlertAsync("Load Error", "Failed to load dashboard data.", "OK");
             }
             finally
             {

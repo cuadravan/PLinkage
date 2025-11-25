@@ -81,31 +81,11 @@ public static class MauiProgram
         });
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
-		builder.Services.AddTransient<INavigationService, MauiShellNavigationService>();       
-		builder.Services.AddTransient<IStartupService, StartupService>();
-        builder.Services.AddTransient<SplashScreenPage>();
-
-        //builder.Services.AddTransient<IAuthenticationService, JsonAuthenticationService>();
-        //builder.Services.AddSingleton<App>();
-        //builder.Services.AddSingleton<LogoutView>();            
-        ////builder.Services.AddTransient<PLinkageApp.ViewsAndroid.SkillProviderHomeView>();
-        //builder.Services.AddTransient<SkillProviderHomeViewModelTemp>();
-        ////builder.Services.AddTransient<PLinkageApp.ViewsAndroid.ProjectOwnerHomeView>();
-        //builder.Services.AddTransient<ProjectOwnerHomeViewModelTemp>();
-        ////builder.Services.AddTransient<PLinkageApp.ViewsAndroid.AdminHomeView>();
-        //builder.Services.AddTransient<AdminHomeViewModelTemp>();
-        //builder.Services.AddTransient<RegisterView1>();
-        //builder.Services.AddTransient<RegisterView2>();
-        //builder.Services.AddTransient<RegisterView3>();
-        //builder.Services.AddTransient<RegisterView4>();
-        //builder.Services.AddTransient<RegisterView5>();
-        //builder.Services.AddScoped<RegisterViewModelTemp>();
-        //builder.Services.AddTransient<AdminBrowseSkillProviderViewModelTemp>();
-        //builder.Services.AddTransient<AdminBrowseProjectViewModelTemp>();
-        //builder.Services.AddTransient<AdminBrowseProjectOwnerViewModelTemp>();
-        //builder.Services.AddTransient<ViewSkillProviderProfileViewModelTemp>();
-        //builder.Services.AddTransient<ViewProjectOwnerProfileViewModelTemp>();
-        //builder.Services.AddTransient<ViewProjectViewModelTemp>();
+		builder.Services.AddSingleton<INavigationService, MauiShellNavigationService>();       
+		builder.Services.AddSingleton<IStartupService, StartupService>();
+        builder.Services.AddSingleton<IDialogService, DialogService>();
+        builder.Services.AddSingleton<SplashScreenPage>();
+        builder.Services.AddSingleton<AppShellViewModel>();
 
         builder.Services.AddTransient<ChatViewModel>();
         builder.Services.AddTransient<MessagesViewModel>();
@@ -113,12 +93,8 @@ public static class MauiProgram
         builder.Services.AddTransient<ResignProjectViewModel>();
         builder.Services.AddTransient<NegotiateViewModel>();
         builder.Services.AddTransient<ProcessResignationViewModel>();
-        builder.Services.AddTransient<ChatWindowsViewModel>();
-
         builder.Services.AddTransient<ProjectOwnerLinkagesViewModel>();
         builder.Services.AddTransient<SkillProviderLinkagesViewModel>();
-
-        builder.Services.AddSingleton<AppShellViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<RegisterViewModel>();
         builder.Services.AddTransient<ProjectOwnerHomeViewModel>();

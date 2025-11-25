@@ -16,6 +16,7 @@
                 Source="plinkage.png"
                 WidthRequest="100" />
             <Label
+                HorizontalTextAlignment="Center"
                 FontAttributes="Bold"
                 FontSize="16"
                 HorizontalOptions="Center"

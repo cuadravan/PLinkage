@@ -16,11 +16,5 @@ namespace PLinkageApp.Interfaces
         string? GetCurrentUserName();
         void ClearSession();
         bool IsLoggedIn();
-        
-        Guid VisitingProjectOwnerID { get; set; }
-        Guid VisitingSkillProviderID { get; set; }
-        Guid VisitingProjectID { get; set; }
-        Guid VisitingReceiverID { get; set; }
-        int VisitingSkillEducationID { get; set; }
     }
 }

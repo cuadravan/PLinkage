@@ -12,6 +12,7 @@ namespace PLinkageApp.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IAccountServiceClient _accountServiceClient;
+        private readonly IDialogService _dialogService;
 
         private UserRole? userRoleSelected = null;
 
@@ -63,10 +64,11 @@ namespace PLinkageApp.ViewModels
             "Female"
         };      
 
-        public RegisterViewModel(INavigationService navigationService, IAccountServiceClient accountServiceClient)
+        public RegisterViewModel(IDialogService dialogService, INavigationService navigationService, IAccountServiceClient accountServiceClient)
         {
             _navigationService = navigationService;
             _accountServiceClient = accountServiceClient;
+            _dialogService = dialogService;
         }
 
         [RelayCommand]
@@ -78,12 +80,12 @@ namespace PLinkageApp.ViewModels
             if (!Regex.IsMatch(FirstName, @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
             {
                 ErrorMessage = "First Name must be valid name.";
-                isBusy = false;
+                IsBusy = false;
             }
             else if (!Regex.IsMatch(LastName, @"^[A-Z][a-zA-Z0-9]*(\s[A-Z][a-zA-Z0-9]*)*$"))
             {
                 ErrorMessage = "Last Name must be valid name.";
-                isBusy = false;
+                IsBusy = false;
             }
             else
             {
@@ -139,36 +141,33 @@ namespace PLinkageApp.ViewModels
             if (IsBusy)
                 return;
             IsBusy = true;
+
             var today = DateTime.Today;
             var age = today.Year - Birthdate.Year;
             if (Birthdate.Date > today.AddYears(-age)) age--;
             if (age < 18)
             {
                 ErrorMessage = "You must be older than 18 years old to use this app.";
-                IsBusy = false;
-                return;
             }
-            if (String.IsNullOrEmpty(SelectedGender))
+            else if (String.IsNullOrEmpty(SelectedGender))
             {
                 ErrorMessage = "Please select your gender.";
-                IsBusy = false;
-                return;
             }
-            if (SelectedLocation == null)
+            else if (SelectedLocation == null)
             {
                 ErrorMessage = "Please select your location.";
-                IsBusy = false;
-                return;
             }
-            if (!Regex.IsMatch(MobileNumber, @"^\d{10,11}$"))
+            else if (!Regex.IsMatch(MobileNumber, @"^\d{10,11}$"))
             {
                 ErrorMessage = "Phone Number must be 10-11 digits.";
-                IsBusy = false;
-                return;
             }
-            ErrorMessage = string.Empty;
-            IsBusy = false;
-            await _navigationService.NavigateToAsync("RegisterView4");
+            else
+            {
+                ErrorMessage = string.Empty;
+                IsBusy = false;
+                await _navigationService.NavigateToAsync("RegisterView4");
+            }
+                
         }
 
         [RelayCommand]
@@ -184,7 +183,7 @@ namespace PLinkageApp.ViewModels
                 return;
             }
             ErrorMessage = "";
-            bool finalization = await Shell.Current.DisplayAlert("Please confirm details:",
+            bool finalization = await _dialogService.ShowConfirmationAsync("Please confirm details:",
                 $"First Name: {FirstName}\n" +
                 $"Last Name: {LastName}\n" +
                 $"Email: {Email}\n" +
@@ -220,7 +219,7 @@ namespace PLinkageApp.ViewModels
                 else
                 {
                     IsBusy = false;
-                    await Shell.Current.DisplayAlert("Please Try Again", "The server is having issues processing your registration. Please try again.", "Ok");
+                    await _dialogService.ShowAlertAsync("Please Try Again", "The server is having issues processing your registration. Please try again.", "Ok");
                 }
             }
             IsBusy = false;
@@ -253,18 +252,5 @@ namespace PLinkageApp.ViewModels
             userRoleSelected = UserRole.ProjectOwner;
 
         }
-
-        //[RelayCommand]
-        //private Task Clear()
-        //{
-        //    FirstName = LastName = Email = Password = ConfirmPassword = MobileNumber = SelectedRole = ErrorMessage = string.Empty;
-        //    IsMale = IsFemale = false;
-        //    SelectedLocation = null;
-        //    Birthdate = DateTime.Now;
-        //    return Task.CompletedTask;
-        //}
-
-        //[RelayCommand]
-        //private async Task BackToLogin() => await _navigationService.NavigateToAsync("LoginView");
     }
 }

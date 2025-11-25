@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IAccountServiceClient _accountServiceClient;
         private readonly IProjectOwnerServiceClient _projectownerServiceClient;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized;
 
@@ -33,12 +34,13 @@ namespace PLinkageApp.ViewModels
         private ProjectOwnerDto projectOwnerDto;
         public Guid ProjectOwnerId { get; set; }
 
-        public ViewProjectOwnerProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, IProjectOwnerServiceClient projectOwnerServiceClient, INavigationService navigationService)
+        public ViewProjectOwnerProfileViewModel(IDialogService dialogService, ISessionService sessionService, IAccountServiceClient accountServiceClient, IProjectOwnerServiceClient projectOwnerServiceClient, INavigationService navigationService)
         {
             _navigationService = navigationService;
             _sessionService = sessionService;
             _accountServiceClient = accountServiceClient;
             _projectownerServiceClient = projectOwnerServiceClient;
+            _dialogService = dialogService;
         }
    
         public async Task InitializeAsync()
@@ -99,16 +101,16 @@ namespace PLinkageApp.ViewModels
                 var response = await _accountServiceClient.ActivateDeactivateUserAsync(ProjectOwnerId);
                 if (response.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
+                    await _dialogService.ShowAlertAsync("Success", response.Data, "Ok");
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
+                    await _dialogService.ShowAlertAsync("Error", response.Data, "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
             }
         }
 
@@ -146,7 +148,7 @@ namespace PLinkageApp.ViewModels
 
                         if (_sessionService.GetCurrentUserRole() != UserRole.Admin) // If PO is deactivated but current user is not an admin, then they have no access
                         {
-                            await Shell.Current.DisplayAlert("Information", "This user is currently deactivated. You cannot view their profile.", "Ok");
+                            await _dialogService.ShowAlertAsync("Information", "This user is currently deactivated. You cannot view their profile.", "Ok");
                             await _navigationService.GoBackAsync();
                         }
                     }
@@ -154,13 +156,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting project owner profile: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

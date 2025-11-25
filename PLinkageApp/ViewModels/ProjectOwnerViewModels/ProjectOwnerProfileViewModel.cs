@@ -12,6 +12,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISessionService _sessionService;
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -24,11 +25,12 @@ namespace PLinkageApp.ViewModels
         public Guid ProjectOwnerId { get; set; }
         public bool ForceReset { get; set; }
 
-        public ProjectOwnerProfileViewModel(IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
+        public ProjectOwnerProfileViewModel(IDialogService dialogService, IProjectOwnerServiceClient projectOwnerServiceClient, ISessionService sessionService, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
         {
             _navigationService = navigationService;
             _sessionService = sessionService;
             _projectOwnerServiceClient = projectOwnerServiceClient;
+            _dialogService = dialogService;
         }       
 
         public async Task InitializeAsync() // Runs when navigating to the page
@@ -113,13 +115,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting project owner profile: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

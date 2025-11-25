@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -77,11 +78,12 @@ namespace PLinkageApp.ViewModels
             }
         }        
         
-        public BrowseProjectViewModel(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public BrowseProjectViewModel(IDialogService dialogService, IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -204,19 +206,18 @@ namespace PLinkageApp.ViewModels
                             _allProjects.Add(dto);
                         }
                     }
-
-                        
+                    FilterProjectCards();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
-                FilterProjectCards();
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting projects: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

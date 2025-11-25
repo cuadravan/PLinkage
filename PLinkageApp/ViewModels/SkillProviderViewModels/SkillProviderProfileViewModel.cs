@@ -13,6 +13,7 @@ namespace PLinkageApp.ViewModels
         private readonly IAccountServiceClient _accountServiceClient;
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -31,12 +32,13 @@ namespace PLinkageApp.ViewModels
         public Guid SkillProviderId { get; set; }
         public bool ForceReset { get; set; }
 
-        public SkillProviderProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
+        public SkillProviderProfileViewModel(IDialogService dialogService, ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
         {
             _navigationService = navigationService;
             _sessionService = sessionService;
             _accountServiceClient = accountServiceClient;
             _skillProviderServiceClient = skillProviderServiceClient;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync() // Runs when navigating to the page
@@ -139,13 +141,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting skill provider profile: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

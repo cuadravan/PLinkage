@@ -47,40 +47,5 @@ namespace PLinkageApp.Services
         {
             return currentUserId != Guid.Empty; 
         }
-
-
-        private Guid visitingProjectOwnerID = Guid.Empty;
-        private Guid visitingSkillProviderID = Guid.Empty;
-        private Guid visitingProjectID = Guid.Empty;
-        private Guid visitingReceiverID = Guid.Empty;
-        private int visitingSkillEducationID = 0;
-
-        public Guid VisitingProjectOwnerID
-        {
-            get => visitingProjectOwnerID;
-            set => visitingProjectOwnerID = value;
-        }
-        public Guid VisitingSkillProviderID
-        {
-            get => visitingSkillProviderID;
-            set => visitingSkillProviderID = value;
-        }
-        public Guid VisitingProjectID
-        {
-            get => visitingProjectID;
-            set => visitingProjectID = value;
-        }
-
-        public Guid VisitingReceiverID
-        {
-            get => visitingReceiverID;
-            set => visitingReceiverID = value;
-        }
-        public int VisitingSkillEducationID
-        {
-            get => visitingSkillEducationID;
-            set => visitingSkillEducationID = value;
-        }
-
     }
 }

@@ -10,9 +10,10 @@ namespace PLinkageApp.ViewModels
     [QueryProperty(nameof(ForceReset), "ForceReset")]
     public partial class ProjectOwnerLinkagesViewModel : ObservableObject
     {
-        private ISessionService _sessionService;
-        private IOfferApplicationServiceClient _offerApplicationServiceClient;
-        private INavigationService _navigationService;
+        private readonly ISessionService _sessionService;
+        private readonly IOfferApplicationServiceClient _offerApplicationServiceClient;
+        private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private OfferApplicationPageDto _allData;
         private bool _isInitialized = false;
@@ -41,11 +42,12 @@ namespace PLinkageApp.ViewModels
 
         public bool ForceReset { get; set; } = false;
 
-        public ProjectOwnerLinkagesViewModel(INavigationService navigationService, ISessionService sessionService, IOfferApplicationServiceClient offerApplicationServiceClient)
+        public ProjectOwnerLinkagesViewModel(IDialogService dialogService, INavigationService navigationService, ISessionService sessionService, IOfferApplicationServiceClient offerApplicationServiceClient)
         {
             _sessionService = sessionService;
             _offerApplicationServiceClient = offerApplicationServiceClient;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -109,19 +111,19 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully approved this request.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully approved this request.", "Ok");
                     ForceReset = true;
                     // Trigger reload to update UI on both platforms
                     await Refresh();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
             }
             finally
             {
@@ -155,19 +157,19 @@ namespace PLinkageApp.ViewModels
 
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "You have successfully rejected this request.", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "You have successfully rejected this request.", "Ok");
                     ForceReset = true;
                     // Trigger reload to update UI on both platforms
                     await Refresh();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Server sent the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"There was an error in processing your request. Error: {ex}", "Ok");
             }
             finally
             {
@@ -240,7 +242,7 @@ namespace PLinkageApp.ViewModels
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading data: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

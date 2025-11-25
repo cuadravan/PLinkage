@@ -12,6 +12,7 @@ namespace PLinkageApp.ViewModels
         private readonly IChatServiceClient _chatServiceClient;
         private readonly INavigationService _navigationService;
         private readonly ISessionService _sessionService;
+        private readonly IDialogService _dialogService;
 
         private const int FuzzySearchCutoff = 70;
         private List<ChatSummaryDto> _chatPreviews = new List<ChatSummaryDto>();
@@ -37,11 +38,12 @@ namespace PLinkageApp.ViewModels
         // ==========================================================
         public ObservableCollection<ChatSummaryDto> ChatPreviews { get; set; } = new ObservableCollection<ChatSummaryDto>();
 
-        public ChatViewModel(IChatServiceClient chatServiceClient, INavigationService navigationService, ISessionService sessionService)
+        public ChatViewModel(IDialogService dialogService, IChatServiceClient chatServiceClient, INavigationService navigationService, ISessionService sessionService)
         {
             _chatServiceClient = chatServiceClient;
             _navigationService = navigationService;
             _sessionService = sessionService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -83,7 +85,7 @@ namespace PLinkageApp.ViewModels
                     IsBusy = true;
 
                     // Manually create the Child ViewModel
-                    var messageVm = new MessagesViewModel(_chatServiceClient, _sessionService)
+                    var messageVm = new MessagesViewModel(_dialogService, _chatServiceClient, _sessionService)
                     {
                         ChatId = chatSummaryDto.ChatId,
                         ReceiverId = chatSummaryDto.ReceiverId,
@@ -97,7 +99,7 @@ namespace PLinkageApp.ViewModels
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error loading chat details: {ex.Message}");
-                    await Shell.Current.DisplayAlert("Error", "Could not load chat details.", "OK");
+                    await _dialogService.ShowAlertAsync("Error", "Could not load chat details.", "OK");
                 }
                 finally
                 {
@@ -128,7 +130,7 @@ namespace PLinkageApp.ViewModels
                 {
                     // Only show alert if it's a real error, distinct from empty list
                     if (!result.Success)
-                        await Shell.Current.DisplayAlert("Error", result.Message, "Ok");
+                        await _dialogService.ShowAlertAsync("Error", result.Message, "Ok");
                 }
                 FilterChatPreviews();
             }

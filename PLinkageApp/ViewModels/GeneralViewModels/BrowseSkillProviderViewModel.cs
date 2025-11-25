@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private string categorySelection;
         private string statusSelection = "All";
@@ -23,9 +24,8 @@ namespace PLinkageApp.ViewModels
 
         private const int FuzzySearchCutoff = 70;
 
-        private List<SkillProviderCardDto> _allSkillProviders;
-        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; }
-
+        private List<SkillProviderCardDto> _allSkillProviders = new List<SkillProviderCardDto>();
+        
         [ObservableProperty]
         private bool isBusy = false;
         [ObservableProperty]
@@ -36,8 +36,8 @@ namespace PLinkageApp.ViewModels
         private string searchFilterSelection = "By Skills";
         [ObservableProperty]
         private CebuLocation? locationSelection = CebuLocation.CebuCity;
+        public ObservableCollection<SkillProviderCardDto> SkillProviderCards { get; set; } = new ObservableCollection<SkillProviderCardDto>();
 
-        
         public string CategorySelection
         {
             get => categorySelection;
@@ -90,14 +90,12 @@ namespace PLinkageApp.ViewModels
             }
         }
 
-        public BrowseSkillProviderViewModel(INavigationService navigationService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService)
+        public BrowseSkillProviderViewModel(IDialogService dialogService, INavigationService navigationService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService)
         {
             _skillProviderServiceClient = skillProviderServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
-
-            _allSkillProviders = new List<SkillProviderCardDto>();
-            SkillProviderCards = new ObservableCollection<SkillProviderCardDto>();
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -218,17 +216,17 @@ namespace PLinkageApp.ViewModels
                     {
                         _allSkillProviders.Add(dto);
                     }
+                    FilterSkillProviderCards();
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
-                }
-                FilterSkillProviderCards();
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                }   
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting skill providers: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

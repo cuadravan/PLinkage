@@ -11,7 +11,8 @@ namespace PLinkageApp.ViewModels
     {
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
-        private readonly INavigationService _navigationService;        
+        private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         // Form Fields
         [ObservableProperty]
@@ -51,11 +52,12 @@ namespace PLinkageApp.ViewModels
             1, 2, 3, 4, 5
         };
 
-        public AddSkillViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public AddSkillViewModel(IDialogService dialogService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _skillProviderServiceClient = skillProviderServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
             TimeAcquired = DateTime.Today;
         }
 
@@ -98,17 +100,17 @@ namespace PLinkageApp.ViewModels
                 var result = await _skillProviderServiceClient.AddSkillAsync(userId, skillDto);
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "Successfully added skill!", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "Successfully added skill!", "Ok");
                     await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Skill addition failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Skill addition failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {

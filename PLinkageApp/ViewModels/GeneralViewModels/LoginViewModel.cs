@@ -12,8 +12,10 @@ namespace PLinkageApp.ViewModels
         private readonly INavigationService _navigationService;    
         private readonly ISessionService _sessionService;
         private readonly IAccountServiceClient _accountServiceClient;
+        private readonly IDialogService _dialogService;
 
         public LoginViewModel(
+            IDialogService dialogService,
             IAccountServiceClient accountServiceClient,
             INavigationService navigationService,
             AppShellViewModel appShellViewModel,
@@ -23,6 +25,7 @@ namespace PLinkageApp.ViewModels
             _appShellViewModel = appShellViewModel;
             _sessionService = sessionService;
             _accountServiceClient = accountServiceClient;
+            _dialogService = dialogService;
         }
 
         // Properties
@@ -72,26 +75,26 @@ namespace PLinkageApp.ViewModels
                     {
                         shell.ConfigureTabs(userRole);
                     }
-                    else if(Application.Current.MainPage is AppShellWindows shell2)
+                    else if (Application.Current.MainPage is AppShellWindows shell2)
                     {
                         shell2.ConfigureFlyout(userRole);
                     }
 
-                        switch (_sessionService.GetCurrentUserRole())
-                        {
-                            case UserRole.SkillProvider:
-                                await _navigationService.NavigateAndClearStackAsync("SkillProviderHomeView");
-                                break;
-                            case UserRole.ProjectOwner:
-                                await _navigationService.NavigateAndClearStackAsync("ProjectOwnerHomeView");
-                                break;
-                            case UserRole.Admin:
-                                await _navigationService.NavigateAndClearStackAsync("AdminHomeView");
-                                break;
-                            default:
-                                ErrorMessage = "Unknown user role.";
-                                break;
-                        }
+                    switch (_sessionService.GetCurrentUserRole())
+                    {
+                        case UserRole.SkillProvider:
+                            await _navigationService.NavigateAndClearStackAsync("SkillProviderHomeView");
+                            break;
+                        case UserRole.ProjectOwner:
+                            await _navigationService.NavigateAndClearStackAsync("ProjectOwnerHomeView");
+                            break;
+                        case UserRole.Admin:
+                            await _navigationService.NavigateAndClearStackAsync("AdminHomeView");
+                            break;
+                        default:
+                            ErrorMessage = "Unknown user role.";
+                            break;
+                    }
                 }
                 else
                 {

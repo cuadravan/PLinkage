@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
     {
         private readonly IChatServiceClient _chatServiceClient;
         private readonly ISessionService _sessionService;
+        private readonly IDialogService _dialogService;
 
         public ObservableCollection<ChatMessageDto> Messages { get; set; } = new ObservableCollection<ChatMessageDto>();
 
@@ -27,10 +28,11 @@ namespace PLinkageApp.ViewModels
         public Guid ChatId { get; set; } = Guid.Empty;
         public Guid ReceiverId { get; set; } = Guid.Empty;
 
-        public MessagesViewModel(IChatServiceClient chatServiceClient, ISessionService sessionService)
+        public MessagesViewModel(IDialogService dialogService, IChatServiceClient chatServiceClient, ISessionService sessionService)
         {
             _chatServiceClient = chatServiceClient;
             _sessionService = sessionService;
+            _dialogService = dialogService;
         }
         public async Task InitializeAsync()
         {
@@ -80,13 +82,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Send/Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Send/Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error sending chat messages: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending and/or fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while sending and/or fetching data: {ex.Message}", "Ok");
             }
             finally
             {
@@ -130,13 +132,12 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting chat messages: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {

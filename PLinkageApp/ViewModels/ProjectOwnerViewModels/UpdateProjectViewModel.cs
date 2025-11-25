@@ -15,6 +15,7 @@ namespace PLinkageApp.ViewModels
         private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private ProjectDto _projectDto;
 
@@ -47,11 +48,12 @@ namespace PLinkageApp.ViewModels
             new(Enum.GetValues(typeof(CebuLocation)).Cast<CebuLocation>());
 
         // Constructor
-        public UpdateProjectViewModel(IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public UpdateProjectViewModel(IDialogService dialogService, IProjectServiceClient projectServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _projectServiceClient = projectServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -101,13 +103,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", "It seems the project you are trying to access does not exist. Please contact admin or refresh the app.", "Ok");
+                    await _dialogService.ShowAlertAsync("Error", "It seems the project you are trying to access does not exist. Please contact admin or refresh the app.", "Ok");
                     await _navigationService.GoBackAsync();
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Loading project failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Loading project failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {
@@ -174,7 +176,7 @@ namespace PLinkageApp.ViewModels
                     ProjectEndDate = DateTime.Now.Date; // Update this to trigger change in duration summary for display of completion details
                     projectUpdateDto.ProjectEndDate = DateTime.Now.Date; //Update project to end at when it was marked completed
                     await ShowProjectSummary();
-                    await Shell.Current.DisplayAlert("Proceed To Rating Employed Providers", "You will now be redirected to rate your skill providers. Please note that you must submit the ratings in order to update the project, otherwise it will be forgone.", "Ok");
+                    await _dialogService.ShowAlertAsync("Proceed To Rating Employed Providers", "You will now be redirected to rate your skill providers. Please note that you must submit the ratings in order to update the project, otherwise it will be forgone.", "Ok");
                     await _navigationService.NavigateToAsync("RateSkillProviderView", new Dictionary<string, object> { { "ProjectUpdateDto", projectUpdateDto} });
                 }
                 else
@@ -182,18 +184,18 @@ namespace PLinkageApp.ViewModels
                     var result = await _projectServiceClient.UpdateProjectAsync(projectUpdateDto);
                     if (result.Success)
                     {
-                        await Shell.Current.DisplayAlert("Success", "Successfully updated project!", "Ok");
+                        await _dialogService.ShowAlertAsync("Success", "Successfully updated project!", "Ok");
                         await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
                     }
                     else
                     {
-                        await Shell.Current.DisplayAlert("Failed", $"Server returned following message. {result.Message}. Please try again.", "Ok");
+                        await _dialogService.ShowAlertAsync("Failed", $"Server returned following message. {result.Message}. Please try again.", "Ok");
                     }
                 }  
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Project update failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Project update failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {
@@ -238,7 +240,7 @@ namespace PLinkageApp.ViewModels
         {
             if (IsBusy || !_isInitialized)
                 return;
-            var confirm = await Shell.Current.DisplayAlert(
+            var confirm = await _dialogService.ShowConfirmationAsync(
                 "Remove Skill Provider",
                 "Are you sure you want to remove this skill provider? This change won't be permanent until you submit the form.",
                 "Yes",
@@ -354,7 +356,7 @@ namespace PLinkageApp.ViewModels
             var skillsList = string.Join("\n", ProjectSkillsRequired
                 .Select(s => $"- {s}"));
 
-            await Shell.Current.DisplayAlert(
+            await _dialogService.ShowAlertAsync(
                 "Actual Project Completion Details",
                 $"Project: {ProjectName}\n\n" +
                 $"Description: {ProjectDescription}\n\n" +

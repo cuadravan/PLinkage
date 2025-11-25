@@ -16,6 +16,7 @@ namespace PLinkageApp.ViewModels
         private readonly IAccountServiceClient _accountServiceClient;
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
+        private readonly IDialogService _dialogService;
 
         private bool _isUpdated = false;
 
@@ -60,13 +61,14 @@ namespace PLinkageApp.ViewModels
         };
 
         // Constructor
-        public UpdateProfileViewModel(INavigationService navigationService, ISessionService sessionService, IAccountServiceClient accountServiceClient, IProjectOwnerServiceClient projectOwnerServiceClient, ISkillProviderServiceClient skillProviderServiceClient)
+        public UpdateProfileViewModel(IDialogService dialogService, INavigationService navigationService, ISessionService sessionService, IAccountServiceClient accountServiceClient, IProjectOwnerServiceClient projectOwnerServiceClient, ISkillProviderServiceClient skillProviderServiceClient)
         {
             _navigationService = navigationService;
             _sessionService = sessionService;
             _projectOwnerServiceClient = projectOwnerServiceClient;
             _skillProviderServiceClient = skillProviderServiceClient;
             _accountServiceClient = accountServiceClient;
+            _dialogService = dialogService;
         }
 
         public async Task InitializeAsync()
@@ -76,7 +78,7 @@ namespace PLinkageApp.ViewModels
 
             if (currentUserId == Guid.Empty || currentUserRole == null)
             {
-                await Shell.Current.DisplayAlert("Error", "Application is bugged. Contact an administrator, or refresh the app.", "Ok");
+                await _dialogService.ShowAlertAsync("Error", "Application is bugged. Contact an administrator, or refresh the app.", "Ok");
                 await _navigationService.GoBackAsync();
             }
             try
@@ -86,7 +88,7 @@ namespace PLinkageApp.ViewModels
                     var result = await _skillProviderServiceClient.GetSpecificAsync(currentUserId);
                     if (!result.Success || result.Data == null)
                     {
-                        await Shell.Current.DisplayAlert("Error", "Server could not find the profile requested. Contact an administrator, or refresh the app.", "Ok");
+                        await _dialogService.ShowAlertAsync("Error", "Server could not find the profile requested. Contact an administrator, or refresh the app.", "Ok");
                         await _navigationService.GoBackAsync();
                     }
                     storedFirstName = result.Data.UserFirstName;
@@ -102,7 +104,7 @@ namespace PLinkageApp.ViewModels
                     var result = await _projectOwnerServiceClient.GetSpecificAsync(currentUserId);
                     if (!result.Success || result.Data == null)
                     {
-                        await Shell.Current.DisplayAlert("Error", "Server could not find the profile requested. Contact an administrator, or refresh the app.", "Ok");
+                        await _dialogService.ShowAlertAsync("Error", "Server could not find the profile requested. Contact an administrator, or refresh the app.", "Ok");
                         await _navigationService.GoBackAsync();
                     }
                     storedFirstName = result.Data.UserFirstName;
@@ -116,7 +118,7 @@ namespace PLinkageApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Profile request failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Profile request failed due to following error: {ex}. Please try again.", "Ok");
             }
         }
 
@@ -177,7 +179,7 @@ namespace PLinkageApp.ViewModels
                     var result = await _skillProviderServiceClient.UpdateSkillProviderAsync(currentUserId, updateProfileDto);
                     if (result.Success)
                     {
-                        await Shell.Current.DisplayAlert("Success", "Successfully updated profile!", "Ok");
+                        await _dialogService.ShowAlertAsync("Success", "Successfully updated profile!", "Ok");
                         _isUpdated = true;
                         storedFirstName = FirstName;
                         storedLastName = LastName;
@@ -187,7 +189,7 @@ namespace PLinkageApp.ViewModels
                     }
                     else
                     {
-                        await Shell.Current.DisplayAlert("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
+                        await _dialogService.ShowAlertAsync("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
                     }
                 }
                 else if(currentUserRole == UserRole.ProjectOwner)
@@ -195,7 +197,7 @@ namespace PLinkageApp.ViewModels
                     var result = await _projectOwnerServiceClient.UpdateProjectOwnerAsync(currentUserId, updateProfileDto);
                     if (result.Success)
                     {
-                        await Shell.Current.DisplayAlert("Success", "Successfully updated profile!", "Ok");
+                        await _dialogService.ShowAlertAsync("Success", "Successfully updated profile!", "Ok");
                         _isUpdated = true;
                         storedFirstName = FirstName;
                         storedLastName = LastName;
@@ -205,13 +207,13 @@ namespace PLinkageApp.ViewModels
                     }
                     else
                     {
-                        await Shell.Current.DisplayAlert("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
+                        await _dialogService.ShowAlertAsync("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
                     }
                 }
             }
             catch(Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Profile update failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Profile update failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {
@@ -263,11 +265,11 @@ namespace PLinkageApp.ViewModels
                     var result = await _accountServiceClient.ChangePasswordAsync(changePasswordDto);
                     if (result.Success)
                     {
-                        await Shell.Current.DisplayAlert("Success", "Successfully changed password!", "Ok");
+                        await _dialogService.ShowAlertAsync("Success", "Successfully changed password!", "Ok");
                     }
                     else
                     {
-                        await Shell.Current.DisplayAlert("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
+                        await _dialogService.ShowAlertAsync("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
                     }
                 }
                 else if (currentUserRole == UserRole.ProjectOwner)
@@ -275,17 +277,17 @@ namespace PLinkageApp.ViewModels
                     var result = await _accountServiceClient.ChangePasswordAsync(changePasswordDto);
                     if (result.Success)
                     {
-                        await Shell.Current.DisplayAlert("Success", "Successfully updated profile!", "Ok");
+                        await _dialogService.ShowAlertAsync("Success", "Successfully updated profile!", "Ok");
                     }
                     else
                     {
-                        await Shell.Current.DisplayAlert("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
+                        await _dialogService.ShowAlertAsync("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
                     }
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Password changed failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Password changed failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {

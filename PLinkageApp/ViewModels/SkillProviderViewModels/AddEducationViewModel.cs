@@ -11,6 +11,7 @@ namespace PLinkageApp.ViewModels
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         // Fields
         [ObservableProperty]
@@ -30,11 +31,12 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private bool isBusy = false;
 
-        public AddEducationViewModel(ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public AddEducationViewModel(IDialogService dialogService, ISkillProviderServiceClient skillProviderServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _skillProviderServiceClient = skillProviderServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
             TimeGraduated = DateTime.Today;
         }
 
@@ -70,17 +72,17 @@ namespace PLinkageApp.ViewModels
                 var result = await _skillProviderServiceClient.AddEducationAsync(userId, educationDto);
                 if (result.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", "Successfully added education!", "Ok");
+                    await _dialogService.ShowAlertAsync("Success", "Successfully added education!", "Ok");
                     await _navigationService.NavigateToAsync("..", new Dictionary<string, object> { { "ForceReset", true } });
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed", $"Server returned following error. {result.Message}. Please try again.", "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Failed", $"Education addition failed due to following error: {ex}. Please try again.", "Ok");
+                await _dialogService.ShowAlertAsync("Failed", $"Education addition failed due to following error: {ex}. Please try again.", "Ok");
             }
             finally
             {

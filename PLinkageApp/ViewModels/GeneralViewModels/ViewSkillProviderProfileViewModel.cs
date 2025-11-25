@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         private readonly IAccountServiceClient _accountServiceClient;
         private readonly ISkillProviderServiceClient _skillProviderServiceClient;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private bool _isInitialized = false;
 
@@ -43,12 +44,13 @@ namespace PLinkageApp.ViewModels
 
         public Guid SkillProviderId { get; set; }
 
-        public ViewSkillProviderProfileViewModel(ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
+        public ViewSkillProviderProfileViewModel(IDialogService dialogService, ISessionService sessionService, IAccountServiceClient accountServiceClient, ISkillProviderServiceClient skillProviderServiceClient, INavigationService navigationService)
         {
             _navigationService = navigationService;
             _sessionService = sessionService;
             _accountServiceClient = accountServiceClient;
             _skillProviderServiceClient = skillProviderServiceClient;
+            _dialogService = dialogService;
         }    
 
         public async Task InitializeAsync()
@@ -110,16 +112,16 @@ namespace PLinkageApp.ViewModels
                 var response = await _accountServiceClient.ActivateDeactivateUserAsync(SkillProviderId);
                 if (response.Success)
                 {
-                    await Shell.Current.DisplayAlert("Success", response.Data, "Ok");
+                    await _dialogService.ShowAlertAsync("Success", response.Data, "Ok");
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", response.Data, "Ok");
+                    await _dialogService.ShowAlertAsync("Error", response.Data, "Ok");
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while sending data: {ex.Message}", "Ok");
             }
         }
 
@@ -173,7 +175,7 @@ namespace PLinkageApp.ViewModels
 
                         if(_sessionService.GetCurrentUserRole() != UserRole.Admin) // If SP is deactivated but current user is not an admin, then they have no access
                         {
-                            await Shell.Current.DisplayAlert("Information", "This user is currently deactivated. You cannot view their profile.", "Ok");
+                            await _dialogService.ShowAlertAsync("Information", "This user is currently deactivated. You cannot view their profile.", "Ok");
                             await _navigationService.GoBackAsync();
                         }
                     }
@@ -181,13 +183,13 @@ namespace PLinkageApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
+                    await _dialogService.ShowAlertAsync("Failed to Fetch Result", $"The server returned the following message: {result.Message}", "Ok");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting skill provider profile: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
+                await _dialogService.ShowAlertAsync("Error", $"An error occurred while fetching data: {ex.Message}", "Ok");
             }
             finally
             {
