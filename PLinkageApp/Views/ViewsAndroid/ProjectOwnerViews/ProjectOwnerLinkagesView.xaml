@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsAndroid.ProjectOwnerLinkagesView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="ProjectOwnerLinkagesView"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <Color x:Key="PurpleColor">#6200EE</Color>
+        <Color x:Key="GrayColor">#5A5A5A</Color>
+        <Color x:Key="LightPurpleBg">#E8E0FF</Color>
+    </ContentPage.Resources>
+
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <Image
+                        HeightRequest="50"
+                        Source="plinkagenotext.png"
+                        WidthRequest="50" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Your Linkages"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Border
+                    Padding="4"
+                    BackgroundColor="#F0F0F0"
+                    HorizontalOptions="Fill"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="0">
+                    <Grid ColumnDefinitions="*,*">
+
+                        <Button
+                            Grid.Column="0"
+                            Command="{Binding UpdateTopToggleCommand}"
+                            CommandParameter="Sent"
+                            CornerRadius="8"
+                            Text="Sent Offers">
+                            <Button.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding SelectedTopToggle}"
+                                    TargetType="Button"
+                                    Value="Sent">
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                    <Setter Property="TextColor" Value="{StaticResource PurpleColor}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding SelectedTopToggle}"
+                                    TargetType="Button"
+                                    Value="Received">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="{StaticResource GrayColor}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding UpdateTopToggleCommand}"
+                            CommandParameter="Received"
+                            CornerRadius="8"
+                            Text="Received Applications">
+                            <Button.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding SelectedTopToggle}"
+                                    TargetType="Button"
+                                    Value="Received">
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                    <Setter Property="TextColor" Value="{StaticResource PurpleColor}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding SelectedTopToggle}"
+                                    TargetType="Button"
+                                    Value="Sent">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="{StaticResource GrayColor}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <Grid
+                    Margin="0,10,0,0"
+                    ColumnDefinitions="*,*"
+                    HorizontalOptions="Fill">
+
+                    <Button
+                        Grid.Column="0"
+                        Command="{Binding UpdateBottomToggleCommand}"
+                        CommandParameter="Pending"
+                        CornerRadius="10"
+                        Text="Pending">
+                        <Button.Triggers>
+                            <DataTrigger
+                                Binding="{Binding SelectedBottomToggle}"
+                                TargetType="Button"
+                                Value="Pending">
+                                <Setter Property="BackgroundColor" Value="{StaticResource LightPurpleBg}" />
+                                <Setter Property="TextColor" Value="{StaticResource PurpleColor}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding SelectedBottomToggle}"
+                                TargetType="Button"
+                                Value="History">
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                                <Setter Property="TextColor" Value="{StaticResource PurpleColor}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Button
+                        Grid.Column="1"
+                        Command="{Binding UpdateBottomToggleCommand}"
+                        CommandParameter="History"
+                        CornerRadius="10"
+                        Text="History">
+                        <Button.Triggers>
+                            <DataTrigger
+                                Binding="{Binding SelectedBottomToggle}"
+                                TargetType="Button"
+                                Value="History">
+                                <Setter Property="BackgroundColor" Value="{StaticResource LightPurpleBg}" />
+                                <Setter Property="TextColor" Value="{StaticResource PurpleColor}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding SelectedBottomToggle}"
+                                TargetType="Button"
+                                Value="Pending">
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                                <Setter Property="TextColor" Value="{StaticResource PurpleColor}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
+
+                <CollectionView ItemsSource="{Binding OfferApplicationCards}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:OfferApplicationCard
+                                ViewConcernedCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewConcernedCommand}"
+                                ViewProjectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=ViewProjectCommand}"                          
+                                AcceptCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=AcceptCommand}"
+                                AwaitingResponse="{Binding AwaitingResponse}"
+                                CommandParameter="{Binding .}"
+                                DeclineCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerLinkagesViewModel}}, Path=RejectCommand}"
+                                FormattedConcernedName="{Binding FormattedConcernedName}"
+                                FormattedRate="{Binding FormattedRate}"
+                                FormattedTimeFrame="{Binding FormattedTimeFrame}"
+                                IsNegotiable="{Binding IsNegotiable}"
+                                IsNegotiating="{Binding IsNegotiating}"
+                                OfferApplicationStatus="{Binding OfferApplicationStatus}"
+                                OfferApplicationType="{Binding OfferApplicationType}"
+                                ProjectName="{Binding ProjectName}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

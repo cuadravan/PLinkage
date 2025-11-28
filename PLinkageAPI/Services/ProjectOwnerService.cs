@@ -50,7 +50,9 @@ namespace PLinkageAPI.Services
                 {
                     ProjectId = project.ProjectId,
                     ProjectName = project.ProjectName,
-                    ProjectStatus = project.ProjectStatus
+                    ProjectStatus = project.ProjectStatus,
+                    ProjectStartDate = project.ProjectStartDate,
+                    ProjectEndDate = project.ProjectEndDate
                 });
             }
 
@@ -105,7 +107,11 @@ namespace PLinkageAPI.Services
 
                 if (projectOwners == null || !projectOwners.Any())
                 {
-                    return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Fail("No project owners found matching the criteria.");
+                    // Use Enumerable.Empty<T>() to create a typed, empty collection
+                    return ApiResponse<IEnumerable<ProjectOwnerCardDto>>.Ok(
+                        Enumerable.Empty<ProjectOwnerCardDto>(),
+                        "No project owners found matching the criteria."
+                    );
                 }
 
                 var projectOwnerCardDtos = projectOwners.Select(po => new ProjectOwnerCardDto
@@ -164,7 +170,8 @@ namespace PLinkageAPI.Services
                             ProjectId = project.ProjectId,
                             SkillProviderId = member.MemberId,
                             ProjectName = project.ProjectName,
-                            SkillProviderName = member.UserFirstName + " " + member.UserLastName
+                            SkillProviderName = member.UserFirstName + " " + member.UserLastName,
+                            Reason = member.ResignationReason
                         });
                     }
                 }

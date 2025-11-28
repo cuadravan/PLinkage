@@ -16,18 +16,38 @@ namespace PLinkageApp.Services
         // Also remember: previousProject, previousSkillProvider
         public async Task NavigateToAsync(string route, IDictionary<string, object>? parameters = null)
         {
-            // 1. If the route is not an absolute path (// or ///), ensure it starts with a single slash
-            // to perform normal push navigation within the current Shell hierarchy.
-            if (!route.StartsWith("/"))
+            // CASE 1: Backward Navigation
+            if (route.StartsWith(".."))
             {
-                // For standard navigation (e.g., from Dashboard to DetailPage),
-                // we'll use a single slash. Your current logic uses '///' which
-                // always clears the stack. I've adjusted this for standard behavior:
-                route = $"/{route}";
+                var navStack = Shell.Current.Navigation.NavigationStack;
+
+                // SAFETY GUARD: 
+                // If we are trying to go back 2 steps ("../.."), we need at least 3 pages in the stack.
+                // If we are trying to go back 1 step (".."), we need at least 2 pages.
+
+                int stepsBack = route.Split('/').Count(x => x == "..");
+                if (navStack.Count <= stepsBack)
+                {
+                    // Not enough pages to go back that far. 
+                    // Optional: Fallback to root or just return to prevent crash.
+                    return;
+                }
+
+                // Pass the route exactly as is (no slash added)
+                if (parameters == null)
+                    await Shell.Current.GoToAsync(route);
+                else
+                    await Shell.Current.GoToAsync(route, parameters);
+
+                return;
             }
 
-            // Note: If you want to support routes like "///LoginPage" directly, 
-            // you can allow the user to pass that full route string.
+            // CASE 2: Forward/Absolute Navigation
+            // Only prepend slash if it's not ".." and doesn't already have one
+            if (!route.StartsWith("/") && !route.StartsWith("//"))
+            {
+                route = $"/{route}";
+            }
 
             if (parameters == null)
                 await Shell.Current.GoToAsync(route);

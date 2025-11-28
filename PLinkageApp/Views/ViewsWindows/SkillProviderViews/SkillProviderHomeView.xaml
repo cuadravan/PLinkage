@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsWindows.SkillProviderHomeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="Home - Skill Provider"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+
+        <ScrollView Padding="50">
+            <VerticalStackLayout Spacing="20">
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="28"
+                            Text="Welcome, Skill Provider!"
+                            TextColor="#212121" />
+                        <Label
+                            FontSize="14"
+                            Text="Here is your dashboard overview."
+                            TextColor="Gray" />
+                    </VerticalStackLayout>
+
+                    <!--  Refresh Button  -->
+                    <Button
+                        Grid.Column="1"
+                        Padding="5"
+                        Command="{Binding RefreshCommand}"
+                        FontSize="20"
+                        Text="⟳" />
+                </Grid>
+
+                <FlexLayout
+                    Direction="Row"
+                    HorizontalOptions="Center"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <controls:StatCard
+                        Title="Active Projects"
+                        WidthRequest="250"
+                        Value="{Binding ActiveProjectsValue}" />
+
+                    <controls:StatCard
+                        Title="Pending Sent Applications"
+                        WidthRequest="250"
+                        Value="{Binding PendingSentApplicationsValue}" />
+
+                    <controls:StatCard
+                        Title="Received Offers"
+                        WidthRequest="250"
+                        Value="{Binding PendingReceivedOffersValue}" />
+                </FlexLayout>
+
+                <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                <controls:LabeledPicker
+                    HorizontalOptions="Fill"
+                    ItemSource="{Binding SortOptions}"
+                    SelectedItem="{Binding SortSelection}"
+                    TitleText="Top Projects For You" />
+
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding ProjectCards}"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProjectCard
+                                Title="{Binding Title}"
+                                Margin="0,0,10,10"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderHomeViewModel}}, Path=ViewProjectCommand}"
+                                CommandParameter="{Binding .}"
+                                Description="{Binding Description}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                Slots="{Binding Slots}"
+                                WidthRequest="340" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                    <FlexLayout.Triggers>
+                        <DataTrigger
+                            Binding="{Binding ProjectCards.Count}"
+                            TargetType="FlexLayout"
+                            Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </FlexLayout.Triggers>
+                </FlexLayout>
+
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No projects found."
+                    TextColor="Gray" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsWindows.UpdateProjectView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="Update Project"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView Padding="50">
+        <VerticalStackLayout Spacing="25">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="28"
+                Text="Update Project"
+                TextColor="#212121" />
+
+            <Grid ColumnDefinitions="*, 30, *" RowDefinitions="Auto">
+
+                <VerticalStackLayout Grid.Column="0" Spacing="15">
+
+                    <controls:LabeledEntry
+                        HorizontalOptions="Fill"
+                        IsEnabled="False"
+                        LabelText="Project Name"
+                        Text="{Binding ProjectName}" />
+
+                    <controls:LabeledPicker
+                        HorizontalOptions="Fill"
+                        IsEnabled="False"
+                        ItemSource="{Binding CebuLocations}"
+                        SelectedItem="{Binding ProjectLocationSelected}"
+                        TitleText="Location" />
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Project Description"
+                            TextColor="#212121" />
+                        <Border
+                            Padding="5"
+                            BackgroundColor="White"
+                            Stroke="#7C4DFF"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Editor
+                                AutoSize="TextChanges"
+                                HeightRequest="120"
+                                Text="{Binding ProjectDescription}"
+                                TextColor="Black" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <controls:LabeledEntry
+                        HorizontalOptions="Fill"
+                        IsNumeric="True"
+                        LabelText="Resources Needed (Qty)"
+                        Text="{Binding ProjectResourcesNeeded}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="2" Spacing="15">
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Start Date"
+                                TextColor="#212121" />
+                            <Border
+                                Padding="5"
+                                Stroke="#7C4DFF"
+                                StrokeShape="RoundRectangle 8">
+                                <DatePicker
+                                    Date="{Binding ProjectStartDate}"
+                                    Format="MM/dd/yyyy"
+                                    MinimumDate="{Binding ProjectMinStartDate}"
+                                    TextColor="Black" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="End Date"
+                                TextColor="#212121" />
+                            <Border
+                                Padding="5"
+                                BackgroundColor="#F0F0F0"
+                                Stroke="#7C4DFF"
+                                StrokeShape="RoundRectangle 8">
+                                <DatePicker
+                                    Date="{Binding ProjectEndDate}"
+                                    Format="MM/dd/yyyy"
+                                    IsEnabled="False"
+                                    TextColor="Gray" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label
+                        FontAttributes="Italic"
+                        FontSize="14"
+                        Text="{Binding DurationSummary, StringFormat='Duration: {0}'}"
+                        TextColor="Gray" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                        <controls:LabeledPicker
+                            Grid.Column="0"
+                            HorizontalOptions="Fill"
+                            ItemSource="{Binding PriorityOptions}"
+                            SelectedItem="{Binding ProjectPrioritySelected}"
+                            TitleText="Priority" />
+
+                        <controls:LabeledPicker
+                            Grid.Column="1"
+                            HorizontalOptions="Fill"
+                            ItemSource="{Binding StatusOptions}"
+                            SelectedItem="{Binding ProjectStatusSelected}"
+                            TitleText="Status" />
+                    </Grid>
+
+                    <Border
+                        Padding="15"
+                        BackgroundColor="#F8F9FA"
+                        Stroke="#E0E0E0"
+                        StrokeShape="RoundRectangle 8">
+                        <Grid
+                            ColumnDefinitions="*, *"
+                            RowDefinitions="Auto, Auto"
+                            RowSpacing="5">
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Text="Created:"
+                                TextColor="Gray" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                HorizontalOptions="End"
+                                Text="{Binding ProjectDateCreated, StringFormat='{0:M/dd/yyyy}'}"
+                                TextColor="Gray" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Text="Updated:"
+                                TextColor="Gray" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                HorizontalOptions="End"
+                                Text="{Binding ProjectDateUpdated, StringFormat='{0:M/dd/yyyy}'}"
+                                TextColor="Gray" />
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Grid>
+
+            <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+            <Grid ColumnDefinitions="*, 30, *" RowDefinitions="Auto">
+
+                <VerticalStackLayout Grid.Column="0" Spacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Required Skill Set"
+                        TextColor="#212121" />
+
+                    <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                        <Border
+                            Padding="10,0"
+                            HeightRequest="40"
+                            Stroke="Gray"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                Placeholder="Type a skill..."
+                                Text="{Binding SelectedSkill}"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <Button
+                            Grid.Column="1"
+                            BackgroundColor="#7C4DFF"
+                            Command="{Binding AddSkillCommand}"
+                            HeightRequest="40"
+                            Text="+"
+                            TextColor="White"
+                            WidthRequest="40" />
+                    </Grid>
+
+                    <Border
+                        Padding="10"
+                        BackgroundColor="#F9F9F9"
+                        Stroke="#E0E0E0"
+                        StrokeShape="RoundRectangle 8">
+                        <FlexLayout
+                            BindableLayout.ItemsSource="{Binding ProjectSkillsRequired}"
+                            JustifyContent="Start"
+                            Wrap="Wrap">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:SkillPill
+                                        Margin="0,0,5,5"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:UpdateProjectViewModel}}, Path=RemoveSkillCommand}"
+                                        CommandParameter="{Binding .}"
+                                        SkillName="{Binding .}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                            <BindableLayout.EmptyView>
+                                <Label
+                                    FontAttributes="Italic"
+                                    Text="No skills added."
+                                    TextColor="Gray" />
+                            </BindableLayout.EmptyView>
+                        </FlexLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="2" Spacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Employed Skill Providers"
+                        TextColor="#212121" />
+
+                    <Border
+                        Padding="2"
+                        Stroke="#7C4DFF"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <CollectionView HeightRequest="200" ItemsSource="{Binding ProjectMembers}">
+                            <CollectionView.EmptyView>
+                                <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Italic"
+                                        HorizontalOptions="Center"
+                                        Text="No providers employed yet."
+                                        TextColor="Gray" />
+                                </VerticalStackLayout>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="5"
+                                        Padding="10"
+                                        BackgroundColor="White"
+                                        Stroke="#E0E0E0"
+                                        StrokeShape="RoundRectangle 5">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    Text="{Binding UserName}"
+                                                    TextColor="#212121" />
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="{Binding Email}"
+                                                    TextColor="Gray" />
+                                            </VerticalStackLayout>
+
+                                            <Button
+                                                Grid.Column="1"
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:UpdateProjectViewModel}}, Path=RemoveSkillProviderCommand}"
+                                                CommandParameter="{Binding .}"
+                                                FontSize="12"
+                                                Text="Remove"
+                                                TextColor="#D32F2F" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout Margin="0,20,0,0" Spacing="10">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                    Text="{Binding ErrorMessage}"
+                    TextColor="#D32F2F" />
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Button
+                        BackgroundColor="White"
+                        BorderColor="#AE92FE"
+                        BorderWidth="1"
+                        Command="{Binding ResetCommand}"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Reset Changes"
+                        TextColor="#AE92FE"
+                        WidthRequest="150" />
+
+                    <Button
+                        BackgroundColor="White"
+                        BorderColor="#7C4DFF"
+                        BorderWidth="1"
+                        Command="{Binding CancelCommand}"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Cancel"
+                        TextColor="#7C4DFF"
+                        WidthRequest="150" />
+
+                    <Button
+                        BackgroundColor="#4CAF50"
+                        Command="{Binding SubmitCommand}"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Update Project"
+                        TextColor="White"
+                        WidthRequest="200" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.Views.RegisterView1"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title=""
+    BackgroundColor="#F8F9FC">
+
+    <ScrollView HorizontalOptions="Center">
+        <VerticalStackLayout
+            Padding="20"
+            HorizontalOptions="Center"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <!--  Logo  -->
+            <Image
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Source="plinkage.png"
+                WidthRequest="200" />
+
+            <!--  Card  -->
+            <Frame
+                Padding="25"
+                BorderColor="Transparent"
+                CornerRadius="15"
+                HasShadow="True"
+                WidthRequest="320">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="#7C4DFF" />
+                        <GradientStop Offset="1.0" Color="#4A2E99" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Tell Us About You!"
+                        TextColor="White" />
+
+                    <!--  First Name  -->
+                    <VerticalStackLayout>
+                        <Label
+                            Margin="10,0,0,0"
+                            FontSize="14"
+                            Text="First Name"
+                            TextColor="White" />
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1">
+                            <Entry
+                                Margin="10,0"
+                                BackgroundColor="White"
+                                FontSize="14"
+                                HeightRequest="45"
+                                Placeholder="What is your first name?"
+                                PlaceholderColor="#727171"
+                                Text="{Binding FirstName}"
+                                TextColor="Black" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!--  Last Name  -->
+                    <VerticalStackLayout>
+                        <Label
+                            Margin="10,0,0,0"
+                            FontSize="14"
+                            Text="Last Name"
+                            TextColor="White" />
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1">
+                            <Entry
+                                Margin="10,0"
+                                BackgroundColor="White"
+                                FontSize="14"
+                                HeightRequest="45"
+                                Placeholder="What is your last name?"
+                                PlaceholderColor="#727171"
+                                Text="{Binding LastName}"
+                                TextColor="Black" />
+                        </Border>
+                        <Label
+                            Margin="0,10,0,0"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            FontSize="14"
+                            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                            Text="{Binding ErrorMessage}"
+                            TextColor="#FF6347" />
+                    </VerticalStackLayout>
+
+                    <!--  Next Button  -->
+                    <Button
+                        BackgroundColor="White"
+                        Command="{Binding GoToRegisterView2Command}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Next"
+                        TextColor="#7C4DFF" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

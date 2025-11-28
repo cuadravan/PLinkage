@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.ViewsWindows.ProjectOwnerHomeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:viewmodels="clr-namespace:PLinkageApp.ViewModels"
+    Title="Home - Project Owner"
+    BackgroundColor="White"
+    Shell.NavBarIsVisible="False">
+
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+
+        <ScrollView Padding="50">
+            <VerticalStackLayout Spacing="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="28"
+                            Text="Welcome, Project Owner!"
+                            TextColor="#212121" />
+                        <Label
+                            FontSize="14"
+                            Text="Here is your dashboard overview."
+                            TextColor="Gray" />
+                    </VerticalStackLayout>
+
+                    <!--  Refresh Button  -->
+                    <Button
+                        Grid.Column="1"
+                        Padding="5"
+                        Command="{Binding RefreshCommand}"
+                        FontSize="20"
+                        Text="⟳" />
+                </Grid>
+
+                <FlexLayout
+                    HorizontalOptions="Center"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <controls:StatCard
+                        Title="Received Applications"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding PendingReceivedApplicationsValue}" />
+
+                    <controls:StatCard
+                        Title="Pending Sent Offers"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding PendingSentOffersValue}" />
+
+                    <controls:StatCard
+                        Title="Active Projects"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding ActiveProjectsValue}" />
+
+                    <controls:StatCard
+                        Title="Reported Resignations"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding ReportedResignationsValue}" />
+
+                    <controls:StatCard
+                        Title="Reported Negotiations"
+                        Margin="0,0,10,10"
+                        WidthRequest="250"
+                        Value="{Binding ReportedNegotiationsValue}" />
+                </FlexLayout>
+
+                <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                <controls:LabeledPicker
+                    HorizontalOptions="Fill"
+                    ItemSource="{Binding SortOptions}"
+                    SelectedItem="{Binding SortSelection}"
+                    TitleText="Top Skill Providers For You" />
+
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding SkillProviderCards}"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SkillProviderCard
+                                Margin="0,0,10,10"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectOwnerHomeViewModel}}, Path=ViewSkillProviderCommand}"
+                                CommandParameter="{Binding .}"
+                                Education="{Binding Education}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                UserName="{Binding UserName}"
+                                UserRating="{Binding UserRating}"
+                                WidthRequest="340" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                    <FlexLayout.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SkillProviderCards.Count}"
+                            TargetType="FlexLayout"
+                            Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </FlexLayout.Triggers>
+                </FlexLayout>
+
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No skill providers found."
+                    TextColor="Gray" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

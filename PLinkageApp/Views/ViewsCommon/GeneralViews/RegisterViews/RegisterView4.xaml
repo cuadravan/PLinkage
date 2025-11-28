@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PLinkageApp.Views.RegisterView4"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title=""
+    BackgroundColor="#F8F9FC">
+
+    <ScrollView HorizontalOptions="Center">
+        <VerticalStackLayout
+            Padding="20"
+            HorizontalOptions="Center"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <!--  Logo  -->
+            <Image
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Source="plinkage.png"
+                WidthRequest="200" />
+
+            <!--  Card  -->
+            <Frame
+                Padding="25"
+                BorderColor="Transparent"
+                CornerRadius="15"
+                HasShadow="True"
+                WidthRequest="320">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="#7C4DFF" />
+                        <GradientStop Offset="1.0" Color="#4A2E99" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Now what role do you want?"
+                        TextColor="White" />
+
+                    <Label
+                        FontAttributes="Italic"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Text="Please note, this is a permanent decision."
+                        TextColor="White" />
+
+                    <!--  Skill Provider Option  -->
+                    <Frame
+                        x:Name="SkillProviderFrame"
+                        Padding="15"
+                        BackgroundColor="{Binding SkillProviderSelected, Converter={StaticResource BoolToBackgroundColorConverter}}"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <Grid>
+                            <VerticalStackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Skill Provider"
+                                    TextColor="#7C4DFF" />
+                                <Label
+                                    FontSize="13"
+                                    LineBreakMode="WordWrap"
+                                    Text="You will be contributing your skills to meaningful projects suggested by our app."
+                                    TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <Button BackgroundColor="Transparent" Command="{Binding SelectSkillProviderCommand}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Project Owner Option  -->
+                    <Frame
+                        x:Name="ProjectOwnerFrame"
+                        Padding="15"
+                        BackgroundColor="{Binding ProjectOwnerSelected, Converter={StaticResource BoolToBackgroundColorConverter}}"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <Grid>
+                            <VerticalStackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="Project Owner"
+                                    TextColor="#7C4DFF" />
+                                <Label
+                                    FontSize="13"
+                                    LineBreakMode="WordWrap"
+                                    Text="You will be creating projects to unite and coordinate skilled people in our app."
+                                    TextColor="Black" />
+                            </VerticalStackLayout>
+
+                            <Button BackgroundColor="Transparent" Command="{Binding SelectProjectOwnerCommand}" />
+                        </Grid>
+                    </Frame>
+                    <Label
+                        Margin="0,10,0,0"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                        Text="{Binding ErrorMessage}"
+                        TextColor="#FF6347" />
+                    <!--  Confirm Button  -->
+                    <Button
+                        BackgroundColor="White"
+                        Command="{Binding GoToRegisterView5Command}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="Confirm"
+                        TextColor="#7C4DFF" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

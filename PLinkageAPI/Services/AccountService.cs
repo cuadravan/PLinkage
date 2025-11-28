@@ -313,6 +313,33 @@ namespace PLinkageAPI.Services
                 return ApiResponse<Guid>.Fail($"Invalid user role to register.");
             }
         }
+
+        public async Task<ApiResponse<bool>> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
+        {
+            if(changePasswordDto.UserRole == UserRole.SkillProvider)
+            {
+                var skillProvider = await _skillProviderRepository.GetByIdAsync(changePasswordDto.UserId);
+                if (skillProvider == null)
+                    return ApiResponse<bool>.Fail("UserId does not exist");
+                var passwordHasher = new PasswordHasher<SkillProvider>();
+                string newPassword = passwordHasher.HashPassword(skillProvider, changePasswordDto.NewPassword);
+                skillProvider.UpdatePassword(newPassword);
+                await _skillProviderRepository.UpdateAsync(skillProvider);
+                return ApiResponse<bool>.Ok(true);
+            }
+            else if(changePasswordDto.UserRole == UserRole.ProjectOwner)
+            {
+                var projectOwner = await _projectOwnerRepository.GetByIdAsync(changePasswordDto.UserId);
+                if (projectOwner == null)
+                    return ApiResponse<bool>.Fail("UserId does not exist");
+                var passwordHasher = new PasswordHasher<ProjectOwner>();
+                string newPassword = passwordHasher.HashPassword(projectOwner, changePasswordDto.NewPassword);
+                projectOwner.UpdatePassword(newPassword);
+                await _projectOwnerRepository.UpdateAsync(projectOwner);
+                return ApiResponse<bool>.Ok(true);
+            }
+            return ApiResponse<bool>.Fail("User role cannot change password through this method");
+        }
          
     }
 }

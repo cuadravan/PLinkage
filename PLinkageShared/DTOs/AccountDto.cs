@@ -30,4 +30,11 @@ namespace PLinkageShared.DTOs
         public UserRole? UserRole { get; set; } = null;
         public DateTime JoinedOn { get; set; } = DateTime.Now;
     }
+
+    public class ChangePasswordDto
+    {
+        public Guid UserId { get; set; } = Guid.Empty;
+        public UserRole? UserRole { get; set; } = null;
+        public string NewPassword { get; set; } = string.Empty;
+    }
 }
