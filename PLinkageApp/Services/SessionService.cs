@@ -19,6 +19,12 @@ namespace PLinkageApp.Services
             currentUserLocation = loginResultDto.UserLocation;
         }
 
+        public void UpdateCurrentUser(CebuLocation? cebuLocation, string userName)
+        {
+            currentUserLocation = cebuLocation;
+            currentUserName = userName;
+        }
+
         public Guid GetCurrentUserId()
         {
             return currentUserId;

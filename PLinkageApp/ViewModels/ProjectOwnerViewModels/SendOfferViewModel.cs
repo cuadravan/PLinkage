@@ -14,6 +14,7 @@ namespace PLinkageApp.ViewModels
         // Services
         private readonly IOfferApplicationServiceClient _offerApplicationServiceClient;
         private readonly IProjectOwnerServiceClient _projectOwnerServiceClient;
+        private readonly IProjectServiceClient _projectServiceClient;
         private readonly ISessionService _sessionService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
@@ -32,13 +33,14 @@ namespace PLinkageApp.ViewModels
        
         public ObservableCollection<ProjectOwnerProfileProjectDto> Projects { get; set; } = new();
 
-        public SendOfferViewModel(IDialogService dialogService, IProjectOwnerServiceClient projectOwnerServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
+        public SendOfferViewModel(IProjectServiceClient projectServiceClient, IDialogService dialogService, IProjectOwnerServiceClient projectOwnerServiceClient, IOfferApplicationServiceClient offerApplicationServiceClient, ISessionService sessionService, INavigationService navigationService)
         {
             _offerApplicationServiceClient = offerApplicationServiceClient;
             _projectOwnerServiceClient = projectOwnerServiceClient;
             _sessionService = sessionService;
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _projectServiceClient = projectServiceClient;
         }
 
         public async Task InitializeAsync()
@@ -87,7 +89,7 @@ namespace PLinkageApp.ViewModels
                 string.IsNullOrWhiteSpace(TimeFrameAsked) ||
                 SelectedProject == null)
             {
-                ErrorMessage = "Please complete all fields before applying.";
+                ErrorMessage = "Please complete all fields before sending offer.";
                 return;
             }
 
@@ -110,6 +112,35 @@ namespace PLinkageApp.ViewModels
                 ErrorMessage = $"Your requested timeframe exceeds the project duration of {allowedHours:N0} hours.";
                 return;
             }
+            IsBusy = true;
+            try
+            {
+                var project = await _projectServiceClient.GetSpecificAsync(SelectedProject.ProjectId);
+                if (project.Success && project.Data != null)
+                {
+                    if(project.Data.ProjectResourcesAvailable == 0)
+                    {
+                        await _dialogService.ShowAlertAsync("Cannot Send Offer For This Project", "This project is already full", "Ok");
+                        IsBusy = false;
+                        return;
+                    }
+                    else if(project.Data.ProjectMembers.Any(pm => pm.MemberId == SkillProviderId))
+                    {
+                        await _dialogService.ShowAlertAsync("Cannot Send Offer For This Project", "This skill provider is already employed for this project", "Ok");
+                        IsBusy = false;
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowAlertAsync("Error", $"Could not send offer due to following error: {ex}", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
 
             var offer = new OfferApplicationCreationDto
             {

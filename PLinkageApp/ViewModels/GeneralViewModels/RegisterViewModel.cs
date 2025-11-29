@@ -167,7 +167,7 @@ namespace PLinkageApp.ViewModels
                 IsBusy = false;
                 await _navigationService.NavigateToAsync("RegisterView4");
             }
-                
+            IsBusy = false;
         }
 
         [RelayCommand]
@@ -228,7 +228,18 @@ namespace PLinkageApp.ViewModels
         [RelayCommand]
         private async Task GoToLogin()
         {
-            // Erase stack and go back to loginview
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+            ConfirmPassword = string.Empty;
+            MobileNumber = string.Empty;
+            SelectedLocation = null;
+            Birthdate = DateTime.Now;
+            SelectedGender = string.Empty;
+            userRoleSelected = null;
+            SkillProviderSelected = false;
+            ProjectOwnerSelected = false;
             await _navigationService.NavigateAndClearStackAsync("LoginView");
         }
 

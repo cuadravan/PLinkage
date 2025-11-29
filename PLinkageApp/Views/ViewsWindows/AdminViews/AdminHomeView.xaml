@@ -37,13 +37,13 @@
                     Wrap="Wrap">
 
                     <controls:StatCard
-                        Title="Overall Active Projects"
+                        Title="Active Projects"
                         Margin="0,0,10,10"
                         WidthRequest="250"
                         Value="{Binding ActiveProjectsValue}" />
 
                     <controls:StatCard
-                        Title="Overall Completed Projects"
+                        Title="Completed Projects"
                         Margin="0,0,10,10"
                         WidthRequest="250"
                         Value="{Binding CompletedProjectsValue}" />

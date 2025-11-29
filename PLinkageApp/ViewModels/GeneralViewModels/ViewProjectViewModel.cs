@@ -23,6 +23,8 @@ namespace PLinkageApp.ViewModels
         [ObservableProperty]
         private bool isOwner = false;
         [ObservableProperty]
+        private bool canUpdate = false;
+        [ObservableProperty]
         private bool isEmployed = false;
         [ObservableProperty]
         private bool canApply = false;
@@ -78,6 +80,11 @@ namespace PLinkageApp.ViewModels
                 return;
             if (_sessionService.GetCurrentUserRole() != UserRole.SkillProvider)
                 return;
+            if (Project.ProjectResourcesAvailable == 0)
+            {
+                await _dialogService.ShowAlertAsync("Full Project", "This project is at maximum capacity.", "Ok");
+                return;
+            } 
             await _navigationService.NavigateToAsync("ApplyView", new Dictionary<string, object> { { "ProjectId", Project.ProjectId } });
         }
 
@@ -120,6 +127,7 @@ namespace PLinkageApp.ViewModels
                 IsOwner = false;
                 IsEmployed = false;
                 CanApply = false;
+                CanUpdate = false;
 
                 result = await _projectServiceClient.GetSpecificAsync(ProjectId);
 
@@ -130,8 +138,12 @@ namespace PLinkageApp.ViewModels
                     var userId = _sessionService.GetCurrentUserId();
                     var userRole = _sessionService.GetCurrentUserRole();
                     
-                    if (userId == Project.ProjectOwnerId && Project.ProjectStatus != "Completed")
-                        IsOwner = true; // Owner can update Active or Deactivated project
+                    if (userId == Project.ProjectOwnerId)
+                    {
+                        if (Project.ProjectStatus != "Completed")
+                            CanUpdate = true;
+                        IsOwner = true;
+                    }
                     else if (Project.ProjectMembers.Any(pm => pm.MemberId == userId) && Project.ProjectStatus == "Active")
                         IsEmployed = true; // Members can resign from active projects
                     else if (!IsEmployed && userRole == UserRole.SkillProvider && Project.ProjectStatus == "Active")

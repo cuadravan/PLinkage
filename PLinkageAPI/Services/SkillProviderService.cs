@@ -297,7 +297,6 @@ namespace PLinkageAPI.Services
                             : string.Empty,
                         Skills = sp.Skills?
                             .Select(skill => skill.SkillName)
-                            .Take(5)
                             .ToList() ?? new List<string>()
                     };
                 });

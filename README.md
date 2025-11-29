@@ -11,8 +11,9 @@
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-512BD4?style=for-the-badge\&logo=.net\&logoColor=white)
 ![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge\&logo=microsoftazure\&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge\&logo=mongodb\&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
-**PLinkage** is a **cross-platform .NET MAUI application** (Android & Windows) that connects **project owners** with **skill providers**. It integrates with an **ASP.NET Core Web API** hosted on **Azure App Service** and uses **MongoDB Atlas** as the database.
+**PLinkage** is a **cross-platform .NET MAUI application** (Android & Windows) that connects **project owners** with **skill providers**. It integrates with an **ASP.NET Core Web API** hosted on **Azure App Service** using **MongoDB Atlas** as the database. The deployment process is fully automated via a **GitHub Actions CI/CD pipeline**, which I configured to manage monorepo build triggers and secure cloud authentication.
 
 The app simplifies project collaboration through **project management, user profiles, real-time messaging, location-based matching, and contract workflows**.
 
@@ -154,49 +155,52 @@ All in all, I learned that software engineering requires careful planning from t
 
 ---
 
+## 🚀 Getting Started
 
-## Getting Started
+The backend API for this project is currently **deployed and live on Azure App Service**. You do not need to run the server locally to test the application.
 
-Follow these steps to run the app locally:
+Follow these steps to build and run the **.NET MAUI Client** on your local machine:
 
-1. **Clone the repository:**
+### Prerequisites
 
-   ```bash
-   git clone https://github.com/cuadravan/PLinkage.git
-   ```
+  * **Visual Studio 2022** 
+  * Workload installed: **.NET Multi-platform App UI development**
 
-2. **Open the solution in Visual Studio 2022** (ensure the .NET MAUI workload is installed).
+### Installation & Execution
 
-3. **Restore NuGet packages:**
+1.  **Clone the repository**
 
-   ```bash
-   dotnet restore
-   ```
+    ```bash
+    git clone https://github.com/cuadravan/PLinkage.git
+    ```
 
-4. **Build and run the application:**
+2.  **Open the Solution**
 
-   ```bash
-   dotnet build
-   dotnet run
-   ```
-Note: The MongoDB database connection string is not included in the repository for privacy purposes.
+      * Open `PLinkage.sln` in Visual Studio 2022.
+
+3.  **Set the Startup Project**
+
+      * In the Solution Explorer, right-click the **PLinkageApp** (MAUI) project.
+      * Select **Set as Startup Project**.
+      * *Note: Do not run the `PLinkage.API` project locally unless you intend to modify backend logic. The connection string has been purposefully omitted from the repository, hence a local instance of the API will not work.*
+
+4.  **Select Your Target Device**
+
+      * In the standard toolbar, select your target framework (e.g., **Windows Machine** or **Android Emulator**).
+
+5.  **Run the Application**
+
+      * Press `F5` or click the green "Play" button.
+      * The app will launch and automatically connect to the live Azure API. The MAUI app is pre-configured to consume the public Azure API endpoints. No local configuration is required.
 
 ---
 
 ## Technology Stack
 
-**Frontend:**
-- .NET MAUI for cross-platform UI
-- CommunityToolkit.Mvvm for MVVM helpers
-- System.Net.Http for API calls
+**Back-end**: C#, ASP.NET Core 8, REST API, MongoDB
 
-**Backend:**
-- ASP.NET Core 8.0 Web API
-- MongoDB with official C# driver
+**Front-end**: .NET MAUI, XAML, MVVM
 
-**Development Tools:**
-- Visual Studio 2022
-- Canva for UI wireframe development
-- Git for version control
+**Cloud & DevOps**: Azure App Service, GitHub Actions, CI/CD, Git
 
 ---

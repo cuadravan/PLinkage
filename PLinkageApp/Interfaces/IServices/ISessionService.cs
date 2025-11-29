@@ -10,6 +10,7 @@ namespace PLinkageApp.Interfaces
     public interface ISessionService
     {
         void SetCurrentUser(LoginResultDto loginResultDto);
+        void UpdateCurrentUser(CebuLocation? cebuLocation, string userName);
         Guid GetCurrentUserId();
         UserRole? GetCurrentUserRole();
         CebuLocation? GetCurrentUserLocation();

@@ -56,7 +56,34 @@
                 Text="{Binding SchoolAttended}" />
 
             <!--  Time Graduated  -->
-            <controls:LabeledDatePicker Date="{Binding TimeGraduated}" LabelText="Time Graduated" />
+            <!--
+            <controls:LabeledDatePicker Date="{Binding TimeGraduated}" LabelText="Time Graduated" />-->
+
+            <VerticalStackLayout>
+                <!--  Label  -->
+                <Label
+                    Margin="0,10,0,3"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Time Graduated"
+                    TextColor="Black" />
+
+                <!--  DatePicker  -->
+                <Frame
+                    Padding="10,0,0,0"
+                    BackgroundColor="Transparent"
+                    BorderColor="#7C4DFF"
+                    CornerRadius="8"
+                    HasShadow="False">
+                    <DatePicker
+                        BackgroundColor="Transparent"
+                        Date="{Binding TimeGraduated}"
+                        FontSize="14"
+                        HeightRequest="40"
+                        MaximumDate="{x:Static sys:DateTime.Today}"
+                        TextColor="Black" />
+                </Frame>
+            </VerticalStackLayout>
 
             <Label
                 Margin="0,10,0,0"

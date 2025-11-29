@@ -260,7 +260,6 @@ namespace PLinkageAPI.Services
                     Location = locationString,
                     Description = project.ProjectDescription,
                     Skills = project.ProjectSkillsRequired?
-    .Take(5)
     .ToList() ?? new List<string>(),
                     EmployedProviderIds = project.ProjectMembers.Select(pm => pm.MemberId).ToList()
                 };

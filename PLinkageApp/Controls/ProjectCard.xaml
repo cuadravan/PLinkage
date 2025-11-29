@@ -12,7 +12,6 @@
         BorderColor="#E0E0E0"
         CornerRadius="12"
         HasShadow="True"
-        MaximumHeightRequest="300"
         VerticalOptions="Start"
         WidthRequest="280">
 
@@ -20,7 +19,7 @@
             <TapGestureRecognizer Command="{Binding Source={x:Reference ThisControl}, Path=Command}" CommandParameter="{Binding Source={x:Reference ThisControl}, Path=CommandParameter}" />
         </Frame.GestureRecognizers>
 
-        <VerticalStackLayout>   
+        <VerticalStackLayout>
 
             <!--  Header  -->
             <Grid Padding="12" BackgroundColor="#7B5CF4">

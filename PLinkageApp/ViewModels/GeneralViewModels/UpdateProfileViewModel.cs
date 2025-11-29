@@ -186,6 +186,8 @@ namespace PLinkageApp.ViewModels
                         storedGender = GenderSelection;
                         storedLocation = LocationSelection;
                         storedMobileNumber = MobileNumber;
+                        var newUserName = storedFirstName + " " + storedLastName;
+                        _sessionService.UpdateCurrentUser(storedLocation, newUserName);
                     }
                     else
                     {
@@ -204,6 +206,8 @@ namespace PLinkageApp.ViewModels
                         storedGender = GenderSelection;
                         storedLocation = LocationSelection;
                         storedMobileNumber = MobileNumber;
+                        var newUserName = storedFirstName + " " + storedLastName;
+                        _sessionService.UpdateCurrentUser(storedLocation, newUserName);
                     }
                     else
                     {

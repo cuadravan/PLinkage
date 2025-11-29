@@ -89,7 +89,7 @@
                             FontAttributes="Bold"
                             FontSize="18"
                             HorizontalOptions="Center"
-                            Text="Received (Pending)"
+                            Text="Received Applications (Pending)"
                             TextColor="#212121" />
 
                         <CollectionView ItemsSource="{Binding ReceivedApplicationsPending}">

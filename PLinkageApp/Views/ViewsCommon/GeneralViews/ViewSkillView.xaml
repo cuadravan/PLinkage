@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:PLinkageApp.Controls"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     BackgroundColor="#F8F9FC"
     Shell.NavBarIsVisible="False">
 
@@ -66,10 +67,32 @@
                 LabelText="Skill Level"
                 SelectedItem="{Binding SkillLevel}" />
 
-            <controls:LabeledDatePicker
-                Date="{Binding TimeAcquired}"
-                IsEnabled="{Binding IsOwner}"
-                LabelText="Time Acquired" />
+            <VerticalStackLayout>
+                <!--  Label  -->
+                <Label
+                    Margin="0,10,0,3"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Time Acquired"
+                    TextColor="Black" />
+
+                <!--  DatePicker  -->
+                <Frame
+                    Padding="10,0,0,0"
+                    BackgroundColor="Transparent"
+                    BorderColor="#7C4DFF"
+                    CornerRadius="8"
+                    HasShadow="False">
+                    <DatePicker
+                        BackgroundColor="Transparent"
+                        Date="{Binding TimeAcquired}"
+                        FontSize="14"
+                        HeightRequest="40"
+                        IsEnabled="{Binding IsOwner}"
+                        MaximumDate="{x:Static sys:DateTime.Today}"
+                        TextColor="Black" />
+                </Frame>
+            </VerticalStackLayout>
 
             <controls:LabeledEntry
                 IsEnabled="{Binding IsOwner}"

@@ -38,13 +38,14 @@ public static class MauiProgram
             ServiceCollectionServiceExtensions.AddTransient<Shell, AppShellWindows>(builder.Services);
 #endif
 
-#if ANDROID
-        const string ApiBaseUrl = "http://10.0.2.2:5015/";
-#elif WINDOWS
-            const string ApiBaseUrl = "http://localhost:5015/";
-#else
-            const string ApiBaseUrl = "http://192.168.1.8:5030/"; // fallback for other platforms
-#endif
+        //#if ANDROID
+        //        const string ApiBaseUrl = "http://10.0.2.2:5015/";
+        //#elif WINDOWS
+        //            const string ApiBaseUrl = "http://localhost:5015/";
+        //#else
+        //            const string ApiBaseUrl = "http://192.168.1.8:5030/"; // fallback for other platforms
+        //#endif
+        const string ApiBaseUrl = "https://plinkageapi-hzddfah5gbhcfxdm.southeastasia-01.azurewebsites.net/";
 
         builder.Services.AddHttpClient<BaseApiClient>(client =>
         {
@@ -86,6 +87,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDialogService, DialogService>();
         builder.Services.AddSingleton<SplashScreenPage>();
         builder.Services.AddSingleton<AppShellViewModel>();
+        builder.Services.AddSingleton<RegisterViewModel>();
 
         builder.Services.AddTransient<ChatViewModel>();
         builder.Services.AddTransient<MessagesViewModel>();
@@ -95,8 +97,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ProcessResignationViewModel>();
         builder.Services.AddTransient<ProjectOwnerLinkagesViewModel>();
         builder.Services.AddTransient<SkillProviderLinkagesViewModel>();
-        builder.Services.AddTransient<LoginViewModel>();
-        builder.Services.AddTransient<RegisterViewModel>();
+        builder.Services.AddTransient<LoginViewModel>();       
         builder.Services.AddTransient<ProjectOwnerHomeViewModel>();
 		builder.Services.AddTransient<ProjectOwnerProfileViewModel>();
 		builder.Services.AddTransient<UpdateProfileViewModel>();

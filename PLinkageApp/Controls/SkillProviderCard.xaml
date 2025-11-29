@@ -11,7 +11,6 @@
         BorderColor="#E0E0E0"
         CornerRadius="12"
         HasShadow="True"
-        MaximumHeightRequest="300"
         VerticalOptions="Start"
         WidthRequest="280">
 

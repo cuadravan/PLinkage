@@ -65,7 +65,7 @@
                             Command="{Binding UpdateProjectCommand}"
                             CornerRadius="6"
                             FontAttributes="Bold"
-                            IsVisible="{Binding IsOwner}"
+                            IsVisible="{Binding CanUpdate}"
                             Text="Update Project"
                             TextColor="White" />
                         <Button
