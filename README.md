@@ -182,7 +182,7 @@ Follow these steps to build and run the **.NET MAUI Client** on your local machi
 
       * In the Solution Explorer, right-click the **PLinkageApp** (MAUI) project.
       * Select **Set as Startup Project**.
-      * *Note: Do not run the `PLinkage.API` project locally unless you intend to modify backend logic. The connection string has been purposefully omitted from the repository, hence a local instance of the API will not work.*
+      * *Note: Do not run the `PLinkageAPI` project locally unless you intend to modify backend logic. The connection string has been purposefully omitted from the repository, hence a local instance of the API will not work.*
 
 4.  **Select Your Target Device**
 
