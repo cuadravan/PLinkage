@@ -1,4 +1,4 @@
-# PLinkage
+# PLinkage [![Build and deploy .NET Core application to Web App PLinkageAPI](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml/badge.svg)](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml)
 
 *Project Linkage Application*
 
