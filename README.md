@@ -1,4 +1,6 @@
-# PLinkage [![Build and deploy .NET Core application to Web App PLinkageAPI](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml/badge.svg)](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml)
+# PLinkage 
+
+[![Build and deploy .NET Core application to Web App PLinkageAPI](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml/badge.svg)](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml)
 
 *Project Linkage Application*
 
@@ -155,7 +157,7 @@ All in all, I learned that software engineering requires careful planning from t
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 The backend API for this project is currently **deployed and live on Azure App Service**. You do not need to run the server locally to test the application.
 
