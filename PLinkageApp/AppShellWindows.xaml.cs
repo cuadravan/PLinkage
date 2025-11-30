@@ -86,29 +86,29 @@ namespace PLinkageApp
 
         private FlyoutMenuItem[] GetAdminMenuItems() =>
         [
-            new("Home", "home.png", typeof(AdminHomeView)),
-            new("Browse Projects", "project.png", typeof(BrowseProjectView)),
-            new("Browse Project Owners", "browsepo.png", typeof(AdminBrowseProjectOwnerView)),
-            new("Browse Skill Providers", "browsesp.png", typeof(BrowseSkillProviderView)),
-            new("My Messages", "chat.png", typeof(ChatWindowsView))
+            new("Home", "homewin.png", typeof(AdminHomeView)),
+            new("Browse Projects", "projectwin.png", typeof(BrowseProjectView)),
+            new("Browse Project Owners", "browsepowin.png", typeof(AdminBrowseProjectOwnerView)),
+            new("Browse Skill Providers", "browsespwin.png", typeof(BrowseSkillProviderView)),
+            new("My Messages", "chatwin.png", typeof(ChatWindowsView))
         ];
 
         private FlyoutMenuItem[] GetProjectOwnerMenuItems() =>
         [
-            new("Home", "home.png", typeof(ProjectOwnerHomeView)),
-            new("My Profile", "browsepo.png", typeof(ProjectOwnerProfileView)),
-            new("Browse Skill Providers", "browsesp.png", typeof(BrowseSkillProviderView)),
-            new("Your Linkages", "linkages.png", typeof(ProjectOwnerLinkagesView)),
-            new("My Messages", "chat.png", typeof(ChatWindowsView))
+            new("Home", "homewin.png", typeof(ProjectOwnerHomeView)),
+            new("My Profile", "browsepowin.png", typeof(ProjectOwnerProfileView)),
+            new("Browse Skill Providers", "browsespwin.png", typeof(BrowseSkillProviderView)),
+            new("Your Linkages", "linkageswin.png", typeof(ProjectOwnerLinkagesView)),
+            new("My Messages", "chatwin.png", typeof(ChatWindowsView))
         ];
 
         private FlyoutMenuItem[] GetSkillProviderMenuItems() =>
         [
-            new("Home", "home.png", typeof(SkillProviderHomeView)),
-            new("My Profile", "browsepo.png", typeof(SkillProviderProfileView)),
-            new("Browse Projects", "project.png", typeof(BrowseProjectView)),
-            new("Your Linkages", "linkages.png", typeof(SkillProviderLinkagesView)),
-            new("My Messages", "chat.png", typeof(ChatWindowsView))
+            new("Home", "homewin.png", typeof(SkillProviderHomeView)),
+            new("My Profile", "browsepowin.png", typeof(SkillProviderProfileView)),
+            new("Browse Projects", "projectwin.png", typeof(BrowseProjectView)),
+            new("Your Linkages", "linkageswin.png", typeof(SkillProviderLinkagesView)),
+            new("My Messages", "chatwin.png", typeof(ChatWindowsView))
         ];
 
         private void RegisterRoutes()

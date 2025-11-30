@@ -1,14 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PLinkageShared.DTOs
+﻿namespace PLinkageShared.DTOs
 {
     public class SendMessageDto
     {
-        [Required]
         public Guid ReceiverId { get; set; }
-
-        [Required]
-        [MinLength(1)]
         public string Content { get; set; }
     }
 
