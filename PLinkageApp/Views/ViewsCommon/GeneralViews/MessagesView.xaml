@@ -29,9 +29,7 @@
                                 <Border
                                     Padding="10"
                                     BackgroundColor="{Binding IsFromCurrentUser, Converter={StaticResource BoolToColorConverter}}"
-                                    HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}"
-                                    Stroke="{Binding IsFromCurrentUser, Converter={StaticResource BoolToBorderColorConverter}}"
-                                    StrokeThickness="2">
+                                    HorizontalOptions="{Binding IsFromCurrentUser, Converter={StaticResource BoolToAlignmentConverter}}">
 
                                     <VerticalStackLayout Spacing="5">
                                         <Label
@@ -60,6 +58,7 @@
             HorizontalOptions="Fill">
 
             <controls:SearchInput
+                ControlWidth="{OnPlatform WinUI='', Android='325'}"
                 HorizontalOptions="Fill"
                 SearchPlaceholder="Send Message..."
                 SearchQuery="{Binding MessageToSend}" />

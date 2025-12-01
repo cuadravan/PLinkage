@@ -8,7 +8,7 @@
     Title="BrowseProjectView"
     Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto, Auto, *, *">
+    <Grid RowDefinitions="Auto, Auto, *">
 
         <FlexLayout
             Grid.Row="0"

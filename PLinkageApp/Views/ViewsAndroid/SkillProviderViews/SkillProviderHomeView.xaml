@@ -41,21 +41,29 @@
                 ItemSource="{Binding SortOptions}"
                 SelectedItem="{Binding SortSelection}"
                 TitleText="Top Projects For You" />
-            <CarouselView ItemsSource="{Binding ProjectCards}" PeekAreaInsets="50">
+            <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
 
-                <CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <controls:ProjectCard
-                            Title="{Binding Title}"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderHomeViewModel}}, Path=ViewProjectCommand}"
-                            CommandParameter="{Binding .}"
-                            Description="{Binding Description}"
-                            Location="{Binding Location}"
-                            Skills="{Binding Skills}"
-                            Slots="{Binding Slots}" />
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
+                <HorizontalStackLayout
+                    Padding="0,0,0,10"
+                    BindableLayout.ItemsSource="{Binding ProjectCards}"
+                    Spacing="10">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProjectCard
+                                Title="{Binding Title}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderHomeViewModel}}, Path=ViewProjectCommand}"
+                                CommandParameter="{Binding .}"
+                                Description="{Binding Description}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                Slots="{Binding Slots}"
+                                VerticalOptions="Fill"
+                                WidthRequest="280" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                </HorizontalStackLayout>
+            </ScrollView>
             <Label
                 FontSize="16"
                 HorizontalOptions="Center"

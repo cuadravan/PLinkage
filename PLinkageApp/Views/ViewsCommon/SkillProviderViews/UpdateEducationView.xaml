@@ -94,7 +94,7 @@
                     FontAttributes="Bold"
                     HeightRequest="45"
                     HorizontalOptions="FillAndExpand"
-                    Text="Delete Education"
+                    Text="Delete"
                     TextColor="White" />
 
                 <Button

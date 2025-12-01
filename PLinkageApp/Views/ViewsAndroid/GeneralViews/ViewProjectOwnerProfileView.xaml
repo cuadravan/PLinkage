@@ -18,7 +18,6 @@
                     JoinedDate="{Binding ProjectOwnerDto.JoinedOn}"
                     MessageCommand="{Binding MessageUserCommand}"
                     UserName="{Binding ProjectOwnerDto.UserName}"
-                    UserRating="{Binding ProjectOwnerDto.UserRating}"
                     UserSubtitle="{Binding ProjectOwnerDto.UserLocation}" />
 
                 <StackLayout Padding="25,0,25,0">

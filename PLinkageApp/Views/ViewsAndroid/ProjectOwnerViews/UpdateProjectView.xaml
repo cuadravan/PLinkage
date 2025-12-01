@@ -46,8 +46,9 @@
                         HasShadow="False">
                         <DatePicker
                             BackgroundColor="Transparent"
-                            Date="{Binding ProjectStartDate, StringFormat='{0:M/dd/yyyy}'}"
+                            Date="{Binding ProjectStartDate}"
                             FontSize="14"
+                            Format="MM/dd/yyyy"
                             HeightRequest="40"
                             MinimumDate="{Binding ProjectMinStartDate}"
                             TextColor="Black" />
@@ -71,8 +72,9 @@
                         HasShadow="False">
                         <DatePicker
                             BackgroundColor="Transparent"
-                            Date="{Binding ProjectEndDate, StringFormat='{0:M/dd/yyyy}'}"
+                            Date="{Binding ProjectEndDate}"
                             FontSize="14"
+                            Format="MM/dd/yyyy"
                             HeightRequest="40"
                             IsEnabled="False"
                             TextColor="Black" />

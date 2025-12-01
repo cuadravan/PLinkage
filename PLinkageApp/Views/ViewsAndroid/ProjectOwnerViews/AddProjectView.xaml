@@ -88,7 +88,10 @@
                 LabelText="Status"
                 SelectedItem="{Binding ProjectStatusSelected}" />
 
-            <controls:LabeledEntry LabelText="Resources Needed" Text="{Binding ProjectResourcesNeeded}" />
+            <controls:LabeledEntry
+                Keyboard="Numeric"
+                LabelText="Resources Needed"
+                Text="{Binding ProjectResourcesNeeded}" />
 
             <Label
                 Margin="20,0,0,5"

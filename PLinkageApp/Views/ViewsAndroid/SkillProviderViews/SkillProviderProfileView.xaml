@@ -16,7 +16,6 @@
                     IsRatingVisible="true"
                     IsSendOfferButtonVisible="false"
                     IsUpdateProfileButtonVisible="true"
-                    IsUserActivated="{Binding IsUserCurrentlyActive, Mode=TwoWay}"
                     JoinedDate="{Binding SkillProviderDto.JoinedOn}"
                     UpdateProfileCommand="{Binding UpdateProfileCommand}"
                     UserName="{Binding SkillProviderDto.UserName}"

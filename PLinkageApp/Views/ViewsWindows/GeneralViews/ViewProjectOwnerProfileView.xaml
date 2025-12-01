@@ -13,7 +13,6 @@
             <VerticalStackLayout Spacing="5">
 
                 <controls:UserProfileCard
-                    RefreshCommand="{Binding RefreshCommand}"
                     DeactivateActivateCommand="{Binding ToggleUserActivationCommand}"
                     IsDeactivateActivateButtonVisible="{Binding IsDeactivateButtonVisible}"
                     IsMessageButtonVisible="{Binding IsMessageButtonVisible}"
@@ -21,8 +20,8 @@
                     IsUserActivated="{Binding IsUserCurrentlyActive, Mode=TwoWay}"
                     JoinedDate="{Binding ProjectOwnerDto.JoinedOn}"
                     MessageCommand="{Binding MessageUserCommand}"
+                    RefreshCommand="{Binding RefreshCommand}"
                     UserName="{Binding ProjectOwnerDto.UserName}"
-                    UserRating="{Binding ProjectOwnerDto.UserRating}"
                     UserSubtitle="{Binding ProjectOwnerDto.UserLocation}" />
                 <VerticalStackLayout Padding="50" Spacing="20">
                     <controls:InformationCard

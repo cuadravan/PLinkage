@@ -152,7 +152,7 @@ namespace PLinkageAPI.Services
             DateTime earlierDate = (project.ProjectStartDate < project.ProjectEndDate) ? project.ProjectStartDate : project.ProjectEndDate;
             DateTime laterDate = (project.ProjectStartDate < project.ProjectEndDate) ? project.ProjectEndDate : project.ProjectStartDate;
             TimeSpan duration = laterDate.Subtract(earlierDate);
-            int days = duration.Days;
+            int days = duration.Days + 1;
             string projectDuration = days.ToString() + " days";
 
             var projectDto = new ProjectDto
