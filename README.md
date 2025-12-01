@@ -1,4 +1,6 @@
-# PLinkage
+# PLinkage 
+
+[![Build and deploy .NET Core application to Web App PLinkageAPI](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml/badge.svg)](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml)
 
 *Project Linkage Application*
 
@@ -155,7 +157,7 @@ All in all, I learned that software engineering requires careful planning from t
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 The backend API for this project is currently **deployed and live on Azure App Service**. You do not need to run the server locally to test the application.
 
@@ -182,7 +184,7 @@ Follow these steps to build and run the **.NET MAUI Client** on your local machi
 
       * In the Solution Explorer, right-click the **PLinkageApp** (MAUI) project.
       * Select **Set as Startup Project**.
-      * *Note: Do not run the `PLinkage.API` project locally unless you intend to modify backend logic. The connection string has been purposefully omitted from the repository, hence a local instance of the API will not work.*
+      * *Note: Do not run the `PLinkageAPI` project locally unless you intend to modify backend logic. The connection string has been purposefully omitted from the repository, hence a local instance of the API will not work.*
 
 4.  **Select Your Target Device**
 
