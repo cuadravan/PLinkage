@@ -58,7 +58,7 @@
             HorizontalOptions="Fill">
 
             <controls:SearchInput
-                ControlWidth="{OnPlatform WinUI='', Android='325'}"
+                ControlWidth="{OnPlatform Android='325'}"
                 HorizontalOptions="Fill"
                 SearchPlaceholder="Send Message..."
                 SearchQuery="{Binding MessageToSend}" />

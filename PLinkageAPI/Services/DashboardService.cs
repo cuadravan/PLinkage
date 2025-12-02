@@ -70,7 +70,6 @@ namespace PLinkageAPI.Services
             if (skillProvider == null)
                 return ApiResponse<SkillProviderDashboardDto>.Fail("Requested skill provider ID not found.");
 
-            // Fetch in bulk
             var projectsTask = _projectRepository.GetByIdsAsync(skillProvider.EmployedProjects);
             var offersTask = _offerApplicationRepository.GetByIdsAsync(skillProvider.OfferApplicationId);
 
