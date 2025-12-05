@@ -9,56 +9,56 @@
     Shell.NavBarIsVisible="False">
 
     <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+        <ScrollView>
 
-        <VerticalStackLayout Spacing="7">
-            <Image Source="plinkagenotext.svg" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Text="Welcome, Project Owner!"
-                TextColor="#212121" />
+            <VerticalStackLayout Spacing="7">
+                <Image Source="plinkagenotext.svg" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="Welcome, Project Owner!"
+                    TextColor="#212121" />
 
-            <FlexLayout
-                HorizontalOptions="CenterAndExpand"
-                JustifyContent="Center"
-                Wrap="Wrap">
+                <FlexLayout
+                    HorizontalOptions="CenterAndExpand"
+                    JustifyContent="Center"
+                    Wrap="Wrap">
 
-                <controls:StatCard
-                    Title="Received Applications"
-                    Margin="0,0,5,0"
-                    Value="{Binding PendingReceivedApplicationsValue}" />
-                <controls:StatCard
-                    Title="Pending Sent Offers"
-                    Margin="0,0,5,0"
-                    Value="{Binding PendingSentOffersValue}" />
-            </FlexLayout>
-            <FlexLayout
-                HorizontalOptions="CenterAndExpand"
-                JustifyContent="Center"
-                Wrap="Wrap">
-                <controls:StatCard
-                    Title="Active Projects"
-                    Margin="0,0,5,0"
-                    Value="{Binding ActiveProjectsValue}" />
-                <controls:StatCard
-                    Title="Reported Resignations"
-                    Margin="0,0,5,0"
-                    Value="{Binding ReportedResignationsValue}" />
-                <controls:StatCard
-                    Title="Reported Negotiations"
-                    Margin="0,0,5,0"
-                    Value="{Binding ReportedNegotiationsValue}" />
-            </FlexLayout>
+                    <controls:StatCard
+                        Title="Received Applications"
+                        Margin="0,0,5,0"
+                        Value="{Binding PendingReceivedApplicationsValue}" />
+                    <controls:StatCard
+                        Title="Pending Sent Offers"
+                        Margin="0,0,5,0"
+                        Value="{Binding PendingSentOffersValue}" />
+                </FlexLayout>
+                <FlexLayout
+                    HorizontalOptions="CenterAndExpand"
+                    JustifyContent="Center"
+                    Wrap="Wrap">
+                    <controls:StatCard
+                        Title="Active Projects"
+                        Margin="0,0,5,0"
+                        Value="{Binding ActiveProjectsValue}" />
+                    <controls:StatCard
+                        Title="Reported Resignations"
+                        Margin="0,0,5,0"
+                        Value="{Binding ReportedResignationsValue}" />
+                    <controls:StatCard
+                        Title="Reported Negotiations"
+                        Margin="0,0,5,0"
+                        Value="{Binding ReportedNegotiationsValue}" />
+                </FlexLayout>
 
-            <controls:LabeledPicker
-                ItemSource="{Binding SortOptions}"
-                SelectedItem="{Binding SortSelection}"
-                TitleText="Top Skill Providers For You" />
+                <controls:LabeledPicker
+                    ItemSource="{Binding SortOptions}"
+                    SelectedItem="{Binding SortSelection}"
+                    TitleText="Top Skill Providers For You" />
 
-            <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
 
-                <HorizontalStackLayout
+                <VerticalStackLayout
                     Padding="0,0,0,10"
                     BindableLayout.ItemsSource="{Binding SkillProviderCards}"
                     Spacing="10">
@@ -77,15 +77,15 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
 
-                </HorizontalStackLayout>
-            </ScrollView>
-            <Label
-                FontSize="16"
-                HorizontalOptions="Center"
-                IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
-                Text="No skill providers found."
-                TextColor="Gray" />
-        </VerticalStackLayout>
+                </VerticalStackLayout>
 
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No skill providers found."
+                    TextColor="Gray" />
+            </VerticalStackLayout>
+        </ScrollView>
     </RefreshView>
 </ContentPage>

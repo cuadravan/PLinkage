@@ -8,69 +8,71 @@
     Title="SkillProviderHomeView"
     Shell.NavBarIsVisible="False">
     <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
-        <VerticalStackLayout Spacing="7" VerticalOptions="Center">
-            <Image Source="plinkagenotext.svg" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Text="Welcome, Skill Provider!"
-                TextColor="#212121" />
-            <FlexLayout
-                HorizontalOptions="CenterAndExpand"
-                JustifyContent="Center"
-                Wrap="Wrap">
-                <controls:StatCard
-                    Title="Active Projects"
-                    Grid.Column="0"
-                    Margin="0,0,5,0"
-                    Value="{Binding ActiveProjectsValue}" />
-                <controls:StatCard
-                    Title="Pending Sent Applications"
-                    Grid.Column="1"
-                    Margin="0,0,5,0"
-                    Value="{Binding PendingSentApplicationsValue}" />
-                <controls:StatCard
-                    Title="Received Offers"
-                    Grid.Column="2"
-                    Margin="0,0,5,0"
-                    Value="{Binding PendingReceivedOffersValue}" />
-            </FlexLayout>
+        <ScrollView>
+            <VerticalStackLayout Spacing="7" VerticalOptions="Center">
+                <Image Source="plinkagenotext.svg" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="Welcome, Skill Provider!"
+                    TextColor="#212121" />
+                <FlexLayout
+                    HorizontalOptions="CenterAndExpand"
+                    JustifyContent="Center"
+                    Wrap="Wrap">
+                    <controls:StatCard
+                        Title="Active Projects"
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        Value="{Binding ActiveProjectsValue}" />
+                    <controls:StatCard
+                        Title="Pending Sent Applications"
+                        Grid.Column="1"
+                        Margin="0,0,5,0"
+                        Value="{Binding PendingSentApplicationsValue}" />
+                    <controls:StatCard
+                        Title="Received Offers"
+                        Grid.Column="2"
+                        Margin="0,0,5,0"
+                        Value="{Binding PendingReceivedOffersValue}" />
+                </FlexLayout>
 
-            <controls:LabeledPicker
-                ItemSource="{Binding SortOptions}"
-                SelectedItem="{Binding SortSelection}"
-                TitleText="Top Projects For You" />
-            <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                <controls:LabeledPicker
+                    ItemSource="{Binding SortOptions}"
+                    SelectedItem="{Binding SortSelection}"
+                    TitleText="Top Projects For You" />
+                <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
 
-                <HorizontalStackLayout
-                    Padding="0,0,0,10"
-                    BindableLayout.ItemsSource="{Binding ProjectCards}"
-                    Spacing="10">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <controls:ProjectCard
-                                Title="{Binding Title}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderHomeViewModel}}, Path=ViewProjectCommand}"
-                                CommandParameter="{Binding .}"
-                                Description="{Binding Description}"
-                                Location="{Binding Location}"
-                                Skills="{Binding Skills}"
-                                Slots="{Binding Slots}"
-                                VerticalOptions="Fill"
-                                WidthRequest="280" />
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                    <VerticalStackLayout
+                        Padding="0,0,0,10"
+                        BindableLayout.ItemsSource="{Binding ProjectCards}"
+                        Spacing="10">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <controls:ProjectCard
+                                    Title="{Binding Title}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SkillProviderHomeViewModel}}, Path=ViewProjectCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Description="{Binding Description}"
+                                    Location="{Binding Location}"
+                                    Skills="{Binding Skills}"
+                                    Slots="{Binding Slots}"
+                                    VerticalOptions="Fill"
+                                    WidthRequest="280" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
 
-                </HorizontalStackLayout>
-            </ScrollView>
-            <Label
-                FontSize="16"
-                HorizontalOptions="Center"
-                IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
-                Text="No projects found."
-                TextColor="Gray" />
-        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
+                    Text="No projects found."
+                    TextColor="Gray" />
+            </VerticalStackLayout>
+        </ScrollView>
     </RefreshView>
 
 </ContentPage>

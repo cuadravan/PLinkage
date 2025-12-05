@@ -45,30 +45,27 @@
                     Text="Quick View of Active Projects"
                     TextColor="#212121" />
 
-                <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
 
-                    <HorizontalStackLayout
-                        Padding="0,0,0,10"
-                        BindableLayout.ItemsSource="{Binding ProjectCards}"
-                        Spacing="10">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <controls:ProjectCard
-                                    Title="{Binding Title}"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Description="{Binding Description}"
-                                    Location="{Binding Location}"
-                                    Skills="{Binding Skills}"
-                                    Slots="{Binding Slots}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="280" />
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
+                <VerticalStackLayout
+                    Padding="0,0,0,10"
+                    BindableLayout.ItemsSource="{Binding ProjectCards}"
+                    Spacing="10">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProjectCard
+                                Title="{Binding Title}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
+                                CommandParameter="{Binding .}"
+                                Description="{Binding Description}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                Slots="{Binding Slots}"
+                                VerticalOptions="Fill"
+                                WidthRequest="280" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
 
-                    </HorizontalStackLayout>
-                </ScrollView>
-
+                </VerticalStackLayout>
 
                 <Label
                     FontSize="16"
@@ -84,29 +81,26 @@
                     Text="Quick View of Active Skill Providers For You"
                     TextColor="#212121" />
 
-                <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                <VerticalStackLayout
+                    Padding="0,0,0,10"
+                    BindableLayout.ItemsSource="{Binding SkillProviderCards}"
+                    Spacing="10">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SkillProviderCard
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
+                                CommandParameter="{Binding .}"
+                                Education="{Binding Education}"
+                                Location="{Binding Location}"
+                                Skills="{Binding Skills}"
+                                UserName="{Binding UserName}"
+                                UserRating="{Binding UserRating}"
+                                VerticalOptions="Fill"
+                                WidthRequest="280" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
 
-                    <HorizontalStackLayout
-                        Padding="0,0,0,10"
-                        BindableLayout.ItemsSource="{Binding SkillProviderCards}"
-                        Spacing="10">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <controls:SkillProviderCard
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Education="{Binding Education}"
-                                    Location="{Binding Location}"
-                                    Skills="{Binding Skills}"
-                                    UserName="{Binding UserName}"
-                                    UserRating="{Binding UserRating}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="280" />
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-
-                    </HorizontalStackLayout>
-                </ScrollView>
+                </VerticalStackLayout>
                 <Label
                     FontSize="16"
                     HorizontalOptions="Center"
