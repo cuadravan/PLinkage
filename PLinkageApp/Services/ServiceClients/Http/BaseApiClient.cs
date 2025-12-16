@@ -20,9 +20,14 @@ namespace PLinkageApp.Services.Http
                 var response = await _httpClient.GetAsync(url);
                 return await HandleResponse<TResult>(response);
             }
+            catch (HttpRequestException hre)
+            {
+                string baseUri = _httpClient.BaseAddress?.ToString() ?? "(unknown)";
+                return ApiResponse<TResult>.Fail($"Connection failure: could not reach server at {baseUri}. Details: {hre.Message}{(hre.InnerException != null ? " -> " + hre.InnerException.Message : string.Empty)}");
+            }
             catch (Exception ex)
             {
-                return ApiResponse<TResult>.Fail($"An error occurred during the GET request: {ex.Message}");
+                return ApiResponse<TResult>.Fail($"An error occurred during the GET request: {ex}");
             }
         }
 
@@ -33,9 +38,14 @@ namespace PLinkageApp.Services.Http
                 var response = await _httpClient.PostAsJsonAsync(url, payload);
                 return await HandleResponse<TResult>(response);
             }
+            catch (HttpRequestException hre)
+            {
+                string baseUri = _httpClient.BaseAddress?.ToString() ?? "(unknown)";
+                return ApiResponse<TResult>.Fail($"Connection failure: could not reach server at {baseUri}. Details: {hre.Message}{(hre.InnerException != null ? " -> " + hre.InnerException.Message : string.Empty)}");
+            }
             catch (Exception ex)
             {
-                return ApiResponse<TResult>.Fail($"An error occurred during the POST request: {ex.Message}");
+                return ApiResponse<TResult>.Fail($"An error occurred during the POST request: {ex}");
             }
         }
 
@@ -46,9 +56,14 @@ namespace PLinkageApp.Services.Http
                 var response = await _httpClient.PutAsJsonAsync(url, payload);
                 return await HandleResponse<TResult>(response);
             }
+            catch (HttpRequestException hre)
+            {
+                string baseUri = _httpClient.BaseAddress?.ToString() ?? "(unknown)";
+                return ApiResponse<TResult>.Fail($"Connection failure: could not reach server at {baseUri}. Details: {hre.Message}{(hre.InnerException != null ? " -> " + hre.InnerException.Message : string.Empty)}");
+            }
             catch (Exception ex)
             {
-                return ApiResponse<TResult>.Fail($"An error occurred during the PUT request: {ex.Message}");
+                return ApiResponse<TResult>.Fail($"An error occurred during the PUT request: {ex}");
             }
         }
 
@@ -59,9 +74,14 @@ namespace PLinkageApp.Services.Http
                 var response = await _httpClient.DeleteAsync(url);
                 return await HandleResponse<TResult>(response);
             }
+            catch (HttpRequestException hre)
+            {
+                string baseUri = _httpClient.BaseAddress?.ToString() ?? "(unknown)";
+                return ApiResponse<TResult>.Fail($"Connection failure: could not reach server at {baseUri}. Details: {hre.Message}{(hre.InnerException != null ? " -> " + hre.InnerException.Message : string.Empty)}");
+            }
             catch (Exception ex)
             {
-                return ApiResponse<TResult>.Fail($"An error occurred during the DELETE request: {ex.Message}");
+                return ApiResponse<TResult>.Fail($"An error occurred during the DELETE request: {ex}");
             }
         }
         protected async Task<ApiResponse<TResult>> PatchAsync<TRequest, TResult>(string url, TRequest payload)
@@ -71,9 +91,14 @@ namespace PLinkageApp.Services.Http
                 var response = await _httpClient.PatchAsJsonAsync(url, payload);
                 return await HandleResponse<TResult>(response);
             }
+            catch (HttpRequestException hre)
+            {
+                string baseUri = _httpClient.BaseAddress?.ToString() ?? "(unknown)";
+                return ApiResponse<TResult>.Fail($"Connection failure: could not reach server at {baseUri}. Details: {hre.Message}{(hre.InnerException != null ? " -> " + hre.InnerException.Message : string.Empty)}");
+            }
             catch (Exception ex)
             {
-                return ApiResponse<TResult>.Fail($"An error occurred during the PATCH request: {ex.Message}");
+                return ApiResponse<TResult>.Fail($"An error occurred during the PATCH request: {ex}");
             }
         }
 

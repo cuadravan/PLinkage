@@ -11,8 +11,8 @@
     <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
 
         <ScrollView>
-            <VerticalStackLayout Padding="0,20" Spacing="7">
-                <Image Source="plinkagenotext.svg" />
+            <VerticalStackLayout Padding="16,20" Spacing="12">
+                <Image Source="plinkagenotext.svg" HorizontalOptions="Center" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
@@ -45,14 +45,15 @@
                     Text="Quick View of Active Projects"
                     TextColor="#212121" />
 
-                <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
-
-                    <HorizontalStackLayout
-                        Padding="0,0,0,10"
-                        BindableLayout.ItemsSource="{Binding ProjectCards}"
-                        Spacing="10">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
+                <CollectionView
+                    ItemsSource="{Binding ProjectCards}"
+                    SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="0" Padding="0" HasShadow="False" BackgroundColor="Transparent">
                                 <controls:ProjectCard
                                     Title="{Binding Title}"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewProjectCommand}"
@@ -61,21 +62,19 @@
                                     Location="{Binding Location}"
                                     Skills="{Binding Skills}"
                                     Slots="{Binding Slots}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="280" />
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-
-                    </HorizontalStackLayout>
-                </ScrollView>
-
-
-                <Label
-                    FontSize="16"
-                    HorizontalOptions="Center"
-                    IsVisible="{Binding ProjectCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
-                    Text="No active projects currently."
-                    TextColor="Gray" />
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalOptions="FillAndExpand" />
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="No active projects currently."
+                            TextColor="Gray" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
 
                 <Label
                     FontAttributes="Bold"
@@ -84,14 +83,15 @@
                     Text="Quick View of Active Skill Providers For You"
                     TextColor="#212121" />
 
-                <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
-
-                    <HorizontalStackLayout
-                        Padding="0,0,0,10"
-                        BindableLayout.ItemsSource="{Binding SkillProviderCards}"
-                        Spacing="10">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
+                <CollectionView
+                    ItemsSource="{Binding SkillProviderCards}"
+                    SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="0" Padding="0" HasShadow="False" BackgroundColor="Transparent">
                                 <controls:SkillProviderCard
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminHomeViewModel}}, Path=ViewSkillProviderCommand}"
                                     CommandParameter="{Binding .}"
@@ -100,19 +100,19 @@
                                     Skills="{Binding Skills}"
                                     UserName="{Binding UserName}"
                                     UserRating="{Binding UserRating}"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="280" />
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-
-                    </HorizontalStackLayout>
-                </ScrollView>
-                <Label
-                    FontSize="16"
-                    HorizontalOptions="Center"
-                    IsVisible="{Binding SkillProviderCards.Count, Converter={StaticResource InverseCountToBoolConverter}}"
-                    Text="No active skill providers currently."
-                    TextColor="Gray" />
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalOptions="FillAndExpand" />
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="No active skill providers currently."
+                            TextColor="Gray" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
     </RefreshView>

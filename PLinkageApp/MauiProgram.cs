@@ -46,6 +46,73 @@ public static class MauiProgram
                     const string ApiBaseUrl = "http://192.168.1.8:5030/"; // fallback for other platforms
 #endif
 
+#if ANDROID && DEBUG
+        // Development-only: accept self-signed dev server certificates on the Android emulator.
+        // This avoids SSL failures when the API redirects to HTTPS during local development.
+        builder.Services.AddHttpClient<BaseApiClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<IAccountServiceClient, AccountServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<IDashboardServiceClient, DashboardServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<IProjectServiceClient, ProjectServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<IProjectOwnerServiceClient, ProjectOwnerServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<ISkillProviderServiceClient, SkillProviderServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<IChatServiceClient, ChatServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+
+        builder.Services.AddHttpClient<IOfferApplicationServiceClient, OfferApplicationServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri(ApiBaseUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        });
+#else
         builder.Services.AddHttpClient<BaseApiClient>(client =>
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
@@ -79,6 +146,7 @@ public static class MauiProgram
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
         });
+#endif
 
         builder.Services.AddSingleton<ISessionService, SessionService>();
 		builder.Services.AddSingleton<INavigationService, MauiShellNavigationService>();       

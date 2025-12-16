@@ -32,12 +32,16 @@ namespace PLinkageApp
             Routing.RegisterRoute(nameof(UpdateProfileView), typeof(UpdateProfileView));
             Routing.RegisterRoute(nameof(ApplyView), typeof(ApplyView));
             Routing.RegisterRoute(nameof(ResignProjectView), typeof(ResignProjectView));
-            Routing.RegisterRoute(nameof(NegotiatingOfferView), typeof(NegotiatingOfferView));
             Routing.RegisterRoute(nameof(ProcessResignationView), typeof(ProcessResignationView));
             Routing.RegisterRoute(nameof(SendOfferView), typeof(SendOfferView));
             Routing.RegisterRoute(nameof(AddProjectView), typeof(AddProjectView));
             Routing.RegisterRoute(nameof(UpdateProjectView), typeof(UpdateProjectView));
             Routing.RegisterRoute(nameof(RateSkillProviderView), typeof(RateSkillProviderView));
+
+            // SkillProvider Android-specific routes
+            Routing.RegisterRoute(nameof(SkillProviderHomeView), typeof(SkillProviderHomeView));
+            Routing.RegisterRoute(nameof(SkillProviderLinkagesView), typeof(SkillProviderLinkagesView));
+            Routing.RegisterRoute(nameof(SkillProviderProfileView), typeof(SkillProviderProfileView));
 
             _startupService = startupService;
             BindingContext = viewModel;
@@ -119,14 +123,16 @@ namespace PLinkageApp
         private TabbarItem[] GetSkillProviderTabbarItems()
         {
             TabbarItem[] items = [
+                new TabbarItem("Home", "home.svg", typeof(SkillProviderHomeView)),
+                new TabbarItem("Profile", "browsepo.svg", typeof(SkillProviderProfileView)),
                 new TabbarItem("Browse", "project.svg", typeof(BrowseProjectView)),
+                new TabbarItem("Linkages", "linkages.svg", typeof(SkillProviderLinkagesView)),
                 new TabbarItem("Messages", "chat.svg", typeof(ChatView)),
                 new TabbarItem("Logout", "logout.svg", typeof(LogoutView))
             ];
 
             return items;
         }
-
 
 
 
