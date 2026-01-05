@@ -38,13 +38,18 @@ public static class MauiProgram
             ServiceCollectionServiceExtensions.AddTransient<Shell, AppShellWindows>(builder.Services);
 #endif
 
+        // This is commented since it is for the purpose when self-hosting the API on the device.
+        // TO do that, launch both API and App. However, the API lacks reference to the DB key for security reasons.
+        // Please check appsettings.json on PLinkageAPI for more details.
         //#if ANDROID
         //        const string ApiBaseUrl = "http://10.0.2.2:5015/";
         //#elif WINDOWS
         //            const string ApiBaseUrl = "http://localhost:5015/";
         //#else
-        //            const string ApiBaseUrl = "http://192.168.1.8:5030/"; // fallback for other platforms
+        //            const string ApiBaseUrl = "http://192.168.1.8:5015/"; // fallback for other platforms
         //#endif
+
+        // This is hosted on Azure App Service using a student plan
         const string ApiBaseUrl = "https://plinkageapi-hzddfah5gbhcfxdm.southeastasia-01.azurewebsites.net/";
 
         builder.Services.AddHttpClient<BaseApiClient>(client =>
