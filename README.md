@@ -159,7 +159,7 @@ All in all, I learned that software engineering requires careful planning from t
 
 ## Getting Started
 
-The backend API for this project is currently **deployed and live on Azure App Service**. You do not need to run the server locally to test the application.
+Due to the nature of this project, you will not be able to make the application work. The backend API for this project has been **disabled** as the owner sees no reason to keep it active. Additionally, running a local instance of the backend API will not function due to exclusion of DB credentials. However, instructions for running this repository on Visual Studio are provided for formality.
 
 Follow these steps to build and run the **.NET MAUI Client** on your local machine:
 
@@ -193,7 +193,7 @@ Follow these steps to build and run the **.NET MAUI Client** on your local machi
 5.  **Run the Application**
 
       * Press `F5` or click the green "Play" button.
-      * The app will launch and automatically connect to the live Azure API. The MAUI app is pre-configured to consume the public Azure API endpoints. No local configuration is required.
+      * The MAUI app is pre-configured to consume the public Azure API endpoints which are currently disabled.
 
 ---
 
