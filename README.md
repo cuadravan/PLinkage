@@ -1,4 +1,5 @@
 # PLinkage 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)   
 
 [![Build and deploy .NET Core application to Web App PLinkageAPI](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml/badge.svg)](https://github.com/cuadravan/PLinkage/actions/workflows/PLinkageAPI.yml)
 
@@ -206,3 +207,13 @@ Follow these steps to build and run the **.NET MAUI Client** on your local machi
 **Cloud & DevOps**: Azure App Service, GitHub Actions, CI/CD, Git
 
 ---
+
+## License & Attribution
+
+This project is licensed under the **MIT License**.
+
+**Copyright (c) 2026 Van Kristian Cuadra**
+
+While this code is open for educational review, the software architecture and system logic represent my professional engineering portfolio. If you are using this project as a reference for academic or professional purposes, **attribution is required**. 
+
+Please see the [LICENSE](LICENSE) file for the full legal text.
