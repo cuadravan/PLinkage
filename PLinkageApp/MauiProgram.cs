@@ -49,8 +49,8 @@ public static class MauiProgram
         //            const string ApiBaseUrl = "http://192.168.1.8:5015/"; // fallback for other platforms
         //#endif
 
-        // This is hosted on Azure App Service using a student plan
-        const string ApiBaseUrl = "https://plinkageapi-hzddfah5gbhcfxdm.southeastasia-01.azurewebsites.net/";
+        // This is hosted on Azure App Service using a free plan
+        const string ApiBaseUrl = "https://plinkageapi-egd9djcte6d6a2ds.canadacentral-01.azurewebsites.net/";
 
         builder.Services.AddHttpClient<BaseApiClient>(client =>
         {
